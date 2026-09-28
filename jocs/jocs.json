@@ -32,6 +32,14 @@
     "estat": "actiu"
   },
   {
+    "id": "paraules",
+    "nom": "Llegeix i tria",
+    "icona": "📖",
+    "descripcio": "Una paraula en lletra gran, separada en síl·labes, i quatre dibuixos.",
+    "objectiu": "Llegir la paraula i tocar el dibuix que hi correspon.",
+    "estat": "actiu"
+  },
+  {
     "id": "_plantilla",
     "nom": "Joc de prova",
     "icona": "🧪",

@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFBF3">
+  <title>Llegeix i tria · AppJocs</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="icon" href="../../icons/icon-192.png">
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    /* Colors per rol (css/styles.css): verd = encert · rosa = error · groc = pista/ajuda (veu) ·
+       blau = selecció · préssec = acció general */
+    .joc { width: 100%; max-width: 1200px; margin: 0 auto; }
+    [hidden] { display: none !important; }
+    h2.titol { font-size: 1.15rem; margin: 16px 0 8px; }
+
+    /* ---------- Pantalla d'inici ---------- */
+    .inici { max-width: 760px; margin: 0 auto; }
+    .opcions { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+    .opcions button {
+      font: inherit; cursor: pointer; color: var(--text); touch-action: manipulation;
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: 14px; box-shadow: var(--ombra);
+      min-height: 64px; padding: 8px; font-weight: 700; font-size: 1.15rem;
+    }
+    .opcions button small { display: block; font-weight: 500; font-size: .85rem; color: var(--text-suau); margin-top: 2px; }
+    .opcions button[aria-pressed="true"] { background: var(--c-info); border-color: var(--c-info-vora); }
+    .opcions button[aria-pressed="true"] small { color: var(--text); }
+    @media (hover: hover) { .opcions button:hover { border-color: var(--c-info-vora); } }
+    .comencar { text-align: center; margin: 22px 0 8px; }
+    .avis-veu { margin: 8px 0 0; padding: 8px 12px; border-radius: 12px; font-size: .92rem;
+      background: var(--c-pista); border: 2px solid var(--c-pista-vora); }
+    .comencar .btn { font-size: 1.3rem; padding: 14px 40px; }
+
+    /* ---------- Pantalla de joc ---------- */
+    .cap-joc { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 4px 0 10px; }
+    .dades { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .dada { background: var(--superficie); border: 1px solid var(--vora); border-radius: 999px; padding: 4px 12px; font-size: .95rem; }
+    .dada b { font-variant-numeric: tabular-nums; }
+    .progres { display: inline-flex; gap: 4px; vertical-align: middle; margin-left: 4px; }
+    .progres i { width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--vora); background: var(--superficie); }
+    .progres i.fet { background: var(--c-ok); border-color: var(--c-ok-vora); }
+    .progres i.ara { background: var(--c-info); border-color: var(--c-info-vora); }
+
+    /* La paraula, separada en síl·labes: lletra d'impremta gran */
+    .zona-paraula {
+      display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap;
+      padding: 14px; background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi);
+    }
+    .paraula { display: flex; align-items: center; gap: 10px; }
+    .sillaba {
+      font-family: "Avenir Next", "Avenir", "Helvetica Neue", Arial, system-ui, sans-serif;
+      font-weight: 800; font-size: clamp(3rem, 9vw, 6rem); line-height: 1; letter-spacing: .06em;
+      padding: 10px 18px 12px; border-radius: 18px; color: var(--text);
+      background: var(--fons); border: 3px solid var(--vora);
+    }
+    .sillaba.llegint { background: var(--c-pista); border-color: var(--c-pista-vora); }
+    .punt { font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 800; color: var(--text-suau); }
+    /* Botó d'escoltar: és una ajuda → groc */
+    .escolta {
+      font: inherit; font-size: 2rem; width: 72px; height: 72px; border-radius: 50%; cursor: pointer;
+      background: var(--superficie); border: 3px solid var(--c-pista-vora); touch-action: manipulation;
+    }
+    .escolta.suggerit { background: var(--c-pista); animation: batec 1s ease-in-out 3; }
+    @keyframes batec { 50% { transform: scale(1.12); } }
+
+    /* Les 4 imatges */
+    .imatges { display: grid; gap: 14px; margin-top: 14px; grid-template-columns: repeat(2, 1fr); }
+    @media (orientation: landscape) and (min-width: 700px) { .imatges { grid-template-columns: repeat(4, 1fr); } }
+    /* Vertical: 2×2, que càpiga a la pantalla */
+    @media (orientation: portrait) { .imatge { aspect-ratio: auto; width: 100%; height: min(26vh, 44vw); font-size: clamp(4.5rem, 15vw, 9rem); } }
+    .imatge {
+      font: inherit; cursor: pointer; touch-action: manipulation; aspect-ratio: 1; border-radius: 22px;
+      display: grid; place-items: center; font-size: clamp(4rem, 11vw, 7.5rem); line-height: 1;
+      background: var(--superficie); border: 3px solid var(--vora); box-shadow: var(--ombra);
+      transition: transform .12s, background-color .2s, border-color .2s;
+    }
+    @media (hover: hover) { .imatge:not(:disabled):hover { border-color: var(--c-info-vora); transform: translateY(-3px); } }
+    .imatge:active:not(:disabled) { transform: scale(.97); }
+    .imatge.correcta { background: var(--c-ok); border-color: var(--c-ok-vora); }
+    .imatge.incorrecta { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); cursor: default; position: relative; }
+    .imatge.incorrecta::after {
+      content: "✕"; position: absolute; top: 8px; right: 12px; font-size: 1.6rem; font-weight: 800; color: var(--text);
+    }
+    .imatge:disabled:not(.correcta):not(.incorrecta) { opacity: .45; }
+
+    @keyframes sacseig { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+    .imatge.sacseig { animation: sacseig .25s 2; }
+
+    .missatge {
+      margin-top: 14px; min-height: 3rem; padding: 8px 14px; border-radius: var(--radi); text-align: center;
+      background: var(--superficie); border: 2px solid var(--vora); font-weight: 700; font-size: 1.15rem;
+      display: flex; flex-direction: column; justify-content: center; gap: 2px;
+    }
+    .missatge small { font-weight: 500; font-size: .95rem; }
+    .missatge small:empty { display: none; }
+    .missatge.es-pista   { background: var(--c-pista);    border-color: var(--c-pista-vora); }
+    .missatge.es-error   { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .missatge.es-guanyat { background: var(--c-ok);       border-color: var(--c-ok-vora); }
+
+    /* Horitzontal baix: tot a la vista */
+    @media (orientation: landscape) and (max-height: 820px) {
+      .cap-joc { margin: 0 0 6px; }
+      .cap-joc h2 { font-size: 1.05rem; }
+      .cap-joc .btn { padding: 6px 14px; }
+      .zona-paraula { padding: 8px; }
+      .sillaba { font-size: clamp(2.6rem, 11vh, 5rem); padding: 6px 14px 8px; }
+      .escolta { width: 60px; height: 60px; font-size: 1.7rem; }
+      .imatges { margin-top: 10px; gap: 12px; }
+      .imatge { aspect-ratio: auto; height: min(36vh, 22vw); font-size: clamp(3.5rem, 17vh, 7rem); }
+      .missatge { margin-top: 10px; min-height: 0; padding: 6px 10px; font-size: 1.05rem; }
+      h2.titol { margin: 10px 0 6px; }
+      .opcions button { min-height: 52px; }
+      .comencar { margin: 14px 0 4px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="barra-joc">
+    <a href="../../">← Inici</a>
+    <h1>📖 Llegeix i tria</h1>
+  </nav>
+
+  <main class="joc">
+    <!-- ================= INICI ================= -->
+    <section class="inici" id="pantalla-inici">
+      <h2 class="titol">1. Quines paraules?</h2>
+      <div class="opcions" id="op-sillabes">
+        <button type="button" data-v="1" aria-pressed="false">GAT<small>1 síl·laba</small></button>
+        <button type="button" data-v="2" aria-pressed="false">CA · SA<small>2 síl·labes</small></button>
+        <button type="button" data-v="tot" aria-pressed="true">Totes<small>1 i 2 síl·labes</small></button>
+      </div>
+
+      <h2 class="titol">2. Quina lletra?</h2>
+      <div class="opcions" id="op-lletra">
+        <button type="button" data-v="maj" aria-pressed="true">MAJÚSCULA<small>CA · SA</small></button>
+        <button type="button" data-v="min" aria-pressed="false">minúscula<small>ca · sa</small></button>
+      </div>
+
+      <h2 class="titol">3. Dificultat</h2>
+      <div class="opcions" id="op-nivell">
+        <button type="button" data-v="facil" aria-pressed="true">Fàcil<small>dibuixos ben diferents</small></button>
+        <button type="button" data-v="dificil" aria-pressed="false">Difícil<small>paraules que s'assemblen</small></button>
+      </div>
+
+      <h2 class="titol">4. Lectura en veu alta</h2>
+      <div class="opcions" id="op-veu">
+        <button type="button" data-v="no" aria-pressed="true">🔇 Sense veu<small>el nen llegeix sol</small></button>
+        <button type="button" data-v="si" aria-pressed="false">🔊 Amb ajuda de veu<small>botó per escoltar la paraula</small></button>
+      </div>
+      <p class="avis-veu" id="avis-veu" hidden>Aquest dispositiu no té veu en català. Es pot afegir a Configuració → Accessibilitat → Contingut llegit → Veus → Català.</p>
+
+      <div class="comencar"><button class="btn" id="btn-comencar" type="button">Comença! 📖</button></div>
+    </section>
+
+    <!-- ================= JOC ================= -->
+    <section id="pantalla-joc" hidden>
+      <div class="cap-joc">
+        <div class="dades" id="dades"></div>
+        <button class="btn" id="btn-nova" type="button">Nova ronda</button>
+      </div>
+
+      <div class="zona-paraula">
+        <div class="paraula" id="paraula" aria-live="polite"></div>
+        <button type="button" class="escolta" id="btn-escolta" aria-label="Escolta la paraula" hidden>🔊</button>
+      </div>
+
+      <div class="imatges" id="imatges"></div>
+
+      <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
+    </section>
+  </main>
+
+  <script src="../../js/celebracio.js"></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    const PARAULES_PER_RONDA = 10;
+
+    // Paraules d'1 i 2 síl·labes (el punt volat · separa les síl·labes) amb un dibuix clar per a nens de 5 anys
+    const PARAULES = [
+      // 1 síl·laba
+      ['SOL', '☀️'], ['PA', '🍞'], ['MAR', '🌊'], ['PEIX', '🐟'], ['GAT', '🐱'], ['GOS', '🐶'], ['TREN', '🚆'],
+      ['NAS', '👃'], ['ULL', '👁️'], ['PEU', '🦶'], ['MÀ', '✋'], ['COR', '❤️'], ['LLUM', '💡'], ['FLOR', '🌸'],
+      ['OU', '🥚'], ['CUC', '🐛'], ['LLIT', '🛏️'], ['PI', '🌲'], ['FOC', '🔥'], ['NEU', '❄️'], ['LLOP', '🐺'],
+      ['POP', '🐙'], ['ÓS', '🐻'], ['XAI', '🐑'], ['GEL', '🧊'], ['DENT', '🦷'], ['LLET', '🥛'], ['PORC', '🐷'],
+      ['GALL', '🐓'], ['DRAC', '🐉'], ['CLAU', '🔑'], ['BOU', '🐂'],
+      // 2 síl·labes
+      ['CA·SA', '🏠'], ['PO·MA', '🍎'], ['LLU·NA', '🌙'], ['PE·RA', '🍐'], ['RO·SA', '🌹'], ['VA·CA', '🐄'],
+      ['RA·TA', '🐀'], ['MO·NA', '🐒'], ['CO·TXE', '🚗'], ['MO·TO', '🏍️'], ['LLI·BRE', '📖'], ['GLO·BUS', '🎈'],
+      ['NÚ·VOL', '☁️'], ['PLU·JA', '🌧️'], ['FU·LLA', '🍃'], ['AR·BRE', '🌳'], ['MI·TJÓ', '🧦'], ['GOR·RA', '🧢'],
+      ['ZE·BRA', '🦓'], ['LLE·Ó', '🦁'], ['TI·GRE', '🐅'], ['CA·BRA', '🐐'], ['PAS·TÍS', '🎂'], ['PI·NYA', '🍍'],
+      ['ME·LÓ', '🍈'], ['PLÀ·TAN', '🍌'], ['RA·ÏM', '🍇'], ['BI·CI', '🚲'], ['CAS·TELL', '🏰'], ['RE·GAL', '🎁'],
+      ['FA·DA', '🧚'], ['SO·PA', '🍲'], ['PIZ·ZA', '🍕'], ['CA·VALL', '🐴'], ['CO·NILL', '🐰'], ['À·NEC', '🦆'],
+      ['CAR·GOL', '🐌'], ['DO·FÍ', '🐬'], ['TAU·RÓ', '🦈'], ['PIN·GÜÍ', '🐧'], ['GUI·LLA', '🦊'], ['SA·BÓ', '🧼'],
+    ].map(([p, e]) => ({ sillabes: p.split('·'), text: p.replace(/·/g, ''), emoji: e }));
+
+    const config = { sillabes: 'tot', lletra: 'maj', nivell: 'facil', veu: 'no' };   // veu desactivada per defecte
+    let llista, index, actual, errorsRonda, errorsParaula, bloquejat;
+
+    // ---------------- Inici ----------------
+    function grupOpcions(id, clau) {
+      $(id).addEventListener('click', e => {
+        const b = e.target.closest('button'); if (!b) return;
+        $(id).querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+        config[clau] = b.dataset.v;
+      });
+    }
+    grupOpcions('op-sillabes', 'sillabes'); grupOpcions('op-lletra', 'lletra'); grupOpcions('op-nivell', 'nivell'); grupOpcions('op-veu', 'veu');
+    $('op-veu').addEventListener('click', () => { $('avis-veu').hidden = !(config.veu === 'si' && !veuCa); });
+
+    const barrejar = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+    const candidates = () => PARAULES.filter(p => config.sillabes === 'tot' || p.sillabes.length === Number(config.sillabes));
+
+    $('btn-comencar').addEventListener('click', () => {
+      llista = barrejar(candidates()).slice(0, PARAULES_PER_RONDA);
+      index = 0; errorsRonda = 0;
+      $('btn-escolta').hidden = !veuDisponible();
+      $('pantalla-inici').hidden = true; $('pantalla-joc').hidden = false;
+      novaParaula();
+      window.scrollTo({ top: 0 });
+    });
+    $('btn-nova').addEventListener('click', () => { Celebracio.tancar(); aturarVeu(); $('pantalla-joc').hidden = true; $('pantalla-inici').hidden = false; });
+
+    // ---------------- Distractors ----------------
+    // Fàcil: a l'atzar. Difícil: paraules que s'assemblen (mateixa primera síl·laba, primera lletra, última síl·laba…)
+    function semblanca(a, b) {
+      let s = 0;
+      if (a.sillabes[0] === b.sillabes[0]) s += 4;
+      if (a.text[0] === b.text[0]) s += 3;
+      if (a.text.slice(0, 2) === b.text.slice(0, 2)) s += 2;
+      if (a.sillabes.at(-1) === b.sillabes.at(-1)) s += 2;
+      if (a.text.at(-1) === b.text.at(-1)) s += 1;
+      if (a.sillabes.length === b.sillabes.length) s += 1;
+      return s + Math.random() * 1.5;   // una mica d'atzar perquè no surtin sempre les mateixes
+    }
+    function distractors(p) {
+      const altres = PARAULES.filter(x => x !== p && x.emoji !== p.emoji);
+      if (config.nivell === 'facil') return barrejar(altres).slice(0, 3);
+      return altres.map(x => [x, semblanca(p, x)]).sort((a, b) => b[1] - a[1]).slice(0, 3).map(x => x[0]);
+    }
+
+    // ---------------- Paraula ----------------
+    const format = t => config.lletra === 'maj' ? t : t.toLocaleLowerCase('ca');
+
+    function novaParaula() {
+      actual = llista[index]; errorsParaula = 0; bloquejat = false;
+      // Paraula en síl·labes
+      const cont = $('paraula'); cont.innerHTML = '';
+      actual.sillabes.forEach((s, i) => {
+        if (i) { const d = document.createElement('span'); d.className = 'punt'; d.textContent = '·'; d.setAttribute('aria-hidden', 'true'); cont.appendChild(d); }
+        const el = document.createElement('span'); el.className = 'sillaba'; el.textContent = format(s); cont.appendChild(el);
+      });
+      $('btn-escolta').classList.remove('suggerit');
+      // 4 imatges: la correcta + 3 distractors, barrejades
+      const opcions = barrejar([actual, ...distractors(actual)]);
+      const graella = $('imatges'); graella.innerHTML = '';
+      opcions.forEach(o => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'imatge'; b.textContent = o.emoji;
+        b.setAttribute('aria-label', `Dibuix ${opcions.indexOf(o) + 1}`);
+        b.addEventListener('click', () => triar(b, o));
+        graella.appendChild(b);
+      });
+      mostrar('Llegeix la paraula i toca el dibuix que hi correspon.', '');
+      pintarDades();
+    }
+
+    function pintarDades() {
+      const punts = Array.from({ length: llista.length }, (_, i) =>
+        `<i class="${i < index ? 'fet' : i === index ? 'ara' : ''}"></i>`).join('');
+      $('dades').innerHTML = `<span class="dada">Paraula <b>${Math.min(index + 1, llista.length)}</b>/${llista.length} <span class="progres">${punts}</span></span>`
+        + `<span class="dada">Errors: <b>${errorsRonda}</b></span>`;
+    }
+
+    function triar(boto, opcio) {
+      if (bloquejat || boto.disabled) return;
+      if (opcio === actual) {
+        bloquejat = true;
+        boto.classList.add('correcta');
+        $('imatges').querySelectorAll('.imatge').forEach(b => { if (b !== boto) b.disabled = true; });
+        mostrar(`✓ Molt bé! ${format(actual.text)}`, '', 'guanyat');
+        Celebracio.petita(boto);
+        setTimeout(seguent, 1500);
+        return;
+      }
+      errorsRonda++; errorsParaula++;
+      boto.classList.add('incorrecta'); boto.disabled = true;
+      boto.classList.remove('sacseig'); void boto.offsetWidth; boto.classList.add('sacseig');
+      pintarDades();
+      if (errorsParaula >= 1 && veuDisponible()) {
+        mostrar('Aquest no és 🤔', 'Llegeix-la a poc a poc. Si vols, toca 🔊 per escoltar-la.', errorsParaula >= 2 ? 'pista' : 'error');
+        $('btn-escolta').classList.add('suggerit');
+      } else {
+        mostrar('Aquest no és 🤔', `Llegeix-la a poc a poc: ${actual.sillabes.map(format).join(' · ')}`, errorsParaula >= 2 ? 'pista' : 'error');
+      }
+    }
+
+    function seguent() {
+      index++;
+      if (index < llista.length) return novaParaula();
+      pintarDades();
+      const estrelles = errorsRonda === 0 ? 3 : errorsRonda <= 3 ? 2 : 1;
+      mostrar('🏆 Ronda acabada!', errorsRonda === 0 ? 'Sense cap error!' : `Amb ${errorsRonda} ${errorsRonda === 1 ? 'error' : 'errors'}.`, 'guanyat');
+      Celebracio.gran({
+        titol: errorsRonda === 0 ? 'Gran lector!' : 'Ronda acabada!', emoji: '📖', estrelles,
+        subtitol: errorsRonda === 0 ? `Has llegit ${llista.length} paraules sense cap error!` : `${llista.length} paraules amb ${errorsRonda} ${errorsRonda === 1 ? 'error' : 'errors'}.`,
+        boto: 'Continuar',
+      });
+    }
+
+    function mostrar(text, extra = '', estat = '') {
+      const m = $('missatge');
+      $('msg-text').textContent = text; $('msg-extra').textContent = extra;
+      m.classList.remove('es-pista', 'es-error', 'es-guanyat');
+      if (estat) m.classList.add('es-' + estat);
+    }
+
+    // ---------------- Veu (ajuda): llegeix síl·laba a síl·laba i després la paraula ----------------
+    // Fa servir la veu del sistema (sense descàrregues). Només si hi ha una veu en català.
+    let veuCa = null;
+    function buscarVeu() {
+      if (!('speechSynthesis' in window)) return;
+      const veus = speechSynthesis.getVoices();
+      veuCa = veus.find(v => /^ca(-|_|$)/i.test(v.lang)) || null;
+      $('btn-escolta').hidden = !veuDisponible();
+      $('avis-veu').hidden = !(config.veu === 'si' && !veuCa);
+    }
+    // La veu només s'ofereix si s'ha triat a l'inici i el dispositiu té veu catalana
+    const veuDisponible = () => config.veu === 'si' && !!veuCa;
+    if ('speechSynthesis' in window) { buscarVeu(); speechSynthesis.addEventListener?.('voiceschanged', buscarVeu); }
+    function aturarVeu() { try { speechSynthesis.cancel(); } catch {} }
+
+    $('btn-escolta').addEventListener('click', () => {
+      if (!veuDisponible() || !actual) return;
+      aturarVeu();
+      const sils = [...document.querySelectorAll('#paraula .sillaba')];
+      const parlar = (text, rate, abans, despres) => {
+        const u = new SpeechSynthesisUtterance(text);
+        u.voice = veuCa; u.lang = veuCa.lang; u.rate = rate;
+        u.onstart = abans; u.onend = despres;
+        speechSynthesis.speak(u);
+      };
+      // Síl·laba a síl·laba (il·luminant cada una) i després la paraula sencera
+      actual.sillabes.forEach((s, i) => parlar(s.toLocaleLowerCase('ca'), .7,
+        () => sils.forEach((el, j) => el.classList.toggle('llegint', j === i)),
+        () => sils[i] && sils[i].classList.remove('llegint')));
+      parlar(actual.text.toLocaleLowerCase('ca'), .85, () => sils.forEach(el => el.classList.add('llegint')),
+        () => sils.forEach(el => el.classList.remove('llegint')));
+    });
+  </script>
+</body>
+</html>
