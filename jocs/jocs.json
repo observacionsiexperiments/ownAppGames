@@ -40,6 +40,14 @@
     "estat": "actiu"
   },
   {
+    "id": "suma-rapida",
+    "nom": "Suma ràpida",
+    "icona": "⚡",
+    "descripcio": "Un número gran i moltes fitxes: tria les que, sumades, hi arriben.",
+    "objectiu": "Trobar els números que sumen l'objectiu, tan ràpid com puguis.",
+    "estat": "actiu"
+  },
+  {
     "id": "_plantilla",
     "nom": "Joc de prova",
     "icona": "🧪",

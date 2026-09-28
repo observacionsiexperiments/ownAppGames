@@ -319,7 +319,7 @@ main { flex: 1; width: 100%; max-width: 960px; margin: 0 auto; }
 
 /* Pàgina principal en horitzontal: totes les targetes en una fila (fins a 6 jocs) */
 @media (orientation: landscape) and (min-width: 900px) {
-  .graella { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+  .graella { grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 10px; }
   main { max-width: 1300px; }
 }
 @media (orientation: landscape) and (max-height: 820px) {
@@ -331,4 +331,10 @@ main { flex: 1; width: 100%; max-width: 960px; margin: 0 auto; }
   .jugar { padding: 3px 12px; font-size: .9rem; }
   .avis-directe { margin: 2px 0; }
   .avis-directe .btn { padding: 6px 18px; }
+}
+
+@media (orientation: landscape) and (max-height: 820px) and (max-width: 1100px) {
+  .targeta { padding: 10px 10px; }
+  .targeta .descripcio { font-size: .8rem; }
+  .targeta .objectiu { font-size: .78rem; padding: 5px 7px; }
 }

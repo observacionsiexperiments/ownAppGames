@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFBF3">
+  <title>Suma ràpida · AppJocs</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="icon" href="../../icons/icon-192.png">
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    /* Colors per rol (css/styles.css): verd = encert/OK · rosa = error/esborrar · groc = pista ·
+       blau = fitxa seleccionada · préssec = acció general */
+    .joc { width: 100%; max-width: 1200px; margin: 0 auto; }
+    [hidden] { display: none !important; }
+    h2.titol { font-size: 1.15rem; margin: 16px 0 8px; }
+
+    /* ---------- Pantalla d'inici ---------- */
+    .inici { max-width: 760px; margin: 0 auto; }
+    .opcions { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+    .opcions button {
+      font: inherit; cursor: pointer; color: var(--text); touch-action: manipulation;
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: 14px; box-shadow: var(--ombra);
+      min-height: 64px; padding: 8px; font-weight: 700; font-size: 1.15rem;
+    }
+    .opcions button small { display: block; font-weight: 500; font-size: .85rem; color: var(--text-suau); margin-top: 2px; }
+    .opcions button[aria-pressed="true"] { background: var(--c-info); border-color: var(--c-info-vora); }
+    .opcions button[aria-pressed="true"] small { color: var(--text); }
+    @media (hover: hover) { .opcions button:hover { border-color: var(--c-info-vora); } }
+    .explica { color: var(--text-suau); text-align: center; margin: 14px 0 0; }
+    .comencar { text-align: center; margin: 22px 0 8px; }
+    .comencar .btn { font-size: 1.3rem; padding: 14px 40px; }
+
+    /* ---------- Pantalla de joc ---------- */
+    .cap-joc { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 4px 0 10px; }
+    .dades { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .dada { background: var(--superficie); border: 1px solid var(--vora); border-radius: 999px; padding: 4px 12px; font-size: .95rem; }
+    .dada b { font-variant-numeric: tabular-nums; }
+    .progres { display: inline-flex; gap: 4px; vertical-align: middle; margin-left: 4px; }
+    .progres i { width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--vora); background: var(--superficie); }
+    .progres i.fet { background: var(--c-ok); border-color: var(--c-ok-vora); }
+    .progres i.ara { background: var(--c-info); border-color: var(--c-info-vora); }
+
+    .disposicio { display: grid; gap: 14px; grid-template-areas: "objectiu" "fitxes" "panell"; }
+    .zona-fitxes { grid-area: fitxes; } .zona-objectiu { grid-area: objectiu; } .panell { grid-area: panell; }
+    @media (orientation: landscape) and (min-width: 900px), (min-width: 1100px) {
+      .disposicio { grid-template-columns: 1fr 340px; grid-template-areas: "fitxes objectiu" "fitxes panell"; align-items: start; }
+    }
+
+    /* Fitxes amb números */
+    .zona-fitxes {
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi); padding: 14px;
+    }
+    .fitxes { display: grid; gap: 12px; grid-template-columns: repeat(4, 1fr); }
+    .fitxa {
+      font: inherit; font-weight: 800; font-size: clamp(1.7rem, 4.5vw, 2.6rem); font-variant-numeric: tabular-nums;
+      min-height: clamp(64px, 11vw, 100px); border-radius: 18px; cursor: pointer; color: var(--text);
+      background: var(--fons); border: 3px solid var(--vora); box-shadow: var(--ombra); touch-action: manipulation;
+      transition: transform .1s, background-color .15s, border-color .15s;
+    }
+    .fitxa:active { transform: scale(.96); }
+    @media (hover: hover) { .fitxa:not(:disabled):hover { border-color: var(--c-info-vora); } }
+    .fitxa.triada { background: var(--c-info); border-color: var(--c-info-vora); transform: translateY(-3px); }
+    .fitxa.correcta { background: var(--c-ok); border-color: var(--c-ok-vora); }
+    .fitxa:disabled { cursor: default; }
+    .fitxa:disabled:not(.correcta) { opacity: .45; }
+
+    /* Número objectiu */
+    .zona-objectiu {
+      text-align: center; padding: 12px; background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi);
+    }
+    .zona-objectiu .rotul { font-size: .85rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--text-suau); }
+    .objectiu {
+      font-weight: 900; font-size: clamp(4rem, 12vw, 6.5rem); line-height: 1.05; font-variant-numeric: tabular-nums;
+      margin: 4px auto; width: fit-content; min-width: 1.8em; padding: 4px 18px; border-radius: 22px;
+      background: var(--fons); border: 3px solid var(--text-suau);
+    }
+    .zona-objectiu .quants { font-weight: 700; color: var(--text); }
+
+    .panell { display: flex; flex-direction: column; gap: 10px; }
+    .operacio {
+      min-height: 3.2rem; padding: 8px 12px; border-radius: 14px; text-align: center;
+      background: var(--superficie); border: 2px dashed var(--vora);
+      font-size: clamp(1.2rem, 2.6vw, 1.6rem); font-weight: 800; font-variant-numeric: tabular-nums;
+      display: grid; place-items: center; word-break: break-word;
+    }
+    .operacio .buit { color: var(--text-suau); font-weight: 600; font-size: 1rem; }
+    .botons { display: grid; grid-template-columns: 1fr 2fr; gap: 10px; }
+    .boto {
+      font: inherit; font-weight: 800; font-size: 1.25rem; cursor: pointer; min-height: 58px; border-radius: 16px;
+      color: var(--text); border: 3px solid var(--vora); box-shadow: var(--ombra); touch-action: manipulation;
+    }
+    .boto:active { transform: translateY(2px); box-shadow: none; }
+    .boto:disabled { opacity: .4; cursor: default; }
+    .boto.esborrar { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .boto.ok { background: var(--c-ok); border-color: var(--c-ok-vora); }
+    .missatge {
+      min-height: 3rem; padding: 8px 12px; border-radius: var(--radi); text-align: center;
+      background: var(--superficie); border: 2px solid var(--vora); font-weight: 700;
+      display: flex; flex-direction: column; justify-content: center; gap: 2px;
+    }
+    .missatge small { font-weight: 500; font-size: .95rem; }
+    .missatge small:empty { display: none; }
+    .missatge.es-pista   { background: var(--c-pista);    border-color: var(--c-pista-vora); }
+    .missatge.es-error   { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .missatge.es-guanyat { background: var(--c-ok);       border-color: var(--c-ok-vora); }
+    @keyframes sacseig { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+    .sacseig { animation: sacseig .25s 2; }
+
+    /* Horitzontal baix: tot a la vista */
+    @media (orientation: landscape) and (max-height: 820px) {
+      .cap-joc { margin: 0 0 6px; }
+      .cap-joc .btn { padding: 6px 14px; }
+      .disposicio { gap: 10px; }
+      .zona-fitxes { padding: 10px; }
+      .fitxes { gap: 10px; }
+      .fitxa { min-height: clamp(52px, 14vh, 96px); font-size: clamp(1.5rem, 6vh, 2.4rem); }
+      .zona-objectiu { padding: 8px; }
+      .objectiu { font-size: clamp(3rem, 15vh, 6rem); }
+      .panell { gap: 8px; }
+      .operacio { min-height: 2.6rem; padding: 6px 10px; }
+      .boto { min-height: 50px; }
+      .missatge { min-height: 0; padding: 6px 10px; }
+      h2.titol { margin: 10px 0 6px; }
+      .opcions button { min-height: 52px; }
+      .comencar { margin: 14px 0 4px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="barra-joc">
+    <a href="../../">← Inici</a>
+    <h1>⚡ Suma ràpida</h1>
+  </nav>
+
+  <main class="joc">
+    <!-- ================= INICI ================= -->
+    <section class="inici" id="pantalla-inici">
+      <h2 class="titol">1. Dificultat: quants números cal sumar?</h2>
+      <div class="opcions" id="op-nivell">
+        <button type="button" data-v="facil" aria-pressed="true">Fàcil<small>2 o 3 números</small></button>
+        <button type="button" data-v="mitja" aria-pressed="false">Mitjà<small>4 o 5 números</small></button>
+        <button type="button" data-v="dificil" aria-pressed="false">Difícil<small>6 o 7 números</small></button>
+      </div>
+
+      <h2 class="titol">2. Quantes cadenes té la ronda?</h2>
+      <div class="opcions" id="op-cadenes">
+        <button type="button" data-v="3" aria-pressed="false">3</button>
+        <button type="button" data-v="5" aria-pressed="true">5</button>
+        <button type="button" data-v="10" aria-pressed="false">10</button>
+      </div>
+
+      <p class="explica">Tria les fitxes que, sumades, donen el número gran. El número sempre és més petit que 100.</p>
+      <div class="comencar"><button class="btn" id="btn-comencar" type="button">Comença! ⚡</button></div>
+    </section>
+
+    <!-- ================= JOC ================= -->
+    <section id="pantalla-joc" hidden>
+      <div class="cap-joc">
+        <div class="dades" id="dades"></div>
+        <button class="btn" id="btn-nova" type="button">Nova ronda</button>
+      </div>
+
+      <div class="disposicio">
+        <div class="zona-fitxes">
+          <div class="fitxes" id="fitxes" role="group" aria-label="Fitxes amb números"></div>
+        </div>
+
+        <div class="zona-objectiu">
+          <div class="rotul">Arriba a</div>
+          <div class="objectiu" id="objectiu" aria-live="polite"></div>
+          <div class="quants" id="quants"></div>
+        </div>
+
+        <div class="panell">
+          <div class="operacio" id="operacio" aria-live="polite"></div>
+          <div class="botons">
+            <button type="button" class="boto esborrar" id="btn-esborrar" aria-label="Treure totes les fitxes triades">⌫</button>
+            <button type="button" class="boto ok" id="btn-ok">OK ✓</button>
+          </div>
+          <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../js/celebracio.js"></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    const NIVELLS = {
+      facil:   { min: 2, max: 3, nom: 'Fàcil',   text: '2 o 3 números' },
+      mitja:   { min: 4, max: 5, nom: 'Mitjà',   text: '4 o 5 números' },
+      dificil: { min: 6, max: 7, nom: 'Difícil', text: '6 o 7 números' },
+    };
+    const config = { nivell: 'facil', cadenes: 5 };
+    let cadena, errorsRonda, errorsCadena, objectiu, fitxes, triades, bloquejat, inici, rellotge;
+
+    // ---------------- Inici ----------------
+    function grupOpcions(id, clau) {
+      $(id).addEventListener('click', e => {
+        const b = e.target.closest('button'); if (!b) return;
+        $(id).querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+        config[clau] = isNaN(b.dataset.v) ? b.dataset.v : Number(b.dataset.v);
+      });
+    }
+    grupOpcions('op-nivell', 'nivell'); grupOpcions('op-cadenes', 'cadenes');
+
+    $('btn-comencar').addEventListener('click', () => {
+      cadena = 1; errorsRonda = 0;
+      $('pantalla-inici').hidden = true; $('pantalla-joc').hidden = false;
+      inici = performance.now();
+      clearInterval(rellotge); rellotge = setInterval(pintarDades, 1000);
+      novaCadena();
+      window.scrollTo({ top: 0 });
+    });
+    $('btn-nova').addEventListener('click', () => {
+      clearInterval(rellotge); Celebracio.tancar();
+      $('pantalla-joc').hidden = true; $('pantalla-inici').hidden = false;
+    });
+
+    // ---------------- Generar una cadena ----------------
+    const aleatori = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+    const barrejar = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+
+    // Parteix T en k números (cadascun ≥ 2), a l'atzar
+    function partir(T, k) {
+      for (let intent = 0; intent < 500; intent++) {
+        const talls = new Set();
+        while (talls.size < k - 1) talls.add(aleatori(2, T - 2));
+        const t = [0, ...[...talls].sort((a, b) => a - b), T];
+        const parts = t.slice(1).map((v, i) => v - t[i]);
+        if (parts.every(p => p >= 2)) return parts;
+      }
+      return null;
+    }
+
+    function novaCadena() {
+      const niv = NIVELLS[config.nivell];
+      const k = aleatori(niv.min, niv.max);
+      objectiu = aleatori(Math.max(10, k * 5), 99);
+      const parts = partir(objectiu, k);
+      // Fitxes que sobren: números semblants als de la solució, sempre menors que l'objectiu
+      const maxPart = Math.max(...parts);
+      const sobren = Array.from({ length: 4 }, () => aleatori(2, Math.min(objectiu - 1, maxPart + 6)));
+      fitxes = barrejar([...parts, ...sobren]).map((v, i) => ({ id: i, v }));
+      triades = [];
+      errorsCadena = 0; bloquejat = false;
+      $('objectiu').textContent = objectiu;
+      $('quants').textContent = `amb ${niv.text}`;
+      pintarFitxes(); pintarOperacio(); pintarDades();
+      mostrar(`Cadena ${cadena} de ${config.cadenes}`, 'Toca les fitxes que sumades donen el número gran.');
+    }
+
+    // ---------------- Dibuix ----------------
+    function pintarFitxes() {
+      const cont = $('fitxes'); cont.innerHTML = '';
+      cont.style.gridTemplateColumns = `repeat(${fitxes.length > 8 ? 4 : fitxes.length > 6 ? 4 : 3}, 1fr)`;
+      fitxes.forEach(f => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'fitxa' + (triades.includes(f) ? ' triada' : '');
+        b.textContent = f.v; b.dataset.id = f.id;
+        b.setAttribute('aria-pressed', triades.includes(f));
+        b.addEventListener('click', () => tocarFitxa(f));
+        cont.appendChild(b);
+      });
+    }
+    // Operació sense resultat: "12 + 8 + 20 = ?" (s'ha de calcular de cap)
+    function pintarOperacio() {
+      $('operacio').innerHTML = triades.length
+        ? triades.map(f => f.v).join(' + ') + ' = ?'
+        : '<span class="buit">Encara no has triat cap fitxa</span>';
+      $('btn-ok').disabled = bloquejat || triades.length === 0;
+      $('btn-esborrar').disabled = bloquejat || triades.length === 0;
+    }
+    const format = ms => { const s = Math.floor(ms / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
+    function pintarDades() {
+      if ($('pantalla-joc').hidden) return;
+      const punts = Array.from({ length: config.cadenes }, (_, i) =>
+        `<i class="${i + 1 < cadena ? 'fet' : i + 1 === cadena ? 'ara' : ''}"></i>`).join('');
+      $('dades').innerHTML =
+        `<span class="dada">Cadena <b>${Math.min(cadena, config.cadenes)}</b>/${config.cadenes} <span class="progres">${punts}</span></span>`
+        + `<span class="dada">⏱️ <b>${format(performance.now() - inici)}</b></span>`
+        + `<span class="dada">Errors: <b>${errorsRonda}</b></span>`;
+    }
+
+    // ---------------- Jugar ----------------
+    function tocarFitxa(f) {
+      if (bloquejat) return;
+      const i = triades.indexOf(f);
+      if (i >= 0) triades.splice(i, 1); else triades.push(f);
+      pintarFitxes(); pintarOperacio();
+    }
+    $('btn-esborrar').addEventListener('click', () => { if (bloquejat) return; triades = []; pintarFitxes(); pintarOperacio(); });
+
+    $('btn-ok').addEventListener('click', () => {
+      if (bloquejat || !triades.length) return;
+      const niv = NIVELLS[config.nivell];
+      const suma = triades.reduce((s, f) => s + f.v, 0);
+      const n = triades.length;
+      if (suma === objectiu && n >= niv.min && n <= niv.max) return encert();
+      if (suma === objectiu) {
+        // Suma bé, però no amb els números que demana el nivell
+        mostrar('Suma bé, però… 🤔', `Fes-ho amb ${niv.text} (n'has fet servir ${n}).`, 'pista');
+        sacsejar($('operacio'));
+        return;
+      }
+      errorsRonda++; errorsCadena++;
+      sacsejar($('objectiu'));
+      if (errorsCadena >= 2) {
+        const dif = objectiu - suma;
+        mostrar(`No dona ${objectiu}`, dif > 0 ? `Pista: et falten ${dif}.` : `Pista: t'has passat de ${-dif}.`, 'pista');
+      } else {
+        mostrar(`No dona ${objectiu}`, 'Torna a sumar-ho a poc a poc.', 'error');
+      }
+      pintarDades();
+    });
+
+    function encert() {
+      bloquejat = true;
+      const cont = $('fitxes');
+      triades.forEach(f => { const b = cont.querySelector(`.fitxa[data-id="${f.id}"]`); if (b) b.classList.add('correcta'); });
+      cont.querySelectorAll('.fitxa').forEach(b => b.disabled = true);
+      $('operacio').textContent = triades.map(f => f.v).join(' + ') + ' = ' + objectiu;
+      $('btn-ok').disabled = true; $('btn-esborrar').disabled = true;
+      mostrar('✓ Molt bé!', '', 'guanyat');
+      Celebracio.petita($('objectiu'));
+      setTimeout(() => {
+        cadena++;
+        if (cadena <= config.cadenes) novaCadena(); else final();
+      }, 1300);
+    }
+
+    function final() {
+      clearInterval(rellotge);
+      const temps = performance.now() - inici;
+      pintarDades();
+      const clau = `appjocs.suma-rapida.record.${config.nivell}.${config.cadenes}`;
+      let record = null; try { record = Number(localStorage.getItem(clau)) || null; } catch {}
+      const nouRecord = !record || temps < record;
+      if (nouRecord) { try { localStorage.setItem(clau, String(Math.round(temps))); } catch {} }
+      const estrelles = errorsRonda === 0 ? 3 : errorsRonda <= 2 ? 2 : 1;
+      mostrar('🏆 Ronda acabada!', `Temps: ${format(temps)}${nouRecord ? ' · Nou rècord!' : ''}`, 'guanyat');
+      Celebracio.gran({
+        titol: errorsRonda === 0 ? 'Suma perfecta!' : 'Ronda acabada!', emoji: '⚡', estrelles,
+        subtitol: `${config.cadenes} cadenes en ${format(temps)}`
+          + (nouRecord ? ' · 🏅 Nou rècord!' : ` · Rècord: ${format(record)}`)
+          + (errorsRonda ? ` · ${errorsRonda} ${errorsRonda === 1 ? 'error' : 'errors'}` : ''),
+        boto: 'Continuar',
+      });
+    }
+
+    function sacsejar(el) { el.classList.remove('sacseig'); void el.offsetWidth; el.classList.add('sacseig'); }
+    function mostrar(text, extra = '', estat = '') {
+      const m = $('missatge');
+      $('msg-text').textContent = text; $('msg-extra').textContent = extra;
+      m.classList.remove('es-pista', 'es-error', 'es-guanyat');
+      if (estat) m.classList.add('es-' + estat);
+    }
+  </script>
+</body>
+</html>
