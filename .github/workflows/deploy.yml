@@ -1,0 +1,53 @@
+# Desplega AppJocs a GitHub Pages a cada push a main (o manualment des de la pestanya Actions).
+#
+# Seguretat (política del projecte):
+#  - Només Actions oficials de GitHub (actions/*), fixades pel SHA del commit (no per l'etiqueta, que es pot moure).
+#  - Versions publicades fa més d'una setmana; revisades el 28/09/2026 (SHA i data comprovats amb git).
+#  - Permisos mínims i sense guardar credencials al checkout.
+#  - Només es publiquen els fitxers de l'app (carpeta _site), no el README ni fitxers de treball.
+
+name: Desplegar a GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Un sol desplegament alhora; no cancel·lem un desplegament que ja està en marxa.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  desplegar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Descarregar el codi
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1 (17/07/2026)
+        with:
+          persist-credentials: false
+
+      - name: Preparar només els fitxers de l'app
+        run: |
+          mkdir _site
+          cp -r index.html manifest.webmanifest sw.js css js icons jocs _site/
+
+      - name: Configurar Pages
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0 (24/03/2026)
+
+      - name: Pujar l'artefacte
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0 (08/04/2026)
+        with:
+          path: _site
+
+      - name: Publicar
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1 (01/09/2026)
