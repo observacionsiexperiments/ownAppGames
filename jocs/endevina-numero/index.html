@@ -95,6 +95,17 @@
       }
       .pista { min-height: 280px; }
     }
+
+    /* Horitzontal baix: tot a la vista */
+    @media (orientation: landscape) and (max-height: 820px) {
+      .joc { gap: 10px; }
+      .pista { min-height: 0 !important; padding: 10px 14px; gap: 6px; }
+      #pista-text { font-size: clamp(1.4rem, 4.6vh, 2.2rem); }
+      .ja-saps ul { font-size: 1rem; }
+      .caixa { padding: 10px 14px; gap: 6px; }
+      .missatge { font-size: 1.15rem; padding: 6px 10px; }
+      .historial li { font-size: 1rem; padding: 3px 10px; }
+    }
   </style>
 </head>
 <body>
@@ -130,6 +141,7 @@
 
   <script src="../../js/reconeixedor-xifres.js"></script>
   <script src="../../js/entrada-numero.js"></script>
+  <script src="../../js/celebracio.js"></script>
   <script>
     const MIN = 1, MAX = 100;
     const CLAU_RECORD = 'appjocs.endevina-numero.record';
@@ -266,7 +278,13 @@
         mostrarPista(`🎉 ${secret}`, 'guanyat', `Has dit el ${n}`);
         pintarRecord();
         entradaNum.activar(false);
-        $('btn-nova').focus();
+        // Premi: menys intents, més estrelles (amb 7 intents sempre es pot trobar)
+        const estrelles = intents <= 5 ? 3 : intents <= 8 ? 2 : 1;
+        Celebracio.gran({
+          titol: `Era el ${secret}!`, estrelles,
+          subtitol: extra,
+          boto: 'Continuar', enTancar: () => $('btn-nova').focus(),
+        });
         return;
       }
 

@@ -113,6 +113,24 @@
     .sumes div { white-space: normal; }
     .sumes .igual { color: var(--text-suau); margin-right: 6px; }
     .sumes .u { color: var(--text-suau); }
+
+    /* Horitzontal baix: tot a la vista */
+    @media (orientation: landscape) and (max-height: 820px) {
+      .cap-joc { margin: 0 0 6px; }
+      .cap-joc h2 { font-size: 1.05rem; }
+      .cap-joc .btn { padding: 6px 14px; }
+      .disposicio { gap: 10px; }
+      .panell { gap: 8px; }
+      .missatge { min-height: 0; padding: 6px 10px; font-size: .95rem; }
+      .missatge small { font-size: .85rem; }
+      .tallar { padding: 8px 10px; }
+      .tallar p { margin: 0 0 4px; font-size: .88rem; }
+      .tallar #entrada-suma { margin-bottom: 6px; }
+      .botons-joc { gap: 6px; }
+      .boto { min-height: 40px; font-size: .9rem; }
+      .sumes { font-size: .95rem; line-height: 1.45; padding: 6px 12px; max-height: 24vh; overflow-y: auto; }
+      h2.titol { margin: 10px 0 6px; }
+    }
   </style>
 </head>
 <body>
@@ -181,6 +199,7 @@
 
   <script src="../../js/reconeixedor-xifres.js"></script>
   <script src="../../js/entrada-numero.js"></script>
+  <script src="../../js/celebracio.js"></script>
   <script>
     const MIN_N = 2, MAX_N = 20;
     const $ = id => document.getElementById(id);
@@ -188,7 +207,7 @@
 
     // ---------------- Estat ----------------
     let numTriat = 15, modeTriat = 'lliure';
-    let arrel, seleccionat, historial, acabat, errorsBuit, avisRepte;
+    let arrel, seleccionat, historial, acabat, errorsBuit, avisRepte, errorsCompleta = 0;
     let idSeguent = 0;
     const nouNode = (v, pare = null) => ({ id: idSeguent++, v, fills: null, pare, buit: false });
 
@@ -223,7 +242,7 @@
 
     function comencar() {
       const n = numTriat === 'sorpresa' ? 5 + Math.floor(Math.random() * 12) : numTriat;
-      arrel = nouNode(n); historial = []; acabat = false; errorsBuit = 0; avisRepte = false;
+      arrel = nouNode(n); historial = []; acabat = false; errorsBuit = 0; avisRepte = false; errorsCompleta = 0;
       $('titol-joc').textContent = `Arbre del ${n} · ${NOMS_MODE[modeTriat]}`;
       $('pantalla-inici').hidden = true; $('pantalla-joc').hidden = false;
       $('tallar').hidden = modeTriat === 'completa';
@@ -298,9 +317,19 @@
       // Quan l'arbre està acabat es veu sencer (s'encongeix); mentre es juga, els nodes mantenen una mida tocable
       const complet = acabat || (modeTriat === 'completa' && !nodes().some(n => n.buit));
       const S = complet ? Math.min(96, amplada / places) : Math.max(44, Math.min(96, amplada / places));
-      const R = Math.max(9, Math.min(28, S * 0.4));
-      const FILA = Math.max(64, R * 2 + 30);
+      let R = Math.max(9, Math.min(28, S * 0.4));
+      let FILA = Math.max(64, R * 2 + 30);
       const P = Math.max(0, ...fs.map(f => profunditat(f) + (ambFantasmes(f) ? 1 : 0)));
+      // En horitzontal, l'arbre ha de cabre en l'alçada de la pantalla: si és molt alt, s'aplana
+      pintarSumes();
+      if (matchMedia('(orientation: landscape)').matches) {
+        const dalt = zona.getBoundingClientRect().top + window.scrollY;
+        const disponible = innerHeight - dalt - $('sumes').offsetHeight - 26;
+        if (disponible > 140) {
+          FILA = Math.min(FILA, (disponible - 16) / (P + 1));
+          R = Math.max(9, Math.min(R, FILA * 0.38));
+        }
+      }
       const W = Math.max(amplada, places * S), H = (P + 1) * FILA + 16;
       const yDe = d => 8 + R + d * FILA + (FILA - 2 * R - 16) / 2;
 
@@ -364,6 +393,7 @@
         if (n === seleccionat) classes.push('seleccionat');
         if (n.encertat) { classes.push('encertat'); n.encertat = false; }
         g.setAttribute('class', classes.join(' '));
+        g.dataset.id = n.id;
         g.setAttribute('tabindex', '0');
         g.setAttribute('role', 'button');
         g.setAttribute('aria-label', n.buit ? 'Número amagat' : `Número ${n.v}`);
@@ -383,7 +413,7 @@
         const px = pos.get(seleccionat).x;
         zona.scrollTo({ left: px - amplada / 2, behavior: 'smooth' });
       }
-      pintarDades(); pintarPanell(); pintarSumes();
+      pintarDades(); pintarPanell();
       actualitzarFantasmes();
     }
 
@@ -433,6 +463,7 @@
           .map(n => `<span class="${n.v === 1 && !n.buit ? 'u' : ''}">${n.buit ? '?' : n.v}</span>`).join(' + ');
         cont.appendChild(div);
       }
+      cont.scrollTop = cont.scrollHeight;   // si no hi cap tot, es veu la línia més nova
     }
 
     // ---------------- Escriure la suma ----------------
@@ -483,10 +514,17 @@
       const node = seleccionat;
       partir(node, k);
       seleccionat = pendents()[0] || null;
-      if (!seleccionat) return acabar();
+      if (!seleccionat) { acabar(); celebrarNode(node); return; }
       comprovarRepte();
       if (!avisRepte) mostrar(`✓ ${node.v} = ${k} + ${node.v - k}`, seleccionat ? `Ara parteix el ${seleccionat.v}` : '', 'guanyat');
       dibuixar();
+      celebrarNode(node);
+    }
+
+    // Petit esclat sobre un node de l'arbre
+    function celebrarNode(n) {
+      const g = document.querySelector(`#svg .node[data-id="${n.id}"]`);
+      if (g) Celebracio.petita(g);
     }
 
     function comprovarRepte() {
@@ -503,15 +541,25 @@
     function acabar() {
       acabat = true; seleccionat = null;
       const n = arrel.v, p = pisos(), min = pisosMinims(n);
+      let premi;
       if (modeTriat === 'repte') {
-        if (p === min) mostrar(`🏆 Perfecte! ${p} pisos ⭐⭐⭐`, `És el mínim possible per al ${n}.`, 'guanyat');
-        else mostrar(`Arbre acabat amb ${p} pisos`, `Es pot fer amb ${min}! Desfés alguns talls i torna-ho a provar.`, 'pista');
+        if (p === min) {
+          mostrar(`🏆 Perfecte! ${p} pisos ⭐⭐⭐`, `És el mínim possible per al ${n}.`, 'guanyat');
+          premi = { titol: 'Arbre perfecte!', estrelles: 3, subtitol: `${p} pisos: el mínim possible per al ${n}.` };
+        } else {
+          mostrar(`Arbre acabat amb ${p} pisos`, `Es pot fer amb ${min}! Desfés alguns talls i torna-ho a provar.`, 'pista');
+          premi = { titol: 'Arbre acabat!', estrelles: p === min + 1 ? 2 : 1, emoji: '🌳',
+                    subtitol: `Té ${p} pisos. Es pot fer amb ${min}: vols intentar-ho?` };
+        }
       } else {
         mostrar(`🎉 Arbre acabat! ${n - 1} talls i ${p} pisos`,
           `Saps què? Facis com facis, el ${n} sempre necessita ${n - 1} talls per quedar en ${n} uns.`, 'guanyat');
+        premi = { titol: 'Arbre acabat!', estrelles: 3, emoji: '🌳', subtitol: `Has fet ${n - 1} talls i el ${n} ja són ${n} uns.` };
       }
       dibuixar();
+      Celebracio.gran(premi);
     }
+
 
     // ---------------- Tocar un node ----------------
     function tocarNode(n) {
@@ -561,6 +609,7 @@
         if (!n || !n.buit) return;
         if (valor === n.v) {
           n.buit = false; n.encertat = true; errorsBuit = 0;
+          const nodeEncertat = n;
           const germa = n.pare.fills.find(f => f !== n);
           mostrar(`Molt bé! ${n.pare.fills[0].v} + ${n.pare.fills[1].v} = ${n.pare.v}`, '', 'guanyat');
           entrada.buidar();
@@ -570,8 +619,14 @@
             mostrar("🎉 Arbre complet!", `Has trobat tots els números que faltaven.`, 'guanyat');
           }
           dibuixar();
+          celebrarNode(nodeEncertat);
+          if (!seleccionat) Celebracio.gran({
+            titol: 'Arbre complet!', emoji: '🌳',
+            estrelles: errorsCompleta === 0 ? 3 : errorsCompleta <= 2 ? 2 : 1,
+            subtitol: errorsCompleta === 0 ? 'Sense cap error!' : `Amb ${errorsCompleta} ${errorsCompleta === 1 ? 'error' : 'errors'}.`,
+          });
         } else {
-          errorsBuit++;
+          errorsBuit++; errorsCompleta++;
           entrada.sacsejar(); entrada.buidar();
           const germa = n.pare.fills.find(f => f !== n);
           if (errorsBuit >= 2) mostrar(`No és el ${valor}`, `Pista: ${n.pare.v} − ${germa.v} = ?`, 'pista');

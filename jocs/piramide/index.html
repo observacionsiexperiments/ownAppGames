@@ -157,6 +157,7 @@
 
   <script src="../../js/reconeixedor-xifres.js"></script>
   <script src="../../js/entrada-numero.js"></script>
+  <script src="../../js/celebracio.js"></script>
   <script>
     const $ = id => document.getElementById(id);
     const RANGS = { facil: [1, 9], mitja: [5, 20], dificil: [10, 50] };
@@ -317,9 +318,10 @@
           omplerts[f][c] = true; ultimNou = [f, c]; errorsMao = 0;
           entrada.buidar();
           sel = seguentDisponible();
-          if (!sel) return final();
+          if (!sel) { final(); celebrarMao(f, c); return; }
           mostrar(`✓ Molt bé, ${correcte}!`, explicacio(f, c), 'guanyat');
           dibuixar();
+          celebrarMao(f, c);
           return;
         }
         errors++; errorsMao++;
@@ -351,6 +353,17 @@
       mostrar(errors === 0 ? '🏆 Piràmide perfecta! ⭐⭐⭐' : '🎉 Piràmide completa!',
         errors === 0 ? 'Sense cap error!' : `Has fet ${errors} ${errors === 1 ? 'error' : 'errors'}. Prova'n una altra!`, 'guanyat');
       dibuixar();
+      Celebracio.gran({
+        titol: errors === 0 ? 'Piràmide perfecta!' : 'Piràmide completa!', emoji: errors === 0 ? '🏆' : '🔺',
+        estrelles: errors === 0 ? 3 : errors <= 2 ? 2 : 1,
+        subtitol: errors === 0 ? 'Sense cap error!' : `Amb ${errors} ${errors === 1 ? 'error' : 'errors'}.`,
+      });
+    }
+
+    // Petit esclat sobre el maó encertat
+    function celebrarMao(f, c) {
+      const b = document.querySelector(`.mao[data-f="${f}"][data-c="${c}"]`);
+      if (b) Celebracio.petita(b);
     }
 
     function mostrar(text, extra = '', estat = '') {

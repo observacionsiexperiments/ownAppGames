@@ -1,6 +1,6 @@
 // Service worker: permet usar l'app sense connexió.
 // Puja VERSIO a cada desplegament perquè els clients agafin els canvis.
-const VERSIO = 'v0.9.0';
+const VERSIO = 'v0.10.0';
 const CACHE = `appjocs-${VERSIO}`;
 
 // Fitxers bàsics de la llançadora (rutes relatives a l'abast del SW)
@@ -11,6 +11,7 @@ const PRECACHE = [
   'js/app.js',
   'js/reconeixedor-xifres.js',
   'js/entrada-numero.js',
+  'js/celebracio.js',
   'jocs/jocs.json',
   'manifest.webmanifest',
   'icons/icon-192.png',
