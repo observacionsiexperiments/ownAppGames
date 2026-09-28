@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFBF3">
+  <title>El quadre numèric · AppJocs</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="icon" href="../../icons/icon-192.png">
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    /* Colors per rol (css/styles.css): verd = encert · rosa = error · groc = pista ·
+       blau = selecció/per omplir · préssec = acció general. Bloquejat = neutre gris. */
+    .joc { width: 100%; max-width: 1200px; margin: 0 auto; }
+    [hidden] { display: none !important; }
+    h2.titol { font-size: 1.15rem; margin: 18px 0 10px; }
+
+    /* ---------- Pantalla d'inici ---------- */
+    .inici { max-width: 760px; margin: 0 auto; }
+    .formes { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+    .formes button {
+      font: inherit; cursor: pointer; color: var(--text); touch-action: manipulation; text-align: center;
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: 16px; box-shadow: var(--ombra);
+      padding: 14px; display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .formes button[aria-pressed="true"] { background: var(--c-info); border-color: var(--c-info-vora); }
+    @media (hover: hover) { .formes button:hover { border-color: var(--c-info-vora); } }
+    .formes b { font-size: 1.15rem; }
+    .formes span { color: var(--text-suau); font-size: .92rem; }
+    .formes button[aria-pressed="true"] span { color: var(--text); }
+    /* Miniatura de la forma */
+    .mini { display: grid; gap: 3px; }
+    .mini i { width: 18px; height: 18px; border-radius: 4px; background: var(--superficie); border: 2px dashed var(--c-info-vora); }
+    .mini i.c { background: var(--fons); border: 2px solid var(--text-suau); }
+    .mini i.x { visibility: hidden; }
+    .explica { color: var(--text-suau); margin: 14px 0 0; text-align: center; }
+    .comencar { text-align: center; margin: 24px 0 8px; }
+    .comencar .btn { font-size: 1.3rem; padding: 14px 40px; }
+
+    /* ---------- Pantalla de joc ---------- */
+    .cap-joc { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 4px 0 10px; }
+    .cap-joc h2 { margin: 0; font-size: 1.2rem; }
+    .dades { display: flex; gap: 8px; flex-wrap: wrap; }
+    .dada { background: var(--superficie); border: 1px solid var(--vora); border-radius: 999px; padding: 4px 12px; font-size: .95rem; }
+    .dada b { font-variant-numeric: tabular-nums; }
+    .progres { display: inline-flex; gap: 5px; vertical-align: middle; margin-left: 4px; }
+    .progres i { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--vora); background: var(--superficie); }
+    .progres i.fet { background: var(--c-ok); border-color: var(--c-ok-vora); }
+    .progres i.ara { background: var(--c-info); border-color: var(--c-info-vora); }
+
+    .disposicio { display: grid; gap: 14px; }
+    @media (min-width: 900px) and (orientation: landscape), (min-width: 1100px) {
+      .disposicio { grid-template-columns: 1fr 340px; align-items: start; }
+      .panell { position: sticky; top: 8px; }
+    }
+
+    /* La figura: un tros de la taula del 100 */
+    .zona-quadre {
+      display: grid; place-items: center; padding: 16px;
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi);
+    }
+    .quadre { --mida: 90px; display: grid; gap: 8px; }
+    .cella {
+      width: var(--mida); height: var(--mida); border-radius: 14px; padding: 0;
+      font: inherit; font-weight: 800; font-size: calc(var(--mida) * .38); font-variant-numeric: tabular-nums;
+      display: grid; place-items: center; color: var(--text); touch-action: manipulation;
+      background: var(--fons); border: 2px solid var(--vora);
+    }
+    /* Número donat: neutre, però ben marcat */
+    .cella.donat { background: var(--fons); border: 3px solid var(--text-suau); cursor: default; }
+    /* Per omplir: blau puntejat */
+    .cella.buida { background: var(--superficie); border: 3px dashed var(--c-info-vora); color: var(--text-suau); cursor: pointer; }
+    .cella.seleccionada { background: var(--c-info); border: 4px solid var(--c-info-vora); color: var(--text); }
+    /* Encertada: verd */
+    .cella.encertada { background: var(--c-ok); border: 3px solid var(--c-ok-vora); cursor: default; }
+    /* Fora de la taula: no hi ha número */
+    .cella.bloquejada {
+      background: repeating-linear-gradient(45deg, var(--fons) 0 8px, var(--vora) 8px 10px);
+      border: 2px solid var(--vora); color: var(--text-suau); font-size: calc(var(--mida) * .3); cursor: default;
+    }
+    @keyframes sacseig { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+    .cella.sacseig { animation: sacseig .25s 2; }
+    @media (hover: hover) { .cella.buida:not(.seleccionada):hover { background: color-mix(in srgb, var(--c-info) 35%, white); } }
+    .regla { color: var(--text-suau); font-size: .92rem; text-align: center; margin: 8px 0 0; }
+
+    .panell { display: flex; flex-direction: column; gap: 12px; }
+    .missatge {
+      min-height: 3.2rem; padding: 10px 14px; border-radius: var(--radi); text-align: center;
+      background: var(--superficie); border: 2px solid var(--vora); font-weight: 700;
+      display: flex; flex-direction: column; justify-content: center; gap: 4px;
+    }
+    .missatge small { font-weight: 500; font-size: .95rem; }
+    .missatge small:empty { display: none; }
+    .missatge.es-pista   { background: var(--c-pista);    border-color: var(--c-pista-vora); }
+    .missatge.es-error   { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .missatge.es-guanyat { background: var(--c-ok);       border-color: var(--c-ok-vora); font-size: 1.1rem; }
+    .entrada-caixa { background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi); padding: 12px; }
+    .entrada-caixa p { margin: 0 0 8px; text-align: center; font-weight: 700; }
+
+    /* Horitzontal baix: tot a la vista */
+    @media (orientation: landscape) and (max-height: 820px) {
+      .cap-joc { margin: 0 0 6px; }
+      .cap-joc h2 { font-size: 1.05rem; }
+      .cap-joc .btn { padding: 6px 14px; }
+      .panell { gap: 8px; }
+      .missatge { min-height: 0; padding: 6px 10px; font-size: .95rem; }
+      .entrada-caixa { padding: 8px 10px; }
+      .entrada-caixa p { margin: 0 0 4px; font-size: .9rem; }
+      .zona-quadre { padding: 10px; }
+      h2.titol { margin: 10px 0 6px; }
+      .comencar { margin: 14px 0 4px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="barra-joc">
+    <a href="../../">← Inici</a>
+    <h1>🧩 El quadre numèric</h1>
+  </nav>
+
+  <main class="joc">
+    <!-- ================= INICI ================= -->
+    <section class="inici" id="pantalla-inici">
+      <h2 class="titol">Tria la forma</h2>
+      <div class="formes" id="formes">
+        <button type="button" data-v="creu" aria-pressed="true">
+          <span class="mini" style="grid-template-columns: repeat(3, 18px)"><i class="x"></i><i></i><i class="x"></i><i></i><i class="c"></i><i></i><i class="x"></i><i></i><i class="x"></i></span>
+          <b>✚ Creu</b><span>El número i els quatre del costat: a dalt, a baix, a l'esquerra i a la dreta.</span>
+        </button>
+        <button type="button" data-v="quadrat" aria-pressed="false">
+          <span class="mini" style="grid-template-columns: repeat(3, 18px)"><i></i><i></i><i></i><i></i><i class="c"></i><i></i><i></i><i></i><i></i></span>
+          <b>⬛ Quadrat</b><span>El número i els vuit que l'envolten, també les cantonades.</span>
+        </button>
+        <button type="button" data-v="aleatoria" aria-pressed="false">
+          <span class="mini" style="grid-template-columns: repeat(3, 18px)"><i class="c"></i><i></i><i class="x"></i><i class="x"></i><i></i><i></i><i class="x"></i><i class="x"></i><i></i></span>
+          <b>🎲 Sorpresa</b><span>Una figura diferent cada vegada, sempre amb les caselles tocant-se.</span>
+        </button>
+      </div>
+      <p class="explica">Imagina la taula del 100: cada fila és una desena (1–10, 11–20, 21–30…). Faràs 5 números.</p>
+      <div class="comencar"><button class="btn" id="btn-comencar" type="button">Comença! 🧩</button></div>
+    </section>
+
+    <!-- ================= JOC ================= -->
+    <section id="pantalla-joc" hidden>
+      <div class="cap-joc">
+        <h2 id="titol-joc"></h2>
+        <div class="dades" id="dades"></div>
+        <button class="btn" id="btn-nova" type="button">Nova ronda</button>
+      </div>
+
+      <div class="disposicio">
+        <div>
+          <div class="zona-quadre" id="zona-quadre"><div class="quadre" id="quadre" role="grid" aria-label="Tros de la taula del 100"></div></div>
+          <p class="regla">Omple les caselles blaves. Les ratllades són fora de la taula: allà no hi ha cap número.</p>
+        </div>
+        <div class="panell">
+          <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
+          <div class="entrada-caixa" id="entrada-caixa">
+            <p>Quin número va a la casella blava?</p>
+            <div id="entrada"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../js/reconeixedor-xifres.js"></script>
+  <script src="../../js/entrada-numero.js"></script>
+  <script src="../../js/celebracio.js"></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    const NUMEROS_PER_RONDA = 5;
+    const NOMS = { creu: '✚ Creu', quadrat: '⬛ Quadrat', aleatoria: '🎲 Sorpresa' };
+
+    let forma = 'creu';
+    // Estat de la ronda i del número actual
+    let ronda, errorsRonda, caselles, sel, errorsCella, acabat;
+    // caselles: [{ dr, dc, valor (o null si és fora de la taula), donat, fet }]
+
+    // ---------------- Taula del 100 ----------------
+    // El número n és a la fila floor((n-1)/10) i a la columna (n-1)%10.
+    const fila = n => Math.floor((n - 1) / 10), col = n => (n - 1) % 10;
+    function valorA(n, dr, dc) {
+      const f = fila(n) + dr, c = col(n) + dc;
+      return f >= 0 && f <= 9 && c >= 0 && c <= 9 ? f * 10 + c + 1 : null;
+    }
+
+    // ---------------- Formes (desplaçaments respecte del número donat) ----------------
+    const CREU = [[0, 0], [-1, 0], [1, 0], [0, -1], [0, 1]];
+    const QUADRAT = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 0], [0, 1], [1, -1], [1, 0], [1, 1]];
+    // Figura aleatòria connectada: creix des d'una casella afegint veïns (amunt, avall, esquerra, dreta)
+    function figuraAleatoria() {
+      const mida = 5 + Math.floor(Math.random() * 3);   // 5, 6 o 7 caselles
+      const clau = ([r, c]) => r + ',' + c;
+      const punts = [[0, 0]], vist = new Set(['0,0']);
+      while (punts.length < mida) {
+        const [r, c] = punts[Math.floor(Math.random() * punts.length)];
+        const [dr, dc] = [[-1, 0], [1, 0], [0, -1], [0, 1]][Math.floor(Math.random() * 4)];
+        const nou = [r + dr, c + dc];
+        if (Math.abs(nou[0]) > 2 || Math.abs(nou[1]) > 2 || vist.has(clau(nou))) continue;
+        vist.add(clau(nou)); punts.push(nou);
+      }
+      // el número donat pot ser qualsevol casella de la figura
+      const [r0, c0] = punts[Math.floor(Math.random() * punts.length)];
+      return punts.map(([r, c]) => [r - r0, c - c0]);
+    }
+
+    function nouNumero() {
+      const forats = forma === 'creu' ? CREU : forma === 'quadrat' ? QUADRAT : figuraAleatoria();
+      // Tria un número on la figura tingui prou caselles per omplir (com a màxim 2 fora de la taula)
+      let n, dins;
+      for (let intent = 0; intent < 200; intent++) {
+        n = 1 + Math.floor(Math.random() * 100);
+        const fora = forats.filter(([dr, dc]) => valorA(n, dr, dc) === null).length;
+        dins = forats.length - fora;
+        if (fora <= 2 && dins - 1 >= 3) break;
+      }
+      caselles = forats.map(([dr, dc]) => ({
+        dr, dc, valor: valorA(n, dr, dc), donat: dr === 0 && dc === 0, fet: false,
+      }));
+      acabat = false; errorsCella = 0;
+      sel = caselles.find(c => c.valor !== null && !c.donat) || null;
+      entrada.buidar(); entrada.activar(true);
+      const donat = caselles.find(c => c.donat).valor;
+      mostrar(`Número ${ronda} de ${NUMEROS_PER_RONDA}: el ${donat}`, 'Omple les caselles del voltant.');
+      dibuixar();
+    }
+
+    // ---------------- Inici ----------------
+    $('formes').addEventListener('click', e => {
+      const b = e.target.closest('button'); if (!b) return;
+      $('formes').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+      forma = b.dataset.v;
+    });
+    $('btn-comencar').addEventListener('click', () => {
+      ronda = 1; errorsRonda = 0;
+      $('titol-joc').textContent = NOMS[forma];
+      $('pantalla-inici').hidden = true; $('pantalla-joc').hidden = false;
+      entrada.ajustar();
+      nouNumero();
+      window.scrollTo({ top: 0 });
+    });
+    $('btn-nova').addEventListener('click', () => {
+      Celebracio.tancar();
+      $('pantalla-joc').hidden = true; $('pantalla-inici').hidden = false;
+    });
+
+    // ---------------- Dibuix ----------------
+    function dibuixar() {
+      const rs = caselles.map(c => c.dr), cs = caselles.map(c => c.dc);
+      const rMin = Math.min(...rs), cMin = Math.min(...cs);
+      const files = Math.max(...rs) - rMin + 1, cols = Math.max(...cs) - cMin + 1;
+      const q = $('quadre'), zona = $('zona-quadre');
+      // Mida de casella: que la figura càpiga en amplada i, en horitzontal, també en alçada
+      const ample = zona.clientWidth - 32;
+      let mida = Math.min(120, (ample - (cols - 1) * 8) / cols);
+      if (matchMedia('(orientation: landscape)').matches) {
+        const dalt = zona.getBoundingClientRect().top + window.scrollY;
+        const disponible = innerHeight - dalt - 32 - 40;   // marges i la línia d'explicació
+        mida = Math.min(mida, (disponible - (files - 1) * 8) / files);
+      }
+      mida = Math.max(52, mida);
+      q.style.setProperty('--mida', mida + 'px');
+      q.style.gridTemplateColumns = `repeat(${cols}, var(--mida))`;
+      q.style.gridTemplateRows = `repeat(${files}, var(--mida))`;
+      q.innerHTML = '';
+      caselles.forEach((c, i) => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.dataset.i = i;
+        b.style.gridRow = c.dr - rMin + 1; b.style.gridColumn = c.dc - cMin + 1;
+        let cl = 'cella', text = '';
+        if (c.valor === null) { cl += ' bloquejada'; text = '✕'; b.setAttribute('aria-label', 'Fora de la taula'); }
+        else if (c.donat) { cl += ' donat'; text = c.valor; }
+        else if (c.fet) { cl += ' encertada'; text = c.valor; }
+        else { cl += ' buida'; text = '?'; b.setAttribute('aria-label', 'Casella per omplir'); }
+        if (c === sel) cl += ' seleccionada';
+        b.className = cl; b.textContent = text;
+        q.appendChild(b);
+      });
+      const errs = `<span class="dada">Errors: <b>${errorsRonda}</b></span>`;
+      const punts = Array.from({ length: NUMEROS_PER_RONDA }, (_, i) =>
+        `<i class="${i + 1 < ronda ? 'fet' : i + 1 === ronda ? 'ara' : ''}"></i>`).join('');
+      $('dades').innerHTML = `<span class="dada">Número <b>${ronda}</b>/${NUMEROS_PER_RONDA} <span class="progres">${punts}</span></span>${errs}`;
+      $('entrada-caixa').hidden = acabat;
+    }
+    window.addEventListener('resize', () => { if (!$('pantalla-joc').hidden && caselles) dibuixar(); });
+
+    // ---------------- Tocar una casella ----------------
+    $('quadre').addEventListener('click', e => {
+      const b = e.target.closest('.cella'); if (!b || acabat) return;
+      const c = caselles[+b.dataset.i];
+      if (c.valor === null) {
+        mostrar('Aquí no hi ha cap número 🙂', 'Aquesta casella queda fora de la taula del 100.', 'pista'); return;
+      }
+      if (c.donat || c.fet) return;
+      sel = c; errorsCella = 0;
+      entrada.buidar();
+      mostrar('Quin número va aquí?', '');
+      dibuixar();
+    });
+
+    // Explica on és una casella des del número donat, amb fletxes (sense dir el resultat)
+    function cami(c) {
+      const parts = [];
+      if (c.dr < 0) parts.push(`⬆️ ${-c.dr} amunt`);
+      if (c.dr > 0) parts.push(`⬇️ ${c.dr} avall`);
+      if (c.dc < 0) parts.push(`⬅️ ${-c.dc} a l'esquerra`);
+      if (c.dc > 0) parts.push(`➡️ ${c.dc} a la dreta`);
+      return parts.join(' i ');
+    }
+
+    // ---------------- Respostes ----------------
+    const entrada = EntradaNumero.crear($('entrada'), {
+      maxXifres: 3,
+      clauMode: 'appjocs.quadre-numeric.mode-entrada',
+      enEnviar: valor => {
+        if (!sel || acabat) return;
+        const c = sel;
+        if (valor === c.valor) {
+          c.fet = true; errorsCella = 0;
+          entrada.buidar();
+          sel = caselles.find(x => x.valor !== null && !x.donat && !x.fet) || null;
+          if (!sel) return numeroAcabat(c);
+          mostrar(`✓ Molt bé, el ${c.valor}!`, '', 'guanyat');
+          dibuixar();
+          celebrarCella(c);
+          return;
+        }
+        errorsRonda++; errorsCella++;
+        entrada.sacsejar(); entrada.buidar();
+        const donat = caselles.find(x => x.donat).valor;
+        if (errorsCella >= 2) mostrar(`No és el ${valor}`, `Pista: des del ${donat}, ${cami(c)}.`, 'pista');
+        else mostrar(`No és el ${valor}`, 'Torna-ho a provar.', 'error');
+        dibuixar();
+        const b = document.querySelector(`.cella[data-i="${caselles.indexOf(c)}"]`);
+        if (b) { b.classList.remove('sacseig'); void b.offsetWidth; b.classList.add('sacseig'); }
+      },
+    });
+
+    function celebrarCella(c) {
+      const b = document.querySelector(`.cella[data-i="${caselles.indexOf(c)}"]`);
+      if (b) Celebracio.petita(b);
+    }
+
+    function numeroAcabat(ultima) {
+      acabat = true;
+      entrada.activar(false);
+      dibuixar();
+      celebrarCella(ultima);
+      if (ronda < NUMEROS_PER_RONDA) {
+        mostrar('🎉 Número completat!', 'Ara ve el següent…', 'guanyat');
+        setTimeout(() => { ronda++; nouNumero(); }, 1400);
+        return;
+      }
+      // Ronda acabada: premi
+      const estrelles = errorsRonda === 0 ? 3 : errorsRonda <= 3 ? 2 : 1;
+      mostrar('🏆 Ronda completada!', errorsRonda === 0 ? 'Sense cap error!' : `Amb ${errorsRonda} ${errorsRonda === 1 ? 'error' : 'errors'}.`, 'guanyat');
+      ronda = NUMEROS_PER_RONDA + 1; dibuixar(); ronda = NUMEROS_PER_RONDA;
+      setTimeout(() => Celebracio.gran({
+        titol: errorsRonda === 0 ? 'Quadre perfecte!' : 'Ronda completada!', estrelles,
+        subtitol: errorsRonda === 0 ? '5 números sense cap error!' : `5 números amb ${errorsRonda} ${errorsRonda === 1 ? 'error' : 'errors'}.`,
+        boto: 'Continuar',
+      }), 500);
+    }
+
+    function mostrar(text, extra = '', estat = '') {
+      const m = $('missatge');
+      $('msg-text').textContent = text; $('msg-extra').textContent = extra;
+      m.classList.remove('es-pista', 'es-error', 'es-guanyat');
+      if (estat) m.classList.add('es-' + estat);
+    }
+  </script>
+</body>
+</html>

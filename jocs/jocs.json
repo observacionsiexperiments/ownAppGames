@@ -24,6 +24,14 @@
     "estat": "actiu"
   },
   {
+    "id": "quadre-numeric",
+    "nom": "El quadre numèric",
+    "icona": "🧩",
+    "descripcio": "Un tros de la taula del 100: a partir d'un número, troba els que té al voltant.",
+    "objectiu": "Omplir les caselles pensant en desenes (amunt i avall) i unitats (esquerra i dreta).",
+    "estat": "actiu"
+  },
+  {
     "id": "_plantilla",
     "nom": "Joc de prova",
     "icona": "🧪",
