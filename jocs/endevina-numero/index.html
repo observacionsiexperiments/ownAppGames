@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFBF3">
+  <title>Endevina el número · AppJocs</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="icon" href="../../icons/icon-192.png">
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    /* Colors per rol (definits a css/styles.css):
+       verd = OK/encert · rosa = esborrar/error · groc = pista · blau = info/selecció/focus · préssec = acció general */
+    .joc { max-width: 480px; margin: 0 auto; width: 100%; }
+    .intro { color: var(--text-suau); text-align: center; margin: 8px 0 20px; }
+
+    /* Caixa gran on s'escriu el número (neutra; blau en focus) */
+    .formulari input {
+      display: block; width: 100%;
+      font: inherit; font-weight: 700; font-size: clamp(3.5rem, 18vw, 6rem);
+      text-align: center; font-variant-numeric: tabular-nums; letter-spacing: .05em;
+      padding: 8px; border-radius: 20px;
+      border: 3px solid var(--vora); background: var(--superficie); color: var(--text);
+      caret-color: var(--c-info-vora);
+    }
+    .formulari input::placeholder { color: var(--vora); }
+    .formulari input:focus { outline: none; border-color: var(--c-info-vora); }
+
+    /* Botons comuns del teclat i del dibuix: neutres per defecte */
+    .teclat button, .dibuix-botons button {
+      font: inherit; font-weight: 700; cursor: pointer; border-radius: 16px;
+      background: var(--superficie); color: var(--text); border: 2px solid var(--vora); box-shadow: var(--ombra);
+      touch-action: manipulation; user-select: none; -webkit-tap-highlight-color: transparent;
+    }
+    .teclat button:active, .dibuix-botons button:active { transform: translateY(2px); box-shadow: none; }
+    .teclat button:disabled, .dibuix-botons button:disabled { opacity: .4; }
+    /* Només les tecles amb funció porten color */
+    .teclat button.ok, .dibuix-botons .ok { background: var(--c-ok); border-color: var(--c-ok-vora); }
+    .teclat button[data-tecla="esborrar"], .dibuix-botons .esborrar { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    @media (hover: hover) {
+      .teclat button:not(:disabled):hover, .dibuix-botons button:not(:disabled):hover { border-color: var(--c-info-vora); }
+      .teclat button.ok:not(:disabled):hover, .dibuix-botons .ok:not(:disabled):hover { border-color: var(--text); }
+      .teclat button[data-tecla="esborrar"]:not(:disabled):hover, .dibuix-botons .esborrar:not(:disabled):hover { border-color: var(--text); }
+    }
+
+    /* Teclat numèric en pantalla */
+    .teclat { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+    .teclat button { font-size: 1.8rem; min-height: 64px; }
+    @media (min-width: 700px) { .teclat button { min-height: 76px; font-size: 2.1rem; } }
+
+    /* Selector de mode: l'opció triada és informació → blau */
+    .modes { display: flex; gap: 6px; margin: 14px 0 0; padding: 4px; border-radius: 999px; background: var(--superficie); border: 1px solid var(--vora); }
+    .modes button {
+      flex: 1; font: inherit; font-weight: 600; cursor: pointer; padding: 8px; border-radius: 999px;
+      background: transparent; color: var(--text-suau); border: 0;
+    }
+    .modes button[aria-pressed="true"] { background: var(--c-info); color: var(--text); }
+
+    /* Zona de dibuix (neutra; rosa si no s'entén el dibuix) */
+    .dibuix { margin-top: 12px; }
+    .dibuix[hidden], .teclat[hidden] { display: none; }
+    .llenc-caixa { position: relative; }
+    #llenc {
+      display: block; width: 100%; height: 260px; border-radius: 16px; cursor: crosshair;
+      background: var(--superficie); border: 3px dashed var(--vora); touch-action: none;
+      transition: background-color .2s, border-color .2s;
+    }
+    #llenc.error { border-color: var(--c-esborrar-vora); background: color-mix(in srgb, var(--c-esborrar) 25%, white); }
+    .llenc-ajuda {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      color: var(--text-suau); font-size: 1.1rem; font-weight: 600; pointer-events: none; text-align: center; padding: 0 20px;
+    }
+    .llenc-ajuda[hidden] { display: none; }
+    .llenc-ajuda.error { color: var(--text); }
+    .dibuix-botons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+    .dibuix-botons button { font-size: 1.3rem; min-height: 60px; }
+
+    /* Caixa de resposta: el color diu què passa */
+    .pista {
+      min-height: 4.5rem; margin: 20px 0 8px; padding: 16px;
+      border-radius: var(--radi); background: var(--superficie); border: 2px solid var(--vora);
+      text-align: center; font-size: 1.25rem; font-weight: 700;
+      display: flex; flex-direction: column; justify-content: center; gap: 6px;
+      transition: background-color .2s, border-color .2s;
+    }
+    .pista .extra { font-size: .95rem; font-weight: 500; }
+    .pista .extra:empty { display: none; }
+    .pista.es-pista   { background: var(--c-pista);     border-color: var(--c-pista-vora); }
+    .pista.es-error   { background: var(--c-esborrar);  border-color: var(--c-esborrar-vora); }
+    .pista.es-guanyat { background: var(--c-ok);        border-color: var(--c-ok-vora); font-size: 1.5rem; }
+
+    /* Historial: informació → blau */
+    .estat { display: flex; justify-content: space-between; color: var(--text-suau); font-size: .95rem; margin: 12px 4px; }
+    .historial { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+    .historial li {
+      padding: 4px 10px; border-radius: 999px; background: var(--c-info); font-weight: 600; font-variant-numeric: tabular-nums;
+    }
+    .historial li.encert { background: var(--c-ok); }
+    .accions { text-align: center; margin-top: 24px; }
+
+    @keyframes sacseig { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+    .sacseig { animation: sacseig .25s 2; }
+
+    /* Pantalles baixes (PC portàtil): tot a la vista sense desplaçar */
+    @media (max-height: 820px) and (min-width: 700px) {
+      .intro { margin: 0 0 10px; }
+      .formulari input { font-size: 3.5rem; padding: 0; }
+      .teclat { gap: 8px; margin-top: 10px; }
+      .teclat button { min-height: 58px; font-size: 1.7rem; }
+      .pista { margin: 12px 0 4px; min-height: 3.5rem; padding: 10px; }
+      .accions { margin-top: 12px; }
+      #llenc { height: 220px; }
+      .dibuix-botons button { min-height: 52px; }
+      .modes { margin-top: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="barra-joc">
+    <a href="../../">← Inici</a>
+    <h1>🔢 Endevina el número</h1>
+  </nav>
+
+  <main class="joc">
+    <p class="intro">He pensat un número de l'<b>1</b> al <b>100</b>. Endevina'l amb les pistes!</p>
+
+    <form class="formulari" id="formulari" autocomplete="off">
+      <input id="entrada" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="3"
+             placeholder="?" aria-label="El teu número" enterkeyhint="go">
+      <div class="modes" role="group" aria-label="Com vols escriure el número">
+        <button type="button" data-mode="teclat" aria-pressed="true">🔢 Teclat</button>
+        <button type="button" data-mode="dibuix" aria-pressed="false">✏️ Dibuixar</button>
+      </div>
+      <div class="teclat" id="teclat" aria-label="Teclat numèric">
+        <button type="button" data-tecla="1">1</button>
+        <button type="button" data-tecla="2">2</button>
+        <button type="button" data-tecla="3">3</button>
+        <button type="button" data-tecla="4">4</button>
+        <button type="button" data-tecla="5">5</button>
+        <button type="button" data-tecla="6">6</button>
+        <button type="button" data-tecla="7">7</button>
+        <button type="button" data-tecla="8">8</button>
+        <button type="button" data-tecla="9">9</button>
+        <button type="button" data-tecla="esborrar" aria-label="Esborrar">⌫</button>
+        <button type="button" data-tecla="0">0</button>
+        <button type="submit" class="ok" id="btn-provar" aria-label="Provar">OK</button>
+      </div>
+      <div class="dibuix" id="dibuix" hidden>
+        <div class="llenc-caixa">
+          <canvas id="llenc" aria-label="Zona per dibuixar una xifra"></canvas>
+          <div class="llenc-ajuda" id="llenc-ajuda">Dibuixa una xifra aquí ✏️</div>
+        </div>
+        <div class="dibuix-botons">
+          <button type="button" class="esborrar" id="dib-esborrar" aria-label="Esborrar l'última xifra">⌫</button>
+          <button type="button" class="esborrar" id="dib-netejar">🧽 Netejar</button>
+          <button type="submit" class="ok" id="dib-ok" aria-label="Provar">OK</button>
+        </div>
+      </div>
+    </form>
+
+    <div class="pista" id="pista" aria-live="polite">
+      <span id="pista-text">Fes el primer intent 🙂</span>
+      <span class="extra" id="pista-extra"></span>
+    </div>
+
+    <div class="estat">
+      <span>Intents: <b id="intents">0</b></span>
+      <span>Rècord: <b id="record">–</b></span>
+    </div>
+
+    <ul class="historial" id="historial" aria-label="Números provats"></ul>
+
+    <div class="accions">
+      <button class="btn" id="btn-nova" type="button">Nova partida</button>
+    </div>
+  </main>
+
+  <script src="../../js/reconeixedor-xifres.js"></script>
+  <script>
+    const MIN = 1, MAX = 100;
+    const CLAU_RECORD = 'appjocs.endevina-numero.record';
+
+    const $ = id => document.getElementById(id);
+    const entrada = $('entrada'), pista = $('pista');
+    const tecles = document.querySelectorAll('#teclat button, .dibuix-botons button');
+
+    // En pantalles tàctils fem servir el teclat gran propi i no el del sistema
+    const esTactil = matchMedia('(pointer: coarse)').matches;
+    if (esTactil) entrada.setAttribute('inputmode', 'none');
+
+    function activarEntrada(actiu) {
+      entrada.disabled = !actiu;
+      tecles.forEach(b => b.disabled = !actiu);
+    }
+
+    // Només xifres, com a màxim 3
+    entrada.addEventListener('input', () => {
+      entrada.value = entrada.value.replace(/\D/g, '').slice(0, 3);
+    });
+
+    // Teclat en pantalla
+    $('teclat').addEventListener('click', e => {
+      const b = e.target.closest('button[data-tecla]');
+      if (!b || acabat) return;
+      const t = b.dataset.tecla;
+      if (t === 'esborrar') entrada.value = entrada.value.slice(0, -1);
+      else if (entrada.value.length < 3) entrada.value = (entrada.value + t).replace(/^0+/, '');
+    });
+
+    let secret, intents, provats, acabat;
+
+    // ---------- Mode dibuix: escriure la xifra amb el ratolí, el dit o un llapis ----------
+    const CLAU_MODE = 'appjocs.endevina-numero.mode';
+    const llenc = $('llenc'), ctx = llenc.getContext('2d'), ajuda = $('llenc-ajuda');
+    const ESPERA_MS = 800;      // pausa sense dibuixar abans de reconèixer
+    let tracos = [], traçActual = null, temporitzador = null;
+
+    function canviarMode(mode) {
+      document.querySelectorAll('.modes button').forEach(b => b.setAttribute('aria-pressed', b.dataset.mode === mode));
+      $('teclat').hidden = mode !== 'teclat';
+      $('dibuix').hidden = mode !== 'dibuix';
+      try { localStorage.setItem(CLAU_MODE, mode); } catch {}
+      if (mode === 'dibuix') ajustarLlenc();
+    }
+    document.querySelectorAll('.modes button').forEach(b => b.addEventListener('click', () => canviarMode(b.dataset.mode)));
+
+    function ajustarLlenc() {
+      const r = llenc.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+      llenc.width = Math.round(r.width * dpr); llenc.height = Math.round(r.height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.lineCap = ctx.lineJoin = 'round';
+      ctx.lineWidth = 12;
+      ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--text').trim() || '#fff';
+      redibuixar();
+    }
+    window.addEventListener('resize', () => { if (!$('dibuix').hidden) ajustarLlenc(); });
+
+    function redibuixar() {
+      const r = llenc.getBoundingClientRect();
+      ctx.clearRect(0, 0, r.width, r.height);
+      for (const t of tracos) {
+        ctx.beginPath();
+        t.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
+        if (t.length === 1) ctx.lineTo(t[0].x + .1, t[0].y);
+        ctx.stroke();
+      }
+    }
+
+    function netejar(missatge = 'Dibuixa una xifra aquí ✏️', error = false) {
+      tracos = []; traçActual = null; clearTimeout(temporitzador);
+      redibuixar();
+      ajuda.textContent = missatge; ajuda.classList.toggle('error', error); llenc.classList.toggle('error', error); ajuda.hidden = false;
+    }
+
+    function punt(e) {
+      const r = llenc.getBoundingClientRect();
+      return { x: e.clientX - r.left, y: e.clientY - r.top };
+    }
+
+    llenc.addEventListener('pointerdown', e => {
+      if (acabat || entrada.disabled) return;
+      e.preventDefault();
+      llenc.setPointerCapture(e.pointerId);
+      clearTimeout(temporitzador);
+      ajuda.hidden = true; llenc.classList.remove('error');
+      traçActual = [punt(e)];
+      tracos.push(traçActual);
+      redibuixar();
+    });
+    llenc.addEventListener('pointermove', e => {
+      if (!traçActual) return;
+      const p = punt(e), u = traçActual[traçActual.length - 1];
+      if (Math.hypot(p.x - u.x, p.y - u.y) < 2) return;
+      traçActual.push(p);
+      ctx.beginPath(); ctx.moveTo(u.x, u.y); ctx.lineTo(p.x, p.y); ctx.stroke();
+    });
+    const acabarTraç = () => {
+      if (!traçActual) return;
+      traçActual = null;
+      clearTimeout(temporitzador);
+      temporitzador = setTimeout(reconeixerDibuix, ESPERA_MS);
+    };
+    llenc.addEventListener('pointerup', acabarTraç);
+    llenc.addEventListener('pointercancel', acabarTraç);
+
+    function reconeixerDibuix() {
+      const r = ReconeixedorXifres.reconeixer(tracos);
+      if (!r) { netejar('No l\'he entès 🤔 Torna-ho a provar', true); return; }
+      if (entrada.value.length >= 3) { netejar('Com a màxim 3 xifres', true); return; }
+      entrada.value = (entrada.value + r.xifra).replace(/^0+/, '');
+      netejar(entrada.value.length < 3 ? 'Següent xifra, o prem OK' : 'Prem OK');
+    }
+
+    $('dib-esborrar').addEventListener('click', () => { entrada.value = entrada.value.slice(0, -1); netejar(); });
+    $('dib-netejar').addEventListener('click', () => netejar());
+    // Si prem OK amb un dibuix pendent, primer el reconeixem
+    $('dib-ok').addEventListener('click', () => { if (tracos.length) { clearTimeout(temporitzador); reconeixerDibuix(); } });
+
+    let modeInicial = 'teclat';
+    try { modeInicial = localStorage.getItem(CLAU_MODE) || 'teclat'; } catch {}
+    canviarMode(modeInicial);
+
+    function nova() {
+      secret = Math.floor(Math.random() * (MAX - MIN + 1)) + MIN;
+      intents = 0; provats = []; acabat = false;
+      $('intents').textContent = '0';
+      $('historial').innerHTML = '';
+      mostrar('Fes el primer intent 🙂', '');
+      activarEntrada(true);
+      entrada.value = '';
+      netejar();
+      if (!esTactil) entrada.focus();
+    }
+
+    // estat: '' (neutre) | 'pista' | 'error' | 'guanyat'  → decideix el color de la caixa
+    function mostrar(text, extra, estat = '') {
+      $('pista-text').textContent = text;
+      $('pista-extra').textContent = extra;
+      pista.classList.remove('es-pista', 'es-error', 'es-guanyat');
+      if (estat) pista.classList.add('es-' + estat);
+    }
+
+    // Pista principal segons la distància al número secret
+    function pistaDistancia(n) {
+      const d = Math.abs(secret - n);
+      const dir = secret > n ? 'gran' : 'petit';
+      if (d <= 2)  return `🔥 Gairebé! És una mica més ${dir}`;
+      if (d <= 10) return `${dir === 'gran' ? '⬆️' : '⬇️'} Més ${dir}, però a prop`;
+      if (d <= 25) return `${dir === 'gran' ? '⬆️' : '⬇️'} Més ${dir}`;
+      return `${dir === 'gran' ? '⏫' : '⏬'} Molt més ${dir}!`;
+    }
+
+    // Pistes especials: relacions curioses entre el número provat i el secret
+    function pistaEspecial(n) {
+      for (const k of [2, 3, 4, 5]) {
+        if (n * k === secret) return `✨ Si el multipliques per ${k}, ja el tens!`;
+        if (n === secret * k) return `✨ Si el divideixes entre ${k}, ja el tens!`;
+      }
+      if (n >= 10 && secret >= 10 && n % 10 !== 0 && secret % 10 !== 0) {
+        const alReves = Number(String(n).split('').reverse().join(''));
+        if (alReves === secret) return '✨ Té les mateixes xifres, però al revés!';
+      }
+      if (n + 10 === secret) return '✨ Suma-li 10 i ja el tens!';
+      if (n - 10 === secret) return '✨ Resta-li 10 i ja el tens!';
+      return '';
+    }
+
+    // Pistes d'ajuda que surten a mesura que costa més
+    function pistaAjuda() {
+      if (intents === 4) return `💡 Ajuda: és un número ${secret % 2 === 0 ? 'parell' : 'senar'}.`;
+      if (intents === 7) {
+        const desena = Math.floor(secret / 10) * 10;
+        return secret === 100 ? '💡 Ajuda: és el més gran de tots!'
+                              : `💡 Ajuda: està entre ${Math.max(desena, 1)} i ${desena + 9}.`;
+      }
+      if (intents === 10) return `💡 Ajuda: les seves xifres sumen ${String(secret).split('').reduce((a, b) => a + +b, 0)}.`;
+      return '';
+    }
+
+    function afegirHistorial(n) {
+      const li = document.createElement('li');
+      li.textContent = n === secret ? `${n} ✅` : `${n} ${secret > n ? '↑' : '↓'}`;
+      if (n === secret) li.className = 'encert';
+      $('historial').appendChild(li);
+    }
+
+    function llegirRecord() {
+      try { return Number(localStorage.getItem(CLAU_RECORD)) || null; } catch { return null; }
+    }
+    function desarRecord(v) {
+      try { localStorage.setItem(CLAU_RECORD, String(v)); } catch {}
+    }
+    function pintarRecord() {
+      const r = llegirRecord();
+      $('record').textContent = r ? `${r} intents` : '–';
+    }
+
+    function sacsejar() {
+      pista.classList.remove('sacseig'); void pista.offsetWidth; pista.classList.add('sacseig');
+    }
+
+    $('formulari').addEventListener('submit', e => {
+      e.preventDefault();
+      if (acabat) return;
+      const n = Number(entrada.value);
+      entrada.value = '';
+      if (!esTactil) entrada.focus();
+      if (!Number.isInteger(n) || n < MIN || n > MAX) {
+        mostrar(`Escriu un número de l'${MIN} al ${MAX}`, '', 'error'); sacsejar(); return;
+      }
+      if (provats.includes(n)) {
+        mostrar(`Ja has provat el ${n} 😉`, pistaDistancia(n), 'error'); sacsejar(); return;
+      }
+
+      intents++; provats.push(n);
+      $('intents').textContent = intents;
+      afegirHistorial(n);
+
+      if (n === secret) {
+        acabat = true;
+        const r = llegirRecord();
+        let extra = `Ho has aconseguit en ${intents} ${intents === 1 ? 'intent' : 'intents'}.`;
+        if (!r || intents < r) { desarRecord(intents); extra += ' 🏅 Nou rècord!'; }
+        mostrar(`🎉 Sí! Era el ${secret}!`, extra, 'guanyat');
+        pintarRecord();
+        activarEntrada(false);
+        $('btn-nova').focus();
+        return;
+      }
+
+      mostrar(pistaDistancia(n), pistaEspecial(n) || pistaAjuda(), 'pista');
+      sacsejar();
+    });
+
+    $('btn-nova').addEventListener('click', nova);
+
+    pintarRecord();
+    nova();
+  </script>
+</body>
+</html>

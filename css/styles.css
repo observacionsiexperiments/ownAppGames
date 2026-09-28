@@ -1,0 +1,177 @@
+/* Estils comuns de la llançadora i dels jocs
+   ─────────────────────────────────────────────────────────────
+   PALETA AMB SIGNIFICAT: cada color té una sola funció a tota l'app.
+     verd    #CAFFBF → confirmar / encert       (OK, has guanyat)
+     rosa    #FFADAD → esborrar / error         (⌫, netejar, "no l'he entès")
+     groc    #FDFFB6 → pista / ajuda            (caixa de pistes)
+     blau    #9BF6FF → informació / navegació   (seleccionat, historial, tornar, focus)
+     préssec #FFD6A5 → acció general del joc    (nova partida, instal·lar)
+   La resta de la interfície és neutra (blanc, crema i text fosc).
+   ───────────────────────────────────────────────────────────── */
+:root {
+  /* Paleta base */
+  --rosa: #FFADAD;
+  --preseg: #FFD6A5;
+  --groc: #FDFFB6;
+  --verd: #CAFFBF;
+  --blau: #9BF6FF;
+  /* Versions intenses (només per a vores i focus) */
+  --rosa-fort: #F28B8B;
+  --preseg-fort: #F2B56B;
+  --groc-fort: #E3E86A;
+  --verd-fort: #8ED98A;
+  --blau-fort: #45D6E6;
+
+  /* Rols: fes servir AQUESTS noms als jocs, no els colors directament */
+  --c-ok: var(--verd);        --c-ok-vora: var(--verd-fort);
+  --c-esborrar: var(--rosa);  --c-esborrar-vora: var(--rosa-fort);
+  --c-pista: var(--groc);     --c-pista-vora: var(--groc-fort);
+  --c-info: var(--blau);      --c-info-vora: var(--blau-fort);
+  --c-accio: var(--preseg);   --c-accio-vora: var(--preseg-fort);
+
+  /* Neutres */
+  --fons: #FFFBF3;
+  --superficie: #FFFFFF;
+  --vora: #EADFD2;
+  --text: #3B3355;          /* contrast ≥ 6.6:1 sobre tots els colors de la paleta */
+  --text-suau: #6B6385;     /* només sobre blanc o crema */
+  --ombra: 0 4px 0 rgba(59, 51, 85, .08);
+  --radi: 18px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--fons);
+  color: var(--text);
+  padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
+  display: flex;
+  flex-direction: column;
+}
+
+.capcalera { text-align: center; padding: 24px 0 8px; }
+.capcalera h1 { margin: 0; font-size: 2.2rem; letter-spacing: -.01em; }
+.subtitol { color: var(--text-suau); margin: 4px 0 12px; }
+/* Signatura de marca: l'únic lloc on apareixen els cinc colors junts */
+.capcalera h1::after {
+  content: ""; display: block; width: 140px; height: 8px; margin: 10px auto 0; border-radius: 999px;
+  background: linear-gradient(90deg,
+    var(--rosa) 0 20%, var(--preseg) 20% 40%, var(--groc) 40% 60%, var(--verd) 60% 80%, var(--blau) 80% 100%);
+}
+
+main { flex: 1; width: 100%; max-width: 960px; margin: 0 auto; }
+
+.graella {
+  list-style: none; padding: 0; margin: 16px 0;
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+/* Targeta de joc: neutra; el blau indica que és un enllaç (navegació) */
+.targeta {
+  display: flex; flex-direction: column; gap: 6px;
+  height: 100%;
+  padding: 18px;
+  background: var(--superficie);
+  border: 2px solid var(--vora);
+  border-radius: var(--radi);
+  box-shadow: var(--ombra);
+  color: var(--text); text-decoration: none;
+  transition: transform .15s, border-color .15s, box-shadow .15s;
+}
+.targeta:hover { transform: translateY(-3px); border-color: var(--c-info-vora); box-shadow: 0 8px 0 rgba(59, 51, 85, .08); }
+.targeta:focus-visible { outline: 3px solid var(--c-info-vora); outline-offset: 3px; }
+.targeta .icona {
+  font-size: 2.2rem; line-height: 1; width: 64px; height: 64px; border-radius: 16px;
+  display: grid; place-items: center; background: var(--c-info);
+}
+.targeta h2 { margin: 6px 0 0; font-size: 1.25rem; }
+.targeta p { margin: 0; color: var(--text-suau); font-size: .95rem; }
+.targeta .objectiu { color: var(--text); font-size: .9rem; }
+.targeta[aria-disabled="true"] { opacity: .5; pointer-events: none; }
+.etiqueta {
+  align-self: flex-start; margin-top: auto;
+  font-size: .75rem; padding: 2px 8px; border-radius: 999px;
+  background: var(--fons); color: var(--text-suau); border: 1px solid var(--vora);
+}
+
+.buit { color: var(--text-suau); text-align: center; grid-column: 1 / -1; }
+
+/* Botó d'acció general (nova partida, instal·lar) */
+.btn {
+  font: inherit; cursor: pointer;
+  background: var(--c-accio); color: var(--text);
+  border: 2px solid var(--c-accio-vora); box-shadow: var(--ombra);
+  padding: 10px 20px; border-radius: 999px; font-weight: 700;
+}
+.btn:hover { filter: brightness(1.03); }
+.btn:active { transform: translateY(2px); box-shadow: none; }
+
+.peu { text-align: center; color: var(--text-suau); padding: 16px 0; }
+
+/* Barra superior dins de cada joc: "Inici" és navegació → blau */
+.barra-joc {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 0;
+}
+.barra-joc a {
+  color: var(--text); text-decoration: none; font-weight: 700;
+  background: var(--superficie); border: 2px solid var(--c-info-vora); border-radius: 999px; padding: 4px 12px;
+}
+.barra-joc a:hover { background: var(--c-info); }
+.barra-joc h1 { margin: 0; font-size: 1.3rem; }
+
+/* ─── Component d'entrada de números (js/entrada-numero.js) ─── */
+.en { width: 100%; }
+.en-caixa {
+  display: block; width: 100%;
+  font: inherit; font-weight: 700; font-size: 2.6rem; text-align: center; font-variant-numeric: tabular-nums;
+  padding: 4px; border-radius: 16px;
+  border: 3px solid var(--vora); background: var(--superficie); color: var(--text); caret-color: var(--c-info-vora);
+}
+.en-caixa::placeholder { color: var(--vora); }
+.en-caixes { display: flex; align-items: center; gap: 8px; }
+.en-caixes .en-caixa { flex: 1; min-width: 0; }
+.en-signe, .en-sufix { font-size: 2.2rem; font-weight: 700; color: var(--text); white-space: nowrap; }
+.en-suma .en-caixa { font-size: 2.3rem; }
+/* Caixa activa quan n'hi ha més d'una: selecció → blau */
+.en-caixa.activa { border-color: var(--c-info-vora); background: color-mix(in srgb, var(--c-info) 30%, white); }
+.en .en-mes { font-size: 1.8rem; }
+.en-ok-ample { display: block; width: 100%; margin-top: 10px; font: inherit; font-weight: 700; font-size: 1.4rem; min-height: 56px;
+  border-radius: 14px; cursor: pointer; color: var(--text); border: 2px solid; box-shadow: var(--ombra); touch-action: manipulation; }
+.en-ok-ample:active { transform: translateY(2px); box-shadow: none; }
+.en-ok-ample:disabled { opacity: .4; }
+.en-caixa:focus { outline: none; border-color: var(--c-info-vora); }
+.en-modes { display: flex; gap: 6px; margin-top: 10px; padding: 4px; border-radius: 999px; background: var(--superficie); border: 1px solid var(--vora); }
+.en-modes button { flex: 1; font: inherit; font-weight: 600; cursor: pointer; padding: 6px; border-radius: 999px; background: transparent; color: var(--text-suau); border: 0; }
+.en-modes button[aria-pressed="true"] { background: var(--c-info); color: var(--text); }
+.en-teclat, .en-botons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+.en-teclat[hidden], .en-dibuix[hidden], .en-ajuda[hidden] { display: none; }
+.en-teclat button, .en-botons button {
+  font: inherit; font-weight: 700; font-size: 1.5rem; min-height: 54px; border-radius: 14px; cursor: pointer;
+  background: var(--superficie); color: var(--text); border: 2px solid var(--vora); box-shadow: var(--ombra);
+  touch-action: manipulation; user-select: none; -webkit-tap-highlight-color: transparent;
+}
+.en-botons button { font-size: 1.15rem; }
+.en-teclat button:active, .en-botons button:active { transform: translateY(2px); box-shadow: none; }
+.en-teclat button:disabled, .en-botons button:disabled { opacity: .4; }
+.en .en-ok { background: var(--c-ok); border-color: var(--c-ok-vora); }
+.en .en-esborrar { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+@media (hover: hover) {
+  .en-teclat button:not(:disabled):hover, .en-botons button:not(:disabled):hover { border-color: var(--c-info-vora); }
+  .en .en-ok:not(:disabled):hover, .en .en-esborrar:not(:disabled):hover { border-color: var(--text); }
+}
+.en-dibuix { margin-top: 10px; }
+.en-llenc-caixa { position: relative; }
+.en-llenc {
+  display: block; width: 100%; height: 200px; border-radius: 14px; cursor: crosshair; touch-action: none;
+  background: var(--superficie); border: 3px dashed var(--vora); transition: background-color .2s, border-color .2s;
+}
+.en-llenc.error { border-color: var(--c-esborrar-vora); background: color-mix(in srgb, var(--c-esborrar) 25%, white); }
+.en-ajuda { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--text-suau); font-weight: 600; pointer-events: none; text-align: center; padding: 0 16px; }
+@keyframes en-sacseig { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+.en-sacseig { animation: en-sacseig .25s 2; }

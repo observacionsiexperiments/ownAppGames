@@ -1,0 +1,34 @@
+[
+  {
+    "id": "endevina-numero",
+    "nom": "Endevina el número",
+    "icona": "🔢",
+    "descripcio": "He pensat un número de l'1 al 100. Les pistes t'ajudaran a trobar-lo.",
+    "objectiu": "Encertar el número amb els mínims intents possibles.",
+    "estat": "actiu"
+  },
+  {
+    "id": "arbre-numeros",
+    "nom": "L'arbre dels números",
+    "icona": "🌳",
+    "descripcio": "Parteix un número en dues parts, i cada part en dues més, fins arribar als uns.",
+    "objectiu": "Descompondre el número en un arbre de sumes fins que totes les fulles siguin 1.",
+    "estat": "actiu"
+  },
+  {
+    "id": "piramide",
+    "nom": "La piràmide de números",
+    "icona": "🔺",
+    "descripcio": "Cada maó és la suma dels dos que té a sota. Puja des de la base fins a la cúspide.",
+    "objectiu": "Completar tots els maons de la piràmide sumant (i, de vegades, restant).",
+    "estat": "actiu"
+  },
+  {
+    "id": "_plantilla",
+    "nom": "Joc de prova",
+    "icona": "🧪",
+    "descripcio": "Plantilla base per crear minijocs nous.",
+    "objectiu": "Comprovar que la llançadora i el desplegament funcionen.",
+    "estat": "ocult"
+  }
+]

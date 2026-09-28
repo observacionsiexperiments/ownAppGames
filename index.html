@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFBF3">
+  <meta name="description" content="Llançadora de minijocs">
+  <title>AppJocs</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="capcalera">
+    <h1>🎮 AppJocs</h1>
+    <p class="subtitol">Tria un minijoc per començar</p>
+    <button id="btn-instal" class="btn" hidden>Instal·la l'app</button>
+  </header>
+
+  <main>
+    <ul id="llista-jocs" class="graella" aria-live="polite">
+      <li class="buit">Carregant jocs…</li>
+    </ul>
+  </main>
+
+  <footer class="peu">
+    <small id="versio"></small>
+  </footer>
+
+  <script src="js/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFBF3">
+  <title>Joc de prova · AppJocs</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    /* Estils propis del joc */
+    .zona { text-align: center; padding: 32px 0; }
+    .comptador { font-size: 4rem; font-weight: 700; margin: 16px 0; }
+  </style>
+</head>
+<body>
+  <nav class="barra-joc">
+    <a href="../../">← Inici</a>
+    <h1>🧪 Joc de prova</h1>
+  </nav>
+
+  <main class="zona">
+    <p>Objectiu: arribar a 10 clics.</p>
+    <div class="comptador" id="comptador">0</div>
+    <button class="btn" id="boto">Clica!</button>
+  </main>
+
+  <script>
+    // Lògica del joc (cada joc és autònom dins la seva carpeta)
+    let punts = 0;
+    const comptador = document.getElementById('comptador');
+    document.getElementById('boto').addEventListener('click', () => {
+      punts++;
+      comptador.textContent = punts >= 10 ? '🏆' : punts;
+    });
+  </script>
+</body>
+</html>

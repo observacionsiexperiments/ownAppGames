@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFBF3">
+  <title>La piràmide de números · AppJocs</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="icon" href="../../icons/icon-192.png">
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    /* Colors per rol (css/styles.css): verd = encert/omplert · rosa = error · groc = pista ·
+       blau = selecció/disponible · préssec = acció general */
+    .joc { width: 100%; max-width: 1200px; margin: 0 auto; }
+    [hidden] { display: none !important; }
+    h2.titol { font-size: 1.15rem; margin: 18px 0 10px; }
+
+    /* ---------- Pantalla d'inici ---------- */
+    .inici { max-width: 720px; margin: 0 auto; }
+    .opcions { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); }
+    .opcions button, .modes-joc button {
+      font: inherit; cursor: pointer; color: var(--text); touch-action: manipulation;
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: 14px; box-shadow: var(--ombra);
+    }
+    .opcions button { min-height: 64px; font-weight: 700; font-size: 1.15rem; padding: 6px; }
+    .opcions button small { display: block; font-weight: 500; font-size: .85rem; color: var(--text-suau); }
+    .opcions button[aria-pressed="true"], .modes-joc button[aria-pressed="true"] {
+      background: var(--c-info); border-color: var(--c-info-vora);
+    }
+    .opcions button[aria-pressed="true"] small { color: var(--text); }
+    @media (hover: hover) { .opcions button:hover, .modes-joc button:hover { border-color: var(--c-info-vora); } }
+    .modes-joc { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .modes-joc button { text-align: left; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+    .modes-joc b { font-size: 1.15rem; }
+    .modes-joc span { color: var(--text-suau); font-size: .92rem; }
+    .comencar { text-align: center; margin: 24px 0 8px; }
+    .comencar .btn { font-size: 1.3rem; padding: 14px 40px; }
+
+    /* ---------- Pantalla de joc ---------- */
+    .cap-joc { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 4px 0 10px; }
+    .cap-joc h2 { margin: 0; font-size: 1.2rem; }
+    .dades { display: flex; gap: 8px; flex-wrap: wrap; }
+    .dada { background: var(--superficie); border: 1px solid var(--vora); border-radius: 999px; padding: 4px 12px; font-size: .95rem; }
+    .dada b { font-variant-numeric: tabular-nums; }
+
+    .disposicio { display: grid; gap: 14px; }
+    @media (min-width: 900px) and (orientation: landscape), (min-width: 1100px) {
+      .disposicio { grid-template-columns: 1fr 340px; align-items: start; }
+      .panell { position: sticky; top: 8px; }
+    }
+
+    /* Piràmide: files centrades, de dalt (cúspide) a baix (base) */
+    .piramide {
+      --maó: 80px;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      padding: 18px 8px; background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi);
+    }
+    .fila { display: flex; gap: 8px; }
+    .mao {
+      width: var(--maó); height: calc(var(--maó) * .72); border-radius: 12px;
+      font: inherit; font-weight: 700; font-size: calc(var(--maó) * .34); font-variant-numeric: tabular-nums;
+      display: grid; place-items: center; color: var(--text); padding: 0;
+      background: var(--fons); border: 2px solid var(--vora); touch-action: manipulation;
+    }
+    .mao.gran { font-size: calc(var(--maó) * .27); }
+    /* Donat (ja ve escrit): neutre */
+    .mao.donat { background: var(--fons); border-color: var(--vora); cursor: default; }
+    /* Buit: encara no es pot calcular */
+    .mao.buit { background: var(--superficie); border: 2px dashed var(--vora); color: var(--vora); cursor: pointer; }
+    /* Buit que ja es pot calcular: informació → blau puntejat */
+    .mao.buit.disponible { border-color: var(--c-info-vora); color: var(--text-suau); }
+    .mao.seleccionat { background: var(--c-info); border: 3px solid var(--c-info-vora); color: var(--text); }
+    /* Omplert pel jugador: encert → verd */
+    .mao.omplert { background: var(--c-ok); border-color: var(--c-ok-vora); cursor: default; }
+    .mao.nou { animation: pop .35s; }
+    @keyframes pop { 50% { transform: scale(1.12); } }
+    @keyframes sacseig { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+    .mao.sacseig { animation: sacseig .25s 2; }
+    @media (hover: hover) { .mao.buit.disponible:hover { background: color-mix(in srgb, var(--c-info) 35%, white); } }
+
+    .panell { display: flex; flex-direction: column; gap: 12px; }
+    .missatge {
+      min-height: 3.2rem; padding: 10px 14px; border-radius: var(--radi); text-align: center;
+      background: var(--superficie); border: 2px solid var(--vora); font-weight: 700;
+      display: flex; flex-direction: column; justify-content: center; gap: 4px;
+    }
+    .missatge small { font-weight: 500; font-size: .95rem; }
+    .missatge small:empty { display: none; }
+    .missatge.es-pista   { background: var(--c-pista);    border-color: var(--c-pista-vora); }
+    .missatge.es-error   { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .missatge.es-guanyat { background: var(--c-ok);       border-color: var(--c-ok-vora); font-size: 1.15rem; }
+    .entrada-caixa { background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi); padding: 12px; }
+    .entrada-caixa p { margin: 0 0 8px; text-align: center; font-weight: 700; }
+    .regla { color: var(--text-suau); font-size: .92rem; text-align: center; margin: 0; }
+  </style>
+</head>
+<body>
+  <nav class="barra-joc">
+    <a href="../../">← Inici</a>
+    <h1>🔺 La piràmide de números</h1>
+  </nav>
+
+  <main class="joc">
+    <!-- ================= INICI ================= -->
+    <section class="inici" id="pantalla-inici">
+      <h2 class="titol">1. Quants pisos té la piràmide?</h2>
+      <div class="opcions" id="nivells">
+        <button type="button" data-v="3" aria-pressed="false">3 pisos</button>
+        <button type="button" data-v="4" aria-pressed="true">4 pisos</button>
+        <button type="button" data-v="5" aria-pressed="false">5 pisos</button>
+        <button type="button" data-v="6" aria-pressed="false">6 pisos</button>
+      </div>
+
+      <h2 class="titol">2. Dificultat</h2>
+      <div class="opcions" id="dificultats">
+        <button type="button" data-v="facil" aria-pressed="true">Fàcil<small>base d'una xifra (1–9)</small></button>
+        <button type="button" data-v="mitja" aria-pressed="false">Mitjà<small>base fins a 20</small></button>
+        <button type="button" data-v="dificil" aria-pressed="false">Difícil<small>base fins a 50</small></button>
+      </div>
+
+      <h2 class="titol">3. Com vols jugar?</h2>
+      <div class="modes-joc" id="modes-joc">
+        <button type="button" data-v="suma" aria-pressed="true">
+          <b>⬆️ Suma cap amunt</b><span>La base ja hi és. Suma de dos en dos fins arribar a dalt de tot.</span>
+        </button>
+        <button type="button" data-v="falten" aria-pressed="false">
+          <b>🔍 Troba els que falten</b><span>Hi ha números repartits. Dedueix els altres: de vegades caldrà restar!</span>
+        </button>
+      </div>
+
+      <div class="comencar"><button class="btn" id="btn-comencar" type="button">Comença! 🔺</button></div>
+    </section>
+
+    <!-- ================= JOC ================= -->
+    <section id="pantalla-joc" hidden>
+      <div class="cap-joc">
+        <h2 id="titol-joc"></h2>
+        <div class="dades" id="dades"></div>
+        <button class="btn" id="btn-nova" type="button">Nova piràmide</button>
+      </div>
+
+      <div class="disposicio">
+        <div>
+          <div class="piramide" id="piramide" role="grid" aria-label="Piràmide de números"></div>
+          <p class="regla" style="margin-top:8px">Cada maó és la suma dels dos que té a sota.</p>
+        </div>
+        <div class="panell">
+          <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
+          <div class="entrada-caixa" id="entrada-caixa">
+            <p id="entrada-text">Quin número va al maó blau?</p>
+            <div id="entrada"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../js/reconeixedor-xifres.js"></script>
+  <script src="../../js/entrada-numero.js"></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    const RANGS = { facil: [1, 9], mitja: [5, 20], dificil: [10, 50] };
+    const NOMS_DIF = { facil: 'Fàcil', mitja: 'Mitjà', dificil: 'Difícil' };
+    const NOMS_MODE = { suma: '⬆️ Suma cap amunt', falten: '🔍 Troba els que falten' };
+
+    let config = { nivells: 4, dificultat: 'facil', mode: 'suma' };
+    // valors[f][c]: f = 0 és la base; f = N-1 és la cúspide. coneguts[f][c]: el jugador el veu.
+    let N, valors, coneguts, omplerts, sel, errors, errorsMao, acabat;
+
+    // ---------------- Inici ----------------
+    function grupOpcions(idGrup, clau) {
+      $(idGrup).addEventListener('click', e => {
+        const b = e.target.closest('button'); if (!b) return;
+        $(idGrup).querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+        config[clau] = isNaN(b.dataset.v) ? b.dataset.v : Number(b.dataset.v);
+      });
+    }
+    grupOpcions('nivells', 'nivells');
+    grupOpcions('dificultats', 'dificultat');
+    grupOpcions('modes-joc', 'mode');
+    $('btn-comencar').addEventListener('click', comencar);
+    $('btn-nova').addEventListener('click', () => { $('pantalla-joc').hidden = true; $('pantalla-inici').hidden = false; });
+
+    function aleatori(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
+
+    function comencar() {
+      N = config.nivells;
+      const [a, b] = RANGS[config.dificultat];
+      valors = [Array.from({ length: N }, () => aleatori(a, b))];
+      for (let f = 1; f < N; f++) valors.push(valors[f - 1].slice(1).map((_, c) => valors[f - 1][c] + valors[f - 1][c + 1]));
+      coneguts = valors.map(fila => fila.map(() => false));
+      if (config.mode === 'suma') coneguts[0] = coneguts[0].map(() => true);
+      else amagarPerDeduir();
+      omplerts = valors.map(fila => fila.map(() => false));
+      errors = 0; errorsMao = 0; acabat = false;
+      $('titol-joc').textContent = `${NOMS_MODE[config.mode]} · ${N} pisos · ${NOMS_DIF[config.dificultat]}`;
+      $('pantalla-inici').hidden = true; $('pantalla-joc').hidden = false;
+      entrada.buidar(); entrada.activar(true); entrada.ajustar();
+      sel = seguentDisponible();
+      mostrar(config.mode === 'suma' ? 'Suma els dos maons de sota' : 'Troba els números que falten',
+              config.mode === 'suma' ? 'Comença per baix i puja fins a la cúspide.'
+                                     : 'Si saps el de dalt i un de sota, pots restar!');
+      dibuixar();
+      window.scrollTo({ top: 0 });
+    }
+
+    // ---------------- Mode "Troba els que falten": trencaclosques resoluble ----------------
+    // Intenta amagar maons un a un; només els amaga si la piràmide encara es pot deduir pas a pas.
+    function amagarPerDeduir() {
+      coneguts = valors.map(fila => fila.map(() => true));
+      const cellesTotes = [];
+      for (let f = 0; f < N; f++) for (let c = 0; c <= N - 1 - f; c++) cellesTotes.push([f, c]);
+      cellesTotes.sort(() => Math.random() - .5);
+      const minDonats = N + (N >= 5 ? 1 : 0);    // una mica d'ajuda extra a les grans
+      let donats = cellesTotes.length;
+      for (const [f, c] of cellesTotes) {
+        if (donats <= minDonats) break;
+        coneguts[f][c] = false;
+        if (esResoluble()) donats--; else coneguts[f][c] = true;
+      }
+      // que hi hagi almenys un maó de la base amagat (perquè calgui restar)
+      if (coneguts[0].every(Boolean)) {
+        for (let c = 0; c < N; c++) { coneguts[0][c] = false; if (esResoluble()) break; coneguts[0][c] = true; }
+      }
+    }
+    function esResoluble() {
+      const k = coneguts.map(f => f.slice());
+      let canvi = true;
+      while (canvi) {
+        canvi = false;
+        for (let f = 0; f < N; f++) for (let c = 0; c <= N - 1 - f; c++) {
+          if (!k[f][c] && deduible(k, f, c)) { k[f][c] = true; canvi = true; }
+        }
+      }
+      return k.every(f => f.every(Boolean));
+    }
+    // Com es pot calcular el maó (f, c) amb el que se sap? Retorna la regla o null.
+    function regla(k, f, c) {
+      if (f > 0 && k[f - 1][c] && k[f - 1][c + 1]) return { tipus: 'suma', a: [f - 1, c], b: [f - 1, c + 1] };
+      if (f < N - 1) {
+        if (c > 0 && k[f + 1][c - 1] && k[f][c - 1]) return { tipus: 'resta', dalt: [f + 1, c - 1], costat: [f, c - 1] };
+        if (c < N - 1 - f && k[f + 1][c] && k[f][c + 1]) return { tipus: 'resta', dalt: [f + 1, c], costat: [f, c + 1] };
+      }
+      return null;
+    }
+    const deduible = (k, f, c) => !!regla(k, f, c);
+    const coneix = () => coneguts.map((fila, f) => fila.map((v, c) => v || omplerts[f][c]));
+
+    function seguentDisponible() {
+      const k = coneix();
+      for (let f = 0; f < N; f++) for (let c = 0; c <= N - 1 - f; c++)
+        if (!k[f][c] && deduible(k, f, c)) return [f, c];
+      return null;
+    }
+
+    // ---------------- Dibuix ----------------
+    function dibuixar() {
+      const pir = $('piramide'); pir.innerHTML = '';
+      const ample = pir.clientWidth - 16;
+      const mida = Math.max(48, Math.min(110, (ample - (N - 1) * 8) / N));
+      pir.style.setProperty('--maó', mida + 'px');
+      const k = coneix();
+      for (let f = N - 1; f >= 0; f--) {
+        const fila = document.createElement('div'); fila.className = 'fila'; fila.setAttribute('role', 'row');
+        for (let c = 0; c <= N - 1 - f; c++) {
+          const b = document.createElement('button');
+          b.type = 'button'; b.dataset.f = f; b.dataset.c = c;
+          const cl = ['mao'];
+          if (coneguts[f][c]) cl.push('donat');
+          else if (omplerts[f][c]) cl.push('omplert');
+          else { cl.push('buit'); if (deduible(k, f, c)) cl.push('disponible'); }
+          if (sel && sel[0] === f && sel[1] === c) cl.push('seleccionat');
+          if (String(valors[f][c]).length >= 3) cl.push('gran');
+          if (ultimNou && ultimNou[0] === f && ultimNou[1] === c) cl.push('nou');
+          b.className = cl.join(' ');
+          b.textContent = k[f][c] ? valors[f][c] : '?';
+          b.setAttribute('aria-label', k[f][c] ? `${valors[f][c]}` : 'Maó buit');
+          fila.appendChild(b);
+        }
+        pir.appendChild(fila);
+      }
+      ultimNou = null;
+      const falten = k.flat().filter(v => !v).length;
+      $('dades').innerHTML = `<span class="dada">Falten: <b>${falten}</b></span><span class="dada">Errors: <b>${errors}</b></span>`;
+      $('entrada-caixa').hidden = acabat;
+    }
+    let ultimNou = null;
+    window.addEventListener('resize', () => { if (!$('pantalla-joc').hidden) dibuixar(); });
+
+    // ---------------- Tocar un maó ----------------
+    $('piramide').addEventListener('click', e => {
+      const b = e.target.closest('.mao'); if (!b || acabat) return;
+      const f = +b.dataset.f, c = +b.dataset.c;
+      if (!b.classList.contains('buit')) return;
+      if (!deduible(coneix(), f, c)) {
+        b.classList.remove('sacseig'); void b.offsetWidth; b.classList.add('sacseig');
+        mostrar('Aquest encara no es pot calcular 🤔',
+          config.mode === 'suma' ? 'Primer cal saber els dos maons de sota.'
+                                 : 'Busca un maó blau: aquells ja tenen prou pistes al voltant.', 'pista');
+        return;
+      }
+      sel = [f, c]; errorsMao = 0;
+      entrada.buidar();
+      mostrar('Quin número va aquí?', '');
+      dibuixar();
+    });
+
+    // ---------------- Respostes ----------------
+    const entrada = EntradaNumero.crear($('entrada'), {
+      maxXifres: 4,
+      clauMode: 'appjocs.piramide.mode-entrada',
+      enEnviar: valor => {
+        if (!sel || acabat) return;
+        const [f, c] = sel;
+        const correcte = valors[f][c];
+        if (valor === correcte) {
+          omplerts[f][c] = true; ultimNou = [f, c]; errorsMao = 0;
+          entrada.buidar();
+          sel = seguentDisponible();
+          if (!sel) return final();
+          mostrar(`✓ Molt bé, ${correcte}!`, explicacio(f, c), 'guanyat');
+          dibuixar();
+          return;
+        }
+        errors++; errorsMao++;
+        entrada.sacsejar(); entrada.buidar();
+        const r = regla(coneix(), f, c);
+        const v = ([ff, cc]) => valors[ff][cc];
+        if (errorsMao >= 2) {
+          mostrar(`No és el ${valor}`, r.tipus === 'suma'
+            ? `Pista: suma els dos de sota, ${v(r.a)} i ${v(r.b)}.`
+            : `Pista: el de dalt és ${v(r.dalt)} i el del costat ${v(r.costat)}. Quant hi falta?`, 'pista');
+        } else {
+          mostrar(`No és el ${valor}`, 'Torna-ho a provar.', 'error');
+        }
+        dibuixar();
+      },
+    });
+
+    // Frase que recorda com s'ha calculat (després d'encertar)
+    function explicacio(f, c) {
+      const k = coneguts.map((fila, ff) => fila.map((x, cc) => (x || omplerts[ff][cc]) && !(ff === f && cc === c)));
+      const r = regla(k, f, c); if (!r) return '';
+      const v = ([ff, cc]) => valors[ff][cc];
+      return r.tipus === 'suma' ? `${v(r.a)} + ${v(r.b)} = ${valors[f][c]}` : `${v(r.dalt)} − ${v(r.costat)} = ${valors[f][c]}`;
+    }
+
+    function final() {
+      acabat = true; sel = null;
+      entrada.activar(false);
+      mostrar(errors === 0 ? '🏆 Piràmide perfecta! ⭐⭐⭐' : '🎉 Piràmide completa!',
+        errors === 0 ? 'Sense cap error!' : `Has fet ${errors} ${errors === 1 ? 'error' : 'errors'}. Prova'n una altra!`, 'guanyat');
+      dibuixar();
+    }
+
+    function mostrar(text, extra = '', estat = '') {
+      const m = $('missatge');
+      $('msg-text').textContent = text; $('msg-extra').textContent = extra;
+      m.classList.remove('es-pista', 'es-error', 'es-guanyat');
+      if (estat) m.classList.add('es-' + estat);
+    }
+  </script>
+</body>
+</html>

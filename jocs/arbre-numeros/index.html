@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFBF3">
+  <title>L'arbre dels números · AppJocs</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="icon" href="../../icons/icon-192.png">
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    /* Colors per rol (css/styles.css): verd = OK/fulla · rosa = desfer/error · groc = pista ·
+       blau = selecció/informació · préssec = acció general */
+    .joc { width: 100%; max-width: 1200px; margin: 0 auto; }
+    [hidden] { display: none !important; }
+    h2.titol { font-size: 1.15rem; margin: 18px 0 10px; }
+
+    /* ---------- Pantalla d'inici ---------- */
+    .inici { max-width: 720px; margin: 0 auto; }
+    .numeros { display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 10px; }
+    .numeros button, .modes-joc button {
+      font: inherit; cursor: pointer; color: var(--text);
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: 14px; box-shadow: var(--ombra);
+      touch-action: manipulation;
+    }
+    .numeros button { font-size: 1.5rem; font-weight: 700; min-height: 60px; }
+    .numeros button.sorpresa { grid-column: span 2; font-size: 1.1rem; }
+    .numeros button[aria-pressed="true"], .modes-joc button[aria-pressed="true"] {
+      background: var(--c-info); border-color: var(--c-info-vora);
+    }
+    @media (hover: hover) { .numeros button:hover, .modes-joc button:hover { border-color: var(--c-info-vora); } }
+    .modes-joc { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+    .modes-joc button { text-align: left; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+    .modes-joc b { font-size: 1.15rem; }
+    .modes-joc span { color: var(--text-suau); font-size: .92rem; }
+    .comencar { text-align: center; margin: 24px 0 8px; }
+    .comencar .btn { font-size: 1.3rem; padding: 14px 40px; }
+
+    /* ---------- Pantalla de joc ---------- */
+    .cap-joc { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 4px 0 8px; }
+    .cap-joc h2 { margin: 0; font-size: 1.2rem; }
+    .dades { display: flex; gap: 8px; flex-wrap: wrap; }
+    .dada { background: var(--superficie); border: 1px solid var(--vora); border-radius: 999px; padding: 4px 12px; font-size: .95rem; }
+    .dada b { font-variant-numeric: tabular-nums; }
+
+    .disposicio { display: grid; gap: 14px; }
+    /* Tauleta horitzontal i PC: l'arbre a l'esquerra, els controls a la dreta (tot a la vista) */
+    @media (min-width: 900px) and (orientation: landscape), (min-width: 1100px) {
+      .disposicio { grid-template-columns: 1fr 340px; align-items: start; }
+      .panell { grid-column: 2; grid-row: 1 / span 2; position: sticky; top: 8px; }
+      .zona-arbre { grid-column: 1; grid-row: 1; }
+      .sumes { grid-column: 1; grid-row: 2; }
+    }
+
+    .zona-arbre {
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi);
+      overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch;
+    }
+    .zona-arbre svg { display: block; margin: 0 auto; }
+    .aresta { stroke: var(--vora); stroke-width: 3; stroke-linecap: round; }
+    .node { cursor: pointer; }
+    .node circle { fill: var(--superficie); stroke: var(--text-suau); stroke-width: 2.5; transition: fill .2s; }
+    .node text { fill: var(--text); font-weight: 700; text-anchor: middle; dominant-baseline: central; pointer-events: none; font-variant-numeric: tabular-nums; }
+    .node.partit circle { fill: var(--fons); stroke: var(--vora); }
+    .node.partit text { fill: var(--text-suau); }
+    .node.fulla circle { fill: var(--c-ok); stroke: var(--c-ok-vora); }
+    .node.fulla { cursor: default; }
+    .node.seleccionat circle { fill: var(--c-info); stroke: var(--c-info-vora); stroke-width: 4; }
+    .node.buit circle { stroke: var(--c-info-vora); stroke-dasharray: 5 4; }
+    .node.buit.seleccionat circle { stroke-dasharray: none; }
+    .node.encertat circle { animation: encert .6s; }
+    @keyframes encert { 30% { fill: var(--c-ok); } }
+    @media (hover: hover) { .node.pendent:hover circle, .node.buit:hover circle { stroke: var(--c-info-vora); } }
+
+    .missatge {
+      min-height: 3.2rem; padding: 10px 14px; border-radius: var(--radi); text-align: center;
+      background: var(--superficie); border: 2px solid var(--vora); font-weight: 700;
+      display: flex; flex-direction: column; justify-content: center; gap: 4px;
+    }
+    .missatge small { font-weight: 500; font-size: .95rem; }
+    .missatge small:empty { display: none; }
+    .missatge.es-pista   { background: var(--c-pista);    border-color: var(--c-pista-vora); }
+    .missatge.es-error   { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .missatge.es-guanyat { background: var(--c-ok);       border-color: var(--c-ok-vora); font-size: 1.15rem; }
+
+    .panell { display: flex; flex-direction: column; gap: 12px; }
+    .tallar { background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi); padding: 12px; }
+    .tallar p { margin: 0 0 8px; text-align: center; color: var(--text-suau); }
+    .tallar #entrada-suma { margin-bottom: 12px; }
+    .botons-joc { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .boto {
+      font: inherit; font-weight: 700; cursor: pointer; min-height: 52px; border-radius: 14px;
+      background: var(--superficie); color: var(--text); border: 2px solid var(--vora); box-shadow: var(--ombra);
+      touch-action: manipulation;
+    }
+    .boto.esborrar { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .boto:disabled { opacity: .4; }
+    .boto:active { transform: translateY(2px); box-shadow: none; }
+    .completar p { margin: 0 0 8px; text-align: center; font-weight: 700; }
+
+    .sumes {
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi);
+      padding: 10px 14px; font-size: 1.1rem; font-variant-numeric: tabular-nums; line-height: 1.7;
+    }
+    .sumes div { white-space: normal; }
+    .sumes .igual { color: var(--text-suau); margin-right: 6px; }
+    .sumes .u { color: var(--text-suau); }
+  </style>
+</head>
+<body>
+  <nav class="barra-joc">
+    <a href="../../">← Inici</a>
+    <h1>🌳 L'arbre dels números</h1>
+  </nav>
+
+  <main class="joc">
+    <!-- ================= INICI ================= -->
+    <section class="inici" id="pantalla-inici">
+      <h2 class="titol">1. Tria un número</h2>
+      <div class="numeros" id="numeros"></div>
+
+      <h2 class="titol">2. Tria com vols jugar</h2>
+      <div class="modes-joc" id="modes-joc">
+        <button type="button" data-mode="lliure" aria-pressed="true">
+          <b>🌱 Lliure</b><span>Parteix el número com vulguis fins que només quedin uns.</span>
+        </button>
+        <button type="button" data-mode="repte" aria-pressed="false">
+          <b>🏔️ L'arbre més baixet</b><span>Arriba als uns amb el mínim de pisos possible.</span>
+        </button>
+        <button type="button" data-mode="completa" aria-pressed="false">
+          <b>✏️ Completa l'arbre</b><span>Hi falten números: descobreix quins són.</span>
+        </button>
+      </div>
+
+      <div class="comencar"><button class="btn" id="btn-comencar" type="button">Comença! 🌳</button></div>
+    </section>
+
+    <!-- ================= JOC ================= -->
+    <section id="pantalla-joc" hidden>
+      <div class="cap-joc">
+        <h2 id="titol-joc"></h2>
+        <div class="dades" id="dades"></div>
+        <button class="btn" id="btn-nou" type="button">Nou arbre</button>
+      </div>
+
+      <div class="disposicio">
+        <div class="zona-arbre" id="zona-arbre"><svg id="svg" role="img" aria-label="Arbre de descomposició"></svg></div>
+
+        <div class="panell">
+          <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
+
+          <!-- Lliure i repte: escriure la suma -->
+          <div class="tallar" id="tallar">
+            <p id="tallar-text">Toca un número de l'arbre per partir-lo</p>
+            <div id="entrada-suma"></div>
+            <div class="botons-joc">
+              <button class="boto esborrar" id="btn-desfer" type="button">↶ Desfer</button>
+              <button class="boto esborrar" id="btn-reiniciar" type="button">🗑 Tornar a començar</button>
+            </div>
+          </div>
+
+          <!-- Completa: entrada de números -->
+          <div class="completar" id="completar" hidden>
+            <p id="completar-text">Quin número va al lloc blau?</p>
+            <div id="entrada"></div>
+          </div>
+        </div>
+
+        <div class="sumes" id="sumes" aria-label="Descomposició en sumes"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../js/reconeixedor-xifres.js"></script>
+  <script src="../../js/entrada-numero.js"></script>
+  <script>
+    const MIN_N = 2, MAX_N = 20;
+    const $ = id => document.getElementById(id);
+    const NS = 'http://www.w3.org/2000/svg';
+
+    // ---------------- Estat ----------------
+    let numTriat = 15, modeTriat = 'lliure';
+    let arrel, seleccionat, historial, acabat, errorsBuit, avisRepte;
+    let idSeguent = 0;
+    const nouNode = (v, pare = null) => ({ id: idSeguent++, v, fills: null, pare, buit: false });
+
+    // ---------------- Pantalla d'inici ----------------
+    (function prepararInici() {
+      const cont = $('numeros');
+      for (let n = MIN_N; n <= MAX_N; n++) {
+        const b = document.createElement('button');
+        b.type = 'button'; b.textContent = n; b.dataset.n = n;
+        b.setAttribute('aria-pressed', n === numTriat);
+        cont.appendChild(b);
+      }
+      const s = document.createElement('button');
+      s.type = 'button'; s.className = 'sorpresa'; s.textContent = '🎲 Sorpresa'; s.dataset.n = 'sorpresa';
+      s.setAttribute('aria-pressed', 'false');
+      cont.appendChild(s);
+      cont.addEventListener('click', e => {
+        const b = e.target.closest('button'); if (!b) return;
+        cont.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+        numTriat = b.dataset.n === 'sorpresa' ? 'sorpresa' : Number(b.dataset.n);
+      });
+      $('modes-joc').addEventListener('click', e => {
+        const b = e.target.closest('button'); if (!b) return;
+        $('modes-joc').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+        modeTriat = b.dataset.mode;
+      });
+      $('btn-comencar').addEventListener('click', comencar);
+      $('btn-nou').addEventListener('click', () => { $('pantalla-joc').hidden = true; $('pantalla-inici').hidden = false; });
+    })();
+
+    const NOMS_MODE = { lliure: '🌱 Lliure', repte: "🏔️ L'arbre més baixet", completa: "✏️ Completa l'arbre" };
+
+    function comencar() {
+      const n = numTriat === 'sorpresa' ? 5 + Math.floor(Math.random() * 12) : numTriat;
+      arrel = nouNode(n); historial = []; acabat = false; errorsBuit = 0; avisRepte = false;
+      $('titol-joc').textContent = `Arbre del ${n} · ${NOMS_MODE[modeTriat]}`;
+      $('pantalla-inici').hidden = true; $('pantalla-joc').hidden = false;
+      $('tallar').hidden = modeTriat === 'completa';
+      $('completar').hidden = modeTriat !== 'completa';
+      if (modeTriat === 'completa') {
+        generarArbre(arrel);
+        amagarNumeros();
+        seleccionat = nodes().find(x => x.buit) || null;
+        entrada.buidar(); entrada.activar(true); entrada.ajustar();
+        mostrar('Descobreix els números que falten', 'Cada número és la suma dels dos de sota.');
+      } else {
+        seleccionat = arrel;
+        mostrar(`Parteix el ${n} en dos trossos`, modeTriat === 'repte'
+          ? `Repte: arriba als uns fent només ${pisosMinims(n)} pisos.` : 'Escriu dos números que sumin ' + n + '.');
+      }
+      dibuixar();
+      window.scrollTo({ top: 0 });
+    }
+
+    // ---------------- Arbre: utilitats ----------------
+    function nodes(n = arrel, llista = []) {           // recorregut en ordre (esquerra → dreta)
+      llista.push(n);
+      if (n.fills) n.fills.forEach(f => nodes(f, llista));
+      return llista;
+    }
+    const fulles = () => nodes().filter(n => !n.fills);
+    const profunditat = n => { let d = 0; while (n.pare) { d++; n = n.pare; } return d; };
+    const pisos = () => Math.max(0, ...nodes().map(profunditat));
+    const talls = () => nodes().filter(n => n.fills).length;
+    const pisosMinims = v => Math.ceil(Math.log2(v));
+    const pendents = () => fulles().filter(n => n.v > 1);
+
+    function partir(node, k) {
+      node.fills = [nouNode(k, node), nouNode(node.v - k, node)];
+      historial.push(node);
+    }
+    function ajuntar(node) { node.fills = null; historial = historial.filter(n => nodes().includes(n) && n.fills); }
+
+    // ---------------- Mode completa: generar i amagar ----------------
+    function generarArbre(n) {
+      if (n.v <= 1) return;
+      const a = Math.max(1, Math.floor(n.v * 0.3)), b = Math.min(n.v - 1, Math.ceil(n.v * 0.7));
+      const k = a + Math.floor(Math.random() * (b - a + 1));
+      n.fills = [nouNode(k, n), nouNode(n.v - k, n)];
+      n.fills.forEach(generarArbre);
+    }
+    function amagarNumeros() {
+      const n = arrel.v;
+      const quants = n <= 6 ? 2 : n <= 12 ? 3 : 4;
+      const candidats = nodes().filter(x => x.pare && x.v > 1).sort(() => Math.random() - .5);
+      let posats = 0;
+      for (const c of candidats) {
+        if (posats >= quants) break;
+        const germa = c.pare.fills.find(f => f !== c);
+        // Ha de ser resoluble: el pare i el germà es veuen, i cap fill amagat
+        if (c.pare.buit || germa.buit || (c.fills && c.fills.some(f => f.buit))) continue;
+        c.buit = true; posats++;
+      }
+    }
+
+    // ---------------- Dibuix de l'arbre (SVG) ----------------
+    function dibuixar() {
+      const svg = $('svg');
+      const llista = nodes();
+      const fs = fulles();
+      const zona = $('zona-arbre');
+      const amplada = zona.clientWidth - 4;
+      // Quan l'arbre està acabat es veu sencer (s'encongeix); mentre es juga, els nodes mantenen una mida tocable
+      const complet = acabat || (modeTriat === 'completa' && !nodes().some(n => n.buit));
+      const S = complet ? Math.min(96, amplada / fs.length) : Math.max(40, Math.min(96, amplada / fs.length));
+      const R = Math.max(9, Math.min(28, S * 0.4));
+      const FILA = Math.max(64, R * 2 + 30);
+      const P = pisos();
+      const W = Math.max(amplada, fs.length * S), H = (P + 1) * FILA + 16;
+
+      // posicions: fulles seguides, pares al mig dels fills
+      const pos = new Map(); let i = 0;
+      (function colocar(n) {
+        const y = 8 + R + profunditat(n) * FILA + (FILA - 2 * R - 16) / 2;
+        if (!n.fills) { pos.set(n, { x: (W - fs.length * S) / 2 + (i++ + .5) * S, y }); return; }
+        n.fills.forEach(colocar);
+        pos.set(n, { x: (pos.get(n.fills[0]).x + pos.get(n.fills[1]).x) / 2, y });
+      })(arrel);
+
+      svg.setAttribute('width', W); svg.setAttribute('height', H);
+      svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+      svg.innerHTML = '';
+      for (const n of llista) if (n.fills) for (const f of n.fills) {
+        const a = pos.get(n), b = pos.get(f);
+        const l = document.createElementNS(NS, 'line');
+        l.setAttribute('class', 'aresta');
+        l.setAttribute('x1', a.x); l.setAttribute('y1', a.y + R); l.setAttribute('x2', b.x); l.setAttribute('y2', b.y - R);
+        svg.appendChild(l);
+      }
+      for (const n of llista) {
+        const { x, y } = pos.get(n);
+        const g = document.createElementNS(NS, 'g');
+        const classes = ['node'];
+        if (n.buit) classes.push('buit');
+        else if (n.fills) classes.push('partit');
+        else if (n.v === 1) classes.push('fulla');
+        else classes.push('pendent');
+        if (n === seleccionat) classes.push('seleccionat');
+        if (n.encertat) { classes.push('encertat'); n.encertat = false; }
+        g.setAttribute('class', classes.join(' '));
+        g.setAttribute('tabindex', '0');
+        g.setAttribute('role', 'button');
+        g.setAttribute('aria-label', n.buit ? 'Número amagat' : `Número ${n.v}`);
+        const c = document.createElementNS(NS, 'circle');
+        c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', R);
+        const t = document.createElementNS(NS, 'text');
+        t.setAttribute('x', x); t.setAttribute('y', y);
+        t.setAttribute('font-size', Math.round(R * (String(n.v).length > 1 ? .8 : .95)));
+        t.textContent = n.buit ? '?' : n.v;
+        g.append(c, t);
+        g.addEventListener('click', () => tocarNode(n));
+        g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tocarNode(n); } });
+        svg.appendChild(g);
+      }
+      // si l'arbre és més ample que la pantalla, centra el node seleccionat
+      if (seleccionat && W > amplada) {
+        const px = pos.get(seleccionat).x;
+        zona.scrollTo({ left: px - amplada / 2, behavior: 'smooth' });
+      }
+      pintarDades(); pintarPanell(); pintarSumes();
+    }
+
+    function pintarDades() {
+      const d = $('dades');
+      if (modeTriat === 'completa') {
+        const falten = nodes().filter(n => n.buit).length;
+        d.innerHTML = `<span class="dada">Falten: <b>${falten}</b></span>`;
+        return;
+      }
+      d.innerHTML = `<span class="dada">Talls: <b>${talls()}</b></span><span class="dada">Pisos: <b>${pisos()}</b></span>`
+        + (modeTriat === 'repte' ? `<span class="dada">Mínim: <b>${pisosMinims(arrel.v)}</b></span>` : '');
+    }
+
+    // Línies de sumes: 15 = 13 + 2 = 11 + 2 + 2 = …
+    function pintarSumes() {
+      const cont = $('sumes'); cont.innerHTML = '';
+      const P = pisos();
+      for (let d = 0; d <= P; d++) {
+        const valors = [];
+        (function rec(n) {
+          const pd = profunditat(n);
+          if (pd === d || (!n.fills && pd < d)) { valors.push(n); return; }
+          n.fills.forEach(rec);
+        })(arrel);
+        const div = document.createElement('div');
+        div.innerHTML = (d ? '<span class="igual">=</span>' : '') + valors
+          .map(n => `<span class="${n.v === 1 && !n.buit ? 'u' : ''}">${n.buit ? '?' : n.v}</span>`).join(' + ');
+        cont.appendChild(div);
+      }
+    }
+
+    // ---------------- Escriure la suma ----------------
+    let errorsSuma = 0, ultimSeleccionat = null;
+    function pintarPanell() {
+      const potPartir = !acabat && seleccionat && !seleccionat.fills && seleccionat.v > 1 && modeTriat !== 'completa';
+      $('btn-desfer').disabled = !historial.length;
+      $('btn-reiniciar').disabled = !arrel.fills;
+      $('entrada-suma').hidden = !potPartir;
+      if (!potPartir) {
+        $('tallar-text').textContent = acabat ? 'Arbre acabat!' : "Toca un número de l'arbre per partir-lo";
+        ultimSeleccionat = null; return;
+      }
+      const v = seleccionat.v;
+      $('tallar-text').textContent = `Quins dos números sumen ${v}?`;
+      entradaSuma.posarSufix(`= ${v}`);
+      if (seleccionat !== ultimSeleccionat) {          // número nou: caixes buides
+        ultimSeleccionat = seleccionat; errorsSuma = 0;
+        entradaSuma.buidar(); entradaSuma.activar(true); entradaSuma.ajustar(); entradaSuma.enfocar();
+      }
+    }
+
+    function comprovarSuma([a, b]) {
+      const v = seleccionat && seleccionat.v;
+      if (!v) return;
+      // Si és incorrecte, el missatge ja mostra el que ha escrit: buidem les caixes per tornar-hi
+      if (a < 1 || b < 1) {
+        entradaSuma.sacsejar(); entradaSuma.buidar();
+        mostrar('Cada part ha de ser 1 o més', `Amb un 0 el ${v} no es parteix.`, 'error'); return;
+      }
+      if (a + b !== v) {
+        errorsSuma++;
+        entradaSuma.sacsejar(); entradaSuma.buidar();
+        if (errorsSuma >= 2) {
+          const extra = a < v ? `Si una part és ${a}, quant falta per arribar a ${v}?`
+                              : `Les dues parts han de ser més petites que ${v}.`;
+          mostrar(`${a} + ${b} = ${a + b}, no ${v}`, 'Pista: ' + extra, 'pista');
+        } else {
+          mostrar(`${a} + ${b} = ${a + b}, no ${v}`, 'Torna-ho a provar.', 'error');
+        }
+        return;
+      }
+      errorsSuma = 0;
+      ferTall(a);
+    }
+
+    function ferTall(k) {
+      const node = seleccionat;
+      partir(node, k);
+      seleccionat = pendents()[0] || null;
+      if (!seleccionat) return acabar();
+      comprovarRepte();
+      if (!avisRepte) mostrar(`✓ ${node.v} = ${k} + ${node.v - k}`, seleccionat ? `Ara parteix el ${seleccionat.v}` : '', 'guanyat');
+      dibuixar();
+    }
+
+    function comprovarRepte() {
+      avisRepte = false;
+      if (modeTriat !== 'repte') return;
+      const objectiu = pisosMinims(arrel.v);
+      const impossible = fulles().some(f => profunditat(f) + pisosMinims(f.v) > objectiu);
+      if (impossible) {
+        avisRepte = true;
+        mostrar('Compte! 🤔', `Amb aquest tall ja no podràs fer un arbre de ${objectiu} pisos. Prova de desfer-lo ↶`, 'pista');
+      }
+    }
+
+    function acabar() {
+      acabat = true; seleccionat = null;
+      const n = arrel.v, p = pisos(), min = pisosMinims(n);
+      if (modeTriat === 'repte') {
+        if (p === min) mostrar(`🏆 Perfecte! ${p} pisos ⭐⭐⭐`, `És el mínim possible per al ${n}.`, 'guanyat');
+        else mostrar(`Arbre acabat amb ${p} pisos`, `Es pot fer amb ${min}! Desfés alguns talls i torna-ho a provar.`, 'pista');
+      } else {
+        mostrar(`🎉 Arbre acabat! ${n - 1} talls i ${p} pisos`,
+          `Saps què? Facis com facis, el ${n} sempre necessita ${n - 1} talls per quedar en ${n} uns.`, 'guanyat');
+      }
+      dibuixar();
+    }
+
+    // ---------------- Tocar un node ----------------
+    function tocarNode(n) {
+      if (modeTriat === 'completa') {
+        if (n.buit) { seleccionat = n; errorsBuit = 0; entrada.buidar(); mostrar('Quin número va aquí?', ''); dibuixar(); }
+        return;
+      }
+      if (n.fills) {                       // ajuntar de nou
+        ajuntar(n); acabat = false;
+        seleccionat = n;
+        mostrar(`Has ajuntat el ${n.v}`, 'Torna a partir-lo com vulguis.', '');
+        comprovarRepte();
+        dibuixar(); return;
+      }
+      if (n.v === 1) { mostrar("L'1 ja no es pot partir", 'És una fulla de l\'arbre 🍃', 'pista'); return; }
+      seleccionat = n;
+      mostrar(`Parteix el ${n.v}`, '', '');
+      dibuixar();
+    }
+
+    $('btn-desfer').addEventListener('click', () => {
+      const n = historial.pop(); if (!n) return;
+      n.fills = null; acabat = false; seleccionat = n;
+      mostrar(`Desfet: torna a partir el ${n.v}`, '', '');
+      comprovarRepte();
+      dibuixar();
+    });
+    $('btn-reiniciar').addEventListener('click', () => {
+      arrel.fills = null; historial = []; acabat = false; seleccionat = arrel; avisRepte = false;
+      mostrar(`Parteix el ${arrel.v} en dos trossos`, '', '');
+      dibuixar();
+    });
+
+    const entradaSuma = EntradaNumero.crear($('entrada-suma'), {
+      camps: 2, maxXifres: 2,
+      clauMode: 'appjocs.arbre-numeros.mode-entrada',
+      enEnviar: comprovarSuma,
+    });
+
+    // ---------------- Mode completa: respostes ----------------
+    const entrada = EntradaNumero.crear($('entrada'), {
+      maxXifres: 2,
+      clauMode: 'appjocs.arbre-numeros.mode-entrada',
+      enEnviar: valor => {
+        const n = seleccionat;
+        if (!n || !n.buit) return;
+        if (valor === n.v) {
+          n.buit = false; n.encertat = true; errorsBuit = 0;
+          const germa = n.pare.fills.find(f => f !== n);
+          mostrar(`Molt bé! ${n.pare.fills[0].v} + ${n.pare.fills[1].v} = ${n.pare.v}`, '', 'guanyat');
+          entrada.buidar();
+          seleccionat = nodes().find(x => x.buit) || null;
+          if (!seleccionat) {
+            entrada.activar(false);
+            mostrar("🎉 Arbre complet!", `Has trobat tots els números que faltaven.`, 'guanyat');
+          }
+          dibuixar();
+        } else {
+          errorsBuit++;
+          entrada.sacsejar(); entrada.buidar();
+          const germa = n.pare.fills.find(f => f !== n);
+          if (errorsBuit >= 2) mostrar(`No és el ${valor}`, `Pista: ${n.pare.v} − ${germa.v} = ?`, 'pista');
+          else mostrar(`No és el ${valor}`, `El ${n.pare.v} es parteix en ${germa.v} i en el número que busques.`, 'error');
+        }
+      },
+    });
+
+    // ---------------- Missatges ----------------
+    function mostrar(text, extra = '', estat = '') {
+      const m = $('missatge');
+      $('msg-text').textContent = text; $('msg-extra').textContent = extra;
+      m.classList.remove('es-pista', 'es-error', 'es-guanyat');
+      if (estat) m.classList.add('es-' + estat);
+    }
+
+    window.addEventListener('resize', () => { if (!$('pantalla-joc').hidden) dibuixar(); });
+  </script>
+</body>
+</html>
