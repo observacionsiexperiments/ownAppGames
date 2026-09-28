@@ -1,24 +1,58 @@
 // Llançadora: llegeix jocs/jocs.json i pinta una targeta per joc.
-const VERSIO_APP = '0.15.0';
+const VERSIO_APP = '0.17.0';
+
+// Categories dels jocs (camp "categories" de jocs.json)
+const CATEGORIES = { xifres: '🔢 Xifres', lletres: '🔤 Lletres' };
+let jocs = [];
+let filtre = 'tots';
+try { filtre = localStorage.getItem('appjocs.filtre') || 'tots'; } catch {}
+if (!(filtre in CATEGORIES)) filtre = 'tots';
 
 async function carregarJocs() {
   const llista = document.getElementById('llista-jocs');
   try {
     const resposta = await fetch('jocs/jocs.json', { cache: 'no-cache' });
-    const jocs = await resposta.json();
-    const visibles = jocs.filter(j => j.estat !== 'ocult');
-
-    if (!visibles.length) {
-      llista.innerHTML = '<li class="buit">Encara no hi ha jocs. Aviat!</li>';
-      return;
-    }
-    llista.innerHTML = '';
-    for (const joc of visibles) llista.appendChild(crearTargeta(joc));
+    jocs = (await resposta.json()).filter(j => j.estat !== 'ocult');
+    pintarJocs();
   } catch (e) {
     console.error(e);
     llista.innerHTML = '<li class="buit">No s\'han pogut carregar els jocs.</li>';
   }
 }
+
+// Text sense accents ni majúscules, per buscar "piramide" i trobar "Piràmide"
+const normal = t => (t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+function pintarJocs() {
+  const llista = document.getElementById('llista-jocs');
+  const text = normal(document.getElementById('cerca').value.trim());
+  const visibles = jocs.filter(j =>
+    (filtre === 'tots' || (j.categories || []).includes(filtre)) &&
+    (!text || normal([j.nom, j.descripcio, j.objectiu, ...(j.categories || []).map(c => CATEGORIES[c])].join(' ')).includes(text)));
+
+  llista.innerHTML = '';
+  if (!visibles.length) {
+    const li = document.createElement('li');
+    li.className = 'buit';
+    li.textContent = !jocs.length ? 'Encara no hi ha jocs. Aviat!'
+      : text ? `No hi ha cap joc amb «${document.getElementById('cerca').value.trim()}».` : 'No hi ha cap joc d\'aquest tipus.';
+    llista.appendChild(li);
+    return;
+  }
+  for (const joc of visibles) llista.appendChild(crearTargeta(joc));
+}
+
+function triarFiltre(f) {
+  filtre = f;
+  document.querySelectorAll('#filtres button').forEach(b => b.setAttribute('aria-pressed', b.dataset.f === f));
+  try { localStorage.setItem('appjocs.filtre', f); } catch {}
+  pintarJocs();
+}
+document.getElementById('filtres').addEventListener('click', e => {
+  const b = e.target.closest('button[data-f]'); if (b) triarFiltre(b.dataset.f);
+});
+document.getElementById('cerca').addEventListener('input', pintarJocs);
+document.querySelectorAll('#filtres button').forEach(b => b.setAttribute('aria-pressed', b.dataset.f === filtre));
 
 function crearTargeta(joc) {
   const li = document.createElement('li');
@@ -32,13 +66,14 @@ function crearTargeta(joc) {
     <h2></h2>
     <p class="descripcio"></p>
     <p class="objectiu"><span class="rotul">🎯 Objectiu</span><span class="text-objectiu"></span></p>
-    <span class="peu-targeta">${joc.estat === 'properament' ? '<span class="etiqueta">Properament</span>' : '<span class="jugar">Jugar →</span>'}</span>
+    <span class="peu-targeta"><span class="categories"></span>${joc.estat === 'properament' ? '<span class="etiqueta">Properament</span>' : '<span class="jugar">Jugar →</span>'}</span>
   `;
   // textContent per evitar injectar HTML des del JSON
   a.querySelector('.icona').textContent = joc.icona || '🎲';
   a.querySelector('h2').textContent = joc.nom;
   a.querySelector('.descripcio').textContent = joc.descripcio || '';
   a.querySelector('.text-objectiu').textContent = joc.objectiu || '';
+  a.querySelector('.categories').textContent = (joc.categories || []).map(c => CATEGORIES[c] || c).join(' · ');
   li.appendChild(a);
   return li;
 }

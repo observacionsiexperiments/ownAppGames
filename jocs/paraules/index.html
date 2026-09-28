@@ -124,31 +124,39 @@
   <main class="joc">
     <!-- ================= INICI ================= -->
     <section class="inici" id="pantalla-inici">
-      <h2 class="titol">1. Quines paraules?</h2>
-      <div class="opcions" id="op-sillabes">
-        <button type="button" data-v="1" aria-pressed="false">GAT<small>1 síl·laba</small></button>
-        <button type="button" data-v="2" aria-pressed="false">CA · SA<small>2 síl·labes</small></button>
-        <button type="button" data-v="tot" aria-pressed="true">Totes<small>1 i 2 síl·labes</small></button>
+      <div class="grup">
+        <h2 class="titol">1. Quines paraules?</h2>
+        <div class="opcions" id="op-sillabes">
+          <button type="button" data-v="1" aria-pressed="false">GAT<small>1 síl·laba</small></button>
+          <button type="button" data-v="2" aria-pressed="false">CA · SA<small>2 síl·labes</small></button>
+          <button type="button" data-v="tot" aria-pressed="true">Totes<small>1 i 2 síl·labes</small></button>
+        </div>
       </div>
 
-      <h2 class="titol">2. Quina lletra?</h2>
-      <div class="opcions" id="op-lletra">
-        <button type="button" data-v="maj" aria-pressed="true">MAJÚSCULA<small>CA · SA</small></button>
-        <button type="button" data-v="min" aria-pressed="false">minúscula<small>ca · sa</small></button>
+      <div class="grup">
+        <h2 class="titol">2. Quina lletra?</h2>
+        <div class="opcions" id="op-lletra">
+          <button type="button" data-v="maj" aria-pressed="true">MAJÚSCULA<small>CA · SA</small></button>
+          <button type="button" data-v="min" aria-pressed="false">minúscula<small>ca · sa</small></button>
+        </div>
       </div>
 
-      <h2 class="titol">3. Dificultat</h2>
-      <div class="opcions" id="op-nivell">
-        <button type="button" data-v="facil" aria-pressed="true">Fàcil<small>dibuixos ben diferents</small></button>
-        <button type="button" data-v="dificil" aria-pressed="false">Difícil<small>paraules que s'assemblen</small></button>
+      <div class="grup">
+        <h2 class="titol">3. Dificultat</h2>
+        <div class="opcions" id="op-nivell">
+          <button type="button" data-v="facil" aria-pressed="true">Fàcil<small>dibuixos ben diferents</small></button>
+          <button type="button" data-v="dificil" aria-pressed="false">Difícil<small>paraules que s'assemblen</small></button>
+        </div>
       </div>
 
-      <h2 class="titol">4. Lectura en veu alta</h2>
-      <div class="opcions" id="op-veu">
-        <button type="button" data-v="no" aria-pressed="true">🔇 Sense veu<small>el nen llegeix sol</small></button>
-        <button type="button" data-v="si" aria-pressed="false">🔊 Amb ajuda de veu<small>botó per escoltar la paraula</small></button>
+      <div class="grup">
+        <h2 class="titol">4. Lectura en veu alta</h2>
+        <div class="opcions" id="op-veu">
+          <button type="button" data-v="no" aria-pressed="true">🔇 Sense veu<small>el nen llegeix sol</small></button>
+          <button type="button" data-v="si" aria-pressed="false">🔊 Amb ajuda de veu<small>botó per escoltar la paraula</small></button>
+        </div>
+        <p class="avis-veu" id="avis-veu" hidden>Aquest dispositiu no té veu en català. Es pot afegir a Configuració → Accessibilitat → Contingut llegit → Veus → Català.</p>
       </div>
-      <p class="avis-veu" id="avis-veu" hidden>Aquest dispositiu no té veu en català. Es pot afegir a Configuració → Accessibilitat → Contingut llegit → Veus → Català.</p>
 
       <div class="comencar"><button class="btn" id="btn-comencar" type="button">Comença! 📖</button></div>
     </section>

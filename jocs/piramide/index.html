@@ -113,6 +113,12 @@
       .panell .missatge { grid-column: 1; grid-row: 1; }
       .panell .entrada-caixa { grid-column: 2; grid-row: 1 / span 3; }
     }
+
+    /* Mòbil apaisat: pisos i dificultat a l'esquerra, com vols jugar a la dreta */
+    @media (orientation: landscape) and (max-height: 500px) {
+      main .inici .grup { grid-column: 1; }
+      main .inici .grup:has(.modes-joc) { grid-column: 2; grid-row: span 2; }
+    }
   </style>
 </head>
 <body>
@@ -124,29 +130,35 @@
   <main class="joc">
     <!-- ================= INICI ================= -->
     <section class="inici" id="pantalla-inici">
-      <h2 class="titol">1. Quants pisos té la piràmide?</h2>
-      <div class="opcions" id="nivells">
-        <button type="button" data-v="3" aria-pressed="false">3 pisos</button>
-        <button type="button" data-v="4" aria-pressed="true">4 pisos</button>
-        <button type="button" data-v="5" aria-pressed="false">5 pisos</button>
-        <button type="button" data-v="6" aria-pressed="false">6 pisos</button>
+      <div class="grup">
+        <h2 class="titol">1. Quants pisos té la piràmide?</h2>
+        <div class="opcions" id="nivells">
+          <button type="button" data-v="3" aria-pressed="false">3 pisos</button>
+          <button type="button" data-v="4" aria-pressed="true">4 pisos</button>
+          <button type="button" data-v="5" aria-pressed="false">5 pisos</button>
+          <button type="button" data-v="6" aria-pressed="false">6 pisos</button>
+        </div>
       </div>
 
-      <h2 class="titol">2. Dificultat</h2>
-      <div class="opcions" id="dificultats">
-        <button type="button" data-v="facil" aria-pressed="true">Fàcil<small>base d'una xifra (1–9)</small></button>
-        <button type="button" data-v="mitja" aria-pressed="false">Mitjà<small>base fins a 20</small></button>
-        <button type="button" data-v="dificil" aria-pressed="false">Difícil<small>base fins a 50</small></button>
+      <div class="grup">
+        <h2 class="titol">2. Dificultat</h2>
+        <div class="opcions" id="dificultats">
+          <button type="button" data-v="facil" aria-pressed="true">Fàcil<small>base d'una xifra (1–9)</small></button>
+          <button type="button" data-v="mitja" aria-pressed="false">Mitjà<small>base fins a 20</small></button>
+          <button type="button" data-v="dificil" aria-pressed="false">Difícil<small>base fins a 50</small></button>
+        </div>
       </div>
 
-      <h2 class="titol">3. Com vols jugar?</h2>
-      <div class="modes-joc" id="modes-joc">
-        <button type="button" data-v="suma" aria-pressed="true">
-          <b>⬆️ Suma cap amunt</b><span>La base ja hi és. Suma de dos en dos fins arribar a dalt de tot.</span>
-        </button>
-        <button type="button" data-v="falten" aria-pressed="false">
-          <b>🔍 Troba els que falten</b><span>Hi ha números repartits. Dedueix els altres: de vegades caldrà restar!</span>
-        </button>
+      <div class="grup">
+        <h2 class="titol">3. Com vols jugar?</h2>
+        <div class="modes-joc" id="modes-joc">
+          <button type="button" data-v="suma" aria-pressed="true">
+            <b>⬆️ Suma cap amunt</b><span>La base ja hi és. Suma de dos en dos fins arribar a dalt de tot.</span>
+          </button>
+          <button type="button" data-v="falten" aria-pressed="false">
+            <b>🔍 Troba els que falten</b><span>Hi ha números repartits. Dedueix els altres: de vegades caldrà restar!</span>
+          </button>
+        </div>
       </div>
 
       <div class="comencar"><button class="btn" id="btn-comencar" type="button">Comença! 🔺</button></div>

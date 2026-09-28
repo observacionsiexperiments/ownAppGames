@@ -5,6 +5,9 @@
     "icona": "🔢",
     "descripcio": "He pensat un número de l'1 al 100. Les pistes t'ajudaran a trobar-lo.",
     "objectiu": "Encertar el número amb els mínims intents possibles.",
+    "categories": [
+      "xifres"
+    ],
     "estat": "actiu"
   },
   {
@@ -13,6 +16,9 @@
     "icona": "🌳",
     "descripcio": "Parteix un número en dues parts, i cada part en dues més, fins arribar als uns.",
     "objectiu": "Descompondre el número en un arbre de sumes fins que totes les fulles siguin 1.",
+    "categories": [
+      "xifres"
+    ],
     "estat": "actiu"
   },
   {
@@ -21,6 +27,9 @@
     "icona": "🔺",
     "descripcio": "Cada maó és la suma dels dos que té a sota. Puja des de la base fins a la cúspide.",
     "objectiu": "Completar tots els maons de la piràmide sumant (i, de vegades, restant).",
+    "categories": [
+      "xifres"
+    ],
     "estat": "actiu"
   },
   {
@@ -29,6 +38,9 @@
     "icona": "🧩",
     "descripcio": "Un tros de la taula del 100: a partir d'un número, troba els que té al voltant.",
     "objectiu": "Omplir les caselles pensant en desenes (amunt i avall) i unitats (esquerra i dreta).",
+    "categories": [
+      "xifres"
+    ],
     "estat": "actiu"
   },
   {
@@ -37,6 +49,9 @@
     "icona": "📖",
     "descripcio": "Una paraula en lletra gran, separada en síl·labes, i quatre dibuixos.",
     "objectiu": "Llegir la paraula i tocar el dibuix que hi correspon.",
+    "categories": [
+      "lletres"
+    ],
     "estat": "actiu"
   },
   {
@@ -45,6 +60,20 @@
     "icona": "⚡",
     "descripcio": "Un número gran i moltes fitxes: tria les que, sumades, hi arriben.",
     "objectiu": "Trobar els números que sumen l'objectiu, tan ràpid com puguis.",
+    "categories": [
+      "xifres"
+    ],
+    "estat": "actiu"
+  },
+  {
+    "id": "gran-petit",
+    "nom": "Gran o petit?",
+    "icona": "🔎",
+    "descripcio": "Uns quants números i una pregunta: quin és el més gran? I el més petit?",
+    "objectiu": "Comparar números mirant les xifres i respondre abans que s'acabi el temps.",
+    "categories": [
+      "xifres"
+    ],
     "estat": "actiu"
   },
   {
@@ -53,6 +82,9 @@
     "icona": "🧪",
     "descripcio": "Plantilla base per crear minijocs nous.",
     "objectiu": "Comprovar que la llançadora i el desplegament funcionen.",
+    "categories": [
+      "xifres"
+    ],
     "estat": "ocult"
   }
 ]

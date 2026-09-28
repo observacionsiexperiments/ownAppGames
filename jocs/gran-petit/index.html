@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFBF3">
+  <title>Gran o petit? · AppJocs</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="icon" href="../../icons/icon-192.png">
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    /* Colors per rol (css/styles.css): verd = encert · rosa = error · groc = pista / temps que s'acaba ·
+       blau = opció triada / focus · préssec = acció general. Les fitxes són neutres. */
+    .joc { width: 100%; max-width: 1100px; margin: 0 auto; }
+    [hidden] { display: none !important; }
+    h2.titol { font-size: 1.15rem; margin: 16px 0 8px; }
+
+    /* ---------- Pantalla d'inici ---------- */
+    .inici { max-width: 760px; margin: 0 auto; }
+    .opcions { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+    .opcions button {
+      font: inherit; cursor: pointer; color: var(--text); touch-action: manipulation;
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: 14px; box-shadow: var(--ombra);
+      min-height: 60px; padding: 8px; font-weight: 700; font-size: 1.15rem;
+    }
+    .opcions button small { display: block; font-weight: 500; font-size: .85rem; color: var(--text-suau); margin-top: 2px; }
+    .opcions button[aria-pressed="true"] { background: var(--c-info); border-color: var(--c-info-vora); }
+    .opcions button[aria-pressed="true"] small { color: var(--text); }
+    @media (hover: hover) { .opcions button:hover { border-color: var(--c-info-vora); } }
+    .explica { color: var(--text-suau); text-align: center; margin: 14px 0 0; }
+    .comencar { text-align: center; margin: 22px 0 8px; }
+    .comencar .btn { font-size: 1.3rem; padding: 14px 40px; }
+
+    /* ---------- Pantalla de joc ---------- */
+    .cap-joc { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 4px 0 12px; }
+    .dades { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .dada { background: var(--superficie); border: 1px solid var(--vora); border-radius: 999px; padding: 4px 12px; font-size: .95rem; }
+    .dada b { font-variant-numeric: tabular-nums; }
+    .progres { display: inline-flex; gap: 4px; vertical-align: middle; margin-left: 4px; }
+    .progres i { width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--vora); background: var(--superficie); }
+    .progres i.be { background: var(--c-ok); border-color: var(--c-ok-vora); }
+    .progres i.malament { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .progres i.ara { background: var(--c-info); border-color: var(--c-info-vora); }
+
+    .tauler {
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi);
+      padding: 18px; display: flex; flex-direction: column; gap: 16px;
+    }
+    .pregunta { margin: 0; text-align: center; font-size: clamp(1.4rem, 3.4vw, 2.2rem); font-weight: 800; line-height: 1.2; }
+    .pregunta .clau { display: inline-block; padding: 0 10px; border-radius: 12px; border: 3px solid var(--text); }
+    .pregunta .clau.canvi { animation: pop .4s; }
+    @keyframes pop { 50% { transform: scale(1.15); } }
+
+    /* Barra de temps: neutra; en els últims 3 segons, groc (avís) */
+    .temps { height: 12px; border-radius: 999px; background: var(--fons); border: 1px solid var(--vora); overflow: hidden; }
+    .temps i { display: block; height: 100%; width: 100%; background: color-mix(in srgb, var(--text-suau) 45%, white); border-radius: 999px; transform-origin: left; }
+    .temps.poc i { background: var(--c-pista-vora); }
+
+    .fitxes { display: grid; gap: 16px; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); }
+    .fitxes.n2 { --n: 2; } .fitxes.n3 { --n: 3; } .fitxes.n4 { --n: 4; }
+    .fitxes.n2, .fitxes.n3 { max-width: 820px; width: 100%; margin: 0 auto; }
+    .fitxa {
+      font: inherit; font-weight: 900; font-variant-numeric: tabular-nums; color: var(--text); cursor: pointer;
+      font-size: clamp(2.6rem, min(8vw, 12vh), 6.5rem); min-height: clamp(110px, 30vh, 280px); border-radius: 22px;
+      background: var(--fons); border: 3px solid var(--vora); box-shadow: var(--ombra); touch-action: manipulation;
+      transition: transform .1s, background-color .15s, border-color .15s;
+    }
+    .fitxa:active { transform: scale(.97); }
+    @media (hover: hover) { .fitxa:not(:disabled):hover { border-color: var(--c-info-vora); } }
+    .fitxa:disabled { cursor: default; }
+    .fitxa.correcta { background: var(--c-ok); border-color: var(--c-ok-vora); }
+    .fitxa.errada { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .fitxa:disabled:not(.correcta):not(.errada) { opacity: .45; }
+    @keyframes sacseig { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+    .sacseig { animation: sacseig .25s 2; }
+
+    .missatge {
+      margin-top: 14px; min-height: 3.2rem; padding: 8px 12px; border-radius: var(--radi); text-align: center;
+      background: var(--superficie); border: 2px solid var(--vora); font-weight: 700; font-size: 1.1rem;
+      display: flex; flex-direction: column; justify-content: center; gap: 2px;
+    }
+    .missatge small { font-weight: 500; font-size: .95rem; }
+    .missatge small:empty { display: none; }
+    .missatge.es-pista   { background: var(--c-pista);    border-color: var(--c-pista-vora); }
+    .missatge.es-error   { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .missatge.es-guanyat { background: var(--c-ok);       border-color: var(--c-ok-vora); }
+
+    /* Horitzontal baix (tauletes): tot a la vista */
+    @media (orientation: landscape) and (max-height: 820px) {
+      .cap-joc { margin: 0 0 8px; }
+      .cap-joc .btn { padding: 6px 14px; }
+      .tauler { padding: 14px; gap: 12px; }
+      .fitxa { min-height: clamp(100px, 34vh, 260px); font-size: clamp(2.4rem, min(8vw, 13vh), 6rem); }
+      .missatge { margin-top: 10px; min-height: 0; padding: 6px 10px; }
+      h2.titol { margin: 10px 0 6px; }
+      .opcions button { min-height: 52px; }
+      .comencar { margin: 14px 0 4px; }
+    }
+    /* Mòbil: quatre fitxes en 2×2 (vertical), tot compacte */
+    @media (orientation: portrait) and (max-width: 600px), (orientation: landscape) and (max-height: 500px) {
+      .barra-joc { padding: 6px 0; }
+      .barra-joc h1 { font-size: 1.1rem; }
+      .cap-joc { margin: 0 0 8px; gap: 6px; flex-wrap: nowrap; }
+      .dades { gap: 4px; }
+      .dada { font-size: .8rem; padding: 2px 8px; }
+      .progres i { width: 8px; height: 8px; }
+      .cap-joc .btn { padding: 5px 10px; font-size: .85rem; white-space: nowrap; }
+      .tauler { padding: 12px; gap: 12px; }
+      .pregunta { font-size: 1.35rem; }
+      .fitxes { gap: 10px; }
+      .fitxa { font-size: 2.6rem; min-height: 96px; border-radius: 18px; }
+      .missatge { margin-top: 10px; min-height: 0; padding: 6px 10px; font-size: 1rem; }
+      .missatge small { font-size: .85rem; }
+    }
+    @media (orientation: portrait) and (max-width: 600px) {
+      .fitxes.n4 { --n: 2; }
+      .fitxa { min-height: clamp(96px, 21vh, 190px); font-size: clamp(2.6rem, 7vh, 3.6rem); }
+      .progres { display: none; }
+    }
+    @media (orientation: landscape) and (max-height: 500px) {
+      .fitxa { min-height: clamp(70px, 26vh, 110px); font-size: 2.2rem; }
+      .pregunta { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="barra-joc">
+    <a href="../../">← Inici</a>
+    <h1>🔎 Gran o petit?</h1>
+  </nav>
+
+  <main class="joc">
+    <!-- ================= INICI ================= -->
+    <section class="inici" id="pantalla-inici">
+      <div class="grup">
+        <h2 class="titol">1. Quins números?</h2>
+        <div class="opcions" id="op-xifres">
+          <button type="button" data-v="1" aria-pressed="false">1 xifra<small>de l'1 al 9</small></button>
+          <button type="button" data-v="2" aria-pressed="true">2 xifres<small>del 10 al 99</small></button>
+          <button type="button" data-v="3" aria-pressed="false">3 xifres<small>del 100 al 999</small></button>
+        </div>
+      </div>
+
+      <div class="grup">
+        <h2 class="titol">2. Quants números a cada pregunta?</h2>
+        <div class="opcions" id="op-quants">
+          <button type="button" data-v="2" aria-pressed="false">2</button>
+          <button type="button" data-v="3" aria-pressed="false">3</button>
+          <button type="button" data-v="4" aria-pressed="true">4</button>
+        </div>
+      </div>
+
+      <div class="grup">
+        <h2 class="titol">3. Què has de buscar?</h2>
+        <div class="opcions" id="op-mode">
+          <button type="button" data-v="gran" aria-pressed="true">⬆️ El més gran<small>sempre</small></button>
+          <button type="button" data-v="petit" aria-pressed="false">⬇️ El més petit<small>sempre</small></button>
+          <button type="button" data-v="barrejat" aria-pressed="false">🔀 Barrejat<small>cada pregunta canvia</small></button>
+        </div>
+      </div>
+
+      <div class="grup">
+        <h2 class="titol">4. Temps per respondre</h2>
+        <div class="opcions" id="op-temps">
+          <button type="button" data-v="5" aria-pressed="false">5 s</button>
+          <button type="button" data-v="10" aria-pressed="true">10 s</button>
+          <button type="button" data-v="15" aria-pressed="false">15 s</button>
+          <button type="button" data-v="0" aria-pressed="false">Sense temps</button>
+        </div>
+      </div>
+
+      <p class="explica">10 preguntes. Llegeix bé la pregunta i toca el número que toca!</p>
+      <div class="comencar"><button class="btn" id="btn-comencar" type="button">Comença! 🔎</button></div>
+    </section>
+
+    <!-- ================= JOC ================= -->
+    <section id="pantalla-joc" hidden>
+      <div class="cap-joc">
+        <div class="dades" id="dades"></div>
+        <button class="btn" id="btn-nova" type="button">Nova ronda</button>
+      </div>
+
+      <div class="tauler">
+        <p class="pregunta" id="pregunta" aria-live="polite"></p>
+        <div class="temps" id="temps" aria-hidden="true"><i id="temps-barra"></i></div>
+        <div class="fitxes" id="fitxes" role="group" aria-label="Números per triar"></div>
+      </div>
+      <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
+    </section>
+  </main>
+
+  <script src="../../js/pantalla.js"></script>
+  <script src="../../js/celebracio.js"></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    const PREGUNTES = 10;
+    const ESPERA_MS = 1500;          // temps per veure la resposta correcta abans de la següent
+    const config = { xifres: 2, quants: 4, mode: 'gran', temps: 10 };
+    let num, encerts, resultats, numeros, busca, bloquejat, limit, animacio, seguent;
+
+    // ---------------- Inici ----------------
+    function grupOpcions(id, clau) {
+      $(id).addEventListener('click', e => {
+        const b = e.target.closest('button'); if (!b) return;
+        $(id).querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+        config[clau] = isNaN(b.dataset.v) ? b.dataset.v : Number(b.dataset.v);
+      });
+    }
+    grupOpcions('op-xifres', 'xifres'); grupOpcions('op-quants', 'quants');
+    grupOpcions('op-mode', 'mode'); grupOpcions('op-temps', 'temps');
+
+    $('btn-comencar').addEventListener('click', () => {
+      num = 1; encerts = 0; resultats = [];
+      $('pantalla-inici').hidden = true; $('pantalla-joc').hidden = false;
+      $('temps').hidden = config.temps === 0;
+      novaPregunta();
+      window.scrollTo({ top: 0 });
+    });
+    $('btn-nova').addEventListener('click', () => {
+      aturar(); clearTimeout(seguent); Celebracio.tancar();
+      $('pantalla-joc').hidden = true; $('pantalla-inici').hidden = false;
+    });
+
+    // ---------------- Números "parents" (perquè calgui mirar xifra a xifra) ----------------
+    const aleatori = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+    const barrejar = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+    const RANG = { 1: [1, 9], 2: [10, 99], 3: [100, 999] };
+
+    // Números que s'assemblen a x: mateixes desenes/centenes, xifres girades, una xifra de diferència
+    function parents(x) {
+      const [min, max] = RANG[config.xifres];
+      const d = String(x).split('').map(Number);
+      const c = new Set();
+      const afegir = v => { if (v >= min && v <= max && v !== x) c.add(v); };
+      if (d.length === 1) { for (let k = -3; k <= 3; k++) afegir(x + k); }
+      if (d.length === 2) {
+        for (let u = 0; u <= 9; u++) afegir(d[0] * 10 + u);            // mateixes desenes
+        afegir(d[1] * 10 + d[0]);                                         // xifres girades
+        afegir((d[0] + 1) * 10 + d[1]); afegir((d[0] - 1) * 10 + d[1]);  // una desena més / menys
+      }
+      if (d.length === 3) {
+        for (let k = 0; k < 6; k++) afegir(d[0] * 100 + aleatori(0, 99));   // mateixes centenes
+        for (let u = 0; u <= 9; u++) afegir(d[0] * 100 + d[1] * 10 + u);    // mateixes centenes i desenes
+        const p = [[0, 2, 1], [1, 0, 2], [1, 2, 0], [2, 0, 1], [2, 1, 0]];  // xifres girades
+        p.forEach(([a, b, e]) => afegir(d[a] * 100 + d[b] * 10 + d[e]));
+        afegir(x + 100); afegir(x - 100);
+      }
+      return [...c];
+    }
+
+    function generarNumeros(n) {
+      const [min, max] = RANG[config.xifres];
+      const x = aleatori(min, max);
+      const tots = new Set([x]);
+      const pool = barrejar(parents(x));
+      while (tots.size < n) {
+        // Normalment un de parent; de tant en tant un a l'atzar perquè no sigui sempre igual
+        const v = pool.length && Math.random() < .8 ? pool.pop() : aleatori(min, max);
+        tots.add(v);
+      }
+      return barrejar([...tots]);
+    }
+
+    // ---------------- Pregunta ----------------
+    function novaPregunta() {
+      bloquejat = false;
+      busca = config.mode === 'barrejat' ? (Math.random() < .5 ? 'gran' : 'petit') : config.mode;
+      numeros = generarNumeros(config.quants);
+      const clau = busca === 'gran' ? '⬆️ més gran' : '⬇️ més petit';
+      $('pregunta').innerHTML = `Quin és el número <span class="clau${config.mode === 'barrejat' ? ' canvi' : ''}">${clau}</span>?`;
+      const cont = $('fitxes'); cont.innerHTML = '';
+      cont.className = 'fitxes n' + config.quants;
+      numeros.forEach(v => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'fitxa'; b.textContent = v; b.dataset.v = v;
+        b.addEventListener('click', () => respondre(v, b));
+        cont.appendChild(b);
+      });
+      mostrar(`Pregunta ${num} de ${PREGUNTES}`, config.temps ? `Tens ${config.temps} segons.` : 'Pensa-t\'ho bé.');
+      pintarDades();
+      iniciarTemps();
+    }
+
+    const correcte = () => busca === 'gran' ? Math.max(...numeros) : Math.min(...numeros);
+    const botoDe = v => $('fitxes').querySelector(`.fitxa[data-v="${v}"]`);
+
+    // ---------------- Temps ----------------
+    function iniciarTemps() {
+      aturar();
+      if (!config.temps) return;
+      const total = config.temps * 1000;
+      limit = performance.now() + total;
+      const barra = $('temps-barra');
+      const pas = () => {
+        const queda = limit - performance.now();
+        barra.style.transform = `scaleX(${Math.max(0, queda / total)})`;
+        $('temps').classList.toggle('poc', queda <= 3000);
+        if (queda <= 0) { temps0(); return; }
+        animacio = requestAnimationFrame(pas);
+      };
+      pas();
+    }
+    function aturar() { cancelAnimationFrame(animacio); animacio = null; }
+
+    function temps0() {
+      if (bloquejat) return;
+      bloquejat = true; aturar();
+      const c = correcte();
+      tancarFitxes(); botoDe(c).classList.add('correcta');
+      resultats.push(false);
+      mostrar("S'ha acabat el temps ⏱", `El ${busca === 'gran' ? 'més gran' : 'més petit'} era el ${c}.`, 'pista');
+      pintarDades();
+      seguent = setTimeout(passar, ESPERA_MS + 500);
+    }
+
+    // ---------------- Resposta (un sol intent) ----------------
+    function respondre(v, boto) {
+      if (bloquejat) return;
+      bloquejat = true; aturar();
+      const c = correcte();
+      tancarFitxes();
+      if (v === c) {
+        encerts++; resultats.push(true);
+        boto.classList.add('correcta');
+        Celebracio.petita(boto);
+        mostrar('✓ Molt bé!', `El ${c} és el ${busca === 'gran' ? 'més gran' : 'més petit'}.`, 'guanyat');
+        pintarDades();
+        seguent = setTimeout(passar, 900);
+        return;
+      }
+      resultats.push(false);
+      boto.classList.add('errada'); sacsejar(boto);
+      botoDe(c).classList.add('correcta');
+      mostrar(`No, el ${v} no és el ${busca === 'gran' ? 'més gran' : 'més petit'}`, explicar(c, v), 'error');
+      pintarDades();
+      seguent = setTimeout(passar, ESPERA_MS + 1000);
+    }
+    function tancarFitxes() { $('fitxes').querySelectorAll('.fitxa').forEach(b => b.disabled = true); }
+
+    // Explica per què c guanya a v, mirant les xifres d'esquerra a dreta
+    function explicar(c, v) {
+      const mes = busca === 'gran' ? 'més' : 'menys';
+      const a = String(c), b = String(v);
+      if (a.length === 1) return `El ${c} és ${busca === 'gran' ? 'més gran' : 'més petit'} que el ${v}.`;
+      const LLOC = a.length === 3 ? ['centenes', 'desenes', 'unitats'] : ['desenes', 'unitats'];
+      const i = [...a].findIndex((x, k) => x !== b[k]);
+      const gp = busca === 'gran' ? 'més gran' : 'més petit';
+      if (i === 0) return `El ${c} té ${a[0]} ${LLOC[0]} i el ${v}, ${b[0]}: el ${c} és ${gp}.`;
+      const iguals = LLOC.slice(0, i).join(' i ');
+      return `El ${c} i el ${v} tenen les mateixes ${iguals}. Mira les ${LLOC[i]}: ${a[i]} és ${mes} que ${b[i]}.`;
+    }
+
+    function passar() {
+      num++;
+      if (num <= PREGUNTES) novaPregunta(); else final();
+    }
+
+    // ---------------- Final ----------------
+    function final() {
+      aturar();
+      num = PREGUNTES;
+      const clau = `appjocs.gran-petit.record.${config.xifres}.${config.quants}.${config.mode}.${config.temps}`;
+      let record = null; try { record = Number(localStorage.getItem(clau)) || null; } catch {}
+      const nouRecord = record === null || encerts > record;
+      if (nouRecord) { try { localStorage.setItem(clau, String(encerts)); } catch {} }
+      const estrelles = encerts === PREGUNTES ? 3 : encerts >= 8 ? 2 : 1;
+      pintarDades();
+      mostrar(encerts === PREGUNTES ? '🏆 Totes bé!' : '🎉 Ronda acabada!', `${encerts} de ${PREGUNTES} encerts${nouRecord && record !== null ? ' · Nou rècord!' : ''}`, 'guanyat');
+      Celebracio.gran({
+        titol: encerts === PREGUNTES ? 'Totes bé!' : 'Ronda acabada!', emoji: encerts === PREGUNTES ? '🏆' : '🔎', estrelles,
+        subtitol: `${encerts} de ${PREGUNTES} encerts`
+          + (nouRecord ? (record !== null ? ' · 🏅 Nou rècord!' : '') : ` · Rècord: ${record}`),
+        boto: 'Continuar',
+      });
+    }
+
+    // ---------------- Dibuix i missatges ----------------
+    function pintarDades() {
+      const punts = Array.from({ length: PREGUNTES }, (_, i) =>
+        `<i class="${i < resultats.length ? (resultats[i] ? 'be' : 'malament') : i + 1 === num ? 'ara' : ''}"></i>`).join('');
+      $('dades').innerHTML =
+        `<span class="dada">Pregunta <b>${Math.min(num, PREGUNTES)}</b>/${PREGUNTES} <span class="progres">${punts}</span></span>`
+        + `<span class="dada">Encerts: <b>${encerts}</b></span>`;
+    }
+    function sacsejar(el) { el.classList.remove('sacseig'); void el.offsetWidth; el.classList.add('sacseig'); }
+    function mostrar(text, extra = '', estat = '') {
+      const m = $('missatge');
+      $('msg-text').textContent = text; $('msg-extra').textContent = extra;
+      m.classList.remove('es-pista', 'es-error', 'es-guanyat');
+      if (estat) m.classList.add('es-' + estat);
+    }
+
+    // Si l'app queda en segon pla, el temps no compta (en tornar, la pregunta torna a començar)
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden || $('pantalla-joc').hidden || bloquejat || !config.temps) return;
+      iniciarTemps();
+    });
+
+    // Avís suau si el dispositiu està en l'orientació que pitjor li va a aquest joc
+    Pantalla.avisOrientacio('gran-petit', { dins: document.getElementById('pantalla-inici') });
+  </script>
+</body>
+</html>

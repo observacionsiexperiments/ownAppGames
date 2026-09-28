@@ -173,21 +173,34 @@
   <main class="joc">
     <!-- ================= INICI ================= -->
     <section class="inici" id="pantalla-inici">
-      <h2 class="titol">1. Dificultat: quants números cal sumar?</h2>
-      <div class="opcions" id="op-nivell">
-        <button type="button" data-v="facil" aria-pressed="true">Fàcil<small>2 o 3 números</small></button>
-        <button type="button" data-v="mitja" aria-pressed="false">Mitjà<small>4 o 5 números</small></button>
-        <button type="button" data-v="dificil" aria-pressed="false">Difícil<small>6 o 7 números</small></button>
+      <div class="grup">
+        <h2 class="titol">1. Dificultat: quants números cal sumar?</h2>
+        <div class="opcions" id="op-nivell">
+          <button type="button" data-v="facil" aria-pressed="true">Fàcil<small>2 o 3 números</small></button>
+          <button type="button" data-v="mitja" aria-pressed="false">Mitjà<small>4 o 5 números</small></button>
+          <button type="button" data-v="dificil" aria-pressed="false">Difícil<small>6 o 7 números</small></button>
+        </div>
       </div>
 
-      <h2 class="titol">2. Quantes cadenes té la ronda?</h2>
-      <div class="opcions" id="op-cadenes">
-        <button type="button" data-v="3" aria-pressed="false">3</button>
-        <button type="button" data-v="5" aria-pressed="true">5</button>
-        <button type="button" data-v="10" aria-pressed="false">10</button>
+      <div class="grup">
+        <h2 class="titol">2. Quantes cadenes té la ronda?</h2>
+        <div class="opcions" id="op-cadenes">
+          <button type="button" data-v="3" aria-pressed="false">3</button>
+          <button type="button" data-v="5" aria-pressed="true">5</button>
+          <button type="button" data-v="10" aria-pressed="false">10</button>
+        </div>
       </div>
 
-      <p class="explica">Tria les fitxes que, sumades, donen el número gran. El número sempre és més petit que 100.</p>
+      <div class="grup">
+        <h2 class="titol">3. Números rodons (acabats en 0 o 5)</h2>
+        <div class="opcions" id="op-rodons">
+          <button type="button" data-v="no" aria-pressed="true">No<small>com surtin</small></button>
+          <button type="button" data-v="alguns" aria-pressed="false">Alguns<small>i un de petit</small></button>
+          <button type="button" data-v="tots" aria-pressed="false">Tots<small>10, 15, 20…</small></button>
+        </div>
+      </div>
+
+      <p class="explica">Tria les fitxes que, sumades, donen el número gran. El número sempre és més petit que 100. Amb números rodons és més fàcil.</p>
       <div class="comencar"><button class="btn" id="btn-comencar" type="button">Comença! ⚡</button></div>
     </section>
 
@@ -230,7 +243,7 @@
       mitja:   { min: 4, max: 5, nom: 'Mitjà',   text: '4 o 5 números' },
       dificil: { min: 6, max: 7, nom: 'Difícil', text: '6 o 7 números' },
     };
-    const config = { nivell: 'facil', cadenes: 5 };
+    const config = { nivell: 'facil', cadenes: 5, rodons: 'no' };
     let cadena, errorsRonda, errorsCadena, objectiu, fitxes, triades, bloquejat, inici, rellotge;
 
     // ---------------- Inici ----------------
@@ -241,7 +254,7 @@
         config[clau] = isNaN(b.dataset.v) ? b.dataset.v : Number(b.dataset.v);
       });
     }
-    grupOpcions('op-nivell', 'nivell'); grupOpcions('op-cadenes', 'cadenes');
+    grupOpcions('op-nivell', 'nivell'); grupOpcions('op-cadenes', 'cadenes'); grupOpcions('op-rodons', 'rodons');
 
     $('btn-comencar').addEventListener('click', () => {
       cadena = 1; errorsRonda = 0;
@@ -272,14 +285,54 @@
       return null;
     }
 
+    // Parteix n unitats en k parts (cadascuna ≥ 1), a l'atzar
+    function compondre(n, k) {
+      const talls = new Set();
+      while (talls.size < k - 1) talls.add(aleatori(1, n - 1));
+      const t = [0, ...[...talls].sort((a, b) => a - b), n];
+      return t.slice(1).map((v, i) => v - t[i]);
+    }
+    const PETITS = [2, 3, 4, 6, 7, 8, 9];   // números petits que no acaben en 0 ni en 5
+
+    // Números rodons (múltiples de 10 i 5): sumar és més fàcil
+    //   tots:   objectiu i fitxes acaben en 0 o 5 (45 = 20 + 25)
+    //   alguns: les fitxes bones són rodones menys una de petita que completa (47 = 20 + 25 + 2)
+    function generar(k) {
+      if (config.rodons === 'tots') {
+        const u = aleatori(Math.max(2, k), 19);                 // objectiu = u × 5 (10…95)
+        const parts = compondre(u, k).map(x => x * 5);
+        const maxPart = Math.max(...parts);
+        const sobren = Array.from({ length: 4 }, () => 5 * aleatori(1, Math.max(1, Math.min(u - 1, maxPart / 5 + 2))));
+        return { objectiu: u * 5, parts, sobren };
+      }
+      if (config.rodons === 'alguns') {
+        const r = PETITS[aleatori(0, PETITS.length - 1)];
+        const u = aleatori(Math.max(2, k - 1), Math.floor((99 - r) / 5));
+        const parts = [...compondre(u, k - 1).map(x => x * 5), r];
+        const maxPart = Math.max(...parts);
+        const altres = PETITS.filter(x => x !== r);
+        const sobren = [
+          5 * aleatori(1, Math.max(1, Math.min(u, maxPart / 5 + 2))),
+          5 * aleatori(1, Math.max(1, Math.min(u, maxPart / 5 + 2))),
+          altres[aleatori(0, altres.length - 1)],
+          altres[aleatori(0, altres.length - 1)],
+        ];
+        return { objectiu: u * 5 + r, parts, sobren };
+      }
+      const obj = aleatori(Math.max(10, k * 5), 99);
+      const parts = partir(obj, k);
+      // Fitxes que sobren: números semblants als de la solució, sempre menors que l'objectiu
+      const maxPart = Math.max(...parts);
+      const sobren = Array.from({ length: 4 }, () => aleatori(2, Math.min(obj - 1, maxPart + 6)));
+      return { objectiu: obj, parts, sobren };
+    }
+
     function novaCadena() {
       const niv = NIVELLS[config.nivell];
       const k = aleatori(niv.min, niv.max);
-      objectiu = aleatori(Math.max(10, k * 5), 99);
-      const parts = partir(objectiu, k);
-      // Fitxes que sobren: números semblants als de la solució, sempre menors que l'objectiu
-      const maxPart = Math.max(...parts);
-      const sobren = Array.from({ length: 4 }, () => aleatori(2, Math.min(objectiu - 1, maxPart + 6)));
+      const g = generar(k);
+      objectiu = g.objectiu;
+      const parts = g.parts, sobren = g.sobren;
       fitxes = barrejar([...parts, ...sobren]).map((v, i) => ({ id: i, v }));
       triades = [];
       errorsCadena = 0; bloquejat = false;
@@ -372,7 +425,7 @@
       clearInterval(rellotge);
       const temps = performance.now() - inici;
       pintarDades();
-      const clau = `appjocs.suma-rapida.record.${config.nivell}.${config.cadenes}`;
+      const clau = `appjocs.suma-rapida.record.${config.nivell}.${config.cadenes}` + (config.rodons === 'no' ? '' : `.${config.rodons}`);
       let record = null; try { record = Number(localStorage.getItem(clau)) || null; } catch {}
       const nouRecord = !record || temps < record;
       if (nouRecord) { try { localStorage.setItem(clau, String(Math.round(temps))); } catch {} }

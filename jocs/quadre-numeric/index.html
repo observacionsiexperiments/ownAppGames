@@ -143,21 +143,24 @@
   <main class="joc">
     <!-- ================= INICI ================= -->
     <section class="inici" id="pantalla-inici">
-      <h2 class="titol">Tria la forma</h2>
-      <div class="formes" id="formes">
-        <button type="button" data-v="creu" aria-pressed="true">
-          <span class="mini" style="grid-template-columns: repeat(3, 18px)"><i class="x"></i><i></i><i class="x"></i><i></i><i class="c"></i><i></i><i class="x"></i><i></i><i class="x"></i></span>
-          <b>✚ Creu</b><span>El número i els quatre del costat: a dalt, a baix, a l'esquerra i a la dreta.</span>
-        </button>
-        <button type="button" data-v="quadrat" aria-pressed="false">
-          <span class="mini" style="grid-template-columns: repeat(3, 18px)"><i></i><i></i><i></i><i></i><i class="c"></i><i></i><i></i><i></i><i></i></span>
-          <b>⬛ Quadrat</b><span>El número i els vuit que l'envolten, també les cantonades.</span>
-        </button>
-        <button type="button" data-v="aleatoria" aria-pressed="false">
-          <span class="mini" style="grid-template-columns: repeat(3, 18px)"><i class="c"></i><i></i><i class="x"></i><i class="x"></i><i></i><i></i><i class="x"></i><i class="x"></i><i></i></span>
-          <b>🎲 Sorpresa</b><span>Una figura diferent cada vegada, sempre amb les caselles tocant-se.</span>
-        </button>
+      <div class="grup">
+        <h2 class="titol">Tria la forma</h2>
+        <div class="formes" id="formes">
+          <button type="button" data-v="creu" aria-pressed="true">
+            <span class="mini" style="grid-template-columns: repeat(3, 18px)"><i class="x"></i><i></i><i class="x"></i><i></i><i class="c"></i><i></i><i class="x"></i><i></i><i class="x"></i></span>
+            <b>✚ Creu</b><span>El número i els quatre del costat: a dalt, a baix, a l'esquerra i a la dreta.</span>
+          </button>
+          <button type="button" data-v="quadrat" aria-pressed="false">
+            <span class="mini" style="grid-template-columns: repeat(3, 18px)"><i></i><i></i><i></i><i></i><i class="c"></i><i></i><i></i><i></i><i></i></span>
+            <b>⬛ Quadrat</b><span>El número i els vuit que l'envolten, també les cantonades.</span>
+          </button>
+          <button type="button" data-v="aleatoria" aria-pressed="false">
+            <span class="mini" style="grid-template-columns: repeat(3, 18px)"><i class="c"></i><i></i><i class="x"></i><i class="x"></i><i></i><i></i><i class="x"></i><i class="x"></i><i></i></span>
+            <b>🎲 Sorpresa</b><span>Una figura diferent cada vegada, sempre amb les caselles tocant-se.</span>
+          </button>
+        </div>
       </div>
+
       <p class="explica">Imagina la taula del 100: cada fila és una desena (1–10, 11–20, 21–30…). Faràs 5 números.</p>
       <div class="comencar"><button class="btn" id="btn-comencar" type="button">Comença! 🧩</button></div>
     </section>

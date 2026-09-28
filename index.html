@@ -34,7 +34,20 @@
     </div>
   </header>
 
-  <main>
+  <main class="inici-app">
+    <!-- Buscador i filtre per tipus de joc -->
+    <div class="eines" role="search">
+      <label class="cerca">
+        <span aria-hidden="true">🔍</span>
+        <input type="search" id="cerca" placeholder="Busca un joc…" aria-label="Busca un joc" autocomplete="off" enterkeyhint="search">
+      </label>
+      <div class="filtres" id="filtres" role="group" aria-label="Tipus de joc">
+        <button type="button" data-f="tots" aria-pressed="true">Tots</button>
+        <button type="button" data-f="xifres" aria-pressed="false">🔢 Xifres</button>
+        <button type="button" data-f="lletres" aria-pressed="false">🔤 Lletres</button>
+      </div>
+    </div>
+
     <ul id="llista-jocs" class="graella" aria-live="polite">
       <li class="buit">Carregant jocs…</li>
     </ul>
