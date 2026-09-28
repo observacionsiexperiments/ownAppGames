@@ -239,6 +239,7 @@
   <script src="../../js/entrada-numero.js"></script>
   <script src="../../js/finestra-entrada.js"></script>
   <script src="../../js/pantalla.js"></script>
+  <script src="../../js/preferencies.js"></script>
   <script src="../../js/celebracio.js"></script>
   <script>
     const MIN_N = 2, MAX_N = 20;
@@ -570,7 +571,10 @@
       seleccionat = pendents()[0] || null;
       if (!seleccionat) { acabar(); celebrarNode(node); return; }
       comprovarRepte();
-      if (!avisRepte) mostrar(`✓ ${node.v} = ${k} + ${node.v - k}`, seleccionat ? `Ara parteix el ${seleccionat.v}` : '', 'guanyat');
+      if (!avisRepte) {
+        const suma = `${node.v} = ${k} + ${node.v - k}`, t = Preferencies.felicitacio(`✓ ${suma}`);
+        mostrar(t, [t.includes(suma) ? '' : suma, seleccionat ? `Ara parteix el ${seleccionat.v}` : ''].filter(Boolean).join(' · '), 'guanyat');
+      }
       dibuixar();
       celebrarNode(node);
     }
@@ -598,7 +602,7 @@
       let premi;
       if (modeTriat === 'repte') {
         if (p === min) {
-          mostrar(`🏆 Perfecte! ${p} pisos ⭐⭐⭐`, `És el mínim possible per al ${n}.`, 'guanyat');
+          mostrar(`🏆 Perfecte! ${p} pisos${Preferencies.errors() ? ' ⭐⭐⭐' : ''}`, `És el mínim possible per al ${n}.`, 'guanyat');
           premi = { titol: 'Arbre perfecte!', estrelles: 3, subtitol: `${p} pisos: el mínim possible per al ${n}.` };
         } else {
           mostrar(`Arbre acabat amb ${p} pisos`, `Es pot fer amb ${min}! Desfés alguns talls i torna-ho a provar.`, 'pista');
@@ -667,7 +671,8 @@
           n.buit = false; n.encertat = true; errorsBuit = 0;
           const nodeEncertat = n;
           const germa = n.pare.fills.find(f => f !== n);
-          mostrar(`Molt bé! ${n.pare.fills[0].v} + ${n.pare.fills[1].v} = ${n.pare.v}`, '', 'guanyat');
+          const suma = `${n.pare.fills[0].v} + ${n.pare.fills[1].v} = ${n.pare.v}`, t = Preferencies.felicitacio(`✓ Molt bé! ${suma}`);
+          mostrar(t, t.includes(suma) ? '' : suma, 'guanyat');
           entrada.buidar(); finestraCompleta.tancar();
           seleccionat = nodes().find(x => x.buit) || null;
           if (!seleccionat) {
@@ -679,7 +684,7 @@
           if (!seleccionat) Celebracio.gran({
             titol: 'Arbre complet!', emoji: '🌳',
             estrelles: errorsCompleta === 0 ? 3 : errorsCompleta <= 2 ? 2 : 1,
-            subtitol: errorsCompleta === 0 ? 'Sense cap error!' : `Amb ${errorsCompleta} ${errorsCompleta === 1 ? 'error' : 'errors'}.`,
+            subtitol: !Preferencies.errors() ? 'Has trobat tots els números.' : errorsCompleta === 0 ? 'Sense cap error!' : `Amb ${errorsCompleta} ${errorsCompleta === 1 ? 'error' : 'errors'}.`,
           });
         } else {
           errorsBuit++; errorsCompleta++;

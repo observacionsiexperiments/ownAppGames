@@ -41,6 +41,7 @@
     .progres i.be { background: var(--c-ok); border-color: var(--c-ok-vora); }
     .progres i.malament { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
     .progres i.ara { background: var(--c-info); border-color: var(--c-info-vora); }
+    .progres i.fet { background: var(--vora); }
 
     .tauler {
       background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi);
@@ -159,7 +160,7 @@
         </div>
       </div>
 
-      <div class="grup">
+      <div class="grup" id="grup-temps">
         <h2 class="titol">4. Temps per respondre</h2>
         <div class="opcions" id="op-temps">
           <button type="button" data-v="5" aria-pressed="false">5 s</button>
@@ -190,6 +191,7 @@
   </main>
 
   <script src="../../js/pantalla.js"></script>
+  <script src="../../js/preferencies.js"></script>
   <script src="../../js/celebracio.js"></script>
   <script>
     const $ = id => document.getElementById(id);
@@ -209,7 +211,11 @@
     grupOpcions('op-xifres', 'xifres'); grupOpcions('op-quants', 'quants');
     grupOpcions('op-mode', 'mode'); grupOpcions('op-temps', 'temps');
 
+    // Opció general "Temporitzador" desactivada: sense temps i sense selector
+    if (!Preferencies.temps()) { $('grup-temps').hidden = true; config.temps = 0; }
+
     $('btn-comencar').addEventListener('click', () => {
+      if (!Preferencies.temps()) config.temps = 0;
       num = 1; encerts = 0; resultats = [];
       $('pantalla-inici').hidden = true; $('pantalla-joc').hidden = false;
       $('temps').hidden = config.temps === 0;
@@ -323,7 +329,7 @@
         encerts++; resultats.push(true);
         boto.classList.add('correcta');
         Celebracio.petita(boto);
-        mostrar('✓ Molt bé!', `El ${c} és el ${busca === 'gran' ? 'més gran' : 'més petit'}.`, 'guanyat');
+        mostrar(Preferencies.felicitacio('✓ Molt bé!'), `El ${c} és el ${busca === 'gran' ? 'més gran' : 'més petit'}.`, 'guanyat');
         pintarDades();
         seguent = setTimeout(passar, 900);
         return;
@@ -359,6 +365,12 @@
     function final() {
       aturar();
       num = PREGUNTES;
+      if (!Preferencies.errors()) {   // sense comptar: ni encerts, ni estrelles, ni rècord
+        pintarDades();
+        mostrar('🎉 Ronda acabada!', `Has fet les ${PREGUNTES} preguntes.`, 'guanyat');
+        Celebracio.gran({ titol: 'Ronda acabada!', emoji: '🔎', subtitol: `Has fet les ${PREGUNTES} preguntes.`, boto: 'Continuar' });
+        return;
+      }
       const clau = `appjocs.gran-petit.record.${config.xifres}.${config.quants}.${config.mode}.${config.temps}`;
       let record = null; try { record = Number(localStorage.getItem(clau)) || null; } catch {}
       const nouRecord = record === null || encerts > record;
@@ -376,11 +388,12 @@
 
     // ---------------- Dibuix i missatges ----------------
     function pintarDades() {
+      const comptar = Preferencies.errors();
       const punts = Array.from({ length: PREGUNTES }, (_, i) =>
-        `<i class="${i < resultats.length ? (resultats[i] ? 'be' : 'malament') : i + 1 === num ? 'ara' : ''}"></i>`).join('');
+        `<i class="${i < resultats.length ? (!comptar ? 'fet' : resultats[i] ? 'be' : 'malament') : i + 1 === num ? 'ara' : ''}"></i>`).join('');
       $('dades').innerHTML =
         `<span class="dada">Pregunta <b>${Math.min(num, PREGUNTES)}</b>/${PREGUNTES} <span class="progres">${punts}</span></span>`
-        + `<span class="dada">Encerts: <b>${encerts}</b></span>`;
+        + (comptar ? `<span class="dada">Encerts: <b>${encerts}</b></span>` : '');
     }
     function sacsejar(el) { el.classList.remove('sacseig'); void el.offsetWidth; el.classList.add('sacseig'); }
     function mostrar(text, extra = '', estat = '') {

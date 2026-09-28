@@ -2,7 +2,9 @@
 //
 //   Celebracio.petita(element)      → esclat de confeti i estrelles des d'un element (encert intermedi)
 //   Celebracio.gran({ titol, subtitol, estrelles: 1..3, emoji, boto, enTancar })
-//                                   → pantalla de premi: confeti, trofeu, estrelles i so (joc acabat)
+//                                   → pantalla de premi: confeti, trofeu, estrelles i so (joc acabat).
+//                                     Amb js/preferencies.js: afegeix el nom al títol i, si no es compten
+//                                     errors, no mostra estrelles.
 //
 // Respecta "reduir moviment" del sistema (menys animació). El so es pot silenciar amb
 // localStorage 'appjocs.so' = 'no'.
@@ -79,7 +81,11 @@
 
   // ---------- Gran: pantalla de premi ----------
   function gran(opcions = {}) {
-    const { titol = 'Molt bé!', subtitol = '', estrelles = 3, emoji = '🏆', boto = 'Continuar', enTancar } = opcions;
+    let { titol = 'Molt bé!', subtitol = '', estrelles = 3, emoji = '🏆', boto = 'Continuar', enTancar } = opcions;
+    // Preferències (js/preferencies.js): el nom al títol; sense comptar errors, no hi ha estrelles
+    const P = global.Preferencies;
+    if (P) titol = P.ambNom(titol);
+    const ambEstrelles = !P || P.errors();
     tancarGran();
     const fons = document.createElement('div');
     fons.className = 'cel-fons';
@@ -91,9 +97,9 @@
       <div class="cel-targeta">
         <div class="cel-trofeu" aria-hidden="true"></div>
         <h2 class="cel-titol"></h2>
-        <div class="cel-estrelles" aria-label="${estrelles} de 3 estrelles">
+        ${ambEstrelles ? `<div class="cel-estrelles" aria-label="${estrelles} de 3 estrelles">
           ${[1, 2, 3].map(i => `<span class="cel-e ${i <= estrelles ? 'guanyada' : ''}" style="--i:${i}">⭐</span>`).join('')}
-        </div>
+        </div>` : ''}
         <p class="cel-subtitol"></p>
         <button type="button" class="btn cel-boto"></button>
       </div>`;

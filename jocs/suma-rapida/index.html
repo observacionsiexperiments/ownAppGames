@@ -235,6 +235,7 @@
   </main>
 
   <script src="../../js/pantalla.js"></script>
+  <script src="../../js/preferencies.js"></script>
   <script src="../../js/celebracio.js"></script>
   <script>
     const $ = id => document.getElementById(id);
@@ -370,8 +371,8 @@
         `<i class="${i + 1 < cadena ? 'fet' : i + 1 === cadena ? 'ara' : ''}"></i>`).join('');
       $('dades').innerHTML =
         `<span class="dada">Cadena <b>${Math.min(cadena, config.cadenes)}</b>/${config.cadenes} <span class="progres">${punts}</span></span>`
-        + `<span class="dada">⏱️ <b>${format(performance.now() - inici)}</b></span>`
-        + `<span class="dada">Errors: <b>${errorsRonda}</b></span>`;
+        + (Preferencies.temps() ? `<span class="dada">⏱️ <b>${format(performance.now() - inici)}</b></span>` : '')
+        + (Preferencies.errors() ? `<span class="dada">Errors: <b>${errorsRonda}</b></span>` : '');
     }
 
     // ---------------- Jugar ----------------
@@ -413,7 +414,7 @@
       cont.querySelectorAll('.fitxa').forEach(b => b.disabled = true);
       $('operacio').textContent = triades.map(f => f.v).join(' + ') + ' = ' + objectiu;
       $('btn-ok').disabled = true; $('btn-esborrar').disabled = true;
-      mostrar('✓ Molt bé!', '', 'guanyat');
+      mostrar(Preferencies.felicitacio('✓ Molt bé!'), '', 'guanyat');
       Celebracio.petita($('objectiu'));
       setTimeout(() => {
         cadena++;
@@ -425,6 +426,18 @@
       clearInterval(rellotge);
       const temps = performance.now() - inici;
       pintarDades();
+      // Opcions: sense temporitzador no hi ha cronòmetre ni rècord de temps; sense errors, no hi ha estrelles
+      const ambTemps = Preferencies.temps(), ambErrors = Preferencies.errors();
+      if (!ambTemps) {
+        const e = ambErrors && errorsRonda ? ` · ${errorsRonda} ${errorsRonda === 1 ? 'error' : 'errors'}` : '';
+        mostrar('🏆 Ronda acabada!', `${config.cadenes} cadenes fetes${e}`, 'guanyat');
+        Celebracio.gran({
+          titol: ambErrors && errorsRonda === 0 ? 'Suma perfecta!' : 'Ronda acabada!', emoji: '⚡',
+          estrelles: errorsRonda === 0 ? 3 : errorsRonda <= 2 ? 2 : 1,
+          subtitol: `${config.cadenes} cadenes fetes${e}`, boto: 'Continuar',
+        });
+        return;
+      }
       const clau = `appjocs.suma-rapida.record.${config.nivell}.${config.cadenes}` + (config.rodons === 'no' ? '' : `.${config.rodons}`);
       let record = null; try { record = Number(localStorage.getItem(clau)) || null; } catch {}
       const nouRecord = !record || temps < record;
@@ -432,10 +445,10 @@
       const estrelles = errorsRonda === 0 ? 3 : errorsRonda <= 2 ? 2 : 1;
       mostrar('🏆 Ronda acabada!', `Temps: ${format(temps)}${nouRecord ? ' · Nou rècord!' : ''}`, 'guanyat');
       Celebracio.gran({
-        titol: errorsRonda === 0 ? 'Suma perfecta!' : 'Ronda acabada!', emoji: '⚡', estrelles,
+        titol: ambErrors && errorsRonda === 0 ? 'Suma perfecta!' : 'Ronda acabada!', emoji: '⚡', estrelles,
         subtitol: `${config.cadenes} cadenes en ${format(temps)}`
           + (nouRecord ? ' · 🏅 Nou rècord!' : ` · Rècord: ${format(record)}`)
-          + (errorsRonda ? ` · ${errorsRonda} ${errorsRonda === 1 ? 'error' : 'errors'}` : ''),
+          + (ambErrors && errorsRonda ? ` · ${errorsRonda} ${errorsRonda === 1 ? 'error' : 'errors'}` : ''),
         boto: 'Continuar',
       });
     }

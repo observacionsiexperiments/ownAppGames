@@ -180,6 +180,7 @@
   </main>
 
   <script src="../../js/pantalla.js"></script>
+  <script src="../../js/preferencies.js"></script>
   <script src="../../js/celebracio.js"></script>
   <script>
     const $ = id => document.getElementById(id);
@@ -278,7 +279,7 @@
       const punts = Array.from({ length: llista.length }, (_, i) =>
         `<i class="${i < index ? 'fet' : i === index ? 'ara' : ''}"></i>`).join('');
       $('dades').innerHTML = `<span class="dada">Paraula <b>${Math.min(index + 1, llista.length)}</b>/${llista.length} <span class="progres">${punts}</span></span>`
-        + `<span class="dada">Errors: <b>${errorsRonda}</b></span>`;
+        + (Preferencies.errors() ? `<span class="dada">Errors: <b>${errorsRonda}</b></span>` : '');
     }
 
     function triar(boto, opcio) {
@@ -287,7 +288,8 @@
         bloquejat = true;
         boto.classList.add('correcta');
         $('imatges').querySelectorAll('.imatge').forEach(b => { if (b !== boto) b.disabled = true; });
-        mostrar(`✓ Molt bé! ${format(actual.text)}`, '', 'guanyat');
+        const t = Preferencies.felicitacio(`✓ Molt bé! ${format(actual.text)}`);
+        mostrar(t, t.includes(format(actual.text)) ? '' : format(actual.text), 'guanyat');
         Celebracio.petita(boto);
         setTimeout(seguent, 1500);
         return;
@@ -308,6 +310,11 @@
       index++;
       if (index < llista.length) return novaParaula();
       pintarDades();
+      if (!Preferencies.errors()) {   // sense comptar errors: celebració sense estrelles ni recompte
+        mostrar('🏆 Ronda acabada!', `Has llegit ${llista.length} paraules.`, 'guanyat');
+        Celebracio.gran({ titol: 'Gran lector!', emoji: '📖', subtitol: `Has llegit ${llista.length} paraules.`, boto: 'Continuar' });
+        return;
+      }
       const estrelles = errorsRonda === 0 ? 3 : errorsRonda <= 3 ? 2 : 1;
       mostrar('🏆 Ronda acabada!', errorsRonda === 0 ? 'Sense cap error!' : `Amb ${errorsRonda} ${errorsRonda === 1 ? 'error' : 'errors'}.`, 'guanyat');
       Celebracio.gran({

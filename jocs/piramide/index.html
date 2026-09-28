@@ -192,6 +192,7 @@
   <script src="../../js/entrada-numero.js"></script>
   <script src="../../js/finestra-entrada.js"></script>
   <script src="../../js/pantalla.js"></script>
+  <script src="../../js/preferencies.js"></script>
   <script src="../../js/celebracio.js"></script>
   <script>
     const $ = id => document.getElementById(id);
@@ -326,7 +327,7 @@
       }
       ultimNou = null;
       const falten = k.flat().filter(v => !v).length;
-      $('dades').innerHTML = `<span class="dada">Falten: <b>${falten}</b></span><span class="dada">Errors: <b>${errors}</b></span>`;
+      $('dades').innerHTML = `<span class="dada">Falten: <b>${falten}</b></span>` + (Preferencies.errors() ? `<span class="dada">Errors: <b>${errors}</b></span>` : '');
       $('entrada-caixa').hidden = acabat;
       // Si encara no hi cap (p. ex. el missatge s'ha escrit després de dibuixar), es torna a calcular un cop
       if (!recalculant && document.documentElement.scrollHeight > innerHeight + 1) {
@@ -372,7 +373,7 @@
           entrada.buidar(); finestra.tancar();
           sel = seguentDisponible();
           if (!sel) { final(); celebrarMao(f, c); return; }
-          mostrar(`✓ Molt bé, ${correcte}!`, explicacio(f, c), 'guanyat');
+          mostrar(Preferencies.felicitacio(`✓ Molt bé, ${correcte}!`), explicacio(f, c), 'guanyat');
           dibuixar();
           celebrarMao(f, c);
           return;
@@ -410,6 +411,12 @@
     function final() {
       acabat = true; sel = null;
       entrada.activar(false);
+      if (!Preferencies.errors()) {   // sense comptar errors: celebració sense estrelles ni recompte
+        mostrar('🎉 Piràmide completa!', 'Has trobat tots els maons.', 'guanyat');
+        dibuixar();
+        Celebracio.gran({ titol: 'Piràmide completa!', emoji: '🔺', subtitol: 'Has trobat tots els maons.' });
+        return;
+      }
       mostrar(errors === 0 ? '🏆 Piràmide perfecta! ⭐⭐⭐' : '🎉 Piràmide completa!',
         errors === 0 ? 'Sense cap error!' : `Has fet ${errors} ${errors === 1 ? 'error' : 'errors'}. Prova'n una altra!`, 'guanyat');
       dibuixar();

@@ -18,8 +18,9 @@
 </head>
 <body>
   <header class="capcalera">
+    <button type="button" class="btn-opcions" id="btn-opcions" aria-label="Opcions" title="Opcions" aria-haspopup="dialog">⚙️</button>
     <h1>🎮 AppJocs</h1>
-    <p class="subtitol">Tria un minijoc per començar</p>
+    <p class="subtitol" id="subtitol">Tria un minijoc per començar</p>
     <button id="btn-instal" class="btn" hidden>Instal·la l'app</button>
 
     <!-- Com instal·lar-la: a iPad/iPhone i a Android el navegador no sempre ho proposa sol -->
@@ -43,9 +44,11 @@
       </label>
       <div class="filtres" id="filtres" role="group" aria-label="Tipus de joc">
         <button type="button" data-f="tots" aria-pressed="true">Tots</button>
-        <button type="button" data-f="xifres" aria-pressed="false">🔢 Xifres</button>
-        <button type="button" data-f="lletres" aria-pressed="false">🔤 Lletres</button>
+        <button type="button" data-f="xifres" aria-pressed="false" aria-label="Xifres" title="Jocs de xifres">🔢<span class="txt"> Xifres</span></button>
+        <button type="button" data-f="lletres" aria-pressed="false" aria-label="Lletres" title="Jocs de lletres">🔤<span class="txt"> Lletres</span></button>
       </div>
+      <!-- Treu el filtre i el text de cerca (només es veu quan n'hi ha) -->
+      <button type="button" class="netejar-filtres" id="netejar-filtres" hidden aria-label="Treure filtres i cerca" title="Treure filtres">✕</button>
     </div>
 
     <ul id="llista-jocs" class="graella" aria-live="polite">
@@ -53,10 +56,45 @@
     </ul>
   </main>
 
+  <!-- Opcions generals (es guarden al dispositiu; les fan servir tots els jocs) -->
+  <div class="opcions-fons" id="opcions" hidden>
+    <form class="opcions-finestra" id="form-opcions" role="dialog" aria-modal="true" aria-labelledby="opcions-titol">
+      <h2 id="opcions-titol">⚙️ Opcions</h2>
+
+      <label class="op-camp" for="op-nom">
+        <span class="op-nom">Com et dius?</span>
+        <small>Sortirà quan encertis i a les felicitacions.</small>
+        <input type="text" id="op-nom" maxlength="20" autocomplete="off" placeholder="El teu nom" enterkeyhint="done">
+      </label>
+
+      <div class="op-camp">
+        <span class="op-nom" id="op-temps-nom">⏱️ Temporitzador</span>
+        <small>Temps per respondre i cronòmetre als jocs que en tenen.</small>
+        <div class="op-sino" role="group" aria-labelledby="op-temps-nom" data-clau="temps">
+          <button type="button" data-v="si">Sí</button><button type="button" data-v="no">No</button>
+        </div>
+      </div>
+
+      <div class="op-camp">
+        <span class="op-nom" id="op-errors-nom">✖️ Comptar errors i intents</span>
+        <small>Si dius que no, no hi ha comptadors ni estrelles: només es juga.</small>
+        <div class="op-sino" role="group" aria-labelledby="op-errors-nom" data-clau="errors">
+          <button type="button" data-v="si">Sí</button><button type="button" data-v="no">No</button>
+        </div>
+      </div>
+
+      <div class="op-botons">
+        <button type="button" class="op-cancela" id="op-cancela">Cancel·la</button>
+        <button type="submit" class="op-desa">Desa ✓</button>
+      </div>
+    </form>
+  </div>
+
   <footer class="peu">
     <small id="versio"></small>
   </footer>
 
+  <script src="js/preferencies.js" defer></script>
   <script src="js/app.js" defer></script>
 </body>
 </html>

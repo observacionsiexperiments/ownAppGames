@@ -1,6 +1,6 @@
 // Service worker: permet usar l'app sense connexió.
 // Puja VERSIO a cada desplegament perquè els clients agafin els canvis.
-const VERSIO = 'v0.17.0';
+const VERSIO = 'v0.18.0';
 const CACHE = `appjocs-${VERSIO}`;
 
 // Fitxers bàsics de la llançadora (rutes relatives a l'abast del SW)
@@ -13,6 +13,7 @@ const PRECACHE = [
   'js/entrada-numero.js',
   'js/finestra-entrada.js',
   'js/pantalla.js',
+  'js/preferencies.js',
   'js/celebracio.js',
   'jocs/jocs.json',
   'manifest.webmanifest',
@@ -39,8 +40,10 @@ self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET' || new URL(req.url).origin !== location.origin) return;
 
-  // HTML i jocs.json: primer xarxa (per veure novetats), si falla, memòria cau.
-  const esPrimerXarxa = req.mode === 'navigate' || req.url.endsWith('jocs.json');
+  // HTML, JS, CSS i JSON: primer xarxa (així, després d'un desplegament, la pàgina i el seu codi
+  // sempre són de la mateixa versió); si no hi ha connexió, memòria cau.
+  const ruta = new URL(req.url).pathname;
+  const esPrimerXarxa = req.mode === 'navigate' || /\.(html|js|css|json|webmanifest)$/.test(ruta) || ruta.endsWith('/');
   if (esPrimerXarxa) {
     e.respondWith(
       fetch(req)
@@ -50,7 +53,7 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // La resta (css, js, imatges, recursos dels jocs): primer memòria cau.
+  // La resta (imatges, icones): primer memòria cau.
   e.respondWith(
     caches.match(req).then(r => r || fetch(req).then(res => { guardar(req, res.clone()); return res; }))
   );

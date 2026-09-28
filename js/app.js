@@ -1,5 +1,5 @@
 // Llançadora: llegeix jocs/jocs.json i pinta una targeta per joc.
-const VERSIO_APP = '0.17.0';
+const VERSIO_APP = '0.18.0';
 
 // Categories dels jocs (camp "categories" de jocs.json)
 const CATEGORIES = { xifres: '🔢 Xifres', lletres: '🔤 Lletres' };
@@ -13,6 +13,7 @@ async function carregarJocs() {
   try {
     const resposta = await fetch('jocs/jocs.json', { cache: 'no-cache' });
     jocs = (await resposta.json()).filter(j => j.estat !== 'ocult');
+    mides();
     pintarJocs();
   } catch (e) {
     console.error(e);
@@ -26,11 +27,14 @@ const normal = t => (t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').t
 function pintarJocs() {
   const llista = document.getElementById('llista-jocs');
   const text = normal(document.getElementById('cerca').value.trim());
+  document.getElementById('netejar-filtres').hidden = !text && filtre === 'tots';
   const visibles = jocs.filter(j =>
     (filtre === 'tots' || (j.categories || []).includes(filtre)) &&
     (!text || normal([j.nom, j.descripcio, j.objectiu, ...(j.categories || []).map(c => CATEGORIES[c])].join(' ')).includes(text)));
 
   llista.innerHTML = '';
+  // Mateixa mida de targeta sempre; només canvia quantes columnes es fan servir (per centrar-les)
+  llista.style.setProperty('--cols', Math.max(1, Math.min(columnes, visibles.length)));
   if (!visibles.length) {
     const li = document.createElement('li');
     li.className = 'buit';
@@ -42,6 +46,37 @@ function pintarJocs() {
   for (const joc of visibles) llista.appendChild(crearTargeta(joc));
 }
 
+// Mida de les targetes: proporció fixa 3:4 i la més gran possible perquè hi càpiguen TOTS els jocs
+// (no només els filtrats) sense desplaçar. Així la mida no canvia en filtrar ni en girar la pantalla
+// (només canvia com es reparteixen).
+const PROPORCIO = 4 / 3, AMPLE_MIN = 104, AMPLE_MAX = 270;
+let columnes = 3;
+function mides() {
+  const g = document.getElementById('llista-jocs');
+  const n = Math.max(1, jocs.length);
+  const cs = getComputedStyle(g);
+  const gap = parseFloat(cs.columnGap) || 16;
+  const W = g.clientWidth;
+  const dalt = g.getBoundingClientRect().top + window.scrollY;
+  const H = Math.min(innerHeight, document.documentElement.clientHeight) - dalt - document.querySelector('.peu').offsetHeight - parseFloat(cs.marginBottom) - 6;
+  let millor = null;
+  for (let c = 1; c <= n; c++) {
+    const r = Math.ceil(n / c);
+    const w = Math.min((W - (c - 1) * gap) / c, (H - (r - 1) * gap) / r / PROPORCIO, AMPLE_MAX);
+    const buits = c * r - n;
+    if (!millor || w > millor.w + 1 || (Math.abs(w - millor.w) <= 1 && buits < millor.buits)) millor = { c, r, w, buits };
+  }
+  const w = Math.max(AMPLE_MIN, Math.floor(millor.w));
+  columnes = millor.c;
+  g.style.setProperty('--card-w', w + 'px');
+  // Centrat vertical calculat amb tots els jocs: en filtrar, les targetes no es mouen de lloc
+  const alt = millor.r * w * PROPORCIO + (millor.r - 1) * gap;
+  g.style.paddingTop = Math.max(0, Math.floor((H - alt) / 2)) + 'px';
+  g.style.setProperty('--cols', columnes);
+}
+let esperaMides;
+window.addEventListener('resize', () => { clearTimeout(esperaMides); esperaMides = setTimeout(() => { mides(); pintarJocs(); }, 80); });
+
 function triarFiltre(f) {
   filtre = f;
   document.querySelectorAll('#filtres button').forEach(b => b.setAttribute('aria-pressed', b.dataset.f === f));
@@ -52,6 +87,11 @@ document.getElementById('filtres').addEventListener('click', e => {
   const b = e.target.closest('button[data-f]'); if (b) triarFiltre(b.dataset.f);
 });
 document.getElementById('cerca').addEventListener('input', pintarJocs);
+// Restaurar: tots els jocs i cerca buida
+document.getElementById('netejar-filtres').addEventListener('click', () => {
+  document.getElementById('cerca').value = '';
+  triarFiltre('tots');
+});
 document.querySelectorAll('#filtres button').forEach(b => b.setAttribute('aria-pressed', b.dataset.f === filtre));
 
 function crearTargeta(joc) {
@@ -121,6 +161,10 @@ function passos() {
 }
 
 function pintarAvis() {
+  pintarAvisSense();
+  if (jocs.length) { mides(); pintarJocs(); }
+}
+function pintarAvisSense() {
   if (jaInstal() || avisTancat()) { avis.hidden = true; return; }
   const llista = passos();
   document.getElementById('avis-directe').hidden = !promptInstal;
@@ -151,8 +195,51 @@ document.getElementById('avis-tancar').addEventListener('click', () => {
   avis.hidden = true;
   try { localStorage.setItem('appjocs.avis-instal-tancat', '1'); } catch {}
   if (promptInstal) btnInstal.hidden = false;   // encara es pot installar amb el botó petit
+  if (jocs.length) { mides(); pintarJocs(); }
 });
 pintarAvis();
+
+// ---------------- Opcions (⚙️) ----------------
+const finestraOp = document.getElementById('opcions');
+let triaOp = {};
+function pintarSalutacio() {
+  const nom = Preferencies.nom();
+  document.getElementById('subtitol').textContent = nom ? `Hola, ${nom}! Tria un minijoc per començar` : 'Tria un minijoc per començar';
+}
+function pintarSiNo() {
+  finestraOp.querySelectorAll('.op-sino').forEach(g => g.querySelectorAll('button').forEach(b =>
+    b.setAttribute('aria-pressed', (b.dataset.v === 'si') === triaOp[g.dataset.clau])));
+}
+function obrirOpcions() {
+  const p = Preferencies.llegir();
+  triaOp = { temps: p.temps !== false, errors: p.errors !== false };
+  document.getElementById('op-nom').value = p.nom || '';
+  pintarSiNo();
+  finestraOp.hidden = false;
+  document.documentElement.classList.add('fe-oberta');   // la pàgina del darrere no es mou
+  setTimeout(() => document.getElementById('op-nom').focus(), 50);
+}
+function tancarOpcions() {
+  finestraOp.hidden = true;
+  document.documentElement.classList.remove('fe-oberta');
+  document.getElementById('btn-opcions').focus();
+}
+document.getElementById('btn-opcions').addEventListener('click', obrirOpcions);
+document.getElementById('op-cancela').addEventListener('click', tancarOpcions);
+finestraOp.addEventListener('click', e => { if (e.target === finestraOp) tancarOpcions(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !finestraOp.hidden) tancarOpcions(); });
+finestraOp.querySelectorAll('.op-sino').forEach(g => g.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  triaOp[g.dataset.clau] = b.dataset.v === 'si'; pintarSiNo();
+}));
+document.getElementById('form-opcions').addEventListener('submit', e => {
+  e.preventDefault();
+  Preferencies.desar({ nom: document.getElementById('op-nom').value, ...triaOp });
+  pintarSalutacio();
+  tancarOpcions();
+  if (jocs.length) { mides(); pintarJocs(); }
+});
+pintarSalutacio();
 
 document.getElementById('versio').textContent = `v${VERSIO_APP}`;
 carregarJocs();

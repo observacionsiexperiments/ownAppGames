@@ -193,6 +193,7 @@
   <script src="../../js/entrada-numero.js"></script>
   <script src="../../js/finestra-entrada.js"></script>
   <script src="../../js/pantalla.js"></script>
+  <script src="../../js/preferencies.js"></script>
   <script src="../../js/celebracio.js"></script>
   <script>
     const $ = id => document.getElementById(id);
@@ -307,7 +308,7 @@
         b.className = cl; b.textContent = text;
         q.appendChild(b);
       });
-      const errs = `<span class="dada">Errors: <b>${errorsRonda}</b></span>`;
+      const errs = Preferencies.errors() ? `<span class="dada">Errors: <b>${errorsRonda}</b></span>` : '';
       const punts = Array.from({ length: NUMEROS_PER_RONDA }, (_, i) =>
         `<i class="${i + 1 < ronda ? 'fet' : i + 1 === ronda ? 'ara' : ''}"></i>`).join('');
       $('dades').innerHTML = `<span class="dada">Número <b>${ronda}</b>/${NUMEROS_PER_RONDA} <span class="progres">${punts}</span></span>${errs}`;
@@ -360,7 +361,7 @@
           entrada.buidar(); finestra.tancar();
           sel = caselles.find(x => x.valor !== null && !x.donat && !x.fet) || null;
           if (!sel) return numeroAcabat(c);
-          mostrar(`✓ Molt bé, el ${c.valor}!`, '', 'guanyat');
+          mostrar(Preferencies.felicitacio(`✓ Molt bé, el ${c.valor}!`), '', 'guanyat');
           dibuixar();
           celebrarCella(c);
           return;
@@ -399,6 +400,12 @@
         return;
       }
       // Ronda acabada: premi
+      if (!Preferencies.errors()) {   // sense comptar errors: celebració sense estrelles ni recompte
+        mostrar('🏆 Ronda completada!', 'Has omplert els 5 números.', 'guanyat');
+        ronda = NUMEROS_PER_RONDA + 1; dibuixar(); ronda = NUMEROS_PER_RONDA;
+        setTimeout(() => Celebracio.gran({ titol: 'Ronda completada!', subtitol: 'Has omplert els 5 números.', boto: 'Continuar' }), 500);
+        return;
+      }
       const estrelles = errorsRonda === 0 ? 3 : errorsRonda <= 3 ? 2 : 1;
       mostrar('🏆 Ronda completada!', errorsRonda === 0 ? 'Sense cap error!' : `Amb ${errorsRonda} ${errorsRonda === 1 ? 'error' : 'errors'}.`, 'guanyat');
       ronda = NUMEROS_PER_RONDA + 1; dibuixar(); ronda = NUMEROS_PER_RONDA;

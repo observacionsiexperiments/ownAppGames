@@ -65,7 +65,7 @@
     .pista.es-pista   { background: var(--c-pista); border-color: var(--c-pista-vora); }
     .pista.es-guanyat { background: var(--c-ok);    border-color: var(--c-ok-vora); }
     .ja-saps { text-align: left; border-top: 2px dashed var(--c-pista-vora); padding-top: 8px; }
-    .ja-saps[hidden] { display: none; }
+    .ja-saps[hidden], .estat[hidden] { display: none; }
     .ja-saps b { font-size: 1rem; }
     .ja-saps ul { margin: 6px 0 0; padding-left: 1.2em; font-size: clamp(1rem, 1.8vw, 1.2rem); font-weight: 600; }
     .ja-saps li + li { margin-top: 4px; }
@@ -164,6 +164,7 @@
   <script src="../../js/entrada-numero.js"></script>
   <script src="../../js/finestra-entrada.js"></script>
   <script src="../../js/pantalla.js"></script>
+  <script src="../../js/preferencies.js"></script>
   <script src="../../js/celebracio.js"></script>
   <script>
     const MIN = 1, MAX = 100;
@@ -303,8 +304,9 @@
       if (n === secret) {
         acabat = true;
         const r = llegirRecord();
-        let extra = `Ho has aconseguit en ${intents} ${intents === 1 ? 'intent' : 'intents'}.`;
-        if (!r || intents < r) { desarRecord(intents); extra += ' 🏅 Nou rècord!'; }
+        const comptar = Preferencies.errors();   // opció "Comptar errors i intents"
+        let extra = comptar ? `Ho has aconseguit en ${intents} ${intents === 1 ? 'intent' : 'intents'}.` : 'Ho has aconseguit!';
+        if (comptar && (!r || intents < r)) { desarRecord(intents); extra += ' 🏅 Nou rècord!'; }
         missatge(`🎉 Sí! Era el ${secret}!`, extra, 'guanyat');
         mostrarPista(`🎉 ${secret}`, 'guanyat', `Has dit el ${n}`);
         pintarRecord();
@@ -322,11 +324,13 @@
 
       mostrarPista(pistaDistancia(n), 'pista', `Has dit el ${n}`);
       afegirSaber(pistaEspecial(n)); afegirSaber(pistaAjuda());
-      missatge(`Intent ${intents}`, 'Mira la pista i torna-ho a provar.');
+      missatge(Preferencies.errors() ? `Intent ${intents}` : 'Encara no…', 'Mira la pista i torna-ho a provar.');
       sacsejar();
     }
 
     $('btn-nova').addEventListener('click', nova);
+    // Sense comptar intents: no es mostren el comptador ni el rècord
+    document.querySelector('.estat').hidden = !Preferencies.errors();
 
     pintarRecord();
     nova();
