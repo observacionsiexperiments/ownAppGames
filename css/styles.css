@@ -313,3 +313,22 @@ main { flex: 1; width: 100%; max-width: 960px; margin: 0 auto; }
   .en-gran .en-teclat button { min-height: clamp(42px, 8vh, 64px); font-size: clamp(1.4rem, 4vh, 1.9rem); }
   .en-gran .en-llenc { height: clamp(150px, 32vh, 240px); }
 }
+
+.avis-directe { margin: 6px 0 4px; text-align: center; }
+.avis-ios ol[hidden] { display: none; }
+
+/* Pàgina principal en horitzontal: totes les targetes en una fila (fins a 6 jocs) */
+@media (orientation: landscape) and (min-width: 900px) {
+  .graella { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+  main { max-width: 1300px; }
+}
+@media (orientation: landscape) and (max-height: 820px) {
+  .targeta .icona { width: 48px; height: 48px; font-size: 1.6rem; }
+  .targeta h2 { font-size: 1.05rem; }
+  .targeta .descripcio { font-size: .85rem; }
+  .targeta .objectiu { font-size: .82rem; }
+  .targeta .objectiu .rotul { font-size: .68rem; }
+  .jugar { padding: 3px 12px; font-size: .9rem; }
+  .avis-directe { margin: 2px 0; }
+  .avis-directe .btn { padding: 6px 18px; }
+}
