@@ -125,6 +125,43 @@
       .opcions button { min-height: 52px; }
       .comencar { margin: 14px 0 4px; }
     }
+
+    /* Mòbil (vertical, o apaisat amb poca alçada): tot compacte perquè hi càpiga sense desplaçar */
+    @media (orientation: portrait) and (max-width: 600px), (orientation: landscape) and (max-height: 500px) {
+      .barra-joc { padding: 6px 0; }
+      .barra-joc h1 { font-size: 1.1rem; }
+      .cap-joc { margin: 0 0 8px; gap: 6px; flex-wrap: nowrap; align-items: center; }
+      .dades { gap: 4px; flex-wrap: wrap; }
+      .dada { font-size: .8rem; padding: 2px 8px; }
+      .progres i { width: 9px; height: 9px; }
+      .cap-joc .btn { padding: 5px 10px; font-size: .85rem; white-space: nowrap; }
+      .disposicio { gap: 8px; }
+      /* Objectiu en una sola fila: «Arriba a [55] amb 2 o 3 números» */
+      .zona-objectiu {
+        padding: 6px 10px; display: grid; grid-template-columns: auto 1fr; grid-template-areas: "rotul objectiu" "quants objectiu";
+        align-items: center; column-gap: 12px; text-align: left;
+      }
+      .zona-objectiu .rotul { grid-area: rotul; align-self: end; }
+      .zona-objectiu .objectiu { grid-area: objectiu; justify-self: end; margin: 0; font-size: 3rem; padding: 0 14px; border-radius: 16px; }
+      .zona-objectiu .quants { grid-area: quants; align-self: start; font-size: .92rem; }
+      .zona-fitxes { padding: 8px; }
+      .fitxes { gap: 8px; }
+      .fitxa { min-height: clamp(52px, 8.5vh, 72px); font-size: 1.6rem; border-radius: 14px; }
+      .panell { gap: 8px; }
+      .operacio { min-height: 2.4rem; padding: 4px 10px; font-size: 1.1rem; }
+      .boto { min-height: 48px; font-size: 1.1rem; }
+      .missatge { min-height: 0; padding: 5px 10px; font-size: .95rem; }
+      .missatge small { font-size: .85rem; }
+    }
+    /* Mòbil apaisat: fitxes a l'esquerra, objectiu i botons a la dreta */
+    @media (orientation: landscape) and (max-height: 500px) {
+      .barra-joc { padding: 4px 0; }
+      .barra-joc h1 { font-size: 1rem; }
+      .disposicio { grid-template-columns: minmax(0, 1fr) min(300px, 40vw); grid-template-areas: "fitxes objectiu" "fitxes panell"; align-items: start; }
+      .fitxa { min-height: clamp(40px, 12vh, 56px); font-size: 1.4rem; }
+      .zona-objectiu .objectiu { font-size: 2.4rem; }
+      .boto { min-height: 42px; }
+    }
   </style>
 </head>
 <body>

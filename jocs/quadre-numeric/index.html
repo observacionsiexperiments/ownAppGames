@@ -110,6 +110,21 @@
       h2.titol { margin: 10px 0 6px; }
       .comencar { margin: 14px 0 4px; }
     }
+
+    /* Mòbil apaisat: tauler a l'esquerra, panell estret a la dreta (a sota hi surt la finestra d'entrada) */
+    @media (orientation: landscape) and (max-height: 500px) {
+      .cap-joc { margin: 0 0 4px; gap: 6px; flex-wrap: nowrap; }
+      .cap-joc h2 { font-size: .9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+      .cap-joc .btn { padding: 4px 10px; font-size: .85rem; white-space: nowrap; }
+      .dada { font-size: .78rem; padding: 2px 8px; white-space: nowrap; }
+      .dades { flex-wrap: nowrap; gap: 4px; }
+      .disposicio { grid-template-columns: minmax(0, 1fr) min(300px, 40vw); gap: 10px; align-items: start; }
+      .panell { gap: 6px; }
+      .missatge { min-height: 0; padding: 6px 10px; font-size: .9rem; }
+      .missatge small { font-size: .8rem; }
+      .regla { font-size: .78rem; }
+      .quadre { gap: 6px; }
+    }
   </style>
 </head>
 <body>
@@ -166,6 +181,7 @@
 
   <script src="../../js/reconeixedor-xifres.js"></script>
   <script src="../../js/entrada-numero.js"></script>
+  <script src="../../js/finestra-entrada.js"></script>
   <script src="../../js/celebracio.js"></script>
   <script>
     const $ = id => document.getElementById(id);
@@ -241,7 +257,7 @@
       window.scrollTo({ top: 0 });
     });
     $('btn-nova').addEventListener('click', () => {
-      Celebracio.tancar();
+      Celebracio.tancar(); finestra.tancar();
       $('pantalla-joc').hidden = true; $('pantalla-inici').hidden = false;
     });
 
@@ -259,7 +275,7 @@
         const disponible = innerHeight - dalt - 32 - 40;   // marges i la línia d'explicació
         mida = Math.min(mida, (disponible - (files - 1) * 8) / files);
       }
-      mida = Math.max(52, mida);
+      mida = Math.max(matchMedia('(max-height: 500px)').matches ? 40 : 52, mida);
       q.style.setProperty('--mida', mida + 'px');
       q.style.gridTemplateColumns = `repeat(${cols}, var(--mida))`;
       q.style.gridTemplateRows = `repeat(${files}, var(--mida))`;
@@ -293,10 +309,13 @@
         mostrar('Aquí no hi ha cap número 🙂', 'Aquesta casella queda fora de la taula del 100.', 'pista'); return;
       }
       if (c.donat || c.fet) return;
-      sel = c; errorsCella = 0;
-      entrada.buidar();
-      mostrar('Quin número va aquí?', '');
-      dibuixar();
+      if (c !== sel) {
+        sel = c; errorsCella = 0;
+        entrada.buidar();
+        mostrar('Quin número va aquí?', '');
+        dibuixar();
+      }
+      finestra.obrir('.cella.seleccionada');
     });
 
     // Explica on és una casella des del número donat, amb fletxes (sense dir el resultat)
@@ -318,7 +337,7 @@
         const c = sel;
         if (valor === c.valor) {
           c.fet = true; errorsCella = 0;
-          entrada.buidar();
+          entrada.buidar(); finestra.tancar();
           sel = caselles.find(x => x.valor !== null && !x.donat && !x.fet) || null;
           if (!sel) return numeroAcabat(c);
           mostrar(`✓ Molt bé, el ${c.valor}!`, '', 'guanyat');
@@ -335,6 +354,13 @@
         const b = document.querySelector(`.cella[data-i="${caselles.indexOf(c)}"]`);
         if (b) { b.classList.remove('sacseig'); void b.offsetWidth; b.classList.add('sacseig'); }
       },
+    });
+
+    // Mòbil: l'entrada surt en una finestra en tocar la casella
+    const finestra = FinestraEntrada.crear({
+      entrada: $('entrada-caixa'), info: [$('missatge')],
+      avis: '👆 Toca la casella blava per escriure el número',
+      enObrir: () => entrada.ajustar(),
     });
 
     function celebrarCella(c) {

@@ -1,5 +1,5 @@
 // Llançadora: llegeix jocs/jocs.json i pinta una targeta per joc.
-const VERSIO_APP = '0.13.0';
+const VERSIO_APP = '0.14.0';
 
 async function carregarJocs() {
   const llista = document.getElementById('llista-jocs');

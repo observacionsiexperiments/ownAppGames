@@ -131,6 +131,25 @@
       .sumes { font-size: .95rem; line-height: 1.45; padding: 6px 12px; max-height: 24vh; overflow-y: auto; }
       h2.titol { margin: 10px 0 6px; }
     }
+
+    /* Mòbil apaisat: tauler a l'esquerra, panell estret a la dreta (a sota hi surt la finestra d'entrada) */
+    @media (orientation: landscape) and (max-height: 500px) {
+      .cap-joc { margin: 0 0 4px; gap: 6px; flex-wrap: nowrap; }
+      .cap-joc h2 { font-size: .9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+      .cap-joc .btn { padding: 4px 10px; font-size: .85rem; white-space: nowrap; }
+      .dada { font-size: .78rem; padding: 2px 8px; white-space: nowrap; }
+      .dades { flex-wrap: nowrap; gap: 4px; }
+      .disposicio { grid-template-columns: minmax(0, 1fr) min(300px, 40vw); gap: 10px; align-items: start; }
+      .panell { gap: 6px; }
+      .missatge { min-height: 0; padding: 6px 10px; font-size: .9rem; }
+      .missatge small { font-size: .8rem; }
+      .regla { font-size: .78rem; }
+      .panell { grid-column: 2; grid-row: 1 / span 2; }
+      .zona-arbre { grid-column: 1; grid-row: 1; }
+      .sumes { grid-column: 1; grid-row: 2; max-height: 18vh; font-size: .85rem; line-height: 1.35; padding: 4px 10px; }
+      .tallar { padding: 6px 8px; }
+      .boto { min-height: 36px; font-size: .82rem; }
+    }
   </style>
 </head>
 <body>
@@ -177,8 +196,10 @@
 
           <!-- Lliure i repte: escriure la suma -->
           <div class="tallar" id="tallar">
-            <p id="tallar-text">Toca un número de l'arbre per partir-lo</p>
-            <div id="entrada-suma"></div>
+            <div id="bloc-suma">
+              <p id="tallar-text">Toca un número de l'arbre per partir-lo</p>
+              <div id="entrada-suma"></div>
+            </div>
             <div class="botons-joc">
               <button class="boto esborrar" id="btn-desfer" type="button">↶ Desfer</button>
               <button class="boto esborrar" id="btn-reiniciar" type="button">🗑 Tornar a començar</button>
@@ -199,6 +220,7 @@
 
   <script src="../../js/reconeixedor-xifres.js"></script>
   <script src="../../js/entrada-numero.js"></script>
+  <script src="../../js/finestra-entrada.js"></script>
   <script src="../../js/celebracio.js"></script>
   <script>
     const MIN_N = 2, MAX_N = 20;
@@ -235,7 +257,7 @@
         modeTriat = b.dataset.mode;
       });
       $('btn-comencar').addEventListener('click', comencar);
-      $('btn-nou').addEventListener('click', () => { $('pantalla-joc').hidden = true; $('pantalla-inici').hidden = false; });
+      $('btn-nou').addEventListener('click', () => { tancarFinestres(); $('pantalla-joc').hidden = true; $('pantalla-inici').hidden = false; });
     })();
 
     const NOMS_MODE = { lliure: '🌱 Lliure', repte: "🏔️ L'arbre més baixet", completa: "✏️ Completa l'arbre" };
@@ -245,6 +267,7 @@
       arrel = nouNode(n); historial = []; acabat = false; errorsBuit = 0; avisRepte = false; errorsCompleta = 0;
       $('titol-joc').textContent = `Arbre del ${n} · ${NOMS_MODE[modeTriat]}`;
       $('pantalla-inici').hidden = true; $('pantalla-joc').hidden = false;
+      tancarFinestres();
       $('tallar').hidden = modeTriat === 'completa';
       $('completar').hidden = modeTriat !== 'completa';
       if (modeTriat === 'completa') {
@@ -434,6 +457,7 @@
       if (acabat) return;
       if (n !== seleccionat) { seleccionat = n; mostrar(`Parteix el ${n.v}`, 'Escriu un número a cada cercle.', ''); dibuixar(); }
       entradaSuma.activarCamp(camp);
+      finestraSuma.obrir(ancoraSuma());
     }
 
     function pintarDades() {
@@ -473,6 +497,7 @@
       $('btn-desfer').disabled = !historial.length;
       $('btn-reiniciar').disabled = !arrel.fills;
       $('entrada-suma').hidden = !potPartir;
+      finestraSuma.posarAvis(potPartir ? `👆 Toca un cercle blau per partir el ${seleccionat.v}` : "👆 Toca un número de l'arbre per partir-lo");
       if (!potPartir) {
         $('tallar-text').textContent = acabat ? 'Arbre acabat!' : "Toca un número de l'arbre per partir-lo";
         ultimSeleccionat = null; return;
@@ -507,6 +532,7 @@
         return;
       }
       errorsSuma = 0;
+      finestraSuma.tancar();
       ferTall(a);
     }
 
@@ -564,7 +590,10 @@
     // ---------------- Tocar un node ----------------
     function tocarNode(n) {
       if (modeTriat === 'completa') {
-        if (n.buit) { seleccionat = n; errorsBuit = 0; entrada.buidar(); mostrar('Quin número va aquí?', ''); dibuixar(); }
+        if (n.buit) {
+          if (n !== seleccionat) { seleccionat = n; errorsBuit = 0; entrada.buidar(); mostrar('Quin número va aquí?', ''); dibuixar(); }
+          finestraCompleta.obrir('#svg .node.seleccionat');
+        }
         return;
       }
       if (n.fills) {                       // ajuntar de nou
@@ -575,9 +604,8 @@
         dibuixar(); return;
       }
       if (n.v === 1) { mostrar("L'1 ja no es pot partir", 'És una fulla de l\'arbre 🍃', 'pista'); return; }
-      seleccionat = n;
-      mostrar(`Parteix el ${n.v}`, '', '');
-      dibuixar();
+      if (n !== seleccionat) { seleccionat = n; mostrar(`Parteix el ${n.v}`, '', ''); dibuixar(); }
+      finestraSuma.obrir(ancoraSuma());
     }
 
     $('btn-desfer').addEventListener('click', () => {
@@ -612,7 +640,7 @@
           const nodeEncertat = n;
           const germa = n.pare.fills.find(f => f !== n);
           mostrar(`Molt bé! ${n.pare.fills[0].v} + ${n.pare.fills[1].v} = ${n.pare.v}`, '', 'guanyat');
-          entrada.buidar();
+          entrada.buidar(); finestraCompleta.tancar();
           seleccionat = nodes().find(x => x.buit) || null;
           if (!seleccionat) {
             entrada.activar(false);
@@ -634,6 +662,21 @@
         }
       },
     });
+
+    // ---------------- Mòbil: l'entrada surt en una finestra en tocar l'arbre ----------------
+    const finestraSuma = FinestraEntrada.crear({
+      entrada: $('bloc-suma'), info: [$('missatge')],
+      avis: "👆 Toca un número de l'arbre per partir-lo",
+      enObrir: () => entradaSuma.ajustar(),
+    });
+    const finestraCompleta = FinestraEntrada.crear({
+      entrada: $('completar'), info: [$('missatge')],
+      avis: '👆 Toca el cercle blau per escriure el número',
+      enObrir: () => entrada.ajustar(),
+    });
+    function tancarFinestres() { finestraSuma.tancar(); finestraCompleta.tancar(); }
+    // Cercles buits del número triat (a sota del número): així es veuen tots dos per sobre de la finestra
+    const ancoraSuma = () => document.querySelector('#svg .node.fantasma.del-seleccionat') || document.querySelector('#svg .node.seleccionat');
 
     // ---------------- Missatges ----------------
     function mostrar(text, extra = '', estat = '') {

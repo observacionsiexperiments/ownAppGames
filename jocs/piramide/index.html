@@ -92,6 +92,20 @@
     .entrada-caixa { background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi); padding: 12px; }
     .entrada-caixa p { margin: 0 0 8px; text-align: center; font-weight: 700; }
     .regla { color: var(--text-suau); font-size: .92rem; text-align: center; margin: 0; }
+
+    /* Mòbil apaisat: tauler a l'esquerra, panell estret a la dreta (a sota hi surt la finestra d'entrada) */
+    @media (orientation: landscape) and (max-height: 500px) {
+      .cap-joc { margin: 0 0 4px; gap: 6px; flex-wrap: nowrap; }
+      .cap-joc h2 { font-size: .9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+      .cap-joc .btn { padding: 4px 10px; font-size: .85rem; white-space: nowrap; }
+      .dada { font-size: .78rem; padding: 2px 8px; white-space: nowrap; }
+      .dades { flex-wrap: nowrap; gap: 4px; }
+      .disposicio { grid-template-columns: minmax(0, 1fr) min(300px, 40vw); gap: 10px; align-items: start; }
+      .panell { gap: 6px; }
+      .missatge { min-height: 0; padding: 6px 10px; font-size: .9rem; }
+      .missatge small { font-size: .8rem; }
+      .regla { font-size: .78rem; }
+    }
   </style>
 </head>
 <body>
@@ -157,6 +171,7 @@
 
   <script src="../../js/reconeixedor-xifres.js"></script>
   <script src="../../js/entrada-numero.js"></script>
+  <script src="../../js/finestra-entrada.js"></script>
   <script src="../../js/celebracio.js"></script>
   <script>
     const $ = id => document.getElementById(id);
@@ -180,7 +195,7 @@
     grupOpcions('dificultats', 'dificultat');
     grupOpcions('modes-joc', 'mode');
     $('btn-comencar').addEventListener('click', comencar);
-    $('btn-nova').addEventListener('click', () => { $('pantalla-joc').hidden = true; $('pantalla-inici').hidden = false; });
+    $('btn-nova').addEventListener('click', () => { finestra.tancar(); $('pantalla-joc').hidden = true; $('pantalla-inici').hidden = false; });
 
     function aleatori(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
 
@@ -258,7 +273,13 @@
     function dibuixar() {
       const pir = $('piramide'); pir.innerHTML = '';
       const ample = pir.clientWidth - 16;
-      const mida = Math.max(48, Math.min(110, (ample - (N - 1) * 8) / N));
+      let mida = Math.max(48, Math.min(110, (ample - (N - 1) * 8) / N));
+      // Pantalla baixa (mòbil apaisat): la piràmide ha de cabre en l'alçada
+      if (matchMedia('(orientation: landscape) and (max-height: 500px)').matches) {
+        const dalt = pir.getBoundingClientRect().top + window.scrollY;
+        const disponible = innerHeight - dalt - 76;          // farciment del tauler, línia de la regla i marges
+        mida = Math.max(38, Math.min(mida, (disponible - (N - 1) * 8) / (N * .72)));
+      }
       pir.style.setProperty('--maó', mida + 'px');
       const k = coneix();
       for (let f = N - 1; f >= 0; f--) {
@@ -300,10 +321,13 @@
                                  : 'Busca un maó blau: aquells ja tenen prou pistes al voltant.', 'pista');
         return;
       }
-      sel = [f, c]; errorsMao = 0;
-      entrada.buidar();
-      mostrar('Quin número va aquí?', '');
-      dibuixar();
+      if (!(sel && sel[0] === f && sel[1] === c)) {
+        sel = [f, c]; errorsMao = 0;
+        entrada.buidar();
+        mostrar('Quin número va aquí?', '');
+        dibuixar();
+      }
+      finestra.obrir('.mao.seleccionat');
     });
 
     // ---------------- Respostes ----------------
@@ -316,7 +340,7 @@
         const correcte = valors[f][c];
         if (valor === correcte) {
           omplerts[f][c] = true; ultimNou = [f, c]; errorsMao = 0;
-          entrada.buidar();
+          entrada.buidar(); finestra.tancar();
           sel = seguentDisponible();
           if (!sel) { final(); celebrarMao(f, c); return; }
           mostrar(`✓ Molt bé, ${correcte}!`, explicacio(f, c), 'guanyat');
@@ -337,6 +361,13 @@
         }
         dibuixar();
       },
+    });
+
+    // Mòbil: l'entrada surt en una finestra en tocar el maó
+    const finestra = FinestraEntrada.crear({
+      entrada: $('entrada-caixa'), info: [$('missatge')],
+      avis: '👆 Toca el maó blau per escriure el número',
+      enObrir: () => entrada.ajustar(),
     });
 
     // Frase que recorda com s'ha calculat (després d'encertar)

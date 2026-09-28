@@ -106,6 +106,21 @@
       .missatge { font-size: 1.15rem; padding: 6px 10px; }
       .historial li { font-size: 1rem; padding: 3px 10px; }
     }
+
+    /* Mòbil: l'entrada surt en una finestra (js/finestra-entrada.js); a la pàgina hi ha una caixa per tocar */
+    .fe-lloc { grid-area: lloc; }
+    .mode-finestra .joc { grid-template-columns: 1fr; grid-template-areas: "missatges" "pista" "lloc"; grid-template-rows: none; }
+    .mode-finestra .pista { min-height: 150px; }
+    .mode-finestra .fe-disparador { margin: 0; font-size: 1.5rem; min-height: 72px; }
+    @media (orientation: landscape) {
+      .mode-finestra .joc { grid-template-columns: 1fr 1fr; grid-template-areas: "pista missatges" "pista lloc"; column-gap: 12px; }
+      .mode-finestra .pista { min-height: 0; }
+    }
+    .fe-info .pista { min-height: 0 !important; padding: 8px 12px; gap: 4px; }
+    .fe-info #pista-text { font-size: 1.5rem; }
+    .fe-info .pista .dit { font-size: 1rem; }
+    .fe-info .ja-saps ul { font-size: .95rem; max-height: 16vh; overflow-y: auto; }
+    .fe-info .missatge { font-size: 1rem; }
   </style>
 </head>
 <body>
@@ -141,6 +156,7 @@
 
   <script src="../../js/reconeixedor-xifres.js"></script>
   <script src="../../js/entrada-numero.js"></script>
+  <script src="../../js/finestra-entrada.js"></script>
   <script src="../../js/celebracio.js"></script>
   <script>
     const MIN = 1, MAX = 100;
@@ -165,6 +181,7 @@
       sabem = []; $('llista-saps').innerHTML = ''; $('ja-saps').hidden = true;
       mostrarPista('Fes el primer intent 🙂');
       missatge(`🤔 He pensat un número entre l'${MIN} i el ${MAX}`, "L'endevines?");
+      finestra.tancar(); $('entrada-num').hidden = false;
       entradaNum.activar(true);
       entradaNum.buidar();
       entradaNum.enfocar();
@@ -254,6 +271,13 @@
       el.classList.remove('sacseig'); void el.offsetWidth; el.classList.add('sacseig');
     }
 
+    // Mòbil: l'entrada surt en una finestra en tocar la caixa
+    const finestra = FinestraEntrada.crear({
+      entrada: $('entrada-num'), info: [$('pista'), $('missatge')],
+      avis: '✏️ Toca aquí per escriure un número', disparador: true, ampla: true,
+      enObrir: () => entradaNum.ajustar(),
+    });
+
     function provar(n) {
       if (acabat) return;
       entradaNum.buidar();
@@ -277,7 +301,8 @@
         missatge(`🎉 Sí! Era el ${secret}!`, extra, 'guanyat');
         mostrarPista(`🎉 ${secret}`, 'guanyat', `Has dit el ${n}`);
         pintarRecord();
-        entradaNum.activar(false);
+        entradaNum.activar(false); finestra.tancar();
+        if (finestra.activa()) $('entrada-num').hidden = true;   // en mòbil, fora la caixa per tocar
         // Premi: menys intents, més estrelles (amb 7 intents sempre es pot trobar)
         const estrelles = intents <= 5 ? 3 : intents <= 8 ? 2 : 1;
         Celebracio.gran({
