@@ -8,7 +8,12 @@
   <title>AppJocs</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon-192.png">
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <!-- iPad / iPhone: icona i comportament quan s'afegeix a la pantalla d'inici -->
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="AppJocs">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -16,6 +21,19 @@
     <h1>🎮 AppJocs</h1>
     <p class="subtitol">Tria un minijoc per començar</p>
     <button id="btn-instal" class="btn" hidden>Instal·la l'app</button>
+
+    <!-- A Safari (iPad/iPhone) no hi ha avís automàtic: expliquem com instal·lar-la -->
+    <div class="avis-ios" id="avis-ios" role="note" hidden>
+      <p class="avis-titol">📲 Instal·la AppJocs a la tauleta</p>
+      <ol>
+        <li>Toca el botó <b>Compartir</b>
+          <svg class="ico-compartir" viewBox="0 0 24 24" aria-label="Compartir" role="img"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="on-es" id="on-es">(a dalt a la dreta)</span></li>
+        <li>Tria <b>«Afegeix a la pantalla d'inici»</b> (desplaça't cap avall si no el veus).</li>
+        <li>Toca <b>Afegeix</b>. Tindràs la icona d'AppJocs com una app més.</li>
+      </ol>
+      <button type="button" class="avis-tancar" id="avis-tancar">Entesos</button>
+    </div>
   </header>
 
   <main>

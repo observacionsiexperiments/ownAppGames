@@ -1,6 +1,7 @@
 // Component reutilitzable per escriure números: caixa(es) + mode "Teclat" o "Dibuixar".
 // Necessita js/reconeixedor-xifres.js (per al mode dibuix) i els estils .en-* de css/styles.css.
 //
+// Opcions comunes: maxXifres, clauMode, mida ('gran' = caixa i tecles més grans), enEnviar, enCanvi.
 // Ús amb un número:
 //   const e = EntradaNumero.crear(contenidor, {
 //     maxXifres: 2,
@@ -10,10 +11,11 @@
 // Ús com a suma "□ + □ = 13":
 //   EntradaNumero.crear(contenidor, { camps: 2, sufix: '= 13', enEnviar: ([a, b]) => { ... } });
 //   e.posarSufix('= 7');
-// Mètodes: buidar(), activar(bool), sacsejar(), enfocar(), ajustar(), posarSufix(text)
+// Mètodes: buidar(), activar(bool), sacsejar(), enfocar(), ajustar(), posarSufix(text), activarCamp(i), estat()
+// Opció enCanvi({valors, camp}): s'avisa quan canvien els valors o la casella activa.
 
 (function (global) {
-  const ESPERA_MS = 800;
+  const ESPERA_MS = 1200;   // pausa sense dibuixar abans de reconèixer (dona temps al 2n traç del 4)
 
   function crear(contenidor, opcions = {}) {
     const maxX = opcions.maxXifres || 3;
@@ -35,7 +37,7 @@
         aria-label="${suma ? (i === 0 ? 'Primer número' : 'Segon número') : 'Número'}" enterkeyhint="go">`;
 
     const arrel = document.createElement('form');
-    arrel.className = 'en' + (suma ? ' en-suma' : '');
+    arrel.className = 'en' + (suma ? ' en-suma' : '') + (opcions.mida === 'gran' ? ' en-gran' : '');
     arrel.autocomplete = 'off';
     arrel.innerHTML = `
       <div class="en-caixes">
@@ -50,7 +52,7 @@
       <div class="en-dibuix" hidden>
         <div class="en-llenc-caixa">
           <canvas class="en-llenc" aria-label="Zona per dibuixar una xifra"></canvas>
-          <div class="en-ajuda">Dibuixa una xifra ✏️</div>
+          <div class="en-ajuda">Escriu el número aquí ✏️</div>
         </div>
         <div class="en-botons">
           <button type="button" class="en-esborrar" data-accio="esborrar" aria-label="Esborrar l'última xifra">⌫</button>
@@ -72,6 +74,11 @@
     function marcarActiva(i) {
       campActiu = i;
       caixes.forEach((c, j) => c.classList.toggle('activa', suma && j === i));
+      avisar();
+    }
+    // Avisa el joc cada cop que canvien els valors o la casella activa
+    function avisar() {
+      opcions.enCanvi && opcions.enCanvi({ valors: caixes.map(c => c.value), camp: campActiu });
     }
     const caixa = () => caixes[campActiu];
     caixes.forEach((c, i) => {
@@ -79,7 +86,7 @@
         const net = c.value.replace(/\D/g, '').slice(0, maxX);
         const volSeguent = /\+/.test(c.value);
         c.value = net;
-        if (volSeguent) seguent();
+        if (volSeguent) seguent(); else avisar();
       });
       c.addEventListener('focus', () => marcarActiva(i));
       c.addEventListener('pointerdown', () => marcarActiva(i));
@@ -91,11 +98,13 @@
     function afegir(x) {
       const c = caixa();
       if (c.value.length < maxX) c.value = (c.value + x).replace(/^0+(?=\d)/, '');
+      avisar();
     }
     function esborrar() {
       const c = caixa();
       if (c.value === '' && campActiu > 0) { marcarActiva(campActiu - 1); return; }
       c.value = c.value.slice(0, -1);
+      avisar();
     }
     function seguent() {
       if (campActiu < nCamps - 1) { marcarActiva(campActiu + 1); if (!esTactil) caixa().focus(); }
@@ -142,7 +151,7 @@
         ctx.stroke();
       }
     }
-    function netejar(msg = 'Dibuixa una xifra ✏️', error = false) {
+    function netejar(msg = 'Escriu el número aquí ✏️', error = false) {
       tracos = []; actual = null; clearTimeout(temporitzador); redibuixar();
       ajuda.textContent = msg; ajuda.hidden = false;
       llenc.classList.toggle('error', error);
@@ -165,12 +174,13 @@
     llenc.addEventListener('pointercancel', fi);
     function reconeixer() {
       if (!tracos.length) return;
-      const r = global.ReconeixedorXifres && global.ReconeixedorXifres.reconeixer(tracos);
-      if (!r) { netejar("No l'he entès 🤔", true); return; }
-      if (caixa().value.length >= maxX) { netejar(`Com a màxim ${maxX} xifres`, true); return; }
-      afegir(r.xifra);
-      netejar(suma && campActiu < nCamps - 1 ? 'Una altra xifra, o ＋ per passar al següent'
-                                              : 'Una altra xifra, o OK');
+      // Es pot escriure el número sencer ("47") o xifra a xifra
+      const text = global.ReconeixedorXifres && global.ReconeixedorXifres.reconeixerNumero(tracos);
+      if (!text) { netejar("No l'he entès 🤔", true); return; }
+      if (caixa().value.length + text.length > maxX) { netejar(`Com a màxim ${maxX} xifres`, true); return; }
+      for (const x of text) afegir(x);
+      netejar(suma && campActiu < nCamps - 1 ? 'Prem ＋ per passar al següent número'
+                                              : 'Prem OK, o afegeix més xifres');
     }
     q('.en-botons').addEventListener('click', e => {
       const b = e.target.closest('button');
@@ -202,6 +212,8 @@
     }
     function enfocar() { if (!esTactil) caixa().focus(); }
     function posarSufix(t) { const s = q('.en-sufix'); if (s) s.textContent = t; }
+    function activarCamp(i) { if (i >= 0 && i < nCamps) { marcarActiva(i); if (!esTactil) caixes[i].focus(); } }
+    const estat = () => ({ valors: caixes.map(c => c.value), camp: campActiu });
 
     let modeInicial = 'teclat';
     try { modeInicial = localStorage.getItem(clauMode) || 'teclat'; } catch {}
@@ -209,7 +221,7 @@
     marcarActiva(0);
     if (opcions.sufix) posarSufix(opcions.sufix);
 
-    return { buidar, activar, sacsejar, enfocar, ajustar, posarSufix, element: arrel };
+    return { buidar, activar, sacsejar, enfocar, ajustar, posarSufix, activarCamp, estat, element: arrel };
   }
 
   global.EntradaNumero = { crear };

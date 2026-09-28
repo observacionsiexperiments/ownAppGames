@@ -1,6 +1,6 @@
 // Service worker: permet usar l'app sense connexió.
 // Puja VERSIO a cada desplegament perquè els clients agafin els canvis.
-const VERSIO = 'v0.7.0';
+const VERSIO = 'v0.9.0';
 const CACHE = `appjocs-${VERSIO}`;
 
 // Fitxers bàsics de la llançadora (rutes relatives a l'abast del SW)
@@ -14,7 +14,8 @@ const PRECACHE = [
   'jocs/jocs.json',
   'manifest.webmanifest',
   'icons/icon-192.png',
-  'icons/icon-512.png'
+  'icons/icon-512.png',
+  'icons/apple-touch-icon.png'
 ];
 
 self.addEventListener('install', e => {

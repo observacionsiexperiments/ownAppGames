@@ -67,14 +67,17 @@ main { flex: 1; width: 100%; max-width: 960px; margin: 0 auto; }
 
 .graella {
   list-style: none; padding: 0; margin: 16px 0;
-  display: grid; gap: 16px;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  display: grid; gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 }
+/* Totes les targetes tenen les mateixes 5 franges (icona, nom, descripció, objectiu, peu)
+   i, gràcies a subgrid, cada franja queda alineada amb la de les targetes veïnes. */
+.graella > li { display: grid; grid-row: span 5; grid-template-rows: subgrid; row-gap: 0; }
 
 /* Targeta de joc: neutra; el blau indica que és un enllaç (navegació) */
 .targeta {
-  display: flex; flex-direction: column; gap: 6px;
-  height: 100%;
+  grid-row: span 5;
+  display: grid; grid-template-rows: subgrid; row-gap: 10px;
   padding: 18px;
   background: var(--superficie);
   border: 2px solid var(--vora);
@@ -83,18 +86,35 @@ main { flex: 1; width: 100%; max-width: 960px; margin: 0 auto; }
   color: var(--text); text-decoration: none;
   transition: transform .15s, border-color .15s, box-shadow .15s;
 }
+/* Si el navegador no té subgrid, alçades mínimes perquè quedin iguals igualment */
+@supports not (grid-template-rows: subgrid) {
+  .targeta { display: flex; flex-direction: column; height: 100%; }
+  .targeta h2 { min-height: 2.5em; }
+  .targeta .descripcio { min-height: 4.2em; }
+  .targeta .objectiu { min-height: 5.4em; }
+  .peu-targeta { margin-top: auto; }
+}
 .targeta:hover { transform: translateY(-3px); border-color: var(--c-info-vora); box-shadow: 0 8px 0 rgba(59, 51, 85, .08); }
 .targeta:focus-visible { outline: 3px solid var(--c-info-vora); outline-offset: 3px; }
 .targeta .icona {
-  font-size: 2.2rem; line-height: 1; width: 64px; height: 64px; border-radius: 16px;
+  grid-row: 1; justify-self: center;
+  font-size: 2.4rem; line-height: 1; width: 72px; height: 72px; border-radius: 18px;
   display: grid; place-items: center; background: var(--c-info);
 }
-.targeta h2 { margin: 6px 0 0; font-size: 1.25rem; }
-.targeta p { margin: 0; color: var(--text-suau); font-size: .95rem; }
-.targeta .objectiu { color: var(--text); font-size: .9rem; }
+.targeta h2 { grid-row: 2; margin: 0; font-size: 1.3rem; text-align: center; align-self: center; }
+.targeta .descripcio { grid-row: 3; margin: 0; color: var(--text-suau); font-size: .98rem; line-height: 1.4; }
+.targeta .objectiu {
+  grid-row: 4; margin: 0; font-size: .95rem; line-height: 1.4; color: var(--text);
+  background: var(--fons); border: 1px solid var(--vora); border-radius: 12px; padding: 8px 10px;
+}
+.targeta .objectiu .rotul {
+  display: block; font-size: .75rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+  color: var(--text-suau); margin-bottom: 2px;
+}
+.peu-targeta { grid-row: 5; display: flex; justify-content: flex-end; align-items: end; }
+.jugar { font-weight: 700; color: var(--text); background: var(--c-info); border-radius: 999px; padding: 4px 14px; }
 .targeta[aria-disabled="true"] { opacity: .5; pointer-events: none; }
 .etiqueta {
-  align-self: flex-start; margin-top: auto;
   font-size: .75rem; padding: 2px 8px; border-radius: 999px;
   background: var(--fons); color: var(--text-suau); border: 1px solid var(--vora);
 }
@@ -175,3 +195,32 @@ main { flex: 1; width: 100%; max-width: 960px; margin: 0 auto; }
 .en-ajuda { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--text-suau); font-weight: 600; pointer-events: none; text-align: center; padding: 0 16px; }
 @keyframes en-sacseig { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
 .en-sacseig { animation: en-sacseig .25s 2; }
+
+/* Mida gran (joc amb una sola caixa com a protagonista) */
+.en-gran .en-caixa { font-size: clamp(3.5rem, 14vw, 5.5rem); padding: 6px; border-radius: 20px; border-width: 3px; }
+.en-gran .en-teclat button { font-size: 1.8rem; min-height: 64px; }
+.en-gran .en-botons button { font-size: 1.3rem; min-height: 60px; }
+.en-gran .en-llenc { height: 260px; }
+@media (min-width: 700px) { .en-gran .en-teclat button { min-height: 76px; font-size: 2.1rem; } }
+@media (max-height: 820px) and (min-width: 700px) {
+  .en-gran .en-caixa { font-size: 3.5rem; padding: 0; }
+  .en-gran .en-teclat button { min-height: 58px; font-size: 1.7rem; }
+  .en-gran .en-llenc { height: 220px; }
+  .en-gran .en-botons button { min-height: 52px; }
+}
+
+/* Avís d'instal·lació per a iPad/iPhone (informació → blau) */
+.avis-ios {
+  max-width: 560px; margin: 14px auto 0; text-align: left;
+  background: color-mix(in srgb, var(--c-info) 35%, white); border: 2px solid var(--c-info-vora);
+  border-radius: var(--radi); padding: 12px 16px;
+}
+.avis-ios[hidden] { display: none; }
+.avis-titol { margin: 0 0 6px; font-weight: 800; font-size: 1.1rem; }
+.avis-ios ol { margin: 0; padding-left: 1.3em; line-height: 1.6; }
+.ico-compartir { width: 1.3em; height: 1.3em; vertical-align: -0.25em; color: var(--text); }
+.on-es { color: var(--text-suau); font-size: .9em; }
+.avis-tancar {
+  display: block; margin: 10px 0 0 auto; font: inherit; font-weight: 700; cursor: pointer;
+  background: var(--superficie); color: var(--text); border: 2px solid var(--vora); border-radius: 999px; padding: 6px 16px;
+}

@@ -71,6 +71,14 @@
     .node.encertat circle { animation: encert .6s; }
     @keyframes encert { 30% { fill: var(--c-ok); } }
     @media (hover: hover) { .node.pendent:hover circle, .node.buit:hover circle { stroke: var(--c-info-vora); } }
+    /* Cercles buits sota cada número per partir: aquí van els dos números de la suma */
+    .aresta.fantasma { stroke-dasharray: 6 6; }
+    .node.fantasma circle { fill: var(--superficie); stroke: var(--vora); stroke-width: 2.5; stroke-dasharray: 5 4; }
+    .node.fantasma text { fill: var(--text-suau); font-weight: 700; }
+    .node.fantasma.del-seleccionat circle { stroke: var(--c-info-vora); }
+    .node.fantasma.del-seleccionat text { fill: var(--text); }
+    .node.fantasma.actiu circle { fill: var(--c-info); stroke: var(--c-info-vora); stroke-width: 4; stroke-dasharray: none; }
+    @media (hover: hover) { .node.fantasma:hover circle { stroke: var(--c-info-vora); } }
 
     .missatge {
       min-height: 3.2rem; padding: 10px 14px; border-radius: var(--radi); text-align: center;
@@ -277,29 +285,41 @@
     }
 
     // ---------------- Dibuix de l'arbre (SVG) ----------------
+    // Un número pendent (més gran que 1) mostra dos cercles buits a sota per escriure-hi la suma
+    const ambFantasmes = n => !acabat && modeTriat !== 'completa' && !n.fills && n.v > 1;
+
     function dibuixar() {
       const svg = $('svg');
       const llista = nodes();
       const fs = fulles();
+      const places = fs.reduce((t, f) => t + (ambFantasmes(f) ? 2 : 1), 0);
       const zona = $('zona-arbre');
       const amplada = zona.clientWidth - 4;
       // Quan l'arbre està acabat es veu sencer (s'encongeix); mentre es juga, els nodes mantenen una mida tocable
       const complet = acabat || (modeTriat === 'completa' && !nodes().some(n => n.buit));
-      const S = complet ? Math.min(96, amplada / fs.length) : Math.max(40, Math.min(96, amplada / fs.length));
+      const S = complet ? Math.min(96, amplada / places) : Math.max(44, Math.min(96, amplada / places));
       const R = Math.max(9, Math.min(28, S * 0.4));
       const FILA = Math.max(64, R * 2 + 30);
-      const P = pisos();
-      const W = Math.max(amplada, fs.length * S), H = (P + 1) * FILA + 16;
+      const P = Math.max(0, ...fs.map(f => profunditat(f) + (ambFantasmes(f) ? 1 : 0)));
+      const W = Math.max(amplada, places * S), H = (P + 1) * FILA + 16;
+      const yDe = d => 8 + R + d * FILA + (FILA - 2 * R - 16) / 2;
 
-      // posicions: fulles seguides, pares al mig dels fills
-      const pos = new Map(); let i = 0;
+      // posicions: fulles (i els seus cercles buits) seguides; pares al mig dels fills
+      const pos = new Map(), fantasmes = []; let i = 0;
+      const xPlaça = () => (W - places * S) / 2 + (i++ + .5) * S;
       (function colocar(n) {
-        const y = 8 + R + profunditat(n) * FILA + (FILA - 2 * R - 16) / 2;
-        if (!n.fills) { pos.set(n, { x: (W - fs.length * S) / 2 + (i++ + .5) * S, y }); return; }
+        const d = profunditat(n);
+        if (!n.fills) {
+          if (ambFantasmes(n)) {
+            const xa = xPlaça(), xb = xPlaça();
+            fantasmes.push({ node: n, camp: 0, x: xa, y: yDe(d + 1) }, { node: n, camp: 1, x: xb, y: yDe(d + 1) });
+            pos.set(n, { x: (xa + xb) / 2, y: yDe(d) });
+          } else pos.set(n, { x: xPlaça(), y: yDe(d) });
+          return;
+        }
         n.fills.forEach(colocar);
-        pos.set(n, { x: (pos.get(n.fills[0]).x + pos.get(n.fills[1]).x) / 2, y });
+        pos.set(n, { x: (pos.get(n.fills[0]).x + pos.get(n.fills[1]).x) / 2, y: yDe(d) });
       })(arrel);
-
       svg.setAttribute('width', W); svg.setAttribute('height', H);
       svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
       svg.innerHTML = '';
@@ -309,6 +329,29 @@
         l.setAttribute('class', 'aresta');
         l.setAttribute('x1', a.x); l.setAttribute('y1', a.y + R); l.setAttribute('x2', b.x); l.setAttribute('y2', b.y - R);
         svg.appendChild(l);
+      }
+      for (const f of fantasmes) {
+        const a = pos.get(f.node);
+        const l = document.createElementNS(NS, 'line');
+        l.setAttribute('class', 'aresta fantasma');
+        l.setAttribute('x1', a.x); l.setAttribute('y1', a.y + R); l.setAttribute('x2', f.x); l.setAttribute('y2', f.y - R);
+        svg.appendChild(l);
+      }
+      for (const f of fantasmes) {
+        const g = document.createElementNS(NS, 'g');
+        g.setAttribute('class', 'node fantasma' + (f.node === seleccionat ? ' del-seleccionat' : ''));
+        g.dataset.node = f.node.id; g.dataset.camp = f.camp;
+        g.setAttribute('tabindex', '0'); g.setAttribute('role', 'button');
+        g.setAttribute('aria-label', `${f.camp === 0 ? 'Primera' : 'Segona'} part del ${f.node.v}`);
+        const c = document.createElementNS(NS, 'circle');
+        c.setAttribute('cx', f.x); c.setAttribute('cy', f.y); c.setAttribute('r', R);
+        const t = document.createElementNS(NS, 'text');
+        t.setAttribute('x', f.x); t.setAttribute('y', f.y); t.dataset.r = R;
+        t.setAttribute('font-size', Math.round(R * .9)); t.textContent = '?';
+        g.append(c, t);
+        g.addEventListener('click', () => tocarFantasma(f.node, f.camp));
+        g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tocarFantasma(f.node, f.camp); } });
+        svg.appendChild(g);
       }
       for (const n of llista) {
         const { x, y } = pos.get(n);
@@ -341,6 +384,26 @@
         zona.scrollTo({ left: px - amplada / 2, behavior: 'smooth' });
       }
       pintarDades(); pintarPanell(); pintarSumes();
+      actualitzarFantasmes();
+    }
+
+    // Mostra dins dels cercles buits el que s'està escrivint, i quin cercle és l'actiu
+    function actualitzarFantasmes(e = entradaSuma.estat()) {
+      document.querySelectorAll('.node.fantasma').forEach(g => {
+        const meu = seleccionat && Number(g.dataset.node) === seleccionat.id;
+        const camp = Number(g.dataset.camp);
+        const t = g.querySelector('text');
+        const v = meu ? e.valors[camp] : '';
+        t.textContent = v || '?';
+        t.setAttribute('font-size', Math.round(Number(t.dataset.r) * (String(v).length > 1 ? .8 : .9)));
+        g.classList.toggle('actiu', !!meu && e.camp === camp);
+      });
+    }
+
+    function tocarFantasma(n, camp) {
+      if (acabat) return;
+      if (n !== seleccionat) { seleccionat = n; mostrar(`Parteix el ${n.v}`, 'Escriu un número a cada cercle.', ''); dibuixar(); }
+      entradaSuma.activarCamp(camp);
     }
 
     function pintarDades() {
@@ -384,7 +447,7 @@
         ultimSeleccionat = null; return;
       }
       const v = seleccionat.v;
-      $('tallar-text').textContent = `Quins dos números sumen ${v}?`;
+      $('tallar-text').textContent = `Quins dos números sumen ${v}? Toca un cercle blau per triar on escrius.`;
       entradaSuma.posarSufix(`= ${v}`);
       if (seleccionat !== ultimSeleccionat) {          // número nou: caixes buides
         ultimSeleccionat = seleccionat; errorsSuma = 0;
@@ -486,6 +549,7 @@
       camps: 2, maxXifres: 2,
       clauMode: 'appjocs.arbre-numeros.mode-entrada',
       enEnviar: comprovarSuma,
+      enCanvi: e => actualitzarFantasmes(e),
     });
 
     // ---------------- Mode completa: respostes ----------------

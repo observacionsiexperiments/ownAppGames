@@ -1,5 +1,5 @@
 // Llançadora: llegeix jocs/jocs.json i pinta una targeta per joc.
-const VERSIO_APP = '0.7.0';
+const VERSIO_APP = '0.9.0';
 
 async function carregarJocs() {
   const llista = document.getElementById('llista-jocs');
@@ -31,14 +31,14 @@ function crearTargeta(joc) {
     <span class="icona" aria-hidden="true"></span>
     <h2></h2>
     <p class="descripcio"></p>
-    <p class="objectiu"><b>Objectiu:</b> <span></span></p>
-    ${joc.estat === 'properament' ? '<span class="etiqueta">Properament</span>' : ''}
+    <p class="objectiu"><span class="rotul">🎯 Objectiu</span><span class="text-objectiu"></span></p>
+    <span class="peu-targeta">${joc.estat === 'properament' ? '<span class="etiqueta">Properament</span>' : '<span class="jugar">Jugar →</span>'}</span>
   `;
   // textContent per evitar injectar HTML des del JSON
   a.querySelector('.icona').textContent = joc.icona || '🎲';
   a.querySelector('h2').textContent = joc.nom;
   a.querySelector('.descripcio').textContent = joc.descripcio || '';
-  a.querySelector('.objectiu span').textContent = joc.objectiu || '';
+  a.querySelector('.text-objectiu').textContent = joc.objectiu || '';
   li.appendChild(a);
   return li;
 }
@@ -65,6 +65,31 @@ btnInstal.addEventListener('click', async () => {
   promptInstal = null;
   btnInstal.hidden = true;
 });
+
+// iPad / iPhone: Safari no té avís d'instal·lació; mostrem com fer-ho manualment
+(function avisIOS() {
+  const ua = navigator.userAgent;
+  // L'iPad modern es presenta com a "Mac", però té pantalla tàctil
+  const esIPad = /iPad/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  const esIOS = esIPad || /iPhone|iPod/.test(ua);
+  const jaInstal = window.navigator.standalone === true || matchMedia('(display-mode: standalone)').matches;
+  let tancat = false;
+  try { tancat = localStorage.getItem('appjocs.avis-ios-tancat') === '1'; } catch {}
+  if (!esIOS || jaInstal || tancat) return;
+  const avis = document.getElementById('avis-ios');
+  // A l'iPhone el botó Compartir és a baix; a l'iPad, a dalt a la dreta
+  // On és el botó Compartir depèn del navegador (a iPad tots fan servir el motor de Safari)
+  const esChrome = /CriOS/.test(ua), esAltre = /FxiOS|EdgiOS/.test(ua);
+  document.getElementById('on-es').textContent =
+    esChrome ? "(a la barra d'adreces, a dalt a la dreta; si no hi és, obre el menú ··· i tria Compartir)"
+    : esAltre ? '(dins del menú del navegador)'
+    : esIPad ? '(a dalt a la dreta, o dins del menú ···)' : '(a la barra de baix, o dins del menú ···)';
+  avis.hidden = false;
+  document.getElementById('avis-tancar').addEventListener('click', () => {
+    avis.hidden = true;
+    try { localStorage.setItem('appjocs.avis-ios-tancat', '1'); } catch {}
+  });
+})();
 
 document.getElementById('versio').textContent = `v${VERSIO_APP}`;
 carregarJocs();

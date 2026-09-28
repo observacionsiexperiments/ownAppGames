@@ -45,6 +45,8 @@
       [ln([.12, 0], [-.35, .65], [.35, .65]), ln([.15, .3], [.15, 1])],
       [ln([.18, 0], [-.35, .65], [.35, .65]), ln([.18, 0], [.18, 1])],
       [ln([-.25, 0], [-.3, .6], [.35, .6]), ln([.15, 0], [.15, 1])],
+      [ln([-.18, 0], [-.22, .55], [.28, .55]), ln([.1, .15], [.1, 1])],        // "L" estreta + pal
+      [ln([.15, 0], [-.28, .6], [.3, .6], [.15, .6], [.15, 0], [.15, 1])],      // d'un sol traç
     ],
     '5': [
       [[...ln([.3, 0], [-.25, 0], [-.27, .42]), ...arc(0, .7, .3, .3, -130, 150)]],
@@ -155,17 +157,92 @@
   for (const [xifra, variants] of Object.entries(DEFINICIONS))
     for (const tracos of variants) PLANTILLES.push({ xifra, punts: preparar(tracos) });
 
+  // Proporció amplada/alçada del dibuix (un 1 és molt estret; un 4 és ample)
+  function proporcio(tracos) {
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    tracos.forEach(t => t.forEach(p => {
+      minX = Math.min(minX, p.x); maxX = Math.max(maxX, p.x); minY = Math.min(minY, p.y); maxY = Math.max(maxY, p.y);
+    }));
+    return (maxX - minX) / Math.max(1, maxY - minY);
+  }
+  // Hi ha algun tram gairebé horitzontal i prou llarg? (la ratlla del 4)
+  function teRatllaHoritzontal(tracos, llarg, pendent) {
+    let minY = Infinity, maxY = -Infinity;
+    tracos.forEach(t => t.forEach(p => { minY = Math.min(minY, p.y); maxY = Math.max(maxY, p.y); }));
+    const h = Math.max(1, maxY - minY);
+    for (const t of tracos) {
+      for (let i = 0; i < t.length; i++) for (let j = i + 1; j < t.length; j++) {
+        const dx = Math.abs(t[j].x - t[i].x), dy = Math.abs(t[j].y - t[i].y);
+        if (dx > h * llarg && dy < dx * pendent) return true;
+      }
+    }
+    return false;
+  }
+
   function reconeixer(tracos) {
     const valids = tracos.filter(t => t.length > 0);
     if (!valids.length) return null;
     const punts = preparar(valids);
-    let millor = Infinity, xifra = null;
+    // distància mínima per a cada xifra
+    const dist = {};
     for (const t of PLANTILLES) {
-      const d = comparar(punts, t.punts, millor);
-      if (d < millor) { millor = d; xifra = t.xifra; }
+      const d = comparar(punts, t.punts, dist[t.xifra] ?? Infinity);
+      if (d < (dist[t.xifra] ?? Infinity)) dist[t.xifra] = d;
     }
-    return millor <= LLINDAR ? { xifra, distancia: millor } : null;
+    const ordre = Object.keys(dist).sort((a, b) => dist[a] - dist[b]);
+    let xifra = ordre[0];
+    // Desempat 1 ↔ 4: el núvol de punts els pot confondre; la forma global no.
+    const prop = proporcio(valids);
+    if (xifra === '1' && dist['4'] <= LLINDAR && prop > 0.45 && teRatllaHoritzontal(valids, 0.45, 0.25)) xifra = '4';   // clarament té ratlla
+    else if (xifra === '4' && dist['1'] <= LLINDAR && (prop < 0.25 || !teRatllaHoritzontal(valids, 0.3, 0.45))) xifra = '1';   // no en té gens
+    return dist[xifra] <= LLINDAR ? { xifra, distancia: dist[xifra] } : null;
   }
 
-  global.ReconeixedorXifres = { reconeixer, DEFINICIONS };
+
+  // ---------- Número sencer (diverses xifres d'un cop) ----------
+  // Agrupa els traços per posició horitzontal: els que es solapen en X formen una mateixa xifra
+  // (així el 4, el 5 o el 7 amb ratlla, fets amb dos traços, compten com una sola xifra).
+  function agruparXifres(tracos) {
+    const valids = tracos.filter(t => t.length > 0);
+    if (!valids.length) return [];
+    let minY = Infinity, maxY = -Infinity;
+    valids.forEach(t => t.forEach(p => { minY = Math.min(minY, p.y); maxY = Math.max(maxY, p.y); }));
+    const alcada = Math.max(1, maxY - minY);
+    const caixes = valids.map(t => {
+      const xs = t.map(p => p.x);
+      return { t, min: Math.min(...xs), max: Math.max(...xs) };
+    }).sort((a, b) => (a.min + a.max) - (b.min + b.max));
+    const grups = [];
+    for (const c of caixes) {
+      const g = grups[grups.length - 1];
+      if (g) {
+        // Un traç quasi vertical (el pal d'un 4, un 1) té amplada ~0: li donem una amplada mínima
+        const minW = alcada * 0.15;
+        const ampliar = (a, b) => b - a >= minW ? [a, b] : [(a + b - minW) / 2, (a + b + minW) / 2];
+        const [c0, c1] = ampliar(c.min, c.max), [g0, g1] = ampliar(g.min, g.max);
+        const solap = Math.min(c1, g1) - Math.max(c0, g0);
+        const centreDins = (c0 + c1) / 2 >= g0 && (c0 + c1) / 2 <= g1;
+        if (centreDins || solap > 0.3 * Math.min(c1 - c0, g1 - g0)) {
+          g.tracos.push(c.t); g.min = Math.min(g.min, c.min); g.max = Math.max(g.max, c.max); continue;
+        }
+      }
+      grups.push({ tracos: [c.t], min: c.min, max: c.max });
+    }
+    return grups.map(g => g.tracos);
+  }
+
+  // Retorna el número com a text ("47") o null si alguna xifra no s'entén.
+  function reconeixerNumero(tracos) {
+    const grups = agruparXifres(tracos);
+    if (!grups.length) return null;
+    let text = '';
+    for (const g of grups) {
+      const r = reconeixer(g);
+      if (!r) return null;
+      text += r.xifra;
+    }
+    return text;
+  }
+
+  global.ReconeixedorXifres = { reconeixer, reconeixerNumero, agruparXifres, DEFINICIONS };
 })(typeof window !== 'undefined' ? window : globalThis);
