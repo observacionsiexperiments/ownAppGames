@@ -111,6 +111,7 @@
       padding: 10px 14px; font-size: 1.1rem; font-variant-numeric: tabular-nums; line-height: 1.7;
     }
     .sumes div { white-space: normal; }
+    @media (orientation: portrait) { .sumes { max-height: 16vh; overflow-y: auto; } }
     .sumes .igual { color: var(--text-suau); margin-right: 6px; }
     .sumes .u { color: var(--text-suau); }
 
@@ -149,6 +150,18 @@
       .sumes { grid-column: 1; grid-row: 2; max-height: 18vh; font-size: .85rem; line-height: 1.35; padding: 4px 10px; }
       .tallar { padding: 6px 8px; }
       .boto { min-height: 36px; font-size: .82rem; }
+    }
+
+    /* Tauleta en vertical: l'arbre a dalt; a sota, missatge, botons i sumes a l'esquerra i teclat a la dreta */
+    @media (orientation: portrait) and (min-width: 601px) {
+      .disposicio { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); column-gap: 14px; row-gap: 10px; align-items: start; }
+      .panell, .tallar { display: contents; }
+      .zona-arbre { grid-column: 1 / -1; grid-row: 1; }
+      .panell .missatge { grid-column: 1; grid-row: 2; }
+      .botons-joc { grid-column: 1; grid-row: 3; }
+      .sumes { grid-column: 1; grid-row: 4; max-height: 20vh; }
+      #bloc-suma, .completar { grid-column: 2; grid-row: 2 / span 3; background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi); padding: 12px; }
+      #bloc-suma p { margin: 0 0 8px; text-align: center; }
     }
   </style>
 </head>
@@ -221,6 +234,7 @@
   <script src="../../js/reconeixedor-xifres.js"></script>
   <script src="../../js/entrada-numero.js"></script>
   <script src="../../js/finestra-entrada.js"></script>
+  <script src="../../js/pantalla.js"></script>
   <script src="../../js/celebracio.js"></script>
   <script>
     const MIN_N = 2, MAX_N = 20;
@@ -343,14 +357,24 @@
       let R = Math.max(9, Math.min(28, S * 0.4));
       let FILA = Math.max(64, R * 2 + 30);
       const P = Math.max(0, ...fs.map(f => profunditat(f) + (ambFantasmes(f) ? 1 : 0)));
-      // En horitzontal, l'arbre ha de cabre en l'alçada de la pantalla: si és molt alt, s'aplana
-      pintarSumes();
-      if (matchMedia('(orientation: landscape)').matches) {
-        const dalt = zona.getBoundingClientRect().top + window.scrollY;
-        const disponible = innerHeight - dalt - $('sumes').offsetHeight - 26;
-        if (disponible > 140) {
-          FILA = Math.min(FILA, (disponible - 16) / (P + 1));
+      // L'arbre ha de cabre en l'alçada de la pantalla amb la resta (sumes i, si és a sota, el panell
+      // amb el teclat): si és molt alt, els pisos s'aplanen
+      pintarSumes(); pintarPanell();
+      zona.style.maxHeight = ''; zona.style.overflowY = '';
+      {
+        // En vertical el panell i les sumes van sota l'arbre: es resta tot el que hi ha per sota
+        const aSota = matchMedia('(orientation: portrait)').matches;
+        const dalt = Pantalla.dalt(zona);
+        const sota = aSota ? Pantalla.sota(zona) : $('sumes').offsetHeight;
+        const disponible = innerHeight - dalt - sota - 26;
+        if (disponible > 140 || aSota) {
+          FILA = Math.min(FILA, (Math.max(disponible, 140) - 16) / (P + 1));
+          if (aSota) FILA = Math.max(FILA, 36);           // en vertical, encara tocable
           R = Math.max(9, Math.min(R, FILA * 0.38));
+          // Si ni així hi cap (arbre molt profund en un mòbil), l'arbre es desplaça dins la seva caixa
+          if (aSota && (P + 1) * FILA + 16 > disponible) {
+            zona.style.maxHeight = Math.max(140, disponible) + 'px'; zona.style.overflowY = 'auto';
+          }
         }
       }
       const W = Math.max(amplada, places * S), H = (P + 1) * FILA + 16;
@@ -431,10 +455,10 @@
         g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tocarNode(n); } });
         svg.appendChild(g);
       }
-      // si l'arbre és més ample que la pantalla, centra el node seleccionat
-      if (seleccionat && W > amplada) {
-        const px = pos.get(seleccionat).x;
-        zona.scrollTo({ left: px - amplada / 2, behavior: 'smooth' });
+      // si l'arbre no hi cap (ample o alt), centra el node seleccionat
+      if (seleccionat && (W > amplada || zona.scrollHeight > zona.clientHeight)) {
+        const { x: px, y: py } = pos.get(seleccionat);
+        zona.scrollTo({ left: px - amplada / 2, top: py + FILA / 2 - zona.clientHeight / 2, behavior: 'smooth' });
       }
       pintarDades(); pintarPanell();
       actualitzarFantasmes();
@@ -687,6 +711,9 @@
     }
 
     window.addEventListener('resize', () => { if (!$('pantalla-joc').hidden) dibuixar(); });
+
+    // Avís suau si el dispositiu està en l'orientació que pitjor li va a aquest joc
+    Pantalla.avisOrientacio('arbre-numeros', { dins: document.getElementById('pantalla-inici') });
   </script>
 </body>
 </html>

@@ -171,6 +171,7 @@
     </section>
   </main>
 
+  <script src="../../js/pantalla.js"></script>
   <script src="../../js/celebracio.js"></script>
   <script>
     const $ = id => document.getElementById(id);
@@ -347,6 +348,9 @@
       parlar(actual.text.toLocaleLowerCase('ca'), .85, () => sils.forEach(el => el.classList.add('llegint')),
         () => sils.forEach(el => el.classList.remove('llegint')));
     });
+
+    // Avís suau si el dispositiu està en l'orientació que pitjor li va a aquest joc
+    Pantalla.avisOrientacio('paraules', { dins: document.getElementById('pantalla-inici') });
   </script>
 </body>
 </html>

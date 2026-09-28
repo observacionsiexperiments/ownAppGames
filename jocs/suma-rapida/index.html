@@ -221,6 +221,7 @@
     </section>
   </main>
 
+  <script src="../../js/pantalla.js"></script>
   <script src="../../js/celebracio.js"></script>
   <script>
     const $ = id => document.getElementById(id);
@@ -393,6 +394,9 @@
       m.classList.remove('es-pista', 'es-error', 'es-guanyat');
       if (estat) m.classList.add('es-' + estat);
     }
+
+    // Avís suau si el dispositiu està en l'orientació que pitjor li va a aquest joc
+    Pantalla.avisOrientacio('suma-rapida', { dins: document.getElementById('pantalla-inici') });
   </script>
 </body>
 </html>

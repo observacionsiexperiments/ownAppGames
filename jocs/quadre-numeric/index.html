@@ -125,6 +125,13 @@
       .regla { font-size: .78rem; }
       .quadre { gap: 6px; }
     }
+
+    /* Tauleta en vertical: missatge a l'esquerra i teclat a la dreta, perquè el tauler tingui alçada */
+    @media (orientation: portrait) and (min-width: 601px) {
+      .panell { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 14px; align-items: start; }
+      .panell .missatge { grid-column: 1; grid-row: 1; }
+      .panell .entrada-caixa { grid-column: 2; grid-row: 1 / span 3; }
+    }
   </style>
 </head>
 <body>
@@ -182,6 +189,7 @@
   <script src="../../js/reconeixedor-xifres.js"></script>
   <script src="../../js/entrada-numero.js"></script>
   <script src="../../js/finestra-entrada.js"></script>
+  <script src="../../js/pantalla.js"></script>
   <script src="../../js/celebracio.js"></script>
   <script>
     const $ = id => document.getElementById(id);
@@ -270,9 +278,12 @@
       // Mida de casella: que la figura càpiga en amplada i, en horitzontal, també en alçada
       const ample = zona.clientWidth - 32;
       let mida = Math.min(120, (ample - (cols - 1) * 8) / cols);
-      if (matchMedia('(orientation: landscape)').matches) {
-        const dalt = zona.getBoundingClientRect().top + window.scrollY;
-        const disponible = innerHeight - dalt - 32 - 40;   // marges i la línia d'explicació
+      const aSota = matchMedia('(orientation: portrait)').matches;   // vertical: explicació i panell a sota
+      if (aSota || matchMedia('(orientation: landscape)').matches) {
+        const dalt = Pantalla.dalt(zona);
+        const cs = getComputedStyle(zona);
+        const vora = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom) + parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
+        const disponible = innerHeight - dalt - (aSota ? Pantalla.sota(zona) + vora + 12 : 32 + 40);   // marges, explicació i panell
         mida = Math.min(mida, (disponible - (files - 1) * 8) / files);
       }
       mida = Math.max(matchMedia('(max-height: 500px)').matches ? 40 : 52, mida);
@@ -298,7 +309,13 @@
         `<i class="${i + 1 < ronda ? 'fet' : i + 1 === ronda ? 'ara' : ''}"></i>`).join('');
       $('dades').innerHTML = `<span class="dada">Número <b>${ronda}</b>/${NUMEROS_PER_RONDA} <span class="progres">${punts}</span></span>${errs}`;
       $('entrada-caixa').hidden = acabat;
+      // Si encara no hi cap (p. ex. el missatge s'ha escrit després de dibuixar), es torna a calcular un cop
+      if (!recalculant && document.documentElement.scrollHeight > innerHeight + 1) {
+        recalculant = true;
+        requestAnimationFrame(() => { dibuixar(); recalculant = false; });
+      }
     }
+    let recalculant = false;
     window.addEventListener('resize', () => { if (!$('pantalla-joc').hidden && caselles) dibuixar(); });
 
     // ---------------- Tocar una casella ----------------
@@ -395,6 +412,9 @@
       m.classList.remove('es-pista', 'es-error', 'es-guanyat');
       if (estat) m.classList.add('es-' + estat);
     }
+
+    // Avís suau si el dispositiu està en l'orientació que pitjor li va a aquest joc
+    Pantalla.avisOrientacio('quadre-numeric', { dins: document.getElementById('pantalla-inici') });
   </script>
 </body>
 </html>

@@ -1,7 +1,8 @@
 // Finestra per escriure números quan la pantalla és petita (mòbil vertical o mòbil apaisat).
 // En aquestes pantalles l'entrada de números (teclat o dibuix) no es veu a la pàgina: en tocar la
-// casella a omplir, puja una finestra des de baix (en vertical) o surt per la dreta (en apaisat)
-// amb el missatge del joc i l'entrada. Si la resposta és incorrecta, la finestra es queda oberta
+// casella a omplir, s'obre una finestra gran per sobre de la pàgina (en vertical puja des de baix i
+// deixa veure la barra del joc; en apaisat ocupa tota la pantalla en dues columnes) amb el missatge
+// del joc i l'entrada. La pàgina del darrere no es mou. Si la resposta és incorrecta, la finestra es queda oberta
 // amb l'error o la pista; en encertar, el joc la tanca. En pantalles grans no fa res.
 //
 // Ús:
@@ -11,34 +12,39 @@
 //     avis: 'Toca la casella blava per escriure',   // text que ocupa el lloc de l'entrada a la pàgina
 //     disparador: false,                     // true: l'avís és un botó que obre la finestra
 //     enObrir: () => entrada.ajustar(),      // p. ex. per redimensionar el llenç de dibuix
-//     ampla: false,                          // true: en mòbil apaisat, finestra ampla (jocs sense tauler)
 //   });
-//   finestra.obrir('.mao.seleccionada');     // element (o selector) que ha de quedar visible
+//   finestra.obrir();
 //   finestra.tancar();
 //   finestra.activa();                       // true si la pantalla fa servir la finestra
 //   finestra.posarAvis(text);
 
 (function (global) {
   const MQ = matchMedia('(orientation: portrait) and (max-width: 600px), (orientation: landscape) and (max-height: 500px)');
-  const apaisat = () => matchMedia('(orientation: landscape)').matches;
   const instancies = [];
   let dom = null, oberta = null;
 
   function crearDom() {
     if (dom) return dom;
+    const fons = document.createElement('div');
+    fons.className = 'fe-fons'; fons.hidden = true;
+    document.body.appendChild(fons);
+    fons.addEventListener('click', () => oberta && oberta.tancar());
     const f = document.createElement('section');
     f.className = 'fe-finestra';
     f.setAttribute('role', 'dialog');
     f.setAttribute('aria-label', 'Escriu el número');
     f.hidden = true;
     f.innerHTML = `
-      <button type="button" class="fe-tancar" aria-label="Tanca la finestra">✕</button>
-      <div class="fe-info"></div>
-      <div class="fe-entrada"></div>`;
+      <div class="fe-cap"><b>✏️ Escriu el número</b>
+        <button type="button" class="fe-tancar" aria-label="Tanca la finestra">✕</button></div>
+      <div class="fe-cos">
+        <div class="fe-info"></div>
+        <div class="fe-entrada"></div>
+      </div>`;
     document.body.appendChild(f);
     f.querySelector('.fe-tancar').addEventListener('click', () => oberta && oberta.tancar());
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && oberta) oberta.tancar(); });
-    dom = { f, info: f.querySelector('.fe-info'), entrada: f.querySelector('.fe-entrada') };
+    dom = { f, fons, info: f.querySelector('.fe-info'), entrada: f.querySelector('.fe-entrada') };
     return dom;
   }
 
@@ -72,31 +78,28 @@
       obert: () => oberta === api,
       posarAvis(t) { lloc.textContent = t; },
 
-      obrir(ancora) {
+      obrir() {
         if (!MQ.matches) return false;
         if (oberta && oberta !== api) oberta.tancar();
         if (oberta !== api) {
           info.forEach(el => { marca(el); d.info.appendChild(el); });
           marca(entrada); d.entrada.appendChild(entrada);
           entrada.classList.remove('fe-amagat');
-          d.f.classList.toggle('fe-ampla', !!op.ampla);
-          d.f.hidden = false;
+          d.f.hidden = false; d.fons.hidden = false;
           oberta = api;
           document.documentElement.classList.add('fe-oberta');
-          requestAnimationFrame(() => d.f.classList.add('obert'));
+          requestAnimationFrame(() => { d.f.classList.add('obert'); d.fons.classList.add('obert'); });
           op.enObrir && op.enObrir();
         }
-        requestAnimationFrame(() => situar(ancora));
         return true;
       },
 
       tancar() {
         if (oberta !== api) return;
         oberta = null;
-        d.f.classList.remove('obert');
-        d.f.hidden = true;
+        d.f.classList.remove('obert'); d.fons.classList.remove('obert');
+        d.f.hidden = true; d.fons.hidden = true;
         document.documentElement.classList.remove('fe-oberta');
-        document.body.style.paddingBottom = '';
         info.forEach(tornar);
         tornar(entrada);
         api.refrescar();
@@ -109,19 +112,6 @@
         if (!MQ.matches) op.enObrir && op.enObrir();   // torna a la pàgina: reajusta el llenç
       },
     };
-
-    // En vertical, deixa lloc a sota i fa que la casella triada quedi a la vista per sobre de la finestra
-    function situar(ancora) {
-      if (apaisat()) { document.body.style.paddingBottom = ''; return; }
-      const h = d.f.offsetHeight;
-      document.body.style.paddingBottom = h + 'px';
-      const el = typeof ancora === 'string' ? document.querySelector(ancora) : ancora;
-      if (!el) return;
-      const r = el.getBoundingClientRect();
-      const lliure = innerHeight - h;
-      const dalt = Math.max(8, (lliure - r.height) / 2);
-      window.scrollBy({ top: r.top - dalt, behavior: 'smooth' });
-    }
 
     instancies.push(api);
     api.refrescar();

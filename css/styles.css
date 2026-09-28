@@ -339,12 +339,32 @@ main { flex: 1; width: 100%; max-width: 960px; margin: 0 auto; }
   .targeta .objectiu { font-size: .78rem; padding: 5px 7px; }
 }
 
+/* ─── Jocs: el contingut queda centrat a la pantalla (sota la barra del joc) ───
+   :where() → especificitat 0, perquè cada joc pugui fer servir la seva pròpia disposició (p. ex. graella). */
+:where(body > main.joc) { flex: 1 0 auto; display: flex; flex-direction: column; justify-content: center; padding-bottom: 8px; }
+:where(html.sense-centrar body > main.joc) { justify-content: flex-start; }
+:where(body > main.joc > *) { width: 100%; }   /* amb margin:auto, en flex no s'estirarien */
+
+/* ─── Avís d'orientació (js/pantalla.js): informació → blau ─── */
+.avis-orientacio {
+  display: flex; align-items: center; gap: 10px; margin: 8px auto; max-width: 720px; width: 100%;
+  background: color-mix(in srgb, var(--c-info) 35%, white); border: 2px solid var(--c-info-vora);
+  border-radius: var(--radi); padding: 8px 12px; font-weight: 600;
+}
+.avis-orientacio[hidden] { display: none; }
+.ao-icona { font-size: 1.4rem; }
+.ao-text { flex: 1; }
+.ao-tancar {
+  font: inherit; font-weight: 700; cursor: pointer; background: var(--superficie); color: var(--text);
+  border: 2px solid var(--vora); border-radius: 999px; padding: 4px 14px; touch-action: manipulation;
+}
+
 /* ─── Finestra d'entrada per a pantalles petites (js/finestra-entrada.js) ───
-   Mòbil vertical o mòbil apaisat: l'entrada de números surt en una finestra en tocar la casella. */
+   Mòbil vertical o mòbil apaisat: l'entrada de números surt en una finestra gran, per sobre de la pàgina. */
 .fe-lloc { display: none; }
 .fe-amagat { display: none !important; }
 .mode-finestra .fe-lloc {
-  display: block; margin: 8px 0 0; padding: 10px 12px; text-align: center; font-weight: 600;
+  display: block; margin: 10px 0 12px; padding: 12px; text-align: center; font-weight: 600;
   color: var(--text-suau); border: 2px dashed var(--c-info-vora); border-radius: 14px; background: var(--superficie);
 }
 /* Si el joc amaga l'entrada (p. ex. partida acabada), també l'avís */
@@ -354,71 +374,90 @@ main { flex: 1; width: 100%; max-width: 960px; margin: 0 auto; }
   width: 100%; font: inherit; font-weight: 700; font-size: 1.3rem; color: var(--text); cursor: pointer;
   background: color-mix(in srgb, var(--c-info) 25%, white); min-height: 64px; touch-action: manipulation;
 }
+html.fe-oberta, html.fe-oberta body { overflow: hidden; }   /* la pàgina del darrere no es mou */
+.fe-fons {
+  position: fixed; inset: 0; z-index: 39; background: rgba(59, 51, 85, .35);
+  opacity: 0; transition: opacity .22s;
+}
+.fe-fons.obert { opacity: 1; }
+.fe-fons[hidden] { display: none; }
 .fe-finestra {
-  position: fixed; z-index: 40; left: 0; right: 0; bottom: 0;
-  max-height: 92dvh; overflow-y: auto; overscroll-behavior: contain;
-  background: var(--fons); border-top: 3px solid var(--c-info-vora); border-radius: 22px 22px 0 0;
-  box-shadow: 0 -10px 30px rgba(59, 51, 85, .22);
-  padding: 10px 14px calc(12px + env(safe-area-inset-bottom));
-  display: flex; flex-direction: column; gap: 8px;
-  transform: translateY(100%); transition: transform .22s ease-out;
+  position: fixed; z-index: 40; left: 0; right: 0; bottom: 0; height: 90dvh;
+  overflow-y: auto; overscroll-behavior: contain;
+  background: var(--fons); border-top: 3px solid var(--c-info-vora); border-radius: 24px 24px 0 0;
+  box-shadow: 0 -10px 30px rgba(59, 51, 85, .25);
+  padding: 12px 18px calc(18px + env(safe-area-inset-bottom));
+  display: flex; flex-direction: column;
+  transform: translateY(100%); transition: transform .24s ease-out;
 }
 .fe-finestra[hidden] { display: none; }
 .fe-finestra.obert { transform: none; }
-.fe-finestra::before { content: ""; display: block; width: 48px; height: 5px; border-radius: 3px; background: var(--vora); margin: 0 auto 2px; }
+.fe-cap { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.fe-cap b { font-size: 1.05rem; color: var(--text-suau); }
 .fe-tancar {
-  position: absolute; top: 8px; right: 10px; width: 40px; height: 40px; border-radius: 50%;
-  font: inherit; font-size: 1.1rem; font-weight: 700; cursor: pointer; color: var(--text);
+  flex: none; width: 44px; height: 44px; border-radius: 50%;
+  font: inherit; font-size: 1.15rem; font-weight: 700; cursor: pointer; color: var(--text);
   background: var(--superficie); border: 2px solid var(--c-info-vora); touch-action: manipulation;
 }
-.fe-info { padding-right: 46px; display: flex; flex-direction: column; gap: 6px; }
+/* Cos: missatge a dalt i entrada a sota, centrats i amb aire */
+.fe-cos {
+  flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 18px;
+  width: 100%; max-width: 460px; margin: 0 auto; padding: 12px 0 4px;
+}
+.fe-info { display: flex; flex-direction: column; gap: 10px; }
 .fe-info:empty { display: none; }
-.fe-info .missatge { margin: 0; min-height: 0; padding: 8px 10px; font-size: 1rem; }
+.fe-info .missatge { margin: 0; min-height: 0; padding: 10px 12px; font-size: 1.05rem; }
 .fe-entrada > * { margin: 0; }
-.fe-entrada p { margin: 0 0 6px; font-weight: 700; text-align: center; }
-/* Dins la finestra, mides pensades per a mòbil (també per a l'entrada "gran") */
-.fe-finestra .en-gran .en-caixa, .fe-finestra .en-caixa { font-size: 2.4rem; padding: 0 4px; border-radius: 14px; }
-.fe-finestra .en-teclat button, .fe-finestra .en-gran .en-teclat button { min-height: 52px; font-size: 1.5rem; }
-.fe-finestra .en-botons button, .fe-finestra .en-gran .en-botons button { min-height: 50px; }
-.fe-finestra .en-llenc, .fe-finestra .en-gran .en-llenc { height: 190px; }
-.fe-finestra .en-teclat, .fe-finestra .en-botons { gap: 7px; margin-top: 8px; }
-.fe-finestra .en-modes { margin-top: 8px; }
-@media (prefers-reduced-motion: reduce) { .fe-finestra { transition: none; } }
+.fe-entrada p { margin: 0 0 10px; font-weight: 700; text-align: center; }
+.fe-entrada .entrada-caixa, .fe-entrada .tallar, .fe-entrada .completar { border: 0; background: none; padding: 0; }
+/* Dins la finestra, mides pensades per a mòbil (també per a l'entrada "gran"), amb tecles que respiren */
+.fe-finestra .en-gran .en-caixa, .fe-finestra .en-caixa { font-size: 2.6rem; padding: 2px 4px; border-radius: 16px; }
+.fe-finestra .en-modes { margin-top: 14px; }
+.fe-finestra .en-teclat, .fe-finestra .en-botons { gap: 12px; margin-top: 14px; }
+.fe-finestra .en-teclat button, .fe-finestra .en-gran .en-teclat button { min-height: clamp(50px, 7.4dvh, 68px); font-size: 1.6rem; }
+.fe-finestra .en-botons button, .fe-finestra .en-gran .en-botons button { min-height: clamp(50px, 7dvh, 64px); }
+.fe-finestra .en-llenc, .fe-finestra .en-gran .en-llenc { height: clamp(180px, 30dvh, 280px); }
+.fe-finestra .en-ok-ample { margin-top: 14px; min-height: clamp(50px, 7dvh, 64px); }
+/* Mòbils baixets en vertical: una mica menys d'aire perquè tot hi càpiga sense desplaçar */
+@media (orientation: portrait) and (max-height: 760px) {
+  .fe-cos { gap: 12px; padding-top: 6px; }
+  .fe-info .missatge { padding: 8px 10px; font-size: 1rem; }
+  .fe-finestra .en-gran .en-caixa, .fe-finestra .en-caixa { font-size: 2.2rem; }
+  .fe-finestra .en-modes { margin-top: 10px; }
+  .fe-finestra .en-teclat, .fe-finestra .en-botons { gap: 9px; margin-top: 10px; }
+  .fe-finestra .en-teclat button, .fe-finestra .en-gran .en-teclat button { min-height: clamp(46px, 7dvh, 56px); }
+  .fe-finestra .en-ok-ample { margin-top: 10px; min-height: 48px; }
+}
+@media (prefers-reduced-motion: reduce) { .fe-finestra, .fe-fons { transition: none; } }
 
-/* Mòbil apaisat: la finestra surt per la dreta, estreta, i deixa veure el tauler a l'esquerra.
-   Els jocs posen el tauler a l'esquerra i el panell (missatge) a la dreta, sota la finestra. */
+/* Mòbil apaisat: pantalla completa, informació a l'esquerra i entrada a la dreta */
 @media (orientation: landscape) and (max-height: 500px) {
   .barra-joc { padding: 4px 0; }
   .barra-joc h1 { font-size: 1rem; }
   .barra-joc a { padding: 2px 10px; }
   .fe-finestra {
-    top: 0; left: auto; width: min(340px, 48vw); max-height: none;
-    border-top: 0; border-left: 3px solid var(--c-info-vora); border-radius: 22px 0 0 22px;
-    box-shadow: -10px 0 30px rgba(59, 51, 85, .22);
-    padding: 8px calc(10px + env(safe-area-inset-right)) 8px 12px; gap: 6px;
-    transform: translateX(100%);
+    top: 0; height: auto; border-top: 0; border-radius: 0; box-shadow: none;
+    padding: 8px calc(16px + env(safe-area-inset-right)) 8px calc(16px + env(safe-area-inset-left));
+    transform: translateY(100%);
   }
-  .fe-finestra::before { display: none; }
-  .fe-tancar { top: 6px; right: calc(8px + env(safe-area-inset-right)); width: 36px; height: 36px; }
-  .fe-info { padding-right: 42px; }
-  .fe-info .missatge { padding: 4px 8px; font-size: .9rem; }
-  .fe-info .missatge small { font-size: .8rem; margin-top: 0; }
+  .fe-cap { position: absolute; top: 8px; left: calc(16px + env(safe-area-inset-left)); right: calc(16px + env(safe-area-inset-right)); pointer-events: none; }
+  .fe-cap > * { pointer-events: auto; }
+  .fe-cos {
+    max-width: 860px; flex-direction: row; align-items: center; gap: 24px; padding: 40px 0 0;
+  }
+  .fe-info { flex: 1 1 42%; min-width: 0; }
+  .fe-entrada { flex: 1 1 58%; min-width: 0; }
+  .fe-info:empty + .fe-entrada { max-width: 440px; margin: 0 auto; }
+  .fe-info .missatge { font-size: .95rem; padding: 8px 10px; }
   .fe-entrada p { display: none; }
-  .fe-finestra .en-gran .en-caixa, .fe-finestra .en-caixa { font-size: 1.8rem; }
-  .fe-finestra .en-suma .en-caixa { font-size: 1.6rem; }
-  .fe-finestra .en-signe, .fe-finestra .en-sufix { font-size: 1.4rem; }
-  .fe-finestra .en-modes { margin-top: 5px; padding: 2px; }
-  .fe-finestra .en-modes button { padding: 2px; }
-  .fe-finestra .en-teclat, .fe-finestra .en-botons { gap: 5px; margin-top: 5px; }
-  .fe-finestra .en-teclat button, .fe-finestra .en-gran .en-teclat button { min-height: clamp(32px, 9.6vh, 48px); font-size: 1.25rem; }
-  .fe-finestra .en-botons button, .fe-finestra .en-gran .en-botons button { min-height: clamp(32px, 9.6vh, 46px); }
-  .fe-finestra .en-llenc, .fe-finestra .en-gran .en-llenc { height: clamp(100px, 40vh, 170px); }
-  .fe-finestra .en-ok-ample { min-height: clamp(32px, 9.6vh, 44px); margin-top: 5px; font-size: 1.1rem; }
-
-  /* Finestra ampla (jocs sense tauler, com Endevina): informació a l'esquerra, entrada a la dreta */
-  .fe-finestra.fe-ampla { width: min(620px, 74vw); flex-direction: row; align-items: stretch; gap: 12px; }
-  .fe-ampla .fe-tancar { right: auto; left: 10px; }
-  .fe-ampla .fe-info { flex: 0 0 40%; padding: 44px 0 0; overflow-y: auto; }
-  .fe-ampla .fe-entrada { flex: 1; min-width: 0; overflow-y: auto; }
-  .fe-ampla .en-teclat button, .fe-ampla .en-gran .en-teclat button { min-height: clamp(34px, 11.5vh, 50px); }
+  .fe-finestra .en-gran .en-caixa, .fe-finestra .en-caixa { font-size: 1.9rem; padding: 0 4px; }
+  .fe-finestra .en-suma .en-caixa { font-size: 1.7rem; }
+  .fe-finestra .en-signe, .fe-finestra .en-sufix { font-size: 1.5rem; }
+  .fe-finestra .en-modes { margin-top: 6px; }
+  .fe-finestra .en-modes button { padding: 3px; }
+  .fe-finestra .en-teclat, .fe-finestra .en-botons { gap: 7px; margin-top: 7px; }
+  .fe-finestra .en-teclat button, .fe-finestra .en-gran .en-teclat button { min-height: clamp(32px, 10dvh, 50px); font-size: 1.35rem; }
+  .fe-finestra .en-botons button, .fe-finestra .en-gran .en-botons button { min-height: clamp(32px, 10dvh, 48px); }
+  .fe-finestra .en-llenc, .fe-finestra .en-gran .en-llenc { height: clamp(110px, 45dvh, 200px); }
+  .fe-finestra .en-ok-ample { min-height: clamp(34px, 10dvh, 46px); margin-top: 7px; font-size: 1.1rem; }
 }

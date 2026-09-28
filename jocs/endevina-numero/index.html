@@ -45,6 +45,7 @@
       display: grid; gap: 14px;
       grid-template-areas: "missatges" "pista" "form";
     }
+    .joc { flex: 1 0 auto; align-content: center; padding-bottom: 8px; }   /* centrat a la pantalla */
     .caixa-missatges { grid-area: missatges; } .pista { grid-area: pista; } .zona-entrada { grid-area: form; }
 
     .caixa {
@@ -91,7 +92,7 @@
         max-width: 1150px; column-gap: 28px; align-items: start;
         grid-template-columns: minmax(360px, 440px) 1fr;
         grid-template-areas: "form pista" "form missatges";
-        grid-template-rows: auto 1fr;
+        grid-template-rows: auto auto;
       }
       .pista { min-height: 280px; }
     }
@@ -121,6 +122,11 @@
     .fe-info .pista .dit { font-size: 1rem; }
     .fe-info .ja-saps ul { font-size: .95rem; max-height: 16vh; overflow-y: auto; }
     .fe-info .missatge { font-size: 1rem; }
+
+    /* Tauleta en vertical: escriure a la dreta, intents i pista a l'esquerra */
+    @media (orientation: portrait) and (min-width: 601px) {
+      .joc { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); grid-template-areas: "missatges form" "pista form"; column-gap: 16px; max-width: 900px; }
+    }
   </style>
 </head>
 <body>
@@ -157,6 +163,7 @@
   <script src="../../js/reconeixedor-xifres.js"></script>
   <script src="../../js/entrada-numero.js"></script>
   <script src="../../js/finestra-entrada.js"></script>
+  <script src="../../js/pantalla.js"></script>
   <script src="../../js/celebracio.js"></script>
   <script>
     const MIN = 1, MAX = 100;
@@ -323,6 +330,9 @@
 
     pintarRecord();
     nova();
+
+    // Avís suau si el dispositiu està en l'orientació que pitjor li va a aquest joc
+    Pantalla.avisOrientacio('endevina-numero', { abans: document.querySelector('main') });
   </script>
 </body>
 </html>

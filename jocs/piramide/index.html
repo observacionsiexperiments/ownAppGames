@@ -106,6 +106,13 @@
       .missatge small { font-size: .8rem; }
       .regla { font-size: .78rem; }
     }
+
+    /* Tauleta en vertical: missatge a l'esquerra i teclat a la dreta, perquè el tauler tingui alçada */
+    @media (orientation: portrait) and (min-width: 601px) {
+      .panell { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 14px; align-items: start; }
+      .panell .missatge { grid-column: 1; grid-row: 1; }
+      .panell .entrada-caixa { grid-column: 2; grid-row: 1 / span 3; }
+    }
   </style>
 </head>
 <body>
@@ -172,6 +179,7 @@
   <script src="../../js/reconeixedor-xifres.js"></script>
   <script src="../../js/entrada-numero.js"></script>
   <script src="../../js/finestra-entrada.js"></script>
+  <script src="../../js/pantalla.js"></script>
   <script src="../../js/celebracio.js"></script>
   <script>
     const $ = id => document.getElementById(id);
@@ -274,10 +282,13 @@
       const pir = $('piramide'); pir.innerHTML = '';
       const ample = pir.clientWidth - 16;
       let mida = Math.max(48, Math.min(110, (ample - (N - 1) * 8) / N));
-      // Pantalla baixa (mòbil apaisat): la piràmide ha de cabre en l'alçada
-      if (matchMedia('(orientation: landscape) and (max-height: 500px)').matches) {
-        const dalt = pir.getBoundingClientRect().top + window.scrollY;
-        const disponible = innerHeight - dalt - 76;          // farciment del tauler, línia de la regla i marges
+      // La piràmide ha de cabre en l'alçada: en mòbil apaisat, i en vertical quan el panell (teclat) és a sota
+      const aSota = matchMedia('(orientation: portrait)').matches;   // vertical: regla i panell a sota
+      if (aSota || matchMedia('(orientation: landscape) and (max-height: 500px)').matches) {
+        const dalt = Pantalla.dalt(pir);
+        const cs = getComputedStyle(pir);
+        const vora = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom) + parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
+        const disponible = innerHeight - dalt - (aSota ? Pantalla.sota(pir) + vora + 12 : 76);   // farciment, regla i marges
         mida = Math.max(38, Math.min(mida, (disponible - (N - 1) * 8) / (N * .72)));
       }
       pir.style.setProperty('--maó', mida + 'px');
@@ -305,7 +316,13 @@
       const falten = k.flat().filter(v => !v).length;
       $('dades').innerHTML = `<span class="dada">Falten: <b>${falten}</b></span><span class="dada">Errors: <b>${errors}</b></span>`;
       $('entrada-caixa').hidden = acabat;
+      // Si encara no hi cap (p. ex. el missatge s'ha escrit després de dibuixar), es torna a calcular un cop
+      if (!recalculant && document.documentElement.scrollHeight > innerHeight + 1) {
+        recalculant = true;
+        requestAnimationFrame(() => { dibuixar(); recalculant = false; });
+      }
     }
+    let recalculant = false;
     let ultimNou = null;
     window.addEventListener('resize', () => { if (!$('pantalla-joc').hidden) dibuixar(); });
 
@@ -403,6 +420,9 @@
       m.classList.remove('es-pista', 'es-error', 'es-guanyat');
       if (estat) m.classList.add('es-' + estat);
     }
+
+    // Avís suau si el dispositiu està en l'orientació que pitjor li va a aquest joc
+    Pantalla.avisOrientacio('piramide', { dins: document.getElementById('pantalla-inici') });
   </script>
 </body>
 </html>
