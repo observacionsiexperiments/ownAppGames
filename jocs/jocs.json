@@ -88,6 +88,17 @@
     "estat": "actiu"
   },
   {
+    "id": "anagrames",
+    "nom": "Anagrames",
+    "icona": "🔀",
+    "descripcio": "Les lletres d'una paraula estan desordenades: posa-les en ordre.",
+    "objectiu": "Descobrir la paraula amagada, amb l'ajuda d'una pista o d'una lletra destapada si cal.",
+    "categories": [
+      "lletres"
+    ],
+    "estat": "actiu"
+  },
+  {
     "id": "_plantilla",
     "nom": "Joc de prova",
     "icona": "🧪",

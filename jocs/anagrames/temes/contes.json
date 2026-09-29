@@ -1,0 +1,287 @@
+{
+ "id": "contes",
+ "nom": "Contes i llibres",
+ "icona": "📚",
+ "paraules": [
+  {
+   "id": "fada",
+   "paraula": "fada",
+   "emoji": "🧚",
+   "imatge": "recursos/contes/fada.webp",
+   "pista": "Té ales i una vareta màgica, i concedeix desitjos."
+  },
+  {
+   "id": "drac",
+   "paraula": "drac",
+   "emoji": "🐉",
+   "imatge": "recursos/contes/drac.webp",
+   "pista": "Llança foc per la boca; sant Jordi en va vèncer un."
+  },
+  {
+   "id": "rei",
+   "paraula": "rei",
+   "emoji": "🤴",
+   "imatge": "recursos/contes/rei.webp",
+   "pista": "Porta corona i mana el seu regne."
+  },
+  {
+   "id": "ogre",
+   "paraula": "ogre",
+   "emoji": "👹",
+   "imatge": "recursos/contes/ogre.webp",
+   "pista": "Gegant lleig dels contes que fa molta por."
+  },
+  {
+   "id": "mag",
+   "paraula": "mag",
+   "emoji": "🧙",
+   "imatge": "recursos/contes/mag.webp",
+   "pista": "Fa encanteris i porta un barret punxegut."
+  },
+  {
+   "id": "elf",
+   "paraula": "elf",
+   "emoji": "🧝",
+   "imatge": "recursos/contes/elf.webp",
+   "pista": "Personatge petit del bosc amb les orelles punxegudes."
+  },
+  {
+   "id": "geni",
+   "paraula": "geni",
+   "emoji": "🧞",
+   "imatge": "recursos/contes/geni.webp",
+   "pista": "Surt d'una llàntia i concedeix tres desitjos."
+  },
+  {
+   "id": "trol",
+   "paraula": "trol",
+   "emoji": "🧌",
+   "imatge": "recursos/contes/trol.webp",
+   "pista": "Criatura lletja que viu sota els ponts."
+  },
+  {
+   "id": "nan",
+   "paraula": "nan",
+   "emoji": "🧔",
+   "imatge": "recursos/contes/nan.webp",
+   "pista": "La Blancaneu en va conèixer set."
+  },
+  {
+   "id": "cova",
+   "paraula": "cova",
+   "emoji": "🪨",
+   "imatge": "recursos/contes/cova.webp",
+   "pista": "Forat a la muntanya on s'amaguen els lladres i els seus tresors."
+  },
+  {
+   "id": "conte",
+   "paraula": "conte",
+   "emoji": "📖",
+   "imatge": "recursos/contes/conte.webp",
+   "pista": "Història curta que et llegeixen abans d'anar a dormir."
+  },
+  {
+   "id": "heroi",
+   "paraula": "heroi",
+   "emoji": "🦸",
+   "imatge": "recursos/contes/heroi.webp",
+   "pista": "Protagonista valent que salva tothom."
+  },
+  {
+   "id": "tresor",
+   "paraula": "tresor",
+   "emoji": "💰",
+   "imatge": "recursos/contes/tresor.webp",
+   "pista": "Cofre ple d'or que busquen els pirates."
+  },
+  {
+   "id": "pirata",
+   "paraula": "pirata",
+   "emoji": "🏴‍☠️",
+   "imatge": "recursos/contes/pirata.webp",
+   "pista": "Navega pel mar, porta un pegat a l'ull i busca tresors."
+  },
+  {
+   "id": "bruixa",
+   "paraula": "bruixa",
+   "emoji": "🧙‍♀️",
+   "imatge": "recursos/contes/bruixa.webp",
+   "pista": "Vola amb escombra i fa pocions a l'olla."
+  },
+  {
+   "id": "sirena",
+   "paraula": "sirena",
+   "emoji": "🧜‍♀️",
+   "imatge": "recursos/contes/sirena.webp",
+   "pista": "Mig noia, mig peix; viu al mar."
+  },
+  {
+   "id": "vampir",
+   "paraula": "vampir",
+   "emoji": "🧛",
+   "imatge": "recursos/contes/vampir.webp",
+   "pista": "Surt de nit, té ullals i dorm en un taüt."
+  },
+  {
+   "id": "espasa",
+   "paraula": "espasa",
+   "emoji": "⚔️",
+   "imatge": "recursos/contes/espasa.webp",
+   "pista": "L'arma dels cavallers."
+  },
+  {
+   "id": "corona",
+   "paraula": "corona",
+   "emoji": "👑",
+   "imatge": "recursos/contes/corona.webp",
+   "pista": "El rei i la reina la porten al cap."
+  },
+  {
+   "id": "vareta",
+   "paraula": "vareta",
+   "emoji": "🪄",
+   "imatge": "recursos/contes/vareta.webp",
+   "pista": "Pal màgic de les fades i els mags."
+  },
+  {
+   "id": "pocio",
+   "paraula": "poció",
+   "emoji": "🧪",
+   "imatge": "recursos/contes/pocio.webp",
+   "pista": "Beguda màgica que prepara la bruixa."
+  },
+  {
+   "id": "titol",
+   "paraula": "títol",
+   "emoji": "🔠",
+   "imatge": "recursos/contes/titol.webp",
+   "pista": "El nom d'un llibre, escrit a la portada."
+  },
+  {
+   "id": "autor",
+   "paraula": "autor",
+   "emoji": "✍️",
+   "imatge": "recursos/contes/autor.webp",
+   "pista": "La persona que ha escrit el llibre."
+  },
+  {
+   "id": "pagina",
+   "paraula": "pàgina",
+   "emoji": "📄",
+   "imatge": "recursos/contes/pagina.webp",
+   "pista": "Cada full del llibre en té dues."
+  },
+  {
+   "id": "poema",
+   "paraula": "poema",
+   "emoji": "📜",
+   "imatge": "recursos/contes/poema.webp",
+   "pista": "Text curt amb versos i rimes."
+  },
+  {
+   "id": "magia",
+   "paraula": "màgia",
+   "emoji": "✨",
+   "imatge": "recursos/contes/magia.webp",
+   "pista": "El que fan els mags per fer desaparèixer coses."
+  },
+  {
+   "id": "castell",
+   "paraula": "castell",
+   "emoji": "🏰",
+   "imatge": "recursos/contes/castell.webp",
+   "pista": "Casa de pedra enorme amb torres, on viuen reis i reines."
+  },
+  {
+   "id": "princesa",
+   "paraula": "princesa",
+   "emoji": "👸",
+   "imatge": "recursos/contes/princesa.webp",
+   "pista": "La filla del rei i la reina."
+  },
+  {
+   "id": "princep",
+   "paraula": "príncep",
+   "emoji": "🤴",
+   "imatge": "recursos/contes/princep.webp",
+   "pista": "El fill del rei i la reina."
+  },
+  {
+   "id": "fantasma",
+   "paraula": "fantasma",
+   "emoji": "👻",
+   "imatge": "recursos/contes/fantasma.webp",
+   "pista": "Porta un llençol blanc i fa: uuuh!"
+  },
+  {
+   "id": "unicorn",
+   "paraula": "unicorn",
+   "emoji": "🦄",
+   "imatge": "recursos/contes/unicorn.webp",
+   "pista": "Cavall blanc amb una banya al front."
+  },
+  {
+   "id": "monstre",
+   "paraula": "monstre",
+   "emoji": "👾",
+   "imatge": "recursos/contes/monstre.webp",
+   "pista": "Criatura que fa por i diuen que viu sota el llit."
+  },
+  {
+   "id": "cavaller",
+   "paraula": "cavaller",
+   "emoji": "🛡️",
+   "imatge": "recursos/contes/cavaller.webp",
+   "pista": "Porta armadura i espasa i va a cavall."
+  },
+  {
+   "id": "portada",
+   "paraula": "portada",
+   "emoji": "📘",
+   "imatge": "recursos/contes/portada.webp",
+   "pista": "La tapa del davant del llibre, amb el títol i un dibuix."
+  },
+  {
+   "id": "capitol",
+   "paraula": "capítol",
+   "emoji": "📑",
+   "imatge": "recursos/contes/capitol.webp",
+   "pista": "Cadascuna de les parts d'un llibre llarg."
+  },
+  {
+   "id": "biblioteca",
+   "paraula": "biblioteca",
+   "emoji": "📚",
+   "imatge": "recursos/contes/biblioteca.webp",
+   "pista": "Lloc ple de llibres on te'ls deixen endur."
+  },
+  {
+   "id": "rondalla",
+   "paraula": "rondalla",
+   "emoji": "📖",
+   "imatge": "recursos/contes/rondalla.webp",
+   "pista": "Conte popular antic que s'explicava de viva veu."
+  },
+  {
+   "id": "llegenda",
+   "paraula": "llegenda",
+   "emoji": "🐲",
+   "imatge": "recursos/contes/llegenda.webp",
+   "pista": "Història antiga, com la de sant Jordi i el drac."
+  },
+  {
+   "id": "encanteri",
+   "paraula": "encanteri",
+   "emoji": "🪄",
+   "imatge": "recursos/contes/encanteri.webp",
+   "pista": "Paraules màgiques que converteixen un príncep en gripau."
+  },
+  {
+   "id": "escriptora",
+   "paraula": "escriptora",
+   "emoji": "✍️",
+   "imatge": "recursos/contes/escriptora.webp",
+   "pista": "Dona que escriu llibres."
+  }
+ ]
+}

@@ -1,0 +1,252 @@
+{
+ "id": "emocions",
+ "nom": "Emocions",
+ "icona": "😀",
+ "paraules": [
+  {
+   "id": "por",
+   "paraula": "por",
+   "emoji": "😨",
+   "imatge": "recursos/emocions/por.webp",
+   "pista": "El que sents quan sents un soroll estrany de nit."
+  },
+  {
+   "id": "ira",
+   "paraula": "ira",
+   "emoji": "😠",
+   "imatge": "recursos/emocions/ira.webp",
+   "pista": "Un enfadament molt i molt fort."
+  },
+  {
+   "id": "son",
+   "paraula": "son",
+   "emoji": "😴",
+   "imatge": "recursos/emocions/son.webp",
+   "pista": "Badalles i els ulls se't tanquen."
+  },
+  {
+   "id": "plor",
+   "paraula": "plor",
+   "emoji": "😢",
+   "imatge": "recursos/emocions/plor.webp",
+   "pista": "Llàgrimes que surten quan estàs trist o et fas mal."
+  },
+  {
+   "id": "amor",
+   "paraula": "amor",
+   "emoji": "❤️",
+   "imatge": "recursos/emocions/amor.webp",
+   "pista": "El que sents per la teva família."
+  },
+  {
+   "id": "pau",
+   "paraula": "pau",
+   "emoji": "🕊️",
+   "imatge": "recursos/emocions/pau.webp",
+   "pista": "Quan no hi ha cap baralla i tothom està tranquil."
+  },
+  {
+   "id": "peto",
+   "paraula": "petó",
+   "emoji": "😘",
+   "imatge": "recursos/emocions/peto.webp",
+   "pista": "El fas amb els llavis a la galta de qui estimes."
+  },
+  {
+   "id": "goig",
+   "paraula": "goig",
+   "emoji": "😃",
+   "imatge": "recursos/emocions/goig.webp",
+   "pista": "Una alegria molt gran."
+  },
+  {
+   "id": "riure",
+   "paraula": "riure",
+   "emoji": "😂",
+   "imatge": "recursos/emocions/riure.webp",
+   "pista": "Ho fas quan una cosa et fa molta gràcia: ha, ha, ha!"
+  },
+  {
+   "id": "trist",
+   "paraula": "trist",
+   "emoji": "😞",
+   "imatge": "recursos/emocions/trist.webp",
+   "pista": "Com estàs quan perds la teva joguina preferida."
+  },
+  {
+   "id": "felic",
+   "paraula": "feliç",
+   "emoji": "😁",
+   "imatge": "recursos/emocions/felic.webp",
+   "pista": "Molt, molt content."
+  },
+  {
+   "id": "calma",
+   "paraula": "calma",
+   "emoji": "😌",
+   "imatge": "recursos/emocions/calma.webp",
+   "pista": "Respires a poc a poc i estàs tranquil."
+  },
+  {
+   "id": "enuig",
+   "paraula": "enuig",
+   "emoji": "😤",
+   "imatge": "recursos/emocions/enuig.webp",
+   "pista": "El que sents quan una cosa no et sembla justa."
+  },
+  {
+   "id": "gelos",
+   "paraula": "gelós",
+   "emoji": "😒",
+   "imatge": "recursos/emocions/gelos.webp",
+   "pista": "Com et sents si vols el que té un altre."
+  },
+  {
+   "id": "timid",
+   "paraula": "tímid",
+   "emoji": "🙈",
+   "imatge": "recursos/emocions/timid.webp",
+   "pista": "A qui li fa vergonya parlar amb gent que no coneix."
+  },
+  {
+   "id": "fastic",
+   "paraula": "fàstic",
+   "emoji": "🤢",
+   "imatge": "recursos/emocions/fastic.webp",
+   "pista": "El que sents davant d'una cosa que fa pudor."
+  },
+  {
+   "id": "cansat",
+   "paraula": "cansat",
+   "emoji": "😩",
+   "imatge": "recursos/emocions/cansat.webp",
+   "pista": "Com estàs després de córrer molt."
+  },
+  {
+   "id": "valent",
+   "paraula": "valent",
+   "emoji": "💪",
+   "imatge": "recursos/emocions/valent.webp",
+   "pista": "Qui fa una cosa encara que li faci por."
+  },
+  {
+   "id": "curios",
+   "paraula": "curiós",
+   "emoji": "🧐",
+   "imatge": "recursos/emocions/curios.webp",
+   "pista": "Qui ho vol saber i preguntar tot."
+  },
+  {
+   "id": "confos",
+   "paraula": "confós",
+   "emoji": "😕",
+   "imatge": "recursos/emocions/confos.webp",
+   "pista": "Quan no entens què passa."
+  },
+  {
+   "id": "nervis",
+   "paraula": "nervis",
+   "emoji": "😬",
+   "imatge": "recursos/emocions/nervis.webp",
+   "pista": "Pessigolles a la panxa abans d'un examen o una actuació."
+  },
+  {
+   "id": "alegria",
+   "paraula": "alegria",
+   "emoji": "😄",
+   "imatge": "recursos/emocions/alegria.webp",
+   "pista": "El que sents quan passa una cosa molt bona."
+  },
+  {
+   "id": "tristesa",
+   "paraula": "tristesa",
+   "emoji": "😔",
+   "imatge": "recursos/emocions/tristesa.webp",
+   "pista": "El que sents quan trobes a faltar algú."
+  },
+  {
+   "id": "vergonya",
+   "paraula": "vergonya",
+   "emoji": "😳",
+   "imatge": "recursos/emocions/vergonya.webp",
+   "pista": "Et poses vermell i et vols amagar."
+  },
+  {
+   "id": "sorpresa",
+   "paraula": "sorpresa",
+   "emoji": "😮",
+   "imatge": "recursos/emocions/sorpresa.webp",
+   "pista": "Passa una cosa que no esperaves: oh!"
+  },
+  {
+   "id": "content",
+   "paraula": "content",
+   "emoji": "😊",
+   "imatge": "recursos/emocions/content.webp",
+   "pista": "Com estàs quan tot va bé i somrius."
+  },
+  {
+   "id": "enfadat",
+   "paraula": "enfadat",
+   "emoji": "😠",
+   "imatge": "recursos/emocions/enfadat.webp",
+   "pista": "Arrufes les celles i tens ganes de cridar."
+  },
+  {
+   "id": "espantat",
+   "paraula": "espantat",
+   "emoji": "😱",
+   "imatge": "recursos/emocions/espantat.webp",
+   "pista": "Com estàs després d'un ensurt molt gran."
+  },
+  {
+   "id": "avorrit",
+   "paraula": "avorrit",
+   "emoji": "🥱",
+   "imatge": "recursos/emocions/avorrit.webp",
+   "pista": "No tens res a fer i el temps no passa."
+  },
+  {
+   "id": "tranquil",
+   "paraula": "tranquil",
+   "emoji": "🧘",
+   "imatge": "recursos/emocions/tranquil.webp",
+   "pista": "Relaxat, sense presses ni nervis."
+  },
+  {
+   "id": "enamorat",
+   "paraula": "enamorat",
+   "emoji": "😍",
+   "imatge": "recursos/emocions/enamorat.webp",
+   "pista": "Tens el cor ple de cors quan penses en algú."
+  },
+  {
+   "id": "preocupat",
+   "paraula": "preocupat",
+   "emoji": "😟",
+   "imatge": "recursos/emocions/preocupat.webp",
+   "pista": "No pares de pensar que una cosa pot anar malament."
+  },
+  {
+   "id": "emocionat",
+   "paraula": "emocionat",
+   "emoji": "🤩",
+   "imatge": "recursos/emocions/emocionat.webp",
+   "pista": "Com estàs el dia abans d'anar d'excursió."
+  },
+  {
+   "id": "abracada",
+   "paraula": "abraçada",
+   "emoji": "🤗",
+   "imatge": "recursos/emocions/abracada.webp",
+   "pista": "La fas amb els braços a qui estimes."
+  },
+  {
+   "id": "orgullos",
+   "paraula": "orgullós",
+   "emoji": "🏅",
+   "imatge": "recursos/emocions/orgullos.webp",
+   "pista": "Com et sents quan has fet una cosa molt ben feta."
+  }
+ ]
+}

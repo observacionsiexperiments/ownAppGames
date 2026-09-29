@@ -92,14 +92,17 @@
     .resposta:disabled:not(.correcta):not(.errada), .opcio:disabled:not(.correcta):not(.errada) { opacity: .45; }
 
     /* Corregir la mentida (Difícil) */
-    .correccio { margin: 0; text-align: center; font-size: clamp(1.15rem, 2.6vw, 1.6rem); font-weight: 700; }
+    /* En corregir, els botons Veritat/Mentida i la barra desapareixen: la correcció té tot l'espai */
+    #corregir { display: flex; flex-direction: column; gap: clamp(14px, 3vh, 26px); padding-top: 4px; }
+    .frase.ratllada { color: var(--text-suau); text-decoration: line-through; text-decoration-color: var(--c-esborrar-vora); text-decoration-thickness: 3px; font-size: clamp(1.15rem, 2.6vw, 1.6rem); }
+    .correccio { margin: 0; text-align: center; font-size: clamp(1.4rem, 3.2vw, 2.1rem); font-weight: 800; line-height: 1.4; }
     .correccio .buit {
       display: inline-block; min-width: 4em; padding: 0 8px; border-bottom: 3px dashed var(--c-info-vora);
       background: color-mix(in srgb, var(--c-info) 25%, white); border-radius: 8px;
     }
     .correccio .buit.ple { border-bottom-style: solid; border-color: var(--c-ok-vora); background: var(--c-ok); }
-    .opcions-correccio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-    .opcio { font-size: clamp(1rem, 2.2vw, 1.3rem); min-height: 56px; padding: 6px; }
+    .opcions-correccio { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(10px, 2vw, 18px); }
+    .opcio { font-size: clamp(1.1rem, 2.5vw, 1.55rem); min-height: clamp(64px, 12vh, 96px); padding: 8px 10px; line-height: 1.2; }
 
     .missatge {
       margin-top: 14px; min-height: 3.2rem; padding: 8px 12px; border-radius: var(--radi); text-align: center;
@@ -142,13 +145,21 @@
       .tauler { padding: 12px; gap: 12px 16px; }
       .frase { font-size: 1.3rem; }
       .resposta { min-height: 60px; font-size: 1.25rem; }
-      .opcions-correccio { gap: 6px; }
-      .opcio { min-height: 50px; font-size: .95rem; }
+      .opcions-correccio { gap: 8px; }
+      .opcio { min-height: 58px; font-size: 1rem; }
+      .correccio { font-size: 1.3rem; }
       .missatge { margin-top: 10px; min-height: 0; padding: 6px 10px; font-size: 1rem; }
       .missatge small { font-size: .85rem; }
     }
     @media (orientation: portrait) and (max-width: 600px) {
       .progres { display: none; }
+      .opcions-correccio { grid-template-columns: minmax(0, 1fr); }   /* en mòbil, una paraula per fila */
+      .opcio { min-height: 50px; font-size: 1.1rem; }
+    }
+    @media (orientation: portrait) and (max-width: 600px) and (max-height: 760px) {
+      .opcio { min-height: 44px; }
+      #corregir { gap: 10px; }
+      .imatge { --img: clamp(100px, 19vh, 150px); }
       .imatge { --img: clamp(110px, 22vh, 190px); }
     }
     @media (orientation: landscape) and (max-height: 500px) {
@@ -157,8 +168,9 @@
       .costat { gap: 8px; }
       .respostes { gap: 8px; }
       .resposta { min-height: 44px; font-size: 1.1rem; }
-      .correccio { font-size: 1rem; }
-      .opcio { min-height: 40px; font-size: .9rem; }
+      .correccio { font-size: 1.15rem; }
+      .opcio { min-height: 48px; font-size: .95rem; }
+      #corregir { gap: 10px; }
       .tauler { padding: 10px; }
     }
   </style>
@@ -340,6 +352,8 @@
       pintarImatge(el);
       pintarFrase(actual.text, actual.clau);
       $('respostes').querySelectorAll('.resposta').forEach(b => { b.disabled = false; b.classList.remove('correcta', 'errada'); });
+      $('respostes').hidden = false; $('temps').hidden = config.temps === 0;
+      $('frase').classList.remove('ratllada');
       $('corregir').hidden = true;
       mostrar(`Frase ${num} de ${PREGUNTES}`, config.nivell === 'facil' ? 'És el que es veu al dibuix?' : 'És veritat o mentida?');
       pintarDades();
@@ -446,6 +460,9 @@
         b.addEventListener('click', () => triarCorreccio(o, b, buit));
         cont.appendChild(b);
       });
+      // Tot l'espai per a la correcció: fora Veritat/Mentida i la barra; la frase falsa queda ratllada
+      $('respostes').hidden = true; $('temps').hidden = true;
+      $('frase').classList.add('ratllada');
       $('corregir').hidden = false;
       mostrar('✓ Ben vist, és mentida!', 'Ara tria la paraula que la fa veritat.', 'guanyat');
     }

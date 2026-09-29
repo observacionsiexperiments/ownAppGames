@@ -1,0 +1,259 @@
+{
+ "id": "animals",
+ "nom": "Animals",
+ "icona": "🐾",
+ "paraules": [
+  {
+   "id": "gos",
+   "paraula": "gos",
+   "emoji": "🐶",
+   "imatge": "recursos/animals/gos.webp",
+   "pista": "Borda i mou la cua quan està content."
+  },
+  {
+   "id": "gat",
+   "paraula": "gat",
+   "emoji": "🐱",
+   "imatge": "recursos/animals/gat.webp",
+   "pista": "Fa mèu i li agrada caçar ratolins."
+  },
+  {
+   "id": "bou",
+   "paraula": "bou",
+   "emoji": "🐂",
+   "imatge": "recursos/animals/bou.webp",
+   "pista": "És molt fort i abans estirava l'arada al camp."
+  },
+  {
+   "id": "ase",
+   "paraula": "ase",
+   "emoji": "🫏",
+   "imatge": "recursos/animals/ase.webp",
+   "pista": "S'assembla al cavall, té les orelles llargues i fa «i-ha»."
+  },
+  {
+   "id": "anec",
+   "paraula": "ànec",
+   "emoji": "🦆",
+   "imatge": "recursos/animals/anec.webp",
+   "pista": "Neda a l'estany i fa «cuac, cuac»."
+  },
+  {
+   "id": "vaca",
+   "paraula": "vaca",
+   "emoji": "🐄",
+   "imatge": "recursos/animals/vaca.webp",
+   "pista": "Ens dona la llet i fa «mu»."
+  },
+  {
+   "id": "porc",
+   "paraula": "porc",
+   "emoji": "🐷",
+   "imatge": "recursos/animals/porc.webp",
+   "pista": "És rosat, té el nas pla i li agrada el fang."
+  },
+  {
+   "id": "llop",
+   "paraula": "llop",
+   "emoji": "🐺",
+   "imatge": "recursos/animals/llop.webp",
+   "pista": "Viu al bosc i udola a la lluna."
+  },
+  {
+   "id": "rata",
+   "paraula": "rata",
+   "emoji": "🐀",
+   "imatge": "recursos/animals/rata.webp",
+   "pista": "És com un ratolí però més gran, amb la cua llarga."
+  },
+  {
+   "id": "foca",
+   "paraula": "foca",
+   "emoji": "🦭",
+   "imatge": "recursos/animals/foca.webp",
+   "pista": "Viu on fa fred, neda molt bé i té bigotis."
+  },
+  {
+   "id": "lleo",
+   "paraula": "lleó",
+   "emoji": "🦁",
+   "imatge": "recursos/animals/lleo.webp",
+   "pista": "És el rei de la selva i té una gran melena."
+  },
+  {
+   "id": "peix",
+   "paraula": "peix",
+   "emoji": "🐟",
+   "imatge": "recursos/animals/peix.webp",
+   "pista": "Viu dins l'aigua i té aletes."
+  },
+  {
+   "id": "cavall",
+   "paraula": "cavall",
+   "emoji": "🐴",
+   "imatge": "recursos/animals/cavall.webp",
+   "pista": "Hi pots pujar a sobre i fa galops."
+  },
+  {
+   "id": "ovella",
+   "paraula": "ovella",
+   "emoji": "🐑",
+   "imatge": "recursos/animals/ovella.webp",
+   "pista": "Ens dona la llana i fa «bee»."
+  },
+  {
+   "id": "conill",
+   "paraula": "conill",
+   "emoji": "🐰",
+   "imatge": "recursos/animals/conill.webp",
+   "pista": "Té les orelles llargues, salta i li agraden les pastanagues."
+  },
+  {
+   "id": "zebra",
+   "paraula": "zebra",
+   "emoji": "🦓",
+   "imatge": "recursos/animals/zebra.webp",
+   "pista": "Sembla un cavall amb ratlles blanques i negres."
+  },
+  {
+   "id": "tigre",
+   "paraula": "tigre",
+   "emoji": "🐯",
+   "imatge": "recursos/animals/tigre.webp",
+   "pista": "Un gat molt gran, taronja amb ratlles negres."
+  },
+  {
+   "id": "girafa",
+   "paraula": "girafa",
+   "emoji": "🦒",
+   "imatge": "recursos/animals/girafa.webp",
+   "pista": "Té el coll molt llarg i menja fulles dels arbres."
+  },
+  {
+   "id": "cabra",
+   "paraula": "cabra",
+   "emoji": "🐐",
+   "imatge": "recursos/animals/cabra.webp",
+   "pista": "Té banyes i barba, i s'enfila per les roques."
+  },
+  {
+   "id": "pollet",
+   "paraula": "pollet",
+   "emoji": "🐥",
+   "imatge": "recursos/animals/pollet.webp",
+   "pista": "El fill de la gallina: petit i groc."
+  },
+  {
+   "id": "aguila",
+   "paraula": "àguila",
+   "emoji": "🦅",
+   "imatge": "recursos/animals/aguila.webp",
+   "pista": "Un ocell gran que vola molt amunt i hi veu molt bé."
+  },
+  {
+   "id": "balena",
+   "paraula": "balena",
+   "emoji": "🐋",
+   "imatge": "recursos/animals/balena.webp",
+   "pista": "L'animal més gran del mar; treu aigua per l'esquena."
+  },
+  {
+   "id": "abella",
+   "paraula": "abella",
+   "emoji": "🐝",
+   "imatge": "recursos/animals/abella.webp",
+   "pista": "Fa mel i viu en un rusc."
+  },
+  {
+   "id": "camell",
+   "paraula": "camell",
+   "emoji": "🐫",
+   "imatge": "recursos/animals/camell.webp",
+   "pista": "Viu al desert i té dos geps."
+  },
+  {
+   "id": "elefant",
+   "paraula": "elefant",
+   "emoji": "🐘",
+   "imatge": "recursos/animals/elefant.webp",
+   "pista": "És enorme, té trompa i unes orelles molt grans."
+  },
+  {
+   "id": "gallina",
+   "paraula": "gallina",
+   "emoji": "🐔",
+   "imatge": "recursos/animals/gallina.webp",
+   "pista": "Pon ous i fa «cloc, cloc»."
+  },
+  {
+   "id": "granota",
+   "paraula": "granota",
+   "emoji": "🐸",
+   "imatge": "recursos/animals/granota.webp",
+   "pista": "És verda, salta molt i fa «rac, rac»."
+  },
+  {
+   "id": "tortuga",
+   "paraula": "tortuga",
+   "emoji": "🐢",
+   "imatge": "recursos/animals/tortuga.webp",
+   "pista": "Va molt a poc a poc i porta la closca a sobre."
+  },
+  {
+   "id": "cocodril",
+   "paraula": "cocodril",
+   "emoji": "🐊",
+   "imatge": "recursos/animals/cocodril.webp",
+   "pista": "Viu al riu, té la pell dura i la boca plena de dents."
+  },
+  {
+   "id": "papallona",
+   "paraula": "papallona",
+   "emoji": "🦋",
+   "imatge": "recursos/animals/papallona.webp",
+   "pista": "Abans era una eruga; ara té ales de colors."
+  },
+  {
+   "id": "esquirol",
+   "paraula": "esquirol",
+   "emoji": "🐿️",
+   "imatge": "recursos/animals/esquirol.webp",
+   "pista": "Té la cua molt peluda i guarda avellanes als arbres."
+  },
+  {
+   "id": "rinoceront",
+   "paraula": "rinoceront",
+   "emoji": "🦏",
+   "imatge": "recursos/animals/rinoceront.webp",
+   "pista": "És gros i gris i té una banya al nas."
+  },
+  {
+   "id": "hipopotam",
+   "paraula": "hipopòtam",
+   "emoji": "🦛",
+   "imatge": "recursos/animals/hipopotam.webp",
+   "pista": "És molt gros, passa el dia a l'aigua i té una boca enorme."
+  },
+  {
+   "id": "formiga",
+   "paraula": "formiga",
+   "emoji": "🐜",
+   "imatge": "recursos/animals/formiga.webp",
+   "pista": "És molt petita i camina en fila amb les seves companyes."
+  },
+  {
+   "id": "marieta",
+   "paraula": "marieta",
+   "emoji": "🐞",
+   "imatge": "recursos/animals/marieta.webp",
+   "pista": "Un insecte petit, vermell amb punts negres."
+  },
+  {
+   "id": "papagai",
+   "paraula": "papagai",
+   "emoji": "🦜",
+   "imatge": "recursos/animals/papagai.webp",
+   "pista": "Un ocell de colors que pot repetir paraules."
+  }
+ ]
+}

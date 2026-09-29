@@ -1,0 +1,238 @@
+{
+ "id": "cos",
+ "nom": "Cos humà",
+ "icona": "🧍",
+ "paraules": [
+  {
+   "id": "ull",
+   "paraula": "ull",
+   "emoji": "👁️",
+   "imatge": "recursos/cos/ull.webp",
+   "pista": "Amb ell hi veus."
+  },
+  {
+   "id": "nas",
+   "paraula": "nas",
+   "emoji": "👃",
+   "imatge": "recursos/cos/nas.webp",
+   "pista": "Amb ell fas olor i esternudes."
+  },
+  {
+   "id": "boca",
+   "paraula": "boca",
+   "emoji": "👄",
+   "imatge": "recursos/cos/boca.webp",
+   "pista": "Hi entra el menjar i en surt la veu."
+  },
+  {
+   "id": "peu",
+   "paraula": "peu",
+   "emoji": "🦶",
+   "imatge": "recursos/cos/peu.webp",
+   "pista": "És al final de la cama i hi poses la sabata."
+  },
+  {
+   "id": "dit",
+   "paraula": "dit",
+   "emoji": "☝️",
+   "imatge": "recursos/cos/dit.webp",
+   "pista": "En tens cinc a cada mà."
+  },
+  {
+   "id": "cor",
+   "paraula": "cor",
+   "emoji": "🫀",
+   "imatge": "recursos/cos/cor.webp",
+   "pista": "Batega dins el pit: bum-bum."
+  },
+  {
+   "id": "cap",
+   "paraula": "cap",
+   "emoji": "👤",
+   "imatge": "recursos/cos/cap.webp",
+   "pista": "La part de dalt del cos, on hi ha la cara i els cabells."
+  },
+  {
+   "id": "dent",
+   "paraula": "dent",
+   "emoji": "🦷",
+   "imatge": "recursos/cos/dent.webp",
+   "pista": "Blanca i dura; te la rentes després de menjar."
+  },
+  {
+   "id": "cama",
+   "paraula": "cama",
+   "emoji": "🦵",
+   "imatge": "recursos/cos/cama.webp",
+   "pista": "En tens dues i serveixen per caminar."
+  },
+  {
+   "id": "brac",
+   "paraula": "braç",
+   "emoji": "💪",
+   "imatge": "recursos/cos/brac.webp",
+   "pista": "Va de l'espatlla a la mà."
+  },
+  {
+   "id": "ungla",
+   "paraula": "ungla",
+   "emoji": "💅",
+   "imatge": "recursos/cos/ungla.webp",
+   "pista": "Dura i fina, a la punta de cada dit."
+  },
+  {
+   "id": "orella",
+   "paraula": "orella",
+   "emoji": "👂",
+   "imatge": "recursos/cos/orella.webp",
+   "pista": "Amb ella hi sents."
+  },
+  {
+   "id": "cabell",
+   "paraula": "cabell",
+   "emoji": "💇",
+   "imatge": "recursos/cos/cabell.webp",
+   "pista": "Creix al cap i el pentines."
+  },
+  {
+   "id": "galta",
+   "paraula": "galta",
+   "emoji": "😊",
+   "imatge": "recursos/cos/galta.webp",
+   "pista": "Es posa vermella quan tens vergonya."
+  },
+  {
+   "id": "panxa",
+   "paraula": "panxa",
+   "emoji": "🧍",
+   "imatge": "recursos/cos/panxa.webp",
+   "pista": "Et fa mal si menges massa."
+  },
+  {
+   "id": "genoll",
+   "paraula": "genoll",
+   "emoji": "🧍",
+   "imatge": "recursos/cos/genoll.webp",
+   "pista": "Al mig de la cama; es doblega."
+  },
+  {
+   "id": "colze",
+   "paraula": "colze",
+   "emoji": "🧍",
+   "imatge": "recursos/cos/colze.webp",
+   "pista": "Al mig del braç; es doblega."
+  },
+  {
+   "id": "pulmo",
+   "paraula": "pulmó",
+   "emoji": "🫁",
+   "imatge": "recursos/cos/pulmo.webp",
+   "pista": "S'omple d'aire quan respires."
+  },
+  {
+   "id": "cella",
+   "paraula": "cella",
+   "emoji": "🤨",
+   "imatge": "recursos/cos/cella.webp",
+   "pista": "Pèls a sobre de cada ull."
+  },
+  {
+   "id": "melic",
+   "paraula": "melic",
+   "emoji": "🧍",
+   "imatge": "recursos/cos/melic.webp",
+   "pista": "Botonet al mig de la panxa."
+  },
+  {
+   "id": "canell",
+   "paraula": "canell",
+   "emoji": "⌚",
+   "imatge": "recursos/cos/canell.webp",
+   "pista": "On es posa el rellotge."
+  },
+  {
+   "id": "front",
+   "paraula": "front",
+   "emoji": "🧍",
+   "imatge": "recursos/cos/front.webp",
+   "pista": "La part de la cara entre les celles i els cabells."
+  },
+  {
+   "id": "bigoti",
+   "paraula": "bigoti",
+   "emoji": "🥸",
+   "imatge": "recursos/cos/bigoti.webp",
+   "pista": "Pèls a sobre del llavi d'alguns homes."
+  },
+  {
+   "id": "esquena",
+   "paraula": "esquena",
+   "emoji": "🧍",
+   "imatge": "recursos/cos/esquena.webp",
+   "pista": "La part del darrere del cos, on portes la motxilla."
+  },
+  {
+   "id": "espatlla",
+   "paraula": "espatlla",
+   "emoji": "🧍",
+   "imatge": "recursos/cos/espatlla.webp",
+   "pista": "D'aquí surt el braç."
+  },
+  {
+   "id": "turmell",
+   "paraula": "turmell",
+   "emoji": "🧍",
+   "imatge": "recursos/cos/turmell.webp",
+   "pista": "Uneix la cama i el peu."
+  },
+  {
+   "id": "cervell",
+   "paraula": "cervell",
+   "emoji": "🧠",
+   "imatge": "recursos/cos/cervell.webp",
+   "pista": "Dins el cap; serveix per pensar."
+  },
+  {
+   "id": "estomac",
+   "paraula": "estómac",
+   "emoji": "🧍",
+   "imatge": "recursos/cos/estomac.webp",
+   "pista": "On va a parar el menjar que empassem."
+  },
+  {
+   "id": "esquelet",
+   "paraula": "esquelet",
+   "emoji": "💀",
+   "imatge": "recursos/cos/esquelet.webp",
+   "pista": "Tots els ossos del cos junts."
+  },
+  {
+   "id": "pestanya",
+   "paraula": "pestanya",
+   "emoji": "👁️",
+   "imatge": "recursos/cos/pestanya.webp",
+   "pista": "Pèls petits a la vora de l'ull."
+  },
+  {
+   "id": "llengua",
+   "paraula": "llengua",
+   "emoji": "👅",
+   "imatge": "recursos/cos/llengua.webp",
+   "pista": "Serveix per tastar el gust del menjar."
+  },
+  {
+   "id": "cintura",
+   "paraula": "cintura",
+   "emoji": "🧍",
+   "imatge": "recursos/cos/cintura.webp",
+   "pista": "La part del mig del cos, on es corden els pantalons."
+  },
+  {
+   "id": "barbeta",
+   "paraula": "barbeta",
+   "emoji": "🧍",
+   "imatge": "recursos/cos/barbeta.webp",
+   "pista": "La punta de baix de la cara."
+  }
+ ]
+}

@@ -1,0 +1,77 @@
+{
+  "_nota": "Llista de temes del joc. Per afegir-ne un: crea temes/<id>.json (mateix format) i afegeix-lo aquí. El nivell surt sol del nombre de lletres: Fàcil 3–4, Mitjà 5–6, Difícil 7–10.",
+  "temes": [
+    {
+      "id": "animals",
+      "nom": "Animals",
+      "icona": "🐾",
+      "fitxer": "temes/animals.json"
+    },
+    {
+      "id": "fruites",
+      "nom": "Fruites i verdures",
+      "icona": "🍎",
+      "fitxer": "temes/fruites.json"
+    },
+    {
+      "id": "menjars",
+      "nom": "Menjars",
+      "icona": "🍕",
+      "fitxer": "temes/menjars.json"
+    },
+    {
+      "id": "transports",
+      "nom": "Transports",
+      "icona": "🚗",
+      "fitxer": "temes/transports.json"
+    },
+    {
+      "id": "natura",
+      "nom": "Natura i temps",
+      "icona": "🌦️",
+      "fitxer": "temes/natura.json"
+    },
+    {
+      "id": "emocions",
+      "nom": "Emocions",
+      "icona": "😀",
+      "fitxer": "temes/emocions.json"
+    },
+    {
+      "id": "casa",
+      "nom": "Casa",
+      "icona": "🏠",
+      "fitxer": "temes/casa.json"
+    },
+    {
+      "id": "cos",
+      "nom": "Cos humà",
+      "icona": "🧍",
+      "fitxer": "temes/cos.json"
+    },
+    {
+      "id": "escola",
+      "nom": "Escola",
+      "icona": "🎒",
+      "fitxer": "temes/escola.json"
+    },
+    {
+      "id": "contes",
+      "nom": "Contes i llibres",
+      "icona": "📚",
+      "fitxer": "temes/contes.json"
+    },
+    {
+      "id": "festes",
+      "nom": "Festes i cultura",
+      "icona": "🎭",
+      "fitxer": "temes/festes.json"
+    },
+    {
+      "id": "personatges",
+      "nom": "Personatges",
+      "icona": "🦸",
+      "fitxer": "temes/personatges.json"
+    }
+  ]
+}

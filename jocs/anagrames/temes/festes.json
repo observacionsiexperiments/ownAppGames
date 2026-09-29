@@ -1,0 +1,259 @@
+{
+ "id": "festes",
+ "nom": "Festes i cultura",
+ "icona": "🎭",
+ "paraules": [
+  {
+   "id": "tio",
+   "paraula": "tió",
+   "emoji": "🪵",
+   "imatge": "recursos/festes/tio.webp",
+   "pista": "Tronc amb barretina que per Nadal fa regals si el piques cantant."
+  },
+  {
+   "id": "mona",
+   "paraula": "mona",
+   "emoji": "🥚",
+   "imatge": "recursos/festes/mona.webp",
+   "pista": "Pastís de Pasqua que el padrí regala al fillol."
+  },
+  {
+   "id": "rosa",
+   "paraula": "rosa",
+   "emoji": "🌹",
+   "imatge": "recursos/festes/rosa.webp",
+   "pista": "Flor que es regala per Sant Jordi amb un llibre."
+  },
+  {
+   "id": "ball",
+   "paraula": "ball",
+   "emoji": "💃",
+   "imatge": "recursos/festes/ball.webp",
+   "pista": "El que fas movent el cos al ritme de la música."
+  },
+  {
+   "id": "coca",
+   "paraula": "coca",
+   "emoji": "🍰",
+   "imatge": "recursos/festes/coca.webp",
+   "pista": "Per Sant Joan en mengem una amb pinyons i fruita confitada."
+  },
+  {
+   "id": "fira",
+   "paraula": "fira",
+   "emoji": "🎡",
+   "imatge": "recursos/festes/fira.webp",
+   "pista": "Hi ha atraccions, cavallets i parades."
+  },
+  {
+   "id": "circ",
+   "paraula": "circ",
+   "emoji": "🎪",
+   "imatge": "recursos/festes/circ.webp",
+   "pista": "Espectacle sota una carpa amb pallassos i acròbates."
+  },
+  {
+   "id": "miro",
+   "paraula": "miró",
+   "emoji": "🖼️",
+   "imatge": "recursos/festes/miro.webp",
+   "pista": "Pintor català de colors vius, estrelles i llunes."
+  },
+  {
+   "id": "dali",
+   "paraula": "dalí",
+   "emoji": "🕰️",
+   "imatge": "recursos/festes/dali.webp",
+   "pista": "Pintor català de bigoti llarguíssim que va pintar rellotges tous."
+  },
+  {
+   "id": "nadal",
+   "paraula": "nadal",
+   "emoji": "🎄",
+   "imatge": "recursos/festes/nadal.webp",
+   "pista": "La festa del 25 de desembre."
+  },
+  {
+   "id": "torro",
+   "paraula": "torró",
+   "emoji": "🍬",
+   "imatge": "recursos/festes/torro.webp",
+   "pista": "Dolç de Nadal fet d'ametlla, dur o tou."
+  },
+  {
+   "id": "dansa",
+   "paraula": "dansa",
+   "emoji": "🩰",
+   "imatge": "recursos/festes/dansa.webp",
+   "pista": "Ball, sobretot el que es fa dalt d'un escenari."
+  },
+  {
+   "id": "diada",
+   "paraula": "diada",
+   "emoji": "📅",
+   "imatge": "recursos/festes/diada.webp",
+   "pista": "La Nacional de Catalunya és l'11 de setembre."
+  },
+  {
+   "id": "gralla",
+   "paraula": "gralla",
+   "emoji": "🎷",
+   "imatge": "recursos/festes/gralla.webp",
+   "pista": "Instrument de vent que sona quan pugen els castells."
+  },
+  {
+   "id": "gaudi",
+   "paraula": "gaudí",
+   "emoji": "🦎",
+   "imatge": "recursos/festes/gaudi.webp",
+   "pista": "Arquitecte de la Sagrada Família i el Park Güell."
+  },
+  {
+   "id": "gegant",
+   "paraula": "gegant",
+   "emoji": "🎎",
+   "imatge": "recursos/festes/gegant.webp",
+   "pista": "Figura enorme que balla a les festes amb una persona a dins."
+  },
+  {
+   "id": "teatre",
+   "paraula": "teatre",
+   "emoji": "🎭",
+   "imatge": "recursos/festes/teatre.webp",
+   "pista": "Els actors hi fan una obra dalt de l'escenari."
+  },
+  {
+   "id": "museu",
+   "paraula": "museu",
+   "emoji": "🏛️",
+   "imatge": "recursos/festes/museu.webp",
+   "pista": "Lloc on s'exposen quadres i obres d'art."
+  },
+  {
+   "id": "cinema",
+   "paraula": "cinema",
+   "emoji": "🎬",
+   "imatge": "recursos/festes/cinema.webp",
+   "pista": "Sala fosca on es miren pel·lícules."
+  },
+  {
+   "id": "cobla",
+   "paraula": "cobla",
+   "emoji": "🎺",
+   "imatge": "recursos/festes/cobla.webp",
+   "pista": "Grup de músics que toca sardanes."
+  },
+  {
+   "id": "petard",
+   "paraula": "petard",
+   "emoji": "🧨",
+   "imatge": "recursos/festes/petard.webp",
+   "pista": "Fa un gran esclat la nit de Sant Joan."
+  },
+  {
+   "id": "patge",
+   "paraula": "patge",
+   "emoji": "🎁",
+   "imatge": "recursos/festes/patge.webp",
+   "pista": "Ajudant dels Reis d'Orient que recull les cartes."
+  },
+  {
+   "id": "sardana",
+   "paraula": "sardana",
+   "emoji": "🎶",
+   "imatge": "recursos/festes/sardana.webp",
+   "pista": "Dansa catalana en rotllana, agafats de les mans."
+  },
+  {
+   "id": "pessebre",
+   "paraula": "pessebre",
+   "emoji": "⭐",
+   "imatge": "recursos/festes/pessebre.webp",
+   "pista": "Figuretes de Nadal amb el nen Jesús, el bou, la mula… i el caganer!"
+  },
+  {
+   "id": "carnaval",
+   "paraula": "carnaval",
+   "emoji": "🥳",
+   "imatge": "recursos/festes/carnaval.webp",
+   "pista": "Festa on tothom es disfressa."
+  },
+  {
+   "id": "castanyada",
+   "paraula": "castanyada",
+   "emoji": "🌰",
+   "imatge": "recursos/festes/castanyada.webp",
+   "pista": "Festa de la tardor amb castanyes i panellets."
+  },
+  {
+   "id": "panellets",
+   "paraula": "panellets",
+   "emoji": "🍪",
+   "imatge": "recursos/festes/panellets.webp",
+   "pista": "Dolços de massapà amb pinyons de la tardor."
+  },
+  {
+   "id": "capgros",
+   "paraula": "capgròs",
+   "emoji": "🗿",
+   "imatge": "recursos/festes/capgros.webp",
+   "pista": "Figura amb un cap enorme que balla amb els gegants."
+  },
+  {
+   "id": "correfoc",
+   "paraula": "correfoc",
+   "emoji": "🔥",
+   "imatge": "recursos/festes/correfoc.webp",
+   "pista": "Diables i bèsties que tiren espurnes pel carrer."
+  },
+  {
+   "id": "casteller",
+   "paraula": "casteller",
+   "emoji": "🤸",
+   "imatge": "recursos/festes/casteller.webp",
+   "pista": "Persona que fa torres humanes."
+  },
+  {
+   "id": "enxaneta",
+   "paraula": "enxaneta",
+   "emoji": "🧒",
+   "imatge": "recursos/festes/enxaneta.webp",
+   "pista": "El nen que puja a dalt de tot del castell i aixeca la mà."
+  },
+  {
+   "id": "revetlla",
+   "paraula": "revetlla",
+   "emoji": "🎆",
+   "imatge": "recursos/festes/revetlla.webp",
+   "pista": "La nit de Sant Joan, amb fogueres i petards."
+  },
+  {
+   "id": "concert",
+   "paraula": "concert",
+   "emoji": "🎤",
+   "imatge": "recursos/festes/concert.webp",
+   "pista": "Actuació de música en directe."
+  },
+  {
+   "id": "orquestra",
+   "paraula": "orquestra",
+   "emoji": "🎻",
+   "imatge": "recursos/festes/orquestra.webp",
+   "pista": "Molts músics que toquen junts amb un director."
+  },
+  {
+   "id": "pallasso",
+   "paraula": "pallasso",
+   "emoji": "🤡",
+   "imatge": "recursos/festes/pallasso.webp",
+   "pista": "Té el nas vermell i fa riure al circ."
+  },
+  {
+   "id": "cavalcada",
+   "paraula": "cavalcada",
+   "emoji": "🐫",
+   "imatge": "recursos/festes/cavalcada.webp",
+   "pista": "Desfilada dels Reis d'Orient el 5 de gener."
+  }
+ ]
+}

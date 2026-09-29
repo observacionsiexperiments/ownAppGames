@@ -1,10 +1,12 @@
 // Celebracions comunes a tots els jocs (sense dependències).
 //
 //   Celebracio.petita(element)      → esclat de confeti i estrelles des d'un element (encert intermedi)
-//   Celebracio.gran({ titol, subtitol, estrelles: 1..3, emoji, boto, enTancar })
+//   Celebracio.gran({ titol, subtitol, estrelles: 1..3, emoji, enTancar, tornar, inici })
 //                                   → pantalla de premi: confeti, trofeu, estrelles i so (joc acabat).
 //                                     Amb js/preferencies.js: afegeix el nom al títol i, si no es compten
-//                                     errors, no mostra estrelles.
+//                                     errors, no mostra estrelles. Dos botons: "🔁 Tornar a jugar" (crida
+//                                     `tornar` o, si no n'hi ha, prem #btn-comencar / #btn-nova del joc: mateixes
+//                                     opcions) i "🏠 Menú principal" (enllaç a `inici`, per defecte ../../).
 //
 // Respecta "reduir moviment" del sistema (menys animació). El so es pot silenciar amb
 // localStorage 'appjocs.so' = 'no'.
@@ -81,7 +83,7 @@
 
   // ---------- Gran: pantalla de premi ----------
   function gran(opcions = {}) {
-    let { titol = 'Molt bé!', subtitol = '', estrelles = 3, emoji = '🏆', boto = 'Continuar', enTancar } = opcions;
+    let { titol = 'Molt bé!', subtitol = '', estrelles = 3, emoji = '🏆', enTancar, tornar, inici = '../../' } = opcions;
     // Preferències (js/preferencies.js): el nom al títol; sense comptar errors, no hi ha estrelles
     const P = global.Preferencies;
     if (P) titol = P.ambNom(titol);
@@ -101,15 +103,23 @@
           ${[1, 2, 3].map(i => `<span class="cel-e ${i <= estrelles ? 'guanyada' : ''}" style="--i:${i}">⭐</span>`).join('')}
         </div>` : ''}
         <p class="cel-subtitol"></p>
-        <button type="button" class="btn cel-boto"></button>
+        <div class="cel-botons">
+          <button type="button" class="btn cel-boto cel-tornar">🔁 Tornar a jugar</button>
+          <a class="cel-menu" href="${inici}">🏠 Menú principal</a>
+        </div>
       </div>`;
     fons.querySelector('.cel-trofeu').textContent = emoji;
     fons.querySelector('.cel-titol').textContent = titol;
     fons.querySelector('.cel-subtitol').textContent = subtitol;
-    fons.querySelector('.cel-boto').textContent = boto;
     document.body.appendChild(fons);
-    const boto_ = fons.querySelector('.cel-boto');
-    boto_.addEventListener('click', () => { tancarGran(); enTancar && enTancar(); });
+    const boto_ = fons.querySelector('.cel-tornar');
+    // Tornar a jugar: amb les mateixes opcions (el botó "Comença" del joc, o "Nova partida" si no en té)
+    boto_.addEventListener('click', () => {
+      tancarGran(); enTancar && enTancar();
+      if (tornar) return tornar();
+      const b = document.getElementById('btn-comencar') || document.getElementById('btn-nova');
+      if (b) b.click();
+    });
     setTimeout(() => boto_.focus(), 50);
     so('gran');
     if (!menysMoviment()) confeti(fons.querySelector('.cel-confeti'));

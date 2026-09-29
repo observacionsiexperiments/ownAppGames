@@ -1,0 +1,273 @@
+{
+ "id": "escola",
+ "nom": "Escola",
+ "icona": "🎒",
+ "paraules": [
+  {
+   "id": "mapa",
+   "paraula": "mapa",
+   "emoji": "🗺️",
+   "imatge": "recursos/escola/mapa.webp",
+   "pista": "Dibuix que mostra on són els països, els rius i les muntanyes."
+  },
+  {
+   "id": "pati",
+   "paraula": "pati",
+   "emoji": "🛝",
+   "imatge": "recursos/escola/pati.webp",
+   "pista": "On sortim a jugar a l'hora de l'esbarjo."
+  },
+  {
+   "id": "cola",
+   "paraula": "cola",
+   "emoji": "🧴",
+   "imatge": "recursos/escola/cola.webp",
+   "pista": "Serveix per enganxar papers."
+  },
+  {
+   "id": "bata",
+   "paraula": "bata",
+   "emoji": "🥼",
+   "imatge": "recursos/escola/bata.webp",
+   "pista": "Roba que et poses a sobre per no embrutar-te."
+  },
+  {
+   "id": "aula",
+   "paraula": "aula",
+   "emoji": "🏫",
+   "imatge": "recursos/escola/aula.webp",
+   "pista": "L'habitació de l'escola on fem classe."
+  },
+  {
+   "id": "nota",
+   "paraula": "nota",
+   "emoji": "📝",
+   "imatge": "recursos/escola/nota.webp",
+   "pista": "El que et posen en un examen."
+  },
+  {
+   "id": "joc",
+   "paraula": "joc",
+   "emoji": "🎲",
+   "imatge": "recursos/escola/joc.webp",
+   "pista": "A l'esbarjo en fem amb els amics: fet i amagar, bàsquet…"
+  },
+  {
+   "id": "suma",
+   "paraula": "suma",
+   "emoji": "➕",
+   "imatge": "recursos/escola/suma.webp",
+   "pista": "Dos més tres és una…"
+  },
+  {
+   "id": "boli",
+   "paraula": "boli",
+   "emoji": "🖊️",
+   "imatge": "recursos/escola/boli.webp",
+   "pista": "Escriu amb tinta i no es pot esborrar."
+  },
+  {
+   "id": "amic",
+   "paraula": "amic",
+   "emoji": "🧑‍🤝‍🧑",
+   "imatge": "recursos/escola/amic.webp",
+   "pista": "Company amb qui t'agrada jugar."
+  },
+  {
+   "id": "llibre",
+   "paraula": "llibre",
+   "emoji": "📕",
+   "imatge": "recursos/escola/llibre.webp",
+   "pista": "Té moltes pàgines per llegir."
+  },
+  {
+   "id": "resta",
+   "paraula": "resta",
+   "emoji": "➖",
+   "imatge": "recursos/escola/resta.webp",
+   "pista": "Cinc menys dos és una…"
+  },
+  {
+   "id": "examen",
+   "paraula": "examen",
+   "emoji": "📝",
+   "imatge": "recursos/escola/examen.webp",
+   "pista": "Prova per veure què has après."
+  },
+  {
+   "id": "deures",
+   "paraula": "deures",
+   "emoji": "📚",
+   "imatge": "recursos/escola/deures.webp",
+   "pista": "Feina de l'escola que fas a casa."
+  },
+  {
+   "id": "regle",
+   "paraula": "regle",
+   "emoji": "📏",
+   "imatge": "recursos/escola/regle.webp",
+   "pista": "Serveix per fer ratlles rectes i mesurar."
+  },
+  {
+   "id": "estoig",
+   "paraula": "estoig",
+   "emoji": "👝",
+   "imatge": "recursos/escola/estoig.webp",
+   "pista": "On guardes els llapis i la goma."
+  },
+  {
+   "id": "ceres",
+   "paraula": "ceres",
+   "emoji": "🖍️",
+   "imatge": "recursos/escola/ceres.webp",
+   "pista": "Colors per pintar que semblen espelmes petites."
+  },
+  {
+   "id": "paper",
+   "paraula": "paper",
+   "emoji": "📄",
+   "imatge": "recursos/escola/paper.webp",
+   "pista": "Full blanc on escrius i dibuixes."
+  },
+  {
+   "id": "mestra",
+   "paraula": "mestra",
+   "emoji": "👩‍🏫",
+   "imatge": "recursos/escola/mestra.webp",
+   "pista": "Ens ensenya a llegir i a comptar."
+  },
+  {
+   "id": "alumne",
+   "paraula": "alumne",
+   "emoji": "🧒",
+   "imatge": "recursos/escola/alumne.webp",
+   "pista": "El nen o la nena que va a classe i aprèn."
+  },
+  {
+   "id": "pilota",
+   "paraula": "pilota",
+   "emoji": "⚽",
+   "imatge": "recursos/escola/pilota.webp",
+   "pista": "Rodona; hi juguem a futbol o a bàsquet."
+  },
+  {
+   "id": "numero",
+   "paraula": "número",
+   "emoji": "🔢",
+   "imatge": "recursos/escola/numero.webp",
+   "pista": "L'u, el dos, el tres… en són."
+  },
+  {
+   "id": "musica",
+   "paraula": "música",
+   "emoji": "🎵",
+   "imatge": "recursos/escola/musica.webp",
+   "pista": "Classe on cantem i toquem la flauta."
+  },
+  {
+   "id": "dibuix",
+   "paraula": "dibuix",
+   "emoji": "🎨",
+   "imatge": "recursos/escola/dibuix.webp",
+   "pista": "El que fas amb colors en un full."
+  },
+  {
+   "id": "gimnas",
+   "paraula": "gimnàs",
+   "emoji": "🤸",
+   "imatge": "recursos/escola/gimnas.webp",
+   "pista": "Lloc on fem educació física."
+  },
+  {
+   "id": "llapis",
+   "paraula": "llapis",
+   "emoji": "✏️",
+   "imatge": "recursos/escola/llapis.webp",
+   "pista": "Escriu i es pot esborrar amb la goma."
+  },
+  {
+   "id": "pissarra",
+   "paraula": "pissarra",
+   "emoji": "⬛",
+   "imatge": "recursos/escola/pissarra.webp",
+   "pista": "La mestra hi escriu amb guix davant de tota la classe."
+  },
+  {
+   "id": "motxilla",
+   "paraula": "motxilla",
+   "emoji": "🎒",
+   "imatge": "recursos/escola/motxilla.webp",
+   "pista": "La portes a l'esquena amb els llibres."
+  },
+  {
+   "id": "quadern",
+   "paraula": "quadern",
+   "emoji": "📓",
+   "imatge": "recursos/escola/quadern.webp",
+   "pista": "Fulls cosits on fas els exercicis."
+  },
+  {
+   "id": "alfabet",
+   "paraula": "alfabet",
+   "emoji": "🔤",
+   "imatge": "recursos/escola/alfabet.webp",
+   "pista": "Totes les lletres, de l'A a la Z."
+  },
+  {
+   "id": "pintura",
+   "paraula": "pintura",
+   "emoji": "🖌️",
+   "imatge": "recursos/escola/pintura.webp",
+   "pista": "Amb pinzell i colors fas un quadre."
+  },
+  {
+   "id": "lectura",
+   "paraula": "lectura",
+   "emoji": "📖",
+   "imatge": "recursos/escola/lectura.webp",
+   "pista": "Estona de llegir un conte en silenci."
+  },
+  {
+   "id": "excursio",
+   "paraula": "excursió",
+   "emoji": "🚌",
+   "imatge": "recursos/escola/excursio.webp",
+   "pista": "Sortida de tota la classe fora de l'escola."
+  },
+  {
+   "id": "pupitre",
+   "paraula": "pupitre",
+   "emoji": "🪑",
+   "imatge": "recursos/escola/pupitre.webp",
+   "pista": "Taula on seu cada alumne."
+  },
+  {
+   "id": "diccionari",
+   "paraula": "diccionari",
+   "emoji": "📘",
+   "imatge": "recursos/escola/diccionari.webp",
+   "pista": "Llibre on busques què vol dir una paraula."
+  },
+  {
+   "id": "retolador",
+   "paraula": "retolador",
+   "emoji": "🖍️",
+   "imatge": "recursos/escola/retolador.webp",
+   "pista": "Pinta amb colors molt vius i té tap."
+  },
+  {
+   "id": "company",
+   "paraula": "company",
+   "emoji": "🤝",
+   "imatge": "recursos/escola/company.webp",
+   "pista": "Nen o nena de la teva classe."
+  },
+  {
+   "id": "directora",
+   "paraula": "directora",
+   "emoji": "👩‍💼",
+   "imatge": "recursos/escola/directora.webp",
+   "pista": "La persona que dirigeix tota l'escola."
+  }
+ ]
+}

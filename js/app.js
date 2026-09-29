@@ -1,5 +1,5 @@
 // Llançadora: llegeix jocs/jocs.json i pinta una targeta per joc.
-const VERSIO_APP = '0.19.0';
+const VERSIO_APP = '0.21.0';
 
 // Categories dels jocs (camp "categories" de jocs.json)
 const CATEGORIES = { xifres: '🔢 Xifres', lletres: '🔤 Lletres' };
@@ -49,7 +49,7 @@ function pintarJocs() {
 // Mida de les targetes: proporció fixa 3:4 i la més gran possible perquè hi càpiguen TOTS els jocs
 // (no només els filtrats) sense desplaçar. Així la mida no canvia en filtrar ni en girar la pantalla
 // (només canvia com es reparteixen).
-const PROPORCIO = 4 / 3, AMPLE_MIN = 88, AMPLE_MAX = 270;
+const PROPORCIO = 4 / 3, AMPLE_MIN = 70, AMPLE_MAX = 270;
 let columnes = 3;
 function mides() {
   const g = document.getElementById('llista-jocs');

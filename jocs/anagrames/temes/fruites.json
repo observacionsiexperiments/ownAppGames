@@ -1,0 +1,252 @@
+{
+ "id": "fruites",
+ "nom": "Fruites i verdures",
+ "icona": "🍎",
+ "paraules": [
+  {
+   "id": "poma",
+   "paraula": "poma",
+   "emoji": "🍎",
+   "imatge": "recursos/fruites/poma.webp",
+   "pista": "És rodona, vermella o verda, i fa cruix quan la mossegues."
+  },
+  {
+   "id": "pera",
+   "paraula": "pera",
+   "emoji": "🍐",
+   "imatge": "recursos/fruites/pera.webp",
+   "pista": "Té forma de gota i és dolça i sucosa."
+  },
+  {
+   "id": "kiwi",
+   "paraula": "kiwi",
+   "emoji": "🥝",
+   "imatge": "recursos/fruites/kiwi.webp",
+   "pista": "Per fora és marró i peludet; per dins, verd amb llavors negres."
+  },
+  {
+   "id": "ceba",
+   "paraula": "ceba",
+   "emoji": "🧅",
+   "imatge": "recursos/fruites/ceba.webp",
+   "pista": "Quan la talles et fa plorar."
+  },
+  {
+   "id": "all",
+   "paraula": "all",
+   "emoji": "🧄",
+   "imatge": "recursos/fruites/all.webp",
+   "pista": "Té molts grans junts en una cabeça i fa molta olor."
+  },
+  {
+   "id": "raim",
+   "paraula": "raïm",
+   "emoji": "🍇",
+   "imatge": "recursos/fruites/raim.webp",
+   "pista": "Grans petits tots junts en un penjoll; amb ell es fa el vi."
+  },
+  {
+   "id": "coco",
+   "paraula": "coco",
+   "emoji": "🥥",
+   "imatge": "recursos/fruites/coco.webp",
+   "pista": "Té la closca molt dura; per dins és blanc i té aigua."
+  },
+  {
+   "id": "melo",
+   "paraula": "meló",
+   "emoji": "🍈",
+   "imatge": "recursos/fruites/melo.webp",
+   "pista": "Gros i allargat, groc o verd per fora i dolç per dins."
+  },
+  {
+   "id": "col",
+   "paraula": "col",
+   "emoji": "🥬",
+   "imatge": "recursos/fruites/col.webp",
+   "pista": "Una verdura rodona feta de moltes fulles."
+  },
+  {
+   "id": "platan",
+   "paraula": "plàtan",
+   "emoji": "🍌",
+   "imatge": "recursos/fruites/platan.webp",
+   "pista": "És groc i allargat, i per menjar-lo el pelem."
+  },
+  {
+   "id": "cirera",
+   "paraula": "cirera",
+   "emoji": "🍒",
+   "imatge": "recursos/fruites/cirera.webp",
+   "pista": "Petites i vermelles, sovint van de dues en dues amb un pal."
+  },
+  {
+   "id": "pinya",
+   "paraula": "pinya",
+   "emoji": "🍍",
+   "imatge": "recursos/fruites/pinya.webp",
+   "pista": "Per fora punxa i té un plomall de fulles a dalt."
+  },
+  {
+   "id": "mango",
+   "paraula": "mango",
+   "emoji": "🥭",
+   "imatge": "recursos/fruites/mango.webp",
+   "pista": "Fruita tropical, taronja per dins, amb un pinyol gran i pla."
+  },
+  {
+   "id": "oliva",
+   "paraula": "oliva",
+   "emoji": "🫒",
+   "imatge": "recursos/fruites/oliva.webp",
+   "pista": "Petita, verda o negra; se'n fa oli."
+  },
+  {
+   "id": "patata",
+   "paraula": "patata",
+   "emoji": "🥔",
+   "imatge": "recursos/fruites/patata.webp",
+   "pista": "Creix sota terra i se'n fan truites i xips."
+  },
+  {
+   "id": "pebrot",
+   "paraula": "pebrot",
+   "emoji": "🫑",
+   "imatge": "recursos/fruites/pebrot.webp",
+   "pista": "Pot ser vermell, verd o groc i és buit per dins."
+  },
+  {
+   "id": "enciam",
+   "paraula": "enciam",
+   "emoji": "🥬",
+   "imatge": "recursos/fruites/enciam.webp",
+   "pista": "Fulles verdes que són la base de l'amanida."
+  },
+  {
+   "id": "nabius",
+   "paraula": "nabius",
+   "emoji": "🫐",
+   "imatge": "recursos/fruites/nabius.webp",
+   "pista": "Boletes petites i blaves."
+  },
+  {
+   "id": "bolet",
+   "paraula": "bolet",
+   "emoji": "🍄",
+   "imatge": "recursos/fruites/bolet.webp",
+   "pista": "Surt al bosc a la tardor; alguns són verinosos."
+  },
+  {
+   "id": "pesol",
+   "paraula": "pèsol",
+   "emoji": "🫛",
+   "imatge": "recursos/fruites/pesol.webp",
+   "pista": "Boletes verdes que viuen dins d'una beina."
+  },
+  {
+   "id": "maduixa",
+   "paraula": "maduixa",
+   "emoji": "🍓",
+   "imatge": "recursos/fruites/maduixa.webp",
+   "pista": "Vermella, amb llavoretes per fora i una fulla verda a dalt."
+  },
+  {
+   "id": "llimona",
+   "paraula": "llimona",
+   "emoji": "🍋",
+   "imatge": "recursos/fruites/llimona.webp",
+   "pista": "És groga i molt àcida."
+  },
+  {
+   "id": "pressec",
+   "paraula": "préssec",
+   "emoji": "🍑",
+   "imatge": "recursos/fruites/pressec.webp",
+   "pista": "Té la pell suau com el vellut i un pinyol gran."
+  },
+  {
+   "id": "tomaquet",
+   "paraula": "tomàquet",
+   "emoji": "🍅",
+   "imatge": "recursos/fruites/tomaquet.webp",
+   "pista": "Vermell i rodó; es frega al pa amb oli."
+  },
+  {
+   "id": "pastanaga",
+   "paraula": "pastanaga",
+   "emoji": "🥕",
+   "imatge": "recursos/fruites/pastanaga.webp",
+   "pista": "És taronja i allargada, i als conills els encanta."
+  },
+  {
+   "id": "panotxa",
+   "paraula": "panotxa",
+   "emoji": "🌽",
+   "imatge": "recursos/fruites/panotxa.webp",
+   "pista": "Té molts grans grocs i se'n fan crispetes."
+  },
+  {
+   "id": "broquil",
+   "paraula": "bròquil",
+   "emoji": "🥦",
+   "imatge": "recursos/fruites/broquil.webp",
+   "pista": "Sembla un arbret verd."
+  },
+  {
+   "id": "alvocat",
+   "paraula": "alvocat",
+   "emoji": "🥑",
+   "imatge": "recursos/fruites/alvocat.webp",
+   "pista": "Verd per dins, amb un pinyol gros; se'n fa guacamole."
+  },
+  {
+   "id": "sindria",
+   "paraula": "síndria",
+   "emoji": "🍉",
+   "imatge": "recursos/fruites/sindria.webp",
+   "pista": "Enorme i verda per fora, vermella per dins, amb pipes negres."
+  },
+  {
+   "id": "carbassa",
+   "paraula": "carbassa",
+   "emoji": "🎃",
+   "imatge": "recursos/fruites/carbassa.webp",
+   "pista": "Grossa i taronja; a la tardor es buida i s'hi fan cares."
+  },
+  {
+   "id": "taronja",
+   "paraula": "taronja",
+   "emoji": "🍊",
+   "imatge": "recursos/fruites/taronja.webp",
+   "pista": "Té el mateix nom que el seu color."
+  },
+  {
+   "id": "alberginia",
+   "paraula": "albergínia",
+   "emoji": "🍆",
+   "imatge": "recursos/fruites/alberginia.webp",
+   "pista": "Allargada i de color lila fosc."
+  },
+  {
+   "id": "cogombre",
+   "paraula": "cogombre",
+   "emoji": "🥒",
+   "imatge": "recursos/fruites/cogombre.webp",
+   "pista": "Allargat i verd, molt fresc a l'amanida."
+  },
+  {
+   "id": "castanya",
+   "paraula": "castanya",
+   "emoji": "🌰",
+   "imatge": "recursos/fruites/castanya.webp",
+   "pista": "Surt d'una closca que punxa i es menja torrada a la tardor."
+  },
+  {
+   "id": "mongeta",
+   "paraula": "mongeta",
+   "emoji": "🫘",
+   "imatge": "recursos/fruites/mongeta.webp",
+   "pista": "Pot ser verda i allargada o un gra blanc que va amb botifarra."
+  }
+ ]
+}

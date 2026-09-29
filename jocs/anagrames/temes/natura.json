@@ -1,0 +1,280 @@
+{
+ "id": "natura",
+ "nom": "Natura i temps",
+ "icona": "🌦️",
+ "paraules": [
+  {
+   "id": "sol",
+   "paraula": "sol",
+   "emoji": "☀️",
+   "imatge": "recursos/natura/sol.webp",
+   "pista": "Ens escalfa i ens dona llum durant el dia."
+  },
+  {
+   "id": "mar",
+   "paraula": "mar",
+   "emoji": "🌊",
+   "imatge": "recursos/natura/mar.webp",
+   "pista": "Aigua salada i blava on ens banyem a l'estiu."
+  },
+  {
+   "id": "riu",
+   "paraula": "riu",
+   "emoji": "🏞️",
+   "imatge": "recursos/natura/riu.webp",
+   "pista": "Aigua dolça que baixa de la muntanya fins al mar."
+  },
+  {
+   "id": "neu",
+   "paraula": "neu",
+   "emoji": "❄️",
+   "imatge": "recursos/natura/neu.webp",
+   "pista": "Cau del cel blanca i freda, i hi fem ninots."
+  },
+  {
+   "id": "vent",
+   "paraula": "vent",
+   "emoji": "💨",
+   "imatge": "recursos/natura/vent.webp",
+   "pista": "No el veus, però mou les fulles i els estels."
+  },
+  {
+   "id": "flor",
+   "paraula": "flor",
+   "emoji": "🌸",
+   "imatge": "recursos/natura/flor.webp",
+   "pista": "Té pètals de colors i fa bona olor."
+  },
+  {
+   "id": "roca",
+   "paraula": "roca",
+   "emoji": "🪨",
+   "imatge": "recursos/natura/roca.webp",
+   "pista": "Pedra molt grossa i dura."
+  },
+  {
+   "id": "gel",
+   "paraula": "gel",
+   "emoji": "🧊",
+   "imatge": "recursos/natura/gel.webp",
+   "pista": "Aigua tan freda que s'ha tornat dura."
+  },
+  {
+   "id": "bosc",
+   "paraula": "bosc",
+   "emoji": "🌲",
+   "imatge": "recursos/natura/bosc.webp",
+   "pista": "Lloc ple d'arbres."
+  },
+  {
+   "id": "illa",
+   "paraula": "illa",
+   "emoji": "🏝️",
+   "imatge": "recursos/natura/illa.webp",
+   "pista": "Tros de terra envoltat d'aigua per tots costats."
+  },
+  {
+   "id": "gota",
+   "paraula": "gota",
+   "emoji": "💧",
+   "imatge": "recursos/natura/gota.webp",
+   "pista": "Una mica d'aigua, petita i rodona."
+  },
+  {
+   "id": "foc",
+   "paraula": "foc",
+   "emoji": "🔥",
+   "imatge": "recursos/natura/foc.webp",
+   "pista": "És calent, crema i fa flames."
+  },
+  {
+   "id": "boira",
+   "paraula": "boira",
+   "emoji": "🌫️",
+   "imatge": "recursos/natura/boira.webp",
+   "pista": "Núvol baix que no et deixa veure res."
+  },
+  {
+   "id": "pluja",
+   "paraula": "pluja",
+   "emoji": "🌧️",
+   "imatge": "recursos/natura/pluja.webp",
+   "pista": "Aigua que cau dels núvols."
+  },
+  {
+   "id": "lluna",
+   "paraula": "lluna",
+   "emoji": "🌙",
+   "imatge": "recursos/natura/lluna.webp",
+   "pista": "Surt de nit i cada dia canvia de forma."
+  },
+  {
+   "id": "nuvol",
+   "paraula": "núvol",
+   "emoji": "☁️",
+   "imatge": "recursos/natura/nuvol.webp",
+   "pista": "Blanc o gris, sura pel cel i porta pluja."
+  },
+  {
+   "id": "arbre",
+   "paraula": "arbre",
+   "emoji": "🌳",
+   "imatge": "recursos/natura/arbre.webp",
+   "pista": "Té tronc, branques i fulles."
+  },
+  {
+   "id": "fulla",
+   "paraula": "fulla",
+   "emoji": "🍃",
+   "imatge": "recursos/natura/fulla.webp",
+   "pista": "Part verda de l'arbre que a la tardor cau."
+  },
+  {
+   "id": "llamp",
+   "paraula": "llamp",
+   "emoji": "⚡",
+   "imatge": "recursos/natura/llamp.webp",
+   "pista": "Llum molt forta que baixa del cel quan hi ha tempesta."
+  },
+  {
+   "id": "volca",
+   "paraula": "volcà",
+   "emoji": "🌋",
+   "imatge": "recursos/natura/volca.webp",
+   "pista": "Muntanya que treu foc i lava."
+  },
+  {
+   "id": "terra",
+   "paraula": "terra",
+   "emoji": "🌍",
+   "imatge": "recursos/natura/terra.webp",
+   "pista": "El planeta on vivim."
+  },
+  {
+   "id": "platja",
+   "paraula": "platja",
+   "emoji": "🏖️",
+   "imatge": "recursos/natura/platja.webp",
+   "pista": "Sorra al costat del mar."
+  },
+  {
+   "id": "cactus",
+   "paraula": "cactus",
+   "emoji": "🌵",
+   "imatge": "recursos/natura/cactus.webp",
+   "pista": "Planta del desert plena de punxes."
+  },
+  {
+   "id": "desert",
+   "paraula": "desert",
+   "emoji": "🏜️",
+   "imatge": "recursos/natura/desert.webp",
+   "pista": "Lloc molt sec, amb sorra i gairebé sense pluja."
+  },
+  {
+   "id": "huraca",
+   "paraula": "huracà",
+   "emoji": "🌀",
+   "imatge": "recursos/natura/huraca.webp",
+   "pista": "Vent fortíssim que fa voltes."
+  },
+  {
+   "id": "estiu",
+   "paraula": "estiu",
+   "emoji": "😎",
+   "imatge": "recursos/natura/estiu.webp",
+   "pista": "L'estació de la calor i les vacances."
+  },
+  {
+   "id": "tardor",
+   "paraula": "tardor",
+   "emoji": "🍂",
+   "imatge": "recursos/natura/tardor.webp",
+   "pista": "L'estació en què cauen les fulles dels arbres."
+  },
+  {
+   "id": "hivern",
+   "paraula": "hivern",
+   "emoji": "⛄",
+   "imatge": "recursos/natura/hivern.webp",
+   "pista": "L'estació del fred i la neu."
+  },
+  {
+   "id": "muntanya",
+   "paraula": "muntanya",
+   "emoji": "⛰️",
+   "imatge": "recursos/natura/muntanya.webp",
+   "pista": "Terra molt alta; per pujar-hi cal caminar molt."
+  },
+  {
+   "id": "tempesta",
+   "paraula": "tempesta",
+   "emoji": "⛈️",
+   "imatge": "recursos/natura/tempesta.webp",
+   "pista": "Pluja forta amb trons i llamps."
+  },
+  {
+   "id": "estrella",
+   "paraula": "estrella",
+   "emoji": "⭐",
+   "imatge": "recursos/natura/estrella.webp",
+   "pista": "Brilla de nit al cel."
+  },
+  {
+   "id": "palmera",
+   "paraula": "palmera",
+   "emoji": "🌴",
+   "imatge": "recursos/natura/palmera.webp",
+   "pista": "Arbre alt de la platja amb fulles llargues a dalt."
+  },
+  {
+   "id": "girassol",
+   "paraula": "girassol",
+   "emoji": "🌻",
+   "imatge": "recursos/natura/girassol.webp",
+   "pista": "Flor gran i groga amb moltes pipes al mig."
+  },
+  {
+   "id": "planeta",
+   "paraula": "planeta",
+   "emoji": "🪐",
+   "imatge": "recursos/natura/planeta.webp",
+   "pista": "Mart, Júpiter i la Terra en són."
+  },
+  {
+   "id": "calamarsa",
+   "paraula": "calamarsa",
+   "emoji": "🌨️",
+   "imatge": "recursos/natura/calamarsa.webp",
+   "pista": "Boletes de gel que cauen del cel."
+  },
+  {
+   "id": "primavera",
+   "paraula": "primavera",
+   "emoji": "🌷",
+   "imatge": "recursos/natura/primavera.webp",
+   "pista": "L'estació en què surten les flors."
+  },
+  {
+   "id": "margarida",
+   "paraula": "margarida",
+   "emoji": "🌼",
+   "imatge": "recursos/natura/margarida.webp",
+   "pista": "Flor blanca amb el centre groc: m'estima, no m'estima…"
+  },
+  {
+   "id": "glacera",
+   "paraula": "glacera",
+   "emoji": "🏔️",
+   "imatge": "recursos/natura/glacera.webp",
+   "pista": "Riu de gel a dalt de les muntanyes."
+  },
+  {
+   "id": "univers",
+   "paraula": "univers",
+   "emoji": "🌌",
+   "imatge": "recursos/natura/univers.webp",
+   "pista": "Tot l'espai, amb totes les estrelles i planetes."
+  }
+ ]
+}

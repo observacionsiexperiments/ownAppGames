@@ -1,0 +1,231 @@
+{
+ "id": "transports",
+ "nom": "Transports",
+ "icona": "🚗",
+ "paraules": [
+  {
+   "id": "bus",
+   "paraula": "bus",
+   "emoji": "🚌",
+   "imatge": "recursos/transports/bus.webp",
+   "pista": "Vehicle llarg de la ciutat que para a les parades."
+  },
+  {
+   "id": "moto",
+   "paraula": "moto",
+   "emoji": "🏍️",
+   "imatge": "recursos/transports/moto.webp",
+   "pista": "Té dues rodes, fa brum-brum i cal portar casc."
+  },
+  {
+   "id": "tren",
+   "paraula": "tren",
+   "emoji": "🚆",
+   "imatge": "recursos/transports/tren.webp",
+   "pista": "Va per les vies i té molts vagons."
+  },
+  {
+   "id": "taxi",
+   "paraula": "taxi",
+   "emoji": "🚕",
+   "imatge": "recursos/transports/taxi.webp",
+   "pista": "Cotxe que et porta on vulguis si li pagues."
+  },
+  {
+   "id": "bici",
+   "paraula": "bici",
+   "emoji": "🚲",
+   "imatge": "recursos/transports/bici.webp",
+   "pista": "Té dues rodes i pedals."
+  },
+  {
+   "id": "avio",
+   "paraula": "avió",
+   "emoji": "✈️",
+   "imatge": "recursos/transports/avio.webp",
+   "pista": "Té ales i vola d'un aeroport a un altre."
+  },
+  {
+   "id": "tram",
+   "paraula": "tram",
+   "emoji": "🚊",
+   "imatge": "recursos/transports/tram.webp",
+   "pista": "Com un tren, però va pel mig de la ciutat."
+  },
+  {
+   "id": "coet",
+   "paraula": "coet",
+   "emoji": "🚀",
+   "imatge": "recursos/transports/coet.webp",
+   "pista": "Surt disparat cap a l'espai."
+  },
+  {
+   "id": "nau",
+   "paraula": "nau",
+   "emoji": "🛸",
+   "imatge": "recursos/transports/nau.webp",
+   "pista": "La dels extraterrestres vola per l'espai."
+  },
+  {
+   "id": "grua",
+   "paraula": "grua",
+   "emoji": "🏗️",
+   "imatge": "recursos/transports/grua.webp",
+   "pista": "Aixeca coses molt pesades a les obres."
+  },
+  {
+   "id": "cotxe",
+   "paraula": "cotxe",
+   "emoji": "🚗",
+   "imatge": "recursos/transports/cotxe.webp",
+   "pista": "Té quatre rodes i hi viatja la família."
+  },
+  {
+   "id": "barca",
+   "paraula": "barca",
+   "emoji": "🚣",
+   "imatge": "recursos/transports/barca.webp",
+   "pista": "És petita, va per l'aigua i es mou amb rems."
+  },
+  {
+   "id": "metro",
+   "paraula": "metro",
+   "emoji": "🚇",
+   "imatge": "recursos/transports/metro.webp",
+   "pista": "Tren que va per sota terra."
+  },
+  {
+   "id": "camio",
+   "paraula": "camió",
+   "emoji": "🚚",
+   "imatge": "recursos/transports/camio.webp",
+   "pista": "Vehicle gros que porta mercaderies."
+  },
+  {
+   "id": "globus",
+   "paraula": "globus",
+   "emoji": "🎈",
+   "imatge": "recursos/transports/globus.webp",
+   "pista": "Puja pel cel amb aire calent i una cistella."
+  },
+  {
+   "id": "veler",
+   "paraula": "veler",
+   "emoji": "⛵",
+   "imatge": "recursos/transports/veler.webp",
+   "pista": "Barca que es mou gràcies al vent."
+  },
+  {
+   "id": "canoa",
+   "paraula": "canoa",
+   "emoji": "🛶",
+   "imatge": "recursos/transports/canoa.webp",
+   "pista": "Barca estreta que es mou amb pales."
+  },
+  {
+   "id": "trineu",
+   "paraula": "trineu",
+   "emoji": "🛷",
+   "imatge": "recursos/transports/trineu.webp",
+   "pista": "Llisca per la neu; el del Pare Noel l'estiren rens."
+  },
+  {
+   "id": "patins",
+   "paraula": "patins",
+   "emoji": "⛸️",
+   "imatge": "recursos/transports/patins.webp",
+   "pista": "Sabates amb rodes o amb una fulla per al gel."
+  },
+  {
+   "id": "llanxa",
+   "paraula": "llanxa",
+   "emoji": "🚤",
+   "imatge": "recursos/transports/llanxa.webp",
+   "pista": "Barca petita amb motor que va molt ràpida."
+  },
+  {
+   "id": "vaixell",
+   "paraula": "vaixell",
+   "emoji": "🚢",
+   "imatge": "recursos/transports/vaixell.webp",
+   "pista": "Gran embarcació que creua el mar."
+  },
+  {
+   "id": "tractor",
+   "paraula": "tractor",
+   "emoji": "🚜",
+   "imatge": "recursos/transports/tractor.webp",
+   "pista": "El vehicle del pagès, amb rodes grosses."
+  },
+  {
+   "id": "patinet",
+   "paraula": "patinet",
+   "emoji": "🛴",
+   "imatge": "recursos/transports/patinet.webp",
+   "pista": "Planxa amb rodes i manillar; t'impulses amb el peu."
+  },
+  {
+   "id": "teleferic",
+   "paraula": "telefèric",
+   "emoji": "🚡",
+   "imatge": "recursos/transports/teleferic.webp",
+   "pista": "Cabina penjada d'un cable que puja la muntanya."
+  },
+  {
+   "id": "furgoneta",
+   "paraula": "furgoneta",
+   "emoji": "🚐",
+   "imatge": "recursos/transports/furgoneta.webp",
+   "pista": "Més gran que un cotxe i més petita que un camió."
+  },
+  {
+   "id": "autocar",
+   "paraula": "autocar",
+   "emoji": "🚍",
+   "imatge": "recursos/transports/autocar.webp",
+   "pista": "Porta els nens d'excursió per la carretera."
+  },
+  {
+   "id": "autobus",
+   "paraula": "autobús",
+   "emoji": "🚌",
+   "imatge": "recursos/transports/autobus.webp",
+   "pista": "El nom sencer del bus."
+  },
+  {
+   "id": "bicicleta",
+   "paraula": "bicicleta",
+   "emoji": "🚲",
+   "imatge": "recursos/transports/bicicleta.webp",
+   "pista": "El nom sencer de la bici."
+  },
+  {
+   "id": "ambulancia",
+   "paraula": "ambulància",
+   "emoji": "🚑",
+   "imatge": "recursos/transports/ambulancia.webp",
+   "pista": "Porta els malalts a l'hospital amb la sirena."
+  },
+  {
+   "id": "monopati",
+   "paraula": "monopatí",
+   "emoji": "🛹",
+   "imatge": "recursos/transports/monopati.webp",
+   "pista": "Una post amb quatre rodes per fer salts i trucs."
+  },
+  {
+   "id": "helicopter",
+   "paraula": "helicòpter",
+   "emoji": "🚁",
+   "imatge": "recursos/transports/helicopter.webp",
+   "pista": "Vola amb unes hèlixs a dalt i es pot quedar quiet a l'aire."
+  },
+  {
+   "id": "avioneta",
+   "paraula": "avioneta",
+   "emoji": "🛩️",
+   "imatge": "recursos/transports/avioneta.webp",
+   "pista": "Un avió petit amb una hèlix al davant."
+  }
+ ]
+}

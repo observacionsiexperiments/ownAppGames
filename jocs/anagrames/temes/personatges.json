@@ -1,0 +1,295 @@
+{
+ "id": "personatges",
+ "nom": "Personatges",
+ "icona": "🦸",
+ "paraules": [
+  {
+   "id": "teo",
+   "paraula": "Teo",
+   "emoji": "👦",
+   "imatge": "recursos/personatges/teo.webp",
+   "pista": "Nen que va a la platja, al zoo, a l'escola… en molts llibres.",
+   "font": "Llibres de Violeta Denou"
+  },
+  {
+   "id": "alba",
+   "paraula": "Alba",
+   "emoji": "🌅",
+   "imatge": "recursos/personatges/alba.webp",
+   "pista": "Noia que sobreviu a la fi del món amb en Dídac.",
+   "font": "Mecanoscrit del segon origen"
+  },
+  {
+   "id": "anna",
+   "paraula": "Anna",
+   "emoji": "👧",
+   "imatge": "recursos/personatges/anna.webp",
+   "pista": "Una de les Tres Bessones; les altres són la Teresa i l'Helena.",
+   "font": "Les Tres Bessones"
+  },
+  {
+   "id": "goku",
+   "paraula": "Goku",
+   "emoji": "🐉",
+   "imatge": "recursos/personatges/goku.webp",
+   "pista": "Protagonista amb els cabells punxeguts que busca les boles de drac.",
+   "font": "Bola de Drac"
+  },
+  {
+   "id": "pitus",
+   "paraula": "Pitus",
+   "emoji": "🦁",
+   "imatge": "recursos/personatges/pitus.webp",
+   "pista": "Nen malalt; els seus amics munten un zoo per ajudar-lo.",
+   "font": "El zoo d'en Pitus"
+  },
+  {
+   "id": "didac",
+   "paraula": "Dídac",
+   "emoji": "👦",
+   "imatge": "recursos/personatges/didac.webp",
+   "pista": "Nen que sobreviu a la fi del món amb l'Alba.",
+   "font": "Mecanoscrit del segon origen"
+  },
+  {
+   "id": "tirant",
+   "paraula": "Tirant",
+   "emoji": "🛡️",
+   "imatge": "recursos/personatges/tirant.webp",
+   "pista": "Cavaller del gran llibre de Joanot Martorell.",
+   "font": "Tirant lo Blanc"
+  },
+  {
+   "id": "teresa",
+   "paraula": "Teresa",
+   "emoji": "👧",
+   "imatge": "recursos/personatges/teresa.webp",
+   "pista": "Una de les Tres Bessones; les altres són l'Anna i l'Helena.",
+   "font": "Les Tres Bessones"
+  },
+  {
+   "id": "helena",
+   "paraula": "Helena",
+   "emoji": "👧",
+   "imatge": "recursos/personatges/helena.webp",
+   "pista": "Una de les Tres Bessones; les altres són l'Anna i la Teresa.",
+   "font": "Les Tres Bessones"
+  },
+  {
+   "id": "merli",
+   "paraula": "Merlí",
+   "emoji": "🧑‍🏫",
+   "imatge": "recursos/personatges/merli.webp",
+   "pista": "Professor de filosofia d'una sèrie de TV3 que fa pensar els alumnes.",
+   "font": "Merlí (TV3)"
+  },
+  {
+   "id": "nobita",
+   "paraula": "Nobita",
+   "emoji": "👓",
+   "imatge": "recursos/personatges/nobita.webp",
+   "pista": "Nen amb ulleres, amic del gat robot.",
+   "font": "Doraemon"
+  },
+  {
+   "id": "oliver",
+   "paraula": "Oliver",
+   "emoji": "⚽",
+   "imatge": "recursos/personatges/oliver.webp",
+   "pista": "Davanter de la sèrie de futbol, amic del porter Benji.",
+   "font": "Oliver i Benji"
+  },
+  {
+   "id": "benji",
+   "paraula": "Benji",
+   "emoji": "🧤",
+   "imatge": "recursos/personatges/benji.webp",
+   "pista": "Porter de la sèrie de futbol, amic de l'Oliver.",
+   "font": "Oliver i Benji"
+  },
+  {
+   "id": "peppa",
+   "paraula": "Peppa",
+   "emoji": "🐷",
+   "imatge": "recursos/personatges/peppa.webp",
+   "pista": "Porqueta rosa que salta als bassals de fang.",
+   "font": "Peppa Pig"
+  },
+  {
+   "id": "heidi",
+   "paraula": "Heidi",
+   "emoji": "🏔️",
+   "imatge": "recursos/personatges/heidi.webp",
+   "pista": "Nena que viu a les muntanyes amb el seu avi i les cabres.",
+   "font": "Heidi"
+  },
+  {
+   "id": "bluey",
+   "paraula": "Bluey",
+   "emoji": "🐕",
+   "imatge": "recursos/personatges/bluey.webp",
+   "pista": "Gossa blava que juga amb la seva germana Bingo.",
+   "font": "Bluey"
+  },
+  {
+   "id": "conan",
+   "paraula": "Conan",
+   "emoji": "🔍",
+   "imatge": "recursos/personatges/conan.webp",
+   "pista": "Detectiu que es va tornar petit i resol misteris.",
+   "font": "Detectiu Conan"
+  },
+  {
+   "id": "obelix",
+   "paraula": "Obèlix",
+   "emoji": "🗿",
+   "imatge": "recursos/personatges/obelix.webp",
+   "pista": "Gal gros i fortíssim que carrega menhirs.",
+   "font": "Astèrix"
+  },
+  {
+   "id": "pippi",
+   "paraula": "Pippi",
+   "emoji": "💪",
+   "imatge": "recursos/personatges/pippi.webp",
+   "pista": "Nena pèl-roja amb trenes, tan forta que aixeca un cavall.",
+   "font": "Pippi Calcesllargues"
+  },
+  {
+   "id": "patufet",
+   "paraula": "Patufet",
+   "emoji": "🤏",
+   "imatge": "recursos/personatges/patufet.webp",
+   "pista": "Nen tan petit que un bou se'l va menjar: «oi, on ets?»",
+   "font": "Rondalla catalana"
+  },
+  {
+   "id": "massagran",
+   "paraula": "Massagran",
+   "emoji": "🧭",
+   "imatge": "recursos/personatges/massagran.webp",
+   "pista": "Noi aventurer dels llibres de Folch i Torres.",
+   "font": "Les aventures d'en Massagran"
+  },
+  {
+   "id": "rovello",
+   "paraula": "Rovelló",
+   "emoji": "🐶",
+   "imatge": "recursos/personatges/rovello.webp",
+   "pista": "Gos protagonista d'un llibre de Josep Vallverdú.",
+   "font": "Rovelló (Josep Vallverdú)"
+  },
+  {
+   "id": "lluquet",
+   "paraula": "Lluquet",
+   "emoji": "🐑",
+   "imatge": "recursos/personatges/lluquet.webp",
+   "pista": "Pastor dels Pastorets, company d'en Rovelló.",
+   "font": "Els Pastorets"
+  },
+  {
+   "id": "avorrida",
+   "paraula": "Avorrida",
+   "emoji": "🧙‍♀️",
+   "imatge": "recursos/personatges/avorrida.webp",
+   "pista": "La bruixa que sempre s'avorreix i fica les bessones dins dels contes.",
+   "font": "Les Tres Bessones"
+  },
+  {
+   "id": "doraemon",
+   "paraula": "Doraemon",
+   "emoji": "🐱",
+   "imatge": "recursos/personatges/doraemon.webp",
+   "pista": "Gat robot blau que treu invents de la butxaca.",
+   "font": "Doraemon"
+  },
+  {
+   "id": "pikachu",
+   "paraula": "Pikachu",
+   "emoji": "⚡",
+   "imatge": "recursos/personatges/pikachu.webp",
+   "pista": "Pokémon groc que fa descàrregues elèctriques.",
+   "font": "Pokémon"
+  },
+  {
+   "id": "asterix",
+   "paraula": "Astèrix",
+   "emoji": "🪖",
+   "imatge": "recursos/personatges/asterix.webp",
+   "pista": "Gal petit i valent que beu la poció màgica.",
+   "font": "Astèrix"
+  },
+  {
+   "id": "tintin",
+   "paraula": "Tintín",
+   "emoji": "📰",
+   "imatge": "recursos/personatges/tintin.webp",
+   "pista": "Periodista amb tupè que viatja amb el seu gos blanc, en Milú.",
+   "font": "Les aventures de Tintín"
+  },
+  {
+   "id": "mafalda",
+   "paraula": "Mafalda",
+   "emoji": "🍲",
+   "imatge": "recursos/personatges/mafalda.webp",
+   "pista": "Nena de còmic que odia la sopa.",
+   "font": "Mafalda"
+  },
+  {
+   "id": "pinotxo",
+   "paraula": "Pinotxo",
+   "emoji": "🤥",
+   "imatge": "recursos/personatges/pinotxo.webp",
+   "pista": "Titella de fusta a qui creix el nas quan diu mentides.",
+   "font": "Pinotxo"
+  },
+  {
+   "id": "caputxeta",
+   "paraula": "Caputxeta",
+   "emoji": "🐺",
+   "imatge": "recursos/personatges/caputxeta.webp",
+   "pista": "Va a casa l'àvia i es troba el llop.",
+   "font": "La Caputxeta Vermella"
+  },
+  {
+   "id": "blancaneu",
+   "paraula": "Blancaneu",
+   "emoji": "🍎",
+   "imatge": "recursos/personatges/blancaneu.webp",
+   "pista": "Princesa que mossega una poma enverinada i viu amb set nans.",
+   "font": "La Blancaneu"
+  },
+  {
+   "id": "ventafocs",
+   "paraula": "Ventafocs",
+   "emoji": "👠",
+   "imatge": "recursos/personatges/ventafocs.webp",
+   "pista": "Perd una sabata de vidre a les dotze de la nit.",
+   "font": "La Ventafocs"
+  },
+  {
+   "id": "campaneta",
+   "paraula": "Campaneta",
+   "emoji": "🧚",
+   "imatge": "recursos/personatges/campaneta.webp",
+   "pista": "Fada petitona amiga de Peter Pan.",
+   "font": "Peter Pan"
+  },
+  {
+   "id": "matilda",
+   "paraula": "Matilda",
+   "emoji": "📚",
+   "imatge": "recursos/personatges/matilda.webp",
+   "pista": "Nena a qui encanta llegir i que té poders.",
+   "font": "Matilda (Roald Dahl)"
+  },
+  {
+   "id": "stilton",
+   "paraula": "Stilton",
+   "emoji": "🐭",
+   "imatge": "recursos/personatges/stilton.webp",
+   "pista": "Ratolí periodista que escriu llibres d'aventures.",
+   "font": "Geronimo Stilton"
+  }
+ ]
+}

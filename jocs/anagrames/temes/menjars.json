@@ -1,0 +1,266 @@
+{
+ "id": "menjars",
+ "nom": "Menjars",
+ "icona": "🍕",
+ "paraules": [
+  {
+   "id": "sopa",
+   "paraula": "sopa",
+   "emoji": "🍲",
+   "imatge": "recursos/menjars/sopa.webp",
+   "pista": "Plat calent i líquid que es menja amb cullera."
+  },
+  {
+   "id": "mel",
+   "paraula": "mel",
+   "emoji": "🍯",
+   "imatge": "recursos/menjars/mel.webp",
+   "pista": "La fan les abelles i és dolça i enganxosa."
+  },
+  {
+   "id": "llet",
+   "paraula": "llet",
+   "emoji": "🥛",
+   "imatge": "recursos/menjars/llet.webp",
+   "pista": "És blanca i ens la dona la vaca."
+  },
+  {
+   "id": "suc",
+   "paraula": "suc",
+   "emoji": "🧃",
+   "imatge": "recursos/menjars/suc.webp",
+   "pista": "El que surt quan esprems una taronja."
+  },
+  {
+   "id": "flam",
+   "paraula": "flam",
+   "emoji": "🍮",
+   "imatge": "recursos/menjars/flam.webp",
+   "pista": "Postres que tremolen, amb caramel per sobre."
+  },
+  {
+   "id": "sal",
+   "paraula": "sal",
+   "emoji": "🧂",
+   "imatge": "recursos/menjars/sal.webp",
+   "pista": "Blanca i en granets; sense ella el menjar no té gust."
+  },
+  {
+   "id": "brou",
+   "paraula": "brou",
+   "emoji": "🥣",
+   "imatge": "recursos/menjars/brou.webp",
+   "pista": "Aigua calenta on s'han bullit verdures o carn."
+  },
+  {
+   "id": "carn",
+   "paraula": "carn",
+   "emoji": "🥩",
+   "imatge": "recursos/menjars/carn.webp",
+   "pista": "La mengem del porc, de la vedella o del pollastre."
+  },
+  {
+   "id": "cafe",
+   "paraula": "cafè",
+   "emoji": "☕",
+   "imatge": "recursos/menjars/cafe.webp",
+   "pista": "Beguda negra i calenta que prenen els grans al matí."
+  },
+  {
+   "id": "crep",
+   "paraula": "crep",
+   "emoji": "🥞",
+   "imatge": "recursos/menjars/crep.webp",
+   "pista": "Una capa molt fina de massa farcida de xocolata."
+  },
+  {
+   "id": "arros",
+   "paraula": "arròs",
+   "emoji": "🍚",
+   "imatge": "recursos/menjars/arros.webp",
+   "pista": "Grans petits i blancs que es bullen."
+  },
+  {
+   "id": "pizza",
+   "paraula": "pizza",
+   "emoji": "🍕",
+   "imatge": "recursos/menjars/pizza.webp",
+   "pista": "Massa rodona amb tomàquet i formatge, feta al forn."
+  },
+  {
+   "id": "pasta",
+   "paraula": "pasta",
+   "emoji": "🍝",
+   "imatge": "recursos/menjars/pasta.webp",
+   "pista": "Espaguetis, macarrons i fideus en són."
+  },
+  {
+   "id": "galeta",
+   "paraula": "galeta",
+   "emoji": "🍪",
+   "imatge": "recursos/menjars/galeta.webp",
+   "pista": "Petita, rodona i cruixent; la suques a la llet."
+  },
+  {
+   "id": "pastis",
+   "paraula": "pastís",
+   "emoji": "🎂",
+   "imatge": "recursos/menjars/pastis.webp",
+   "pista": "Hi posem espelmes el dia de l'aniversari."
+  },
+  {
+   "id": "truita",
+   "paraula": "truita",
+   "emoji": "🍳",
+   "imatge": "recursos/menjars/truita.webp",
+   "pista": "Es fa amb ous batuts; la de patates és molt famosa."
+  },
+  {
+   "id": "gelat",
+   "paraula": "gelat",
+   "emoji": "🍦",
+   "imatge": "recursos/menjars/gelat.webp",
+   "pista": "Fred i dolç; a l'estiu el mengem en cucurutxo."
+  },
+  {
+   "id": "paella",
+   "paraula": "paella",
+   "emoji": "🥘",
+   "imatge": "recursos/menjars/paella.webp",
+   "pista": "Arròs groc amb gambes i musclos, típic de diumenge."
+  },
+  {
+   "id": "gamba",
+   "paraula": "gamba",
+   "emoji": "🦐",
+   "imatge": "recursos/menjars/gamba.webp",
+   "pista": "Animaló del mar, rosat quan és cuit, amb bigotis."
+  },
+  {
+   "id": "bunyol",
+   "paraula": "bunyol",
+   "emoji": "🍩",
+   "imatge": "recursos/menjars/bunyol.webp",
+   "pista": "Bola de massa fregida amb sucre per sobre."
+  },
+  {
+   "id": "pernil",
+   "paraula": "pernil",
+   "emoji": "🍖",
+   "imatge": "recursos/menjars/pernil.webp",
+   "pista": "Cuixa de porc curada que es talla ben fina."
+  },
+  {
+   "id": "sushi",
+   "paraula": "sushi",
+   "emoji": "🍣",
+   "imatge": "recursos/menjars/sushi.webp",
+   "pista": "Arròs amb peix cru enrotllat; ve del Japó."
+  },
+  {
+   "id": "entrepa",
+   "paraula": "entrepà",
+   "emoji": "🥪",
+   "imatge": "recursos/menjars/entrepa.webp",
+   "pista": "Pa amb alguna cosa a dins; el portes per esmorzar."
+  },
+  {
+   "id": "cruassant",
+   "paraula": "cruassant",
+   "emoji": "🥐",
+   "imatge": "recursos/menjars/cruassant.webp",
+   "pista": "Brioix en forma de mitja lluna, fet amb mantega."
+  },
+  {
+   "id": "xocolata",
+   "paraula": "xocolata",
+   "emoji": "🍫",
+   "imatge": "recursos/menjars/xocolata.webp",
+   "pista": "Dolç marró fet amb cacau."
+  },
+  {
+   "id": "magdalena",
+   "paraula": "magdalena",
+   "emoji": "🧁",
+   "imatge": "recursos/menjars/magdalena.webp",
+   "pista": "Pastisset esponjós dins d'un paperet."
+  },
+  {
+   "id": "botifarra",
+   "paraula": "botifarra",
+   "emoji": "🌭",
+   "imatge": "recursos/menjars/botifarra.webp",
+   "pista": "Embotit llarg que es fa a la brasa i va amb mongetes."
+  },
+  {
+   "id": "formatge",
+   "paraula": "formatge",
+   "emoji": "🧀",
+   "imatge": "recursos/menjars/formatge.webp",
+   "pista": "Es fa amb llet i als ratolins els encanta."
+  },
+  {
+   "id": "torrada",
+   "paraula": "torrada",
+   "emoji": "🍞",
+   "imatge": "recursos/menjars/torrada.webp",
+   "pista": "Llesca de pa calenta i cruixent."
+  },
+  {
+   "id": "amanida",
+   "paraula": "amanida",
+   "emoji": "🥗",
+   "imatge": "recursos/menjars/amanida.webp",
+   "pista": "Plat fresc d'enciam, tomàquet i altres verdures."
+  },
+  {
+   "id": "calamars",
+   "paraula": "calamars",
+   "emoji": "🦑",
+   "imatge": "recursos/menjars/calamars.webp",
+   "pista": "A la romana són anelles arrebossades."
+  },
+  {
+   "id": "pollastre",
+   "paraula": "pollastre",
+   "emoji": "🍗",
+   "imatge": "recursos/menjars/pollastre.webp",
+   "pista": "Au que es menja rostida els diumenges."
+  },
+  {
+   "id": "caramel",
+   "paraula": "caramel",
+   "emoji": "🍬",
+   "imatge": "recursos/menjars/caramel.webp",
+   "pista": "Llaminadura dura i dolça que es xucla."
+  },
+  {
+   "id": "piruleta",
+   "paraula": "piruleta",
+   "emoji": "🍭",
+   "imatge": "recursos/menjars/piruleta.webp",
+   "pista": "Un caramel amb un pal."
+  },
+  {
+   "id": "crispetes",
+   "paraula": "crispetes",
+   "emoji": "🍿",
+   "imatge": "recursos/menjars/crispetes.webp",
+   "pista": "Es fan amb blat de moro i es mengen al cine."
+  },
+  {
+   "id": "mantega",
+   "paraula": "mantega",
+   "emoji": "🧈",
+   "imatge": "recursos/menjars/mantega.webp",
+   "pista": "Groga i suau; s'unta al pa."
+  },
+  {
+   "id": "macarrons",
+   "paraula": "macarrons",
+   "emoji": "🍝",
+   "imatge": "recursos/menjars/macarrons.webp",
+   "pista": "Pasta en forma de tubs curts, sovint gratinada."
+  }
+ ]
+}

@@ -1,0 +1,259 @@
+{
+ "id": "casa",
+ "nom": "Casa",
+ "icona": "🏠",
+ "paraules": [
+  {
+   "id": "llit",
+   "paraula": "llit",
+   "emoji": "🛏️",
+   "imatge": "recursos/casa/llit.webp",
+   "pista": "Hi dorms cada nit."
+  },
+  {
+   "id": "sofa",
+   "paraula": "sofà",
+   "emoji": "🛋️",
+   "imatge": "recursos/casa/sofa.webp",
+   "pista": "Seient tou on s'asseu tota la família a mirar la tele."
+  },
+  {
+   "id": "clau",
+   "paraula": "clau",
+   "emoji": "🔑",
+   "imatge": "recursos/casa/clau.webp",
+   "pista": "Serveix per obrir el pany de la porta."
+  },
+  {
+   "id": "got",
+   "paraula": "got",
+   "emoji": "🥛",
+   "imatge": "recursos/casa/got.webp",
+   "pista": "Hi beus aigua."
+  },
+  {
+   "id": "plat",
+   "paraula": "plat",
+   "emoji": "🍽️",
+   "imatge": "recursos/casa/plat.webp",
+   "pista": "Hi poses el menjar per dinar."
+  },
+  {
+   "id": "bany",
+   "paraula": "bany",
+   "emoji": "🛁",
+   "imatge": "recursos/casa/bany.webp",
+   "pista": "L'habitació on hi ha la dutxa i el lavabo."
+  },
+  {
+   "id": "llum",
+   "paraula": "llum",
+   "emoji": "💡",
+   "imatge": "recursos/casa/llum.webp",
+   "pista": "L'encens quan és fosc."
+  },
+  {
+   "id": "sabo",
+   "paraula": "sabó",
+   "emoji": "🧼",
+   "imatge": "recursos/casa/sabo.webp",
+   "pista": "Fa escuma i ens rentem les mans amb ell."
+  },
+  {
+   "id": "olla",
+   "paraula": "olla",
+   "emoji": "🫕",
+   "imatge": "recursos/casa/olla.webp",
+   "pista": "Recipient gran per bullir aigua o fer sopa."
+  },
+  {
+   "id": "bol",
+   "paraula": "bol",
+   "emoji": "🥣",
+   "imatge": "recursos/casa/bol.webp",
+   "pista": "Plat fondo i rodó per als cereals."
+  },
+  {
+   "id": "porta",
+   "paraula": "porta",
+   "emoji": "🚪",
+   "imatge": "recursos/casa/porta.webp",
+   "pista": "L'obres per entrar a casa."
+  },
+  {
+   "id": "tassa",
+   "paraula": "tassa",
+   "emoji": "☕",
+   "imatge": "recursos/casa/tassa.webp",
+   "pista": "Té nansa i hi prens la llet calenta."
+  },
+  {
+   "id": "cadira",
+   "paraula": "cadira",
+   "emoji": "🪑",
+   "imatge": "recursos/casa/cadira.webp",
+   "pista": "Té quatre potes i respatller, i t'hi asseus a taula."
+  },
+  {
+   "id": "escala",
+   "paraula": "escala",
+   "emoji": "🪜",
+   "imatge": "recursos/casa/escala.webp",
+   "pista": "Graons per pujar i baixar."
+  },
+  {
+   "id": "dutxa",
+   "paraula": "dutxa",
+   "emoji": "🚿",
+   "imatge": "recursos/casa/dutxa.webp",
+   "pista": "Aigua que cau de dalt per rentar-te el cos."
+  },
+  {
+   "id": "mirall",
+   "paraula": "mirall",
+   "emoji": "🪞",
+   "imatge": "recursos/casa/mirall.webp",
+   "pista": "T'hi mires i hi veus la teva cara."
+  },
+  {
+   "id": "vater",
+   "paraula": "vàter",
+   "emoji": "🚽",
+   "imatge": "recursos/casa/vater.webp",
+   "pista": "On fem pipí i caca."
+  },
+  {
+   "id": "caixa",
+   "paraula": "caixa",
+   "emoji": "📦",
+   "imatge": "recursos/casa/caixa.webp",
+   "pista": "De cartó, per guardar coses o fer una mudança."
+  },
+  {
+   "id": "bustia",
+   "paraula": "bústia",
+   "emoji": "📫",
+   "imatge": "recursos/casa/bustia.webp",
+   "pista": "Hi arriben les cartes."
+  },
+  {
+   "id": "timbre",
+   "paraula": "timbre",
+   "emoji": "🔔",
+   "imatge": "recursos/casa/timbre.webp",
+   "pista": "El toques perquè t'obrin: ring, ring!"
+  },
+  {
+   "id": "pinta",
+   "paraula": "pinta",
+   "emoji": "🪮",
+   "imatge": "recursos/casa/pinta.webp",
+   "pista": "Serveix per pentinar-te."
+  },
+  {
+   "id": "radio",
+   "paraula": "ràdio",
+   "emoji": "📻",
+   "imatge": "recursos/casa/radio.webp",
+   "pista": "Aparell per escoltar notícies i música."
+  },
+  {
+   "id": "rellotge",
+   "paraula": "rellotge",
+   "emoji": "⏰",
+   "imatge": "recursos/casa/rellotge.webp",
+   "pista": "Diu quina hora és."
+  },
+  {
+   "id": "finestra",
+   "paraula": "finestra",
+   "emoji": "🪟",
+   "imatge": "recursos/casa/finestra.webp",
+   "pista": "Per ella entra la llum i es veu el carrer."
+  },
+  {
+   "id": "escombra",
+   "paraula": "escombra",
+   "emoji": "🧹",
+   "imatge": "recursos/casa/escombra.webp",
+   "pista": "Té un pal llarg i serveix per treure la pols del terra."
+  },
+  {
+   "id": "televisor",
+   "paraula": "televisor",
+   "emoji": "📺",
+   "imatge": "recursos/casa/televisor.webp",
+   "pista": "Aparell on mires dibuixos animats."
+  },
+  {
+   "id": "forquilla",
+   "paraula": "forquilla",
+   "emoji": "🍴",
+   "imatge": "recursos/casa/forquilla.webp",
+   "pista": "Té punxes per agafar el menjar."
+  },
+  {
+   "id": "ganivet",
+   "paraula": "ganivet",
+   "emoji": "🔪",
+   "imatge": "recursos/casa/ganivet.webp",
+   "pista": "Serveix per tallar; compte, que talla!"
+  },
+  {
+   "id": "cullera",
+   "paraula": "cullera",
+   "emoji": "🥄",
+   "imatge": "recursos/casa/cullera.webp",
+   "pista": "Amb ella menges la sopa."
+  },
+  {
+   "id": "telefon",
+   "paraula": "telèfon",
+   "emoji": "☎️",
+   "imatge": "recursos/casa/telefon.webp",
+   "pista": "Serveix per parlar amb algú que és lluny."
+  },
+  {
+   "id": "espelma",
+   "paraula": "espelma",
+   "emoji": "🕯️",
+   "imatge": "recursos/casa/espelma.webp",
+   "pista": "Fa llum amb una flameta; n'hi ha al pastís d'aniversari."
+  },
+  {
+   "id": "paraigua",
+   "paraula": "paraigua",
+   "emoji": "☂️",
+   "imatge": "recursos/casa/paraigua.webp",
+   "pista": "L'obres quan plou."
+  },
+  {
+   "id": "tisores",
+   "paraula": "tisores",
+   "emoji": "✂️",
+   "imatge": "recursos/casa/tisores.webp",
+   "pista": "Tallen paper amb dues fulles."
+  },
+  {
+   "id": "cistella",
+   "paraula": "cistella",
+   "emoji": "🧺",
+   "imatge": "recursos/casa/cistella.webp",
+   "pista": "Hi portes la fruita o el berenar del pícnic."
+  },
+  {
+   "id": "martell",
+   "paraula": "martell",
+   "emoji": "🔨",
+   "imatge": "recursos/casa/martell.webp",
+   "pista": "Serveix per clavar claus."
+  },
+  {
+   "id": "ordinador",
+   "paraula": "ordinador",
+   "emoji": "💻",
+   "imatge": "recursos/casa/ordinador.webp",
+   "pista": "Té pantalla i teclat i serveix per treballar o jugar."
+  }
+ ]
+}
