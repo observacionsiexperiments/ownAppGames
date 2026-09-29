@@ -1,0 +1,260 @@
+{
+  "id": "natura",
+  "nom": "Natura i temps",
+  "icona": "🌦️",
+  "facil": "Això és {article} {nom}.",
+  "elements": [
+    {
+      "id": "sol",
+      "nom": "sol",
+      "article": "el",
+      "emoji": "☀️",
+      "imatge": "recursos/natura/sol.webp",
+      "mitja": {
+        "veritat": "El sol és groc.",
+        "mentida": "El sol surt de nit."
+      },
+      "dificil": {
+        "veritat": "El sol ens dona llum i calor.",
+        "mentida": "El sol és fred.",
+        "correccio": "El sol és ___.",
+        "opcions": [
+          "calent",
+          "fred",
+          "de gel"
+        ]
+      }
+    },
+    {
+      "id": "lluna",
+      "nom": "lluna",
+      "article": "la",
+      "emoji": "🌙",
+      "imatge": "recursos/natura/lluna.webp",
+      "mitja": {
+        "veritat": "La lluna surt de nit.",
+        "mentida": "La lluna és quadrada."
+      },
+      "dificil": {
+        "veritat": "La lluna canvia de forma.",
+        "mentida": "La lluna només surt a l'estiu.",
+        "correccio": "La lluna surt ___.",
+        "opcions": [
+          "tot l'any",
+          "només a l'estiu",
+          "només el dilluns"
+        ]
+      }
+    },
+    {
+      "id": "pluja",
+      "nom": "pluja",
+      "article": "",
+      "emoji": "🌧️",
+      "imatge": "recursos/natura/pluja.webp",
+      "mitja": {
+        "veritat": "La pluja és aigua.",
+        "mentida": "La pluja és de sorra."
+      },
+      "dificil": {
+        "veritat": "Quan plou fem servir paraigua.",
+        "mentida": "La pluja cau dels arbres.",
+        "correccio": "La pluja cau ___.",
+        "opcions": [
+          "dels núvols",
+          "dels arbres",
+          "de les muntanyes"
+        ]
+      }
+    },
+    {
+      "id": "neu",
+      "nom": "neu",
+      "article": "",
+      "emoji": "❄️",
+      "imatge": "recursos/natura/neu.webp",
+      "mitja": {
+        "veritat": "La neu és blanca.",
+        "mentida": "La neu és calenta."
+      },
+      "dificil": {
+        "veritat": "Amb neu es pot fer un ninot.",
+        "mentida": "La neu cau a l'estiu a la platja.",
+        "correccio": "La neu cau ___.",
+        "opcions": [
+          "a l'hivern",
+          "a l'estiu a la platja",
+          "a la dutxa"
+        ]
+      }
+    },
+    {
+      "id": "nuvol",
+      "nom": "núvol",
+      "article": "un",
+      "emoji": "☁️",
+      "imatge": "recursos/natura/nuvol.webp",
+      "mitja": {
+        "veritat": "El núvol és al cel.",
+        "mentida": "El núvol és de pedra."
+      },
+      "dificil": {
+        "veritat": "Dels núvols cau la pluja.",
+        "mentida": "Els núvols són de cotó.",
+        "correccio": "Els núvols són ___.",
+        "opcions": [
+          "gotetes d'aigua",
+          "cotó",
+          "sucre"
+        ]
+      }
+    },
+    {
+      "id": "arc-de-sant-marti",
+      "nom": "arc de Sant Martí",
+      "article": "un",
+      "emoji": "🌈",
+      "imatge": "recursos/natura/arc-de-sant-marti.webp",
+      "mitja": {
+        "veritat": "L'arc de Sant Martí té molts colors.",
+        "mentida": "L'arc de Sant Martí és negre."
+      },
+      "dificil": {
+        "veritat": "Surt quan hi ha sol i pluja alhora.",
+        "mentida": "Surt a la nit fosca.",
+        "correccio": "Surt quan hi ha ___.",
+        "opcions": [
+          "sol i pluja",
+          "nit fosca",
+          "neu"
+        ]
+      }
+    },
+    {
+      "id": "llamp",
+      "nom": "llamp",
+      "article": "un",
+      "emoji": "⚡",
+      "imatge": "recursos/natura/llamp.webp",
+      "mitja": {
+        "veritat": "El llamp fa molta llum.",
+        "mentida": "El llamp surt quan fa bon temps."
+      },
+      "dificil": {
+        "veritat": "Després del llamp se sent un tro.",
+        "mentida": "Els llamps cauen de les flors.",
+        "correccio": "Els llamps cauen ___.",
+        "opcions": [
+          "dels núvols",
+          "de les flors",
+          "dels cotxes"
+        ]
+      }
+    },
+    {
+      "id": "arbre",
+      "nom": "arbre",
+      "article": "un",
+      "emoji": "🌳",
+      "imatge": "recursos/natura/arbre.webp",
+      "mitja": {
+        "veritat": "L'arbre té fulles.",
+        "mentida": "L'arbre camina."
+      },
+      "dificil": {
+        "veritat": "L'arbre té arrels sota terra.",
+        "mentida": "L'arbre no creix mai.",
+        "correccio": "L'arbre ___.",
+        "opcions": [
+          "creix a poc a poc",
+          "no creix mai",
+          "creix en un dia"
+        ]
+      }
+    },
+    {
+      "id": "flor",
+      "nom": "flor",
+      "article": "una",
+      "emoji": "🌸",
+      "imatge": "recursos/natura/flor.webp",
+      "mitja": {
+        "veritat": "La flor té pètals.",
+        "mentida": "La flor té ulls."
+      },
+      "dificil": {
+        "veritat": "Les abelles van a les flors.",
+        "mentida": "Les flors creixen dins la nevera.",
+        "correccio": "Les flors creixen ___.",
+        "opcions": [
+          "al jardí",
+          "a la nevera",
+          "al cel"
+        ]
+      }
+    },
+    {
+      "id": "muntanya",
+      "nom": "muntanya",
+      "article": "una",
+      "emoji": "⛰️",
+      "imatge": "recursos/natura/muntanya.webp",
+      "mitja": {
+        "veritat": "La muntanya és alta.",
+        "mentida": "La muntanya és plana."
+      },
+      "dificil": {
+        "veritat": "A dalt de la muntanya hi pot haver neu.",
+        "mentida": "Per pujar una muntanya cal nedar.",
+        "correccio": "Per pujar una muntanya cal ___.",
+        "opcions": [
+          "caminar",
+          "nedar",
+          "volar"
+        ]
+      }
+    },
+    {
+      "id": "mar",
+      "nom": "mar",
+      "article": "el",
+      "emoji": "🌊",
+      "imatge": "recursos/natura/mar.webp",
+      "mitja": {
+        "veritat": "El mar té onades.",
+        "mentida": "El mar és petit com una bassa."
+      },
+      "dificil": {
+        "veritat": "Al mar hi viuen peixos.",
+        "mentida": "L'aigua del mar és dolça.",
+        "correccio": "L'aigua del mar és ___.",
+        "opcions": [
+          "salada",
+          "dolça",
+          "de xocolata"
+        ]
+      }
+    },
+    {
+      "id": "estrella",
+      "nom": "estrella",
+      "article": "una",
+      "emoji": "⭐",
+      "imatge": "recursos/natura/estrella.webp",
+      "mitja": {
+        "veritat": "Les estrelles es veuen de nit.",
+        "mentida": "Les estrelles es veuen al migdia."
+      },
+      "dificil": {
+        "veritat": "Hi ha moltíssimes estrelles.",
+        "mentida": "Les estrelles són a sobre de casa.",
+        "correccio": "Les estrelles són ___.",
+        "opcions": [
+          "molt lluny",
+          "a sobre de casa",
+          "dins l'armari"
+        ]
+      }
+    }
+  ]
+}

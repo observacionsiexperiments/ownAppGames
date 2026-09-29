@@ -77,6 +77,17 @@
     "estat": "actiu"
   },
   {
+    "id": "veritat-mentida",
+    "nom": "Veritat o mentida?",
+    "icona": "✅",
+    "descripcio": "Un dibuix i una frase: llegeix-la i digues si és veritat o mentida.",
+    "objectiu": "Llegir i entendre frases sobre animals, menjars, transports, banderes, emocions…",
+    "categories": [
+      "lletres"
+    ],
+    "estat": "actiu"
+  },
+  {
     "id": "_plantilla",
     "nom": "Joc de prova",
     "icona": "🧪",

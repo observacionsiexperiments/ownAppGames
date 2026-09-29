@@ -1,0 +1,260 @@
+{
+  "id": "menjars",
+  "nom": "Menjars",
+  "icona": "🍕",
+  "facil": "Això és {article} {nom}.",
+  "elements": [
+    {
+      "id": "pa",
+      "nom": "pa",
+      "article": "",
+      "emoji": "🍞",
+      "imatge": "recursos/menjars/pa.webp",
+      "mitja": {
+        "veritat": "El pa té crosta.",
+        "mentida": "El pa és líquid."
+      },
+      "dificil": {
+        "veritat": "El pa es fa amb farina.",
+        "mentida": "El pa es fa al congelador.",
+        "correccio": "El pa es fa ___.",
+        "opcions": [
+          "al forn",
+          "al congelador",
+          "a la dutxa"
+        ]
+      }
+    },
+    {
+      "id": "formatge",
+      "nom": "formatge",
+      "article": "",
+      "emoji": "🧀",
+      "imatge": "recursos/menjars/formatge.webp",
+      "mitja": {
+        "veritat": "El formatge és groc.",
+        "mentida": "El formatge és una fruita."
+      },
+      "dificil": {
+        "veritat": "El formatge es fa amb llet.",
+        "mentida": "El formatge es fa amb taronges.",
+        "correccio": "El formatge es fa amb ___.",
+        "opcions": [
+          "llet",
+          "taronges",
+          "sorra"
+        ]
+      }
+    },
+    {
+      "id": "ou",
+      "nom": "ou",
+      "article": "un",
+      "emoji": "🥚",
+      "imatge": "recursos/menjars/ou.webp",
+      "mitja": {
+        "veritat": "L'ou té closca.",
+        "mentida": "L'ou és quadrat."
+      },
+      "dificil": {
+        "veritat": "Els ous els ponen les gallines.",
+        "mentida": "Els ous surten dels arbres.",
+        "correccio": "Els ous els ponen ___.",
+        "opcions": [
+          "les gallines",
+          "les vaques",
+          "els gossos"
+        ]
+      }
+    },
+    {
+      "id": "pizza",
+      "nom": "pizza",
+      "article": "una",
+      "emoji": "🍕",
+      "imatge": "recursos/menjars/pizza.webp",
+      "mitja": {
+        "veritat": "La pizza és rodona.",
+        "mentida": "La pizza és una beguda."
+      },
+      "dificil": {
+        "veritat": "La pizza es cou al forn.",
+        "mentida": "La pizza es menja amb cullera.",
+        "correccio": "La pizza es menja ___.",
+        "opcions": [
+          "amb les mans",
+          "amb cullera",
+          "amb una palla"
+        ]
+      }
+    },
+    {
+      "id": "sopa",
+      "nom": "sopa",
+      "article": "",
+      "emoji": "🍲",
+      "imatge": "recursos/menjars/sopa.webp",
+      "mitja": {
+        "veritat": "La sopa es menja amb cullera.",
+        "mentida": "La sopa es menja amb forquilla."
+      },
+      "dificil": {
+        "veritat": "La sopa sol ser calenta.",
+        "mentida": "La sopa és dura com una pedra.",
+        "correccio": "La sopa és ___.",
+        "opcions": [
+          "líquida",
+          "dura",
+          "de fusta"
+        ]
+      }
+    },
+    {
+      "id": "gelat",
+      "nom": "gelat",
+      "article": "un",
+      "emoji": "🍦",
+      "imatge": "recursos/menjars/gelat.webp",
+      "mitja": {
+        "veritat": "El gelat és fred.",
+        "mentida": "El gelat és calent."
+      },
+      "dificil": {
+        "veritat": "El gelat es fon si fa calor.",
+        "mentida": "El gelat es guarda al forn.",
+        "correccio": "El gelat es guarda ___.",
+        "opcions": [
+          "al congelador",
+          "al forn",
+          "a l'armari"
+        ]
+      }
+    },
+    {
+      "id": "pastis",
+      "nom": "pastís",
+      "article": "un",
+      "emoji": "🎂",
+      "imatge": "recursos/menjars/pastis.webp",
+      "mitja": {
+        "veritat": "El pastís té espelmes.",
+        "mentida": "El pastís és salat."
+      },
+      "dificil": {
+        "veritat": "El pastís es menja als aniversaris.",
+        "mentida": "El pastís no és dolç.",
+        "correccio": "El pastís és ___.",
+        "opcions": [
+          "dolç",
+          "amarg",
+          "picant"
+        ]
+      }
+    },
+    {
+      "id": "entrepa",
+      "nom": "entrepà",
+      "article": "un",
+      "emoji": "🥪",
+      "imatge": "recursos/menjars/entrepa.webp",
+      "mitja": {
+        "veritat": "L'entrepà es fa amb pa.",
+        "mentida": "L'entrepà es fa amb gel."
+      },
+      "dificil": {
+        "veritat": "L'entrepà es pot endur d'excursió.",
+        "mentida": "L'entrepà es menja amb cullera.",
+        "correccio": "L'entrepà es menja ___.",
+        "opcions": [
+          "amb les mans",
+          "amb cullera",
+          "amb una palla"
+        ]
+      }
+    },
+    {
+      "id": "llet",
+      "nom": "llet",
+      "article": "",
+      "emoji": "🥛",
+      "imatge": "recursos/menjars/llet.webp",
+      "mitja": {
+        "veritat": "La llet és blanca.",
+        "mentida": "La llet és negra."
+      },
+      "dificil": {
+        "veritat": "La llet la donen les vaques.",
+        "mentida": "La llet surt dels arbres.",
+        "correccio": "La llet la donen ___.",
+        "opcions": [
+          "les vaques",
+          "els arbres",
+          "les gallines"
+        ]
+      }
+    },
+    {
+      "id": "xocolata",
+      "nom": "xocolata",
+      "article": "",
+      "emoji": "🍫",
+      "imatge": "recursos/menjars/xocolata.webp",
+      "mitja": {
+        "veritat": "La xocolata és marró.",
+        "mentida": "La xocolata és verda."
+      },
+      "dificil": {
+        "veritat": "La xocolata es fa amb cacau.",
+        "mentida": "La xocolata es fa amb peix.",
+        "correccio": "La xocolata es fa amb ___.",
+        "opcions": [
+          "cacau",
+          "peix",
+          "sal"
+        ]
+      }
+    },
+    {
+      "id": "galeta",
+      "nom": "galeta",
+      "article": "una",
+      "emoji": "🍪",
+      "imatge": "recursos/menjars/galeta.webp",
+      "mitja": {
+        "veritat": "La galeta és cruixent.",
+        "mentida": "La galeta és líquida."
+      },
+      "dificil": {
+        "veritat": "Les galetes es couen al forn.",
+        "mentida": "Les galetes es fan a la nevera.",
+        "correccio": "Les galetes es couen ___.",
+        "opcions": [
+          "al forn",
+          "a la nevera",
+          "al riu"
+        ]
+      }
+    },
+    {
+      "id": "arros",
+      "nom": "arròs",
+      "article": "",
+      "emoji": "🍚",
+      "imatge": "recursos/menjars/arros.webp",
+      "mitja": {
+        "veritat": "L'arròs és blanc.",
+        "mentida": "L'arròs és blau."
+      },
+      "dificil": {
+        "veritat": "L'arròs es bull amb aigua.",
+        "mentida": "L'arròs creix als arbres.",
+        "correccio": "L'arròs creix ___.",
+        "opcions": [
+          "als arrossars",
+          "als arbres",
+          "a les coves"
+        ]
+      }
+    }
+  ]
+}

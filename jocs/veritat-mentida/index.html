@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFBF3">
+  <title>Veritat o mentida? · AppJocs</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="icon" href="../../icons/icon-192.png">
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    /* Colors per rol (css/styles.css): verd = encert · rosa = error · groc = pista / temps que s'acaba ·
+       blau = opció triada · préssec = acció general. Els botons de resposta són neutres. */
+    .joc { width: 100%; max-width: 1100px; margin: 0 auto; }
+    [hidden] { display: none !important; }
+    h2.titol { font-size: 1.15rem; margin: 16px 0 8px; }
+
+    /* ---------- Pantalla d'inici ---------- */
+    .inici { max-width: 800px; margin: 0 auto; }
+    .opcions { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+    .opcions button {
+      font: inherit; cursor: pointer; color: var(--text); touch-action: manipulation;
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: 14px; box-shadow: var(--ombra);
+      min-height: 60px; padding: 8px; font-weight: 700; font-size: 1.1rem;
+    }
+    .opcions button small { display: block; font-weight: 500; font-size: .85rem; color: var(--text-suau); margin-top: 2px; }
+    .opcions button[aria-pressed="true"] { background: var(--c-info); border-color: var(--c-info-vora); }
+    .opcions button[aria-pressed="true"] small { color: var(--text); }
+    @media (hover: hover) { .opcions button:hover { border-color: var(--c-info-vora); } }
+    #op-tema { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+    /* Mòbil: els 8 temes en 4 columnes */
+    @media (orientation: portrait) and (max-width: 600px), (orientation: landscape) and (max-height: 500px) {
+      main .inici #op-tema { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      main .inici #op-tema button { font-size: .82rem; min-height: 50px; padding: 4px; line-height: 1.2; }
+    }
+    @media (orientation: landscape) and (max-height: 500px) {
+      main .inici #op-tema button { min-height: 40px; }
+      main .inici .explica { display: none; }
+    }
+    .explica { color: var(--text-suau); text-align: center; margin: 14px 0 0; }
+    .comencar { text-align: center; margin: 22px 0 8px; }
+    .comencar .btn { font-size: 1.3rem; padding: 14px 40px; }
+    .comencar .btn:disabled { opacity: .5; }
+
+    /* ---------- Pantalla de joc ---------- */
+    .cap-joc { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 4px 0 12px; }
+    .dades { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .dada { background: var(--superficie); border: 1px solid var(--vora); border-radius: 999px; padding: 4px 12px; font-size: .95rem; }
+    .dada b { font-variant-numeric: tabular-nums; }
+    .progres { display: inline-flex; gap: 4px; vertical-align: middle; margin-left: 4px; }
+    .progres i { width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--vora); background: var(--superficie); }
+    .progres i.be { background: var(--c-ok); border-color: var(--c-ok-vora); }
+    .progres i.malament { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .progres i.fet { background: var(--vora); }
+    .progres i.ara { background: var(--c-info); border-color: var(--c-info-vora); }
+
+    .tauler {
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi);
+      padding: 18px; display: grid; gap: 16px 24px; align-items: center;
+      grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "imatge pregunta";
+    }
+    /* Imatge: sempre la mateixa mida. Si hi ha fitxer a recursos/ es veu la imatge; si no, l'emoji */
+    .imatge {
+      grid-area: imatge; --img: clamp(130px, 44vh, 320px);
+      width: var(--img); height: var(--img); display: grid; place-items: center; overflow: hidden;
+      border-radius: 22px; background: var(--fons); border: 2px solid var(--vora);
+    }
+    .imatge .emoji { font-size: calc(var(--img) * .6); line-height: 1; }
+    .imatge img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .costat { grid-area: pregunta; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+    .frase { margin: 0; font-size: clamp(1.4rem, 3.2vw, 2.1rem); font-weight: 700; line-height: 1.3; text-align: center; overflow-wrap: anywhere; }
+    .frase b { font-weight: 900; text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 4px; }
+    .majuscules .frase, .majuscules .resposta, .majuscules .correccio, .majuscules .opcio { text-transform: uppercase; }
+
+    /* Barra de temps: neutra; en els últims 3 segons, groc (avís) */
+    .temps { height: 12px; border-radius: 999px; background: var(--fons); border: 1px solid var(--vora); overflow: hidden; }
+    .temps i { display: block; height: 100%; width: 100%; background: color-mix(in srgb, var(--text-suau) 45%, white); border-radius: 999px; transform-origin: left; }
+    .temps.poc i { background: var(--c-pista-vora); }
+
+    .respostes { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .resposta, .opcio {
+      font: inherit; font-weight: 800; color: var(--text); cursor: pointer; touch-action: manipulation;
+      background: var(--fons); border: 3px solid var(--vora); border-radius: 18px; box-shadow: var(--ombra);
+      transition: transform .1s, background-color .15s, border-color .15s;
+    }
+    .resposta { font-size: clamp(1.3rem, 3vw, 1.8rem); min-height: clamp(64px, 12vh, 96px); }
+    .resposta:active, .opcio:active { transform: scale(.97); }
+    @media (hover: hover) { .resposta:not(:disabled):hover, .opcio:not(:disabled):hover { border-color: var(--c-info-vora); } }
+    .resposta:disabled, .opcio:disabled { cursor: default; }
+    .correcta { background: var(--c-ok) !important; border-color: var(--c-ok-vora) !important; }
+    .errada { background: var(--c-esborrar) !important; border-color: var(--c-esborrar-vora) !important; }
+    .resposta:disabled:not(.correcta):not(.errada), .opcio:disabled:not(.correcta):not(.errada) { opacity: .45; }
+
+    /* Corregir la mentida (Difícil) */
+    .correccio { margin: 0; text-align: center; font-size: clamp(1.15rem, 2.6vw, 1.6rem); font-weight: 700; }
+    .correccio .buit {
+      display: inline-block; min-width: 4em; padding: 0 8px; border-bottom: 3px dashed var(--c-info-vora);
+      background: color-mix(in srgb, var(--c-info) 25%, white); border-radius: 8px;
+    }
+    .correccio .buit.ple { border-bottom-style: solid; border-color: var(--c-ok-vora); background: var(--c-ok); }
+    .opcions-correccio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .opcio { font-size: clamp(1rem, 2.2vw, 1.3rem); min-height: 56px; padding: 6px; }
+
+    .missatge {
+      margin-top: 14px; min-height: 3.2rem; padding: 8px 12px; border-radius: var(--radi); text-align: center;
+      background: var(--superficie); border: 2px solid var(--vora); font-weight: 700; font-size: 1.1rem;
+      display: flex; flex-direction: column; justify-content: center; gap: 2px;
+    }
+    .missatge small { font-weight: 500; font-size: .95rem; }
+    .missatge small:empty { display: none; }
+    .missatge.es-pista   { background: var(--c-pista);    border-color: var(--c-pista-vora); }
+    .missatge.es-error   { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .missatge.es-guanyat { background: var(--c-ok);       border-color: var(--c-ok-vora); }
+    @keyframes sacseig { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+    .sacseig { animation: sacseig .25s 2; }
+
+    /* Horitzontal baix (tauletes): tot a la vista */
+    @media (orientation: landscape) and (max-height: 820px) {
+      .cap-joc { margin: 0 0 8px; }
+      .cap-joc .btn { padding: 6px 14px; }
+      .tauler { padding: 14px; }
+      .missatge { margin-top: 10px; min-height: 0; padding: 6px 10px; }
+      h2.titol { margin: 10px 0 6px; }
+      .opcions button { min-height: 50px; }
+      .comencar { margin: 14px 0 4px; }
+    }
+    /* Vertical: la imatge a dalt i la pregunta a sota */
+    @media (orientation: portrait) {
+      .tauler { grid-template-columns: minmax(0, 1fr); grid-template-areas: "imatge" "pregunta"; justify-items: center; }
+      .costat { width: 100%; }
+      .imatge { --img: clamp(120px, 26vh, 300px); }
+    }
+    /* Mòbil: compacte */
+    @media (orientation: portrait) and (max-width: 600px), (orientation: landscape) and (max-height: 500px) {
+      .barra-joc { padding: 6px 0; }
+      .barra-joc h1 { font-size: 1.1rem; }
+      .cap-joc { margin: 0 0 8px; gap: 6px; flex-wrap: nowrap; }
+      .dades { gap: 4px; }
+      .dada { font-size: .8rem; padding: 2px 8px; }
+      .progres i { width: 8px; height: 8px; }
+      .cap-joc .btn { padding: 5px 10px; font-size: .85rem; white-space: nowrap; }
+      .tauler { padding: 12px; gap: 12px 16px; }
+      .frase { font-size: 1.3rem; }
+      .resposta { min-height: 60px; font-size: 1.25rem; }
+      .opcions-correccio { gap: 6px; }
+      .opcio { min-height: 50px; font-size: .95rem; }
+      .missatge { margin-top: 10px; min-height: 0; padding: 6px 10px; font-size: 1rem; }
+      .missatge small { font-size: .85rem; }
+    }
+    @media (orientation: portrait) and (max-width: 600px) {
+      .progres { display: none; }
+      .imatge { --img: clamp(110px, 22vh, 190px); }
+    }
+    @media (orientation: landscape) and (max-height: 500px) {
+      .imatge { --img: clamp(100px, 42vh, 170px); }
+      .frase { font-size: 1.1rem; }
+      .costat { gap: 8px; }
+      .respostes { gap: 8px; }
+      .resposta { min-height: 44px; font-size: 1.1rem; }
+      .correccio { font-size: 1rem; }
+      .opcio { min-height: 40px; font-size: .9rem; }
+      .tauler { padding: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="barra-joc">
+    <a href="../../">← Inici</a>
+    <h1>✅ Veritat o mentida?</h1>
+  </nav>
+
+  <main class="joc">
+    <!-- ================= INICI ================= -->
+    <section class="inici" id="pantalla-inici">
+      <div class="grup">
+        <h2 class="titol">1. Tria un tema</h2>
+        <div class="opcions" id="op-tema"><button type="button" disabled>Carregant…</button></div>
+      </div>
+
+      <div class="grup">
+        <h2 class="titol">2. Dificultat</h2>
+        <div class="opcions" id="op-nivell">
+          <button type="button" data-v="facil" aria-pressed="true">Fàcil<small>Què és? · Sí / No</small></button>
+          <button type="button" data-v="mitja" aria-pressed="false">Mitjà<small>Com és? · Veritat / Mentida</small></button>
+          <button type="button" data-v="dificil" aria-pressed="false">Difícil<small>i corregeix la mentida</small></button>
+        </div>
+      </div>
+
+      <div class="grup">
+        <h2 class="titol">3. Quina lletra?</h2>
+        <div class="opcions" id="op-lletra">
+          <button type="button" data-v="majuscula" aria-pressed="true">MAJÚSCULA</button>
+          <button type="button" data-v="minuscula" aria-pressed="false">minúscula</button>
+        </div>
+      </div>
+
+      <div class="grup" id="grup-temps">
+        <h2 class="titol">4. Temps per respondre</h2>
+        <div class="opcions" id="op-temps">
+          <button type="button" data-v="10" aria-pressed="true">10 s</button>
+          <button type="button" data-v="15" aria-pressed="false">15 s</button>
+          <button type="button" data-v="20" aria-pressed="false">20 s</button>
+          <button type="button" data-v="0" aria-pressed="false">Sense temps</button>
+        </div>
+      </div>
+
+      <p class="explica">10 frases. Mira el dibuix, llegeix la frase i digues si és veritat.</p>
+      <div class="comencar"><button class="btn" id="btn-comencar" type="button" disabled>Comença! ✅</button></div>
+    </section>
+
+    <!-- ================= JOC ================= -->
+    <section id="pantalla-joc" hidden>
+      <div class="cap-joc">
+        <div class="dades" id="dades"></div>
+        <button class="btn" id="btn-nova" type="button">Nova ronda</button>
+      </div>
+
+      <div class="tauler" id="tauler">
+        <div class="imatge" id="imatge" aria-hidden="true"></div>
+        <div class="costat">
+          <p class="frase" id="frase" aria-live="polite"></p>
+          <div class="temps" id="temps" aria-hidden="true"><i id="temps-barra"></i></div>
+          <div class="respostes" id="respostes">
+            <button type="button" class="resposta" data-v="si"></button>
+            <button type="button" class="resposta" data-v="no"></button>
+          </div>
+          <div id="corregir" hidden>
+            <p class="correccio" id="correccio"></p>
+            <div class="opcions-correccio" id="opcions-correccio"></div>
+          </div>
+        </div>
+      </div>
+      <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
+    </section>
+  </main>
+
+  <script src="../../js/pantalla.js"></script>
+  <script src="../../js/preferencies.js"></script>
+  <script src="../../js/celebracio.js"></script>
+  <script>
+    // Les frases són a temes.json + temes/<tema>.json (fàcil d'ampliar sense tocar aquest fitxer).
+    const $ = id => document.getElementById(id);
+    const PREGUNTES = 10;
+    const config = { tema: null, nivell: 'facil', lletra: 'majuscula', temps: 10 };
+    let temes = [];                  // [{id, nom, icona, facil, elements:[…]}]
+    let num, encerts, resultats, preguntes, actual, bloquejat, limit, animacio, seguent;
+
+    const aleatori = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+    const barrejar = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+
+    // ---------------- Carregar els temes ----------------
+    async function carregar() {
+      try {
+        const index = await (await fetch('temes.json', { cache: 'no-cache' })).json();
+        temes = await Promise.all(index.temes.map(async t => {
+          const dades = await (await fetch(t.fitxer, { cache: 'no-cache' })).json();
+          return { ...t, ...dades };
+        }));
+        pintarTemes();
+        $('btn-comencar').disabled = false;
+      } catch (e) {
+        console.error(e);
+        $('op-tema').innerHTML = '<button type="button" disabled>No s\'han pogut carregar els temes</button>';
+      }
+    }
+    function pintarTemes() {
+      const cont = $('op-tema'); cont.innerHTML = '';
+      const opcions = [...temes.map(t => ({ v: t.id, text: `${t.icona} ${t.nom}` })), { v: 'barreja', text: '🎲 Barreja' }];
+      opcions.forEach((o, i) => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.dataset.v = o.v; b.textContent = o.text;
+        b.setAttribute('aria-pressed', i === 0);
+        cont.appendChild(b);
+      });
+      config.tema = opcions[0].v;
+    }
+
+    // ---------------- Inici ----------------
+    function grupOpcions(id, clau) {
+      $(id).addEventListener('click', e => {
+        const b = e.target.closest('button'); if (!b || !b.dataset.v) return;
+        $(id).querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+        config[clau] = isNaN(b.dataset.v) ? b.dataset.v : Number(b.dataset.v);
+      });
+    }
+    grupOpcions('op-tema', 'tema'); grupOpcions('op-nivell', 'nivell');
+    grupOpcions('op-lletra', 'lletra'); grupOpcions('op-temps', 'temps');
+    // Opció general "Temporitzador" desactivada: sense temps i sense selector
+    if (!Preferencies.temps()) { $('grup-temps').hidden = true; config.temps = 0; }
+
+    $('btn-comencar').addEventListener('click', () => {
+      if (!temes.length) return;
+      if (!Preferencies.temps()) config.temps = 0;
+      num = 1; encerts = 0; resultats = [];
+      preguntes = triarElements();
+      $('tauler').classList.toggle('majuscules', config.lletra === 'majuscula');
+      const [si, no] = $('respostes').querySelectorAll('.resposta');
+      si.textContent = config.nivell === 'facil' ? '✔ Sí' : '✔ Veritat';
+      no.textContent = config.nivell === 'facil' ? '✘ No' : '✘ Mentida';
+      $('pantalla-inici').hidden = true; $('pantalla-joc').hidden = false;
+      $('temps').hidden = config.temps === 0;
+      novaPregunta();
+      window.scrollTo({ top: 0 });
+    });
+    $('btn-nova').addEventListener('click', () => {
+      aturar(); clearTimeout(seguent); Celebracio.tancar();
+      $('pantalla-joc').hidden = true; $('pantalla-inici').hidden = false;
+    });
+
+    // 10 elements diferents del tema (o de tots, a Barreja)
+    function triarElements() {
+      const pool = config.tema === 'barreja'
+        ? temes.flatMap(t => t.elements.map(el => ({ el, tema: t })))
+        : (t => t.elements.map(el => ({ el, tema: t })))(temes.find(t => t.id === config.tema));
+      return barrejar(pool).slice(0, PREGUNTES);
+    }
+
+    // ---------------- Pregunta ----------------
+    // Fàcil: "Això és un gat." amb el nom de l'element (Sí) o d'un altre del mateix tema (No)
+    const fraseFacil = (tema, el) => tema.facil.replace('{article}', el.article || '').replace('{nom}', el.nom).replace(/\s+/g, ' ').replace(' .', '.');
+    function altreElement(tema, el) {
+      const no = new Set([el.id, ...(el.noConfondre || [])]);
+      const possibles = tema.elements.filter(x => !no.has(x.id));
+      return possibles[aleatori(0, possibles.length - 1)];
+    }
+
+    function novaPregunta() {
+      bloquejat = false;
+      const { el, tema } = preguntes[num - 1];
+      const certa = Math.random() < .5;
+      actual = { el, tema, certa };
+      if (config.nivell === 'facil') {
+        const mostrat = certa ? el : altreElement(tema, el);
+        actual.text = fraseFacil(tema, mostrat);
+        actual.clau = mostrat.nom;                          // paraula clau en negreta
+      } else {
+        const f = config.nivell === 'mitja' ? el.mitja : el.dificil;
+        actual.text = certa ? f.veritat : f.mentida;
+      }
+      pintarImatge(el);
+      pintarFrase(actual.text, actual.clau);
+      $('respostes').querySelectorAll('.resposta').forEach(b => { b.disabled = false; b.classList.remove('correcta', 'errada'); });
+      $('corregir').hidden = true;
+      mostrar(`Frase ${num} de ${PREGUNTES}`, config.nivell === 'facil' ? 'És el que es veu al dibuix?' : 'És veritat o mentida?');
+      pintarDades();
+      iniciarTemps();
+    }
+
+    // Imatge de mida fixa: primer l'emoji; si existeix el fitxer de recursos/, el substitueix
+    function pintarImatge(el) {
+      const cont = $('imatge'); cont.innerHTML = '';
+      const emoji = document.createElement('span'); emoji.className = 'emoji'; emoji.textContent = el.emoji || '❓';
+      cont.appendChild(emoji);
+      if (!el.imatge) return;
+      const img = new Image();
+      img.alt = '';
+      img.onload = () => { if (actual && actual.el === el) { cont.innerHTML = ''; cont.appendChild(img); } };
+      img.src = el.imatge;
+    }
+
+    // Frase amb la paraula clau en negreta (sense innerHTML: el text ve del JSON)
+    function pintarFrase(text, clau) {
+      const p = $('frase'); p.textContent = '';
+      const i = clau ? text.indexOf(clau) : -1;
+      if (i < 0) { p.textContent = text; return; }
+      const b = document.createElement('b'); b.textContent = clau;
+      p.append(text.slice(0, i), b, text.slice(i + clau.length));
+    }
+
+    // ---------------- Temps ----------------
+    function iniciarTemps() {
+      aturar();
+      if (!config.temps) return;
+      const total = config.temps * 1000;
+      limit = performance.now() + total;
+      const barra = $('temps-barra');
+      const pas = () => {
+        const queda = limit - performance.now();
+        barra.style.transform = `scaleX(${Math.max(0, queda / total)})`;
+        $('temps').classList.toggle('poc', queda <= 3000);
+        if (queda <= 0) { tempsAcabat(); return; }
+        animacio = requestAnimationFrame(pas);
+      };
+      pas();
+    }
+    function aturar() { cancelAnimationFrame(animacio); animacio = null; }
+
+    const botoResposta = v => $('respostes').querySelector(`.resposta[data-v="${v}"]`);
+    const bona = () => actual.certa ? 'si' : 'no';
+
+    // Frase certa corresponent (per explicar la resposta)
+    function explicacio() {
+      const { el, tema, certa } = actual;
+      if (config.nivell === 'facil') return certa ? actual.text : fraseFacil(tema, el);
+      if (config.nivell === 'dificil' && !certa) return el.dificil.correccio.replace('___', el.dificil.opcions[0]);
+      return certa ? actual.text : '';
+    }
+
+    function tempsAcabat() {
+      if (bloquejat) return;
+      bloquejat = true; aturar();
+      tancarRespostes(); botoResposta(bona()).classList.add('correcta');
+      resultats.push(false);
+      mostrar("S'ha acabat el temps ⏱", (actual.certa ? 'Era veritat. ' : 'Era mentida. ') + explicacio(), 'pista');
+      pintarDades();
+      seguent = setTimeout(passar, 2800);
+    }
+
+    // ---------------- Resposta (un sol intent) ----------------
+    $('respostes').addEventListener('click', e => {
+      const b = e.target.closest('.resposta'); if (!b || bloquejat) return;
+      bloquejat = true; aturar();
+      const encert = b.dataset.v === bona();
+      tancarRespostes();
+      if (encert) {
+        b.classList.add('correcta');
+        Celebracio.petita(b);
+        // Difícil i era mentida: ara cal corregir-la
+        if (config.nivell === 'dificil' && !actual.certa) return demanarCorreccio();
+        encerts++; resultats.push(true);
+        const t = Preferencies.felicitacio(actual.certa ? '✓ Sí, és veritat!' : '✓ Ben vist, és mentida!');
+        mostrar(t, explicacio(), 'guanyat');
+        pintarDades();
+        seguent = setTimeout(passar, 1700);
+        return;
+      }
+      resultats.push(false);
+      b.classList.add('errada'); sacsejar(b);
+      botoResposta(bona()).classList.add('correcta');
+      mostrar(actual.certa ? 'No, era veritat' : 'No, era mentida', explicacio(), 'error');
+      pintarDades();
+      seguent = setTimeout(passar, 3000);
+    });
+    function tancarRespostes() { $('respostes').querySelectorAll('.resposta').forEach(b => b.disabled = true); }
+
+    // Corregir la mentida: frase amb un buit i 3 paraules (la primera del JSON és la bona)
+    function demanarCorreccio() {
+      const d = actual.el.dificil;
+      const [abans, despres] = d.correccio.split('___');
+      const buit = document.createElement('span'); buit.className = 'buit'; buit.textContent = '?';
+      const p = $('correccio'); p.textContent = ''; p.append(abans, buit, despres || '');
+      const cont = $('opcions-correccio'); cont.innerHTML = '';
+      barrejar(d.opcions).forEach(o => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'opcio'; b.textContent = o;
+        b.addEventListener('click', () => triarCorreccio(o, b, buit));
+        cont.appendChild(b);
+      });
+      $('corregir').hidden = false;
+      mostrar('✓ Ben vist, és mentida!', 'Ara tria la paraula que la fa veritat.', 'guanyat');
+    }
+    function triarCorreccio(o, b, buit) {
+      const d = actual.el.dificil;
+      const cont = $('opcions-correccio');
+      if (cont.dataset.fet === String(num)) return;
+      cont.dataset.fet = String(num);
+      cont.querySelectorAll('.opcio').forEach(x => { x.disabled = true; if (x.textContent === d.opcions[0]) x.classList.add('correcta'); });
+      buit.textContent = d.opcions[0]; buit.classList.add('ple');
+      if (o === d.opcions[0]) {
+        encerts++; resultats.push(true);
+        Celebracio.petita(b);
+        mostrar(Preferencies.felicitacio('✓ Molt bé!'), explicacio(), 'guanyat');
+        seguent = setTimeout(passar, 2000);
+      } else {
+        resultats.push(false);
+        b.classList.add('errada'); sacsejar(b);
+        mostrar(`No és «${o}»`, explicacio(), 'error');
+        seguent = setTimeout(passar, 3000);
+      }
+      pintarDades();
+    }
+
+    function passar() {
+      num++;
+      if (num <= PREGUNTES) novaPregunta(); else final();
+    }
+
+    // ---------------- Final ----------------
+    function final() {
+      aturar();
+      num = PREGUNTES;
+      pintarDades();
+      if (!Preferencies.errors()) {   // sense comptar: ni encerts, ni estrelles, ni rècord
+        mostrar('🎉 Ronda acabada!', `Has llegit les ${PREGUNTES} frases.`, 'guanyat');
+        Celebracio.gran({ titol: 'Ronda acabada!', emoji: '✅', subtitol: `Has llegit les ${PREGUNTES} frases.`, boto: 'Continuar' });
+        return;
+      }
+      const clau = `appjocs.veritat-mentida.record.${config.tema}.${config.nivell}`;
+      let record = null; try { record = Number(localStorage.getItem(clau)) || null; } catch {}
+      const nouRecord = record === null || encerts > record;
+      if (nouRecord) { try { localStorage.setItem(clau, String(encerts)); } catch {} }
+      const estrelles = encerts === PREGUNTES ? 3 : encerts >= 8 ? 2 : 1;
+      mostrar(encerts === PREGUNTES ? '🏆 Totes bé!' : '🎉 Ronda acabada!', `${encerts} de ${PREGUNTES} encerts${nouRecord && record !== null ? ' · Nou rècord!' : ''}`, 'guanyat');
+      Celebracio.gran({
+        titol: encerts === PREGUNTES ? 'Totes bé!' : 'Ronda acabada!', emoji: encerts === PREGUNTES ? '🏆' : '✅', estrelles,
+        subtitol: `${encerts} de ${PREGUNTES} encerts` + (nouRecord ? (record !== null ? ' · 🏅 Nou rècord!' : '') : ` · Rècord: ${record}`),
+        boto: 'Continuar',
+      });
+    }
+
+    // ---------------- Dibuix i missatges ----------------
+    function pintarDades() {
+      const comptar = Preferencies.errors();
+      const punts = Array.from({ length: PREGUNTES }, (_, i) =>
+        `<i class="${i < resultats.length ? (!comptar ? 'fet' : resultats[i] ? 'be' : 'malament') : i + 1 === num ? 'ara' : ''}"></i>`).join('');
+      $('dades').innerHTML =
+        `<span class="dada">Frase <b>${Math.min(num, PREGUNTES)}</b>/${PREGUNTES} <span class="progres">${punts}</span></span>`
+        + (comptar ? `<span class="dada">Encerts: <b>${encerts}</b></span>` : '');
+    }
+    function sacsejar(el) { el.classList.remove('sacseig'); void el.offsetWidth; el.classList.add('sacseig'); }
+    function mostrar(text, extra = '', estat = '') {
+      const m = $('missatge');
+      $('msg-text').textContent = text; $('msg-extra').textContent = extra;
+      m.classList.remove('es-pista', 'es-error', 'es-guanyat');
+      if (estat) m.classList.add('es-' + estat);
+    }
+
+    // Si l'app queda en segon pla, el temps no compta (en tornar, la frase torna a començar)
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden || $('pantalla-joc').hidden || bloquejat || !config.temps) return;
+      iniciarTemps();
+    });
+
+    carregar();
+
+    // Avís suau si el dispositiu està en l'orientació que pitjor li va a aquest joc
+    Pantalla.avisOrientacio('veritat-mentida', { dins: document.getElementById('pantalla-inici') });
+  </script>
+</body>
+</html>

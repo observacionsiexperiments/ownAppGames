@@ -122,6 +122,12 @@ main { flex: 1; width: 100%; max-width: 960px; margin: 0 auto; }
   .peu-targeta { justify-content: center; }
   .peu-targeta .jugar { margin: 0; }
 }
+@container (max-width: 115px) {
+  .targeta { gap: 3cqw; padding: 6cqw 5cqw; }
+  .targeta h2 { font-size: .72rem; }
+  .targeta .icona { width: 30cqw; height: 30cqw; font-size: 17cqw; }
+  .jugar { font-size: .7rem; padding: .2em .6em; }
+}
 .targeta[aria-disabled="true"] { opacity: .5; pointer-events: none; }
 .etiqueta {
   font-size: .75rem; padding: 2px 8px; border-radius: 999px;

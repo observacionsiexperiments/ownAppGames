@@ -1,0 +1,260 @@
+{
+  "id": "fruites",
+  "nom": "Fruites i verdures",
+  "icona": "🍎",
+  "facil": "Això és {article} {nom}.",
+  "elements": [
+    {
+      "id": "poma",
+      "nom": "poma",
+      "article": "una",
+      "emoji": "🍎",
+      "imatge": "recursos/fruites/poma.webp",
+      "mitja": {
+        "veritat": "La poma pot ser vermella.",
+        "mentida": "La poma és blava."
+      },
+      "dificil": {
+        "veritat": "La poma creix en un arbre.",
+        "mentida": "La poma creix sota terra.",
+        "correccio": "La poma creix ___.",
+        "opcions": [
+          "en un arbre",
+          "sota terra",
+          "al mar"
+        ]
+      }
+    },
+    {
+      "id": "platan",
+      "nom": "plàtan",
+      "article": "un",
+      "emoji": "🍌",
+      "imatge": "recursos/fruites/platan.webp",
+      "mitja": {
+        "veritat": "El plàtan és groc.",
+        "mentida": "El plàtan és rodó."
+      },
+      "dificil": {
+        "veritat": "El plàtan es pela per menjar-lo.",
+        "mentida": "El plàtan es menja amb la pell.",
+        "correccio": "Del plàtan ens mengem ___.",
+        "opcions": [
+          "l'interior",
+          "la pell",
+          "les fulles"
+        ]
+      }
+    },
+    {
+      "id": "maduixa",
+      "nom": "maduixa",
+      "article": "una",
+      "emoji": "🍓",
+      "imatge": "recursos/fruites/maduixa.webp",
+      "mitja": {
+        "veritat": "La maduixa és vermella.",
+        "mentida": "La maduixa és negra."
+      },
+      "dificil": {
+        "veritat": "La maduixa té les llavors per fora.",
+        "mentida": "La maduixa és salada.",
+        "correccio": "La maduixa és ___.",
+        "opcions": [
+          "dolça",
+          "salada",
+          "picant"
+        ]
+      }
+    },
+    {
+      "id": "raim",
+      "nom": "raïm",
+      "article": "un",
+      "emoji": "🍇",
+      "imatge": "recursos/fruites/raim.webp",
+      "mitja": {
+        "veritat": "El raïm té molts grans.",
+        "mentida": "El raïm és quadrat."
+      },
+      "dificil": {
+        "veritat": "Amb raïm es fan panses.",
+        "mentida": "El raïm creix sota terra.",
+        "correccio": "El raïm creix ___.",
+        "opcions": [
+          "a la vinya",
+          "sota terra",
+          "al mar"
+        ]
+      }
+    },
+    {
+      "id": "taronja",
+      "nom": "taronja",
+      "article": "una",
+      "emoji": "🍊",
+      "imatge": "recursos/fruites/taronja.webp",
+      "mitja": {
+        "veritat": "La taronja és de color taronja.",
+        "mentida": "La taronja és lila."
+      },
+      "dificil": {
+        "veritat": "Amb taronges es fa suc.",
+        "mentida": "La taronja no té pell.",
+        "correccio": "La taronja té ___.",
+        "opcions": [
+          "pell",
+          "pèl",
+          "escates"
+        ]
+      }
+    },
+    {
+      "id": "llimona",
+      "nom": "llimona",
+      "article": "una",
+      "emoji": "🍋",
+      "imatge": "recursos/fruites/llimona.webp",
+      "mitja": {
+        "veritat": "La llimona és groga.",
+        "mentida": "La llimona és dolça."
+      },
+      "dificil": {
+        "veritat": "La llimona és àcida.",
+        "mentida": "La llimona és una verdura.",
+        "correccio": "La llimona és una ___.",
+        "opcions": [
+          "fruita",
+          "verdura",
+          "carn"
+        ]
+      }
+    },
+    {
+      "id": "sindria",
+      "nom": "síndria",
+      "article": "una",
+      "emoji": "🍉",
+      "imatge": "recursos/fruites/sindria.webp",
+      "mitja": {
+        "veritat": "La síndria és verda per fora.",
+        "mentida": "La síndria és petita com una cirera."
+      },
+      "dificil": {
+        "veritat": "La síndria és vermella per dins.",
+        "mentida": "La síndria creix en un arbre alt.",
+        "correccio": "La síndria creix ___.",
+        "opcions": [
+          "arran de terra",
+          "en un arbre alt",
+          "sota l'aigua"
+        ]
+      }
+    },
+    {
+      "id": "pera",
+      "nom": "pera",
+      "article": "una",
+      "emoji": "🍐",
+      "imatge": "recursos/fruites/pera.webp",
+      "mitja": {
+        "veritat": "La pera és verda o groga.",
+        "mentida": "La pera és blava."
+      },
+      "dificil": {
+        "veritat": "La pera creix en un arbre.",
+        "mentida": "La pera és una verdura.",
+        "correccio": "La pera és una ___.",
+        "opcions": [
+          "fruita",
+          "verdura",
+          "llaminadura"
+        ]
+      }
+    },
+    {
+      "id": "cirera",
+      "nom": "cirera",
+      "article": "una",
+      "emoji": "🍒",
+      "imatge": "recursos/fruites/cirera.webp",
+      "mitja": {
+        "veritat": "La cirera és vermella.",
+        "mentida": "La cirera és grossa com una síndria."
+      },
+      "dificil": {
+        "veritat": "La cirera té pinyol.",
+        "mentida": "Les cireres creixen sota terra.",
+        "correccio": "Les cireres creixen ___.",
+        "opcions": [
+          "en un arbre",
+          "sota terra",
+          "al riu"
+        ]
+      }
+    },
+    {
+      "id": "pastanaga",
+      "nom": "pastanaga",
+      "article": "una",
+      "emoji": "🥕",
+      "imatge": "recursos/fruites/pastanaga.webp",
+      "mitja": {
+        "veritat": "La pastanaga és taronja.",
+        "mentida": "La pastanaga és rodona."
+      },
+      "dificil": {
+        "veritat": "La pastanaga creix sota terra.",
+        "mentida": "La pastanaga és una fruita.",
+        "correccio": "La pastanaga és una ___.",
+        "opcions": [
+          "verdura",
+          "fruita",
+          "beguda"
+        ]
+      }
+    },
+    {
+      "id": "tomaquet",
+      "nom": "tomàquet",
+      "article": "un",
+      "emoji": "🍅",
+      "imatge": "recursos/fruites/tomaquet.webp",
+      "mitja": {
+        "veritat": "El tomàquet és vermell.",
+        "mentida": "El tomàquet és blau."
+      },
+      "dificil": {
+        "veritat": "Amb tomàquet es fa amanida.",
+        "mentida": "El tomàquet creix en un arbre gran.",
+        "correccio": "El tomàquet creix ___.",
+        "opcions": [
+          "en una tomaquera",
+          "en un arbre gran",
+          "sota l'aigua"
+        ]
+      }
+    },
+    {
+      "id": "blat-de-moro",
+      "nom": "blat de moro",
+      "article": "un",
+      "emoji": "🌽",
+      "imatge": "recursos/fruites/blat-de-moro.webp",
+      "mitja": {
+        "veritat": "El blat de moro és groc.",
+        "mentida": "El blat de moro és vermell."
+      },
+      "dificil": {
+        "veritat": "Amb blat de moro es fan crispetes.",
+        "mentida": "El blat de moro creix sota terra.",
+        "correccio": "El blat de moro creix ___.",
+        "opcions": [
+          "en una planta alta",
+          "sota terra",
+          "al mar"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,260 @@
+{
+  "id": "transports",
+  "nom": "Transports",
+  "icona": "🚗",
+  "facil": "Això és {article} {nom}.",
+  "elements": [
+    {
+      "id": "cotxe",
+      "nom": "cotxe",
+      "article": "un",
+      "emoji": "🚗",
+      "imatge": "recursos/transports/cotxe.webp",
+      "mitja": {
+        "veritat": "El cotxe té quatre rodes.",
+        "mentida": "El cotxe té ales."
+      },
+      "dificil": {
+        "veritat": "El cotxe va per la carretera.",
+        "mentida": "El cotxe va pel mar.",
+        "correccio": "El cotxe va ___.",
+        "opcions": [
+          "per la carretera",
+          "pel mar",
+          "pel cel"
+        ]
+      }
+    },
+    {
+      "id": "bicicleta",
+      "nom": "bicicleta",
+      "article": "una",
+      "emoji": "🚲",
+      "imatge": "recursos/transports/bicicleta.webp",
+      "mitja": {
+        "veritat": "La bicicleta té dues rodes.",
+        "mentida": "La bicicleta té quatre rodes."
+      },
+      "dificil": {
+        "veritat": "La bicicleta es mou pedalant.",
+        "mentida": "La bicicleta necessita gasolina.",
+        "correccio": "La bicicleta es mou ___.",
+        "opcions": [
+          "pedalant",
+          "amb gasolina",
+          "amb veles"
+        ]
+      }
+    },
+    {
+      "id": "avio",
+      "nom": "avió",
+      "article": "un",
+      "emoji": "✈️",
+      "imatge": "recursos/transports/avio.webp",
+      "mitja": {
+        "veritat": "L'avió té ales.",
+        "mentida": "L'avió va per sota l'aigua."
+      },
+      "dificil": {
+        "veritat": "L'avió surt de l'aeroport.",
+        "mentida": "L'avió no pot volar.",
+        "correccio": "L'avió pot ___.",
+        "opcions": [
+          "volar",
+          "nedar",
+          "cavar"
+        ]
+      }
+    },
+    {
+      "id": "vaixell",
+      "nom": "vaixell",
+      "article": "un",
+      "emoji": "🚢",
+      "imatge": "recursos/transports/vaixell.webp",
+      "mitja": {
+        "veritat": "El vaixell va pel mar.",
+        "mentida": "El vaixell té rodes."
+      },
+      "dificil": {
+        "veritat": "El vaixell para al port.",
+        "mentida": "El vaixell va per l'autopista.",
+        "correccio": "El vaixell va ___.",
+        "opcions": [
+          "pel mar",
+          "per l'autopista",
+          "pel cel"
+        ]
+      }
+    },
+    {
+      "id": "tren",
+      "nom": "tren",
+      "article": "un",
+      "emoji": "🚆",
+      "imatge": "recursos/transports/tren.webp",
+      "mitja": {
+        "veritat": "El tren va per la via.",
+        "mentida": "El tren vola."
+      },
+      "dificil": {
+        "veritat": "El tren para a les estacions.",
+        "mentida": "El tren no té rodes.",
+        "correccio": "El tren té ___.",
+        "opcions": [
+          "rodes",
+          "ales",
+          "veles"
+        ]
+      }
+    },
+    {
+      "id": "autobus",
+      "nom": "autobús",
+      "article": "un",
+      "emoji": "🚌",
+      "imatge": "recursos/transports/autobus.webp",
+      "mitja": {
+        "veritat": "L'autobús porta molta gent.",
+        "mentida": "L'autobús és per a una sola persona."
+      },
+      "dificil": {
+        "veritat": "L'autobús para a les parades.",
+        "mentida": "L'autobús va per la via del tren.",
+        "correccio": "L'autobús va ___.",
+        "opcions": [
+          "per la carretera",
+          "per la via",
+          "pel mar"
+        ]
+      }
+    },
+    {
+      "id": "helicopter",
+      "nom": "helicòpter",
+      "article": "un",
+      "emoji": "🚁",
+      "imatge": "recursos/transports/helicopter.webp",
+      "mitja": {
+        "veritat": "L'helicòpter vola.",
+        "mentida": "L'helicòpter té veles."
+      },
+      "dificil": {
+        "veritat": "L'helicòpter té hèlices a dalt.",
+        "mentida": "L'helicòpter va per sota terra.",
+        "correccio": "L'helicòpter va ___.",
+        "opcions": [
+          "pel cel",
+          "sota terra",
+          "pel mar"
+        ]
+      }
+    },
+    {
+      "id": "moto",
+      "nom": "moto",
+      "article": "una",
+      "emoji": "🏍️",
+      "imatge": "recursos/transports/moto.webp",
+      "mitja": {
+        "veritat": "La moto té dues rodes.",
+        "mentida": "La moto té ales."
+      },
+      "dificil": {
+        "veritat": "Per anar en moto cal portar casc.",
+        "mentida": "La moto va sense motor.",
+        "correccio": "La moto va amb ___.",
+        "opcions": [
+          "motor",
+          "veles",
+          "cavalls"
+        ]
+      }
+    },
+    {
+      "id": "camio",
+      "nom": "camió",
+      "article": "un",
+      "emoji": "🚚",
+      "imatge": "recursos/transports/camio.webp",
+      "mitja": {
+        "veritat": "El camió és gran.",
+        "mentida": "El camió és petit com una joguina."
+      },
+      "dificil": {
+        "veritat": "El camió porta càrrega.",
+        "mentida": "El camió vola pel cel.",
+        "correccio": "El camió va ___.",
+        "opcions": [
+          "per la carretera",
+          "pel cel",
+          "pel mar"
+        ]
+      }
+    },
+    {
+      "id": "ambulancia",
+      "nom": "ambulància",
+      "article": "una",
+      "emoji": "🚑",
+      "imatge": "recursos/transports/ambulancia.webp",
+      "mitja": {
+        "veritat": "L'ambulància té llums.",
+        "mentida": "L'ambulància porta pizzes."
+      },
+      "dificil": {
+        "veritat": "L'ambulància porta malalts a l'hospital.",
+        "mentida": "L'ambulància va a poc a poc quan hi ha una urgència.",
+        "correccio": "En una urgència, l'ambulància va ___.",
+        "opcions": [
+          "ràpid",
+          "a poc a poc",
+          "enrere"
+        ]
+      }
+    },
+    {
+      "id": "tractor",
+      "nom": "tractor",
+      "article": "un",
+      "emoji": "🚜",
+      "imatge": "recursos/transports/tractor.webp",
+      "mitja": {
+        "veritat": "El tractor té rodes grans.",
+        "mentida": "El tractor és una barca."
+      },
+      "dificil": {
+        "veritat": "El tractor treballa al camp.",
+        "mentida": "El tractor treballa al mar.",
+        "correccio": "El tractor treballa ___.",
+        "opcions": [
+          "al camp",
+          "al mar",
+          "a la lluna"
+        ]
+      }
+    },
+    {
+      "id": "coet",
+      "nom": "coet",
+      "article": "un",
+      "emoji": "🚀",
+      "imatge": "recursos/transports/coet.webp",
+      "mitja": {
+        "veritat": "El coet va cap amunt.",
+        "mentida": "El coet va per la carretera."
+      },
+      "dificil": {
+        "veritat": "El coet pot anar a l'espai.",
+        "mentida": "El coet funciona amb pedals.",
+        "correccio": "El coet funciona amb ___.",
+        "opcions": [
+          "motors molt potents",
+          "pedals",
+          "cavalls"
+        ]
+      }
+    }
+  ]
+}

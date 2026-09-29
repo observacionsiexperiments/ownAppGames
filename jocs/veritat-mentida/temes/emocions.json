@@ -1,0 +1,282 @@
+{
+  "id": "emocions",
+  "nom": "Emocions",
+  "icona": "😀",
+  "facil": "Aquesta cara {nom}.",
+  "elements": [
+    {
+      "id": "esta-contenta",
+      "nom": "està contenta",
+      "article": "",
+      "emoji": "😀",
+      "imatge": "recursos/emocions/esta-contenta.webp",
+      "mitja": {
+        "veritat": "Somriu.",
+        "mentida": "Plora."
+      },
+      "dificil": {
+        "veritat": "Estem contents quan ens fan un regal.",
+        "mentida": "Estem contents quan ens fem mal.",
+        "correccio": "Estem contents quan ___.",
+        "opcions": [
+          "juguem amb amics",
+          "ens fem mal",
+          "perdem una joguina"
+        ]
+      },
+      "noConfondre": [
+        "riu-molt",
+        "fa-broma"
+      ]
+    },
+    {
+      "id": "esta-trista",
+      "nom": "està trista",
+      "article": "",
+      "emoji": "😢",
+      "imatge": "recursos/emocions/esta-trista.webp",
+      "mitja": {
+        "veritat": "Li cau una llàgrima.",
+        "mentida": "Riu molt fort."
+      },
+      "dificil": {
+        "veritat": "Podem estar tristos si perdem una joguina.",
+        "mentida": "Quan estem tristos saltem d'alegria.",
+        "correccio": "Quan estem tristos, de vegades ___.",
+        "opcions": [
+          "plorem",
+          "saltem d'alegria",
+          "cantem a crits"
+        ]
+      },
+      "noConfondre": [
+        "esta-preocupada"
+      ]
+    },
+    {
+      "id": "esta-enfadada",
+      "nom": "està enfadada",
+      "article": "",
+      "emoji": "😠",
+      "imatge": "recursos/emocions/esta-enfadada.webp",
+      "mitja": {
+        "veritat": "Arrufa les celles.",
+        "mentida": "Somriu molt."
+      },
+      "dificil": {
+        "veritat": "Si estem enfadats, va bé respirar a poc a poc.",
+        "mentida": "Si estem enfadats, el millor és pegar.",
+        "correccio": "Si estem enfadats, va bé ___.",
+        "opcions": [
+          "respirar a poc a poc",
+          "pegar",
+          "trencar coses"
+        ]
+      }
+    },
+    {
+      "id": "esta-espantada",
+      "nom": "està espantada",
+      "article": "",
+      "emoji": "😱",
+      "imatge": "recursos/emocions/esta-espantada.webp",
+      "mitja": {
+        "veritat": "Té la boca molt oberta.",
+        "mentida": "Té els ulls tancats."
+      },
+      "dificil": {
+        "veritat": "Ens podem espantar amb un soroll fort.",
+        "mentida": "Ens espantem quan mengem un gelat.",
+        "correccio": "Ens podem espantar amb ___.",
+        "opcions": [
+          "un soroll fort",
+          "un gelat",
+          "una abraçada"
+        ]
+      },
+      "noConfondre": [
+        "esta-sorpresa"
+      ]
+    },
+    {
+      "id": "esta-sorpresa",
+      "nom": "està sorpresa",
+      "article": "",
+      "emoji": "😮",
+      "imatge": "recursos/emocions/esta-sorpresa.webp",
+      "mitja": {
+        "veritat": "Té la boca rodona.",
+        "mentida": "Té els ulls tancats."
+      },
+      "dificil": {
+        "veritat": "Ens sorprenem quan passa una cosa inesperada.",
+        "mentida": "Ens sorprenem amb el que passa cada dia.",
+        "correccio": "Ens sorprenem amb una cosa ___.",
+        "opcions": [
+          "inesperada",
+          "de cada dia",
+          "avorrida"
+        ]
+      },
+      "noConfondre": [
+        "esta-espantada"
+      ]
+    },
+    {
+      "id": "esta-cansada",
+      "nom": "està cansada",
+      "article": "",
+      "emoji": "😴",
+      "imatge": "recursos/emocions/esta-cansada.webp",
+      "mitja": {
+        "veritat": "Té els ulls tancats.",
+        "mentida": "Té els ulls molt oberts."
+      },
+      "dificil": {
+        "veritat": "Quan estem cansats necessitem dormir.",
+        "mentida": "Quan estem cansats volem córrer molt.",
+        "correccio": "Quan estem cansats necessitem ___.",
+        "opcions": [
+          "descansar",
+          "córrer",
+          "cridar"
+        ]
+      }
+    },
+    {
+      "id": "esta-enamorada",
+      "nom": "està enamorada",
+      "article": "",
+      "emoji": "😍",
+      "imatge": "recursos/emocions/esta-enamorada.webp",
+      "mitja": {
+        "veritat": "Té cors als ulls.",
+        "mentida": "Té llàgrimes."
+      },
+      "dificil": {
+        "veritat": "Aquesta cara diu \"m'encanta!\".",
+        "mentida": "Aquesta cara diu \"quin fàstic!\".",
+        "correccio": "Aquesta cara diu \"___!\".",
+        "opcions": [
+          "m'encanta",
+          "quin fàstic",
+          "tinc son"
+        ]
+      }
+    },
+    {
+      "id": "esta-avergonyida",
+      "nom": "està avergonyida",
+      "article": "",
+      "emoji": "😳",
+      "imatge": "recursos/emocions/esta-avergonyida.webp",
+      "mitja": {
+        "veritat": "Té les galtes vermelles.",
+        "mentida": "Té les galtes blaves."
+      },
+      "dificil": {
+        "veritat": "Ens podem avergonyir si tothom ens mira.",
+        "mentida": "Ens avergonyim quan dormim.",
+        "correccio": "Ens podem avergonyir quan ___.",
+        "opcions": [
+          "tothom ens mira",
+          "dormim",
+          "mengem"
+        ]
+      }
+    },
+    {
+      "id": "riu-molt",
+      "nom": "riu molt",
+      "article": "",
+      "emoji": "😂",
+      "imatge": "recursos/emocions/riu-molt.webp",
+      "mitja": {
+        "veritat": "Plora de riure.",
+        "mentida": "Està trista."
+      },
+      "dificil": {
+        "veritat": "Riem quan una cosa ens fa gràcia.",
+        "mentida": "Riem quan tenim mal de panxa.",
+        "correccio": "Riem quan una cosa ens fa ___.",
+        "opcions": [
+          "gràcia",
+          "mal",
+          "por"
+        ]
+      },
+      "noConfondre": [
+        "esta-contenta"
+      ]
+    },
+    {
+      "id": "esta-preocupada",
+      "nom": "està preocupada",
+      "article": "",
+      "emoji": "😟",
+      "imatge": "recursos/emocions/esta-preocupada.webp",
+      "mitja": {
+        "veritat": "Té la boca cap avall.",
+        "mentida": "Fa un gran somriure."
+      },
+      "dificil": {
+        "veritat": "Si estem preocupats, ho podem explicar a algú.",
+        "mentida": "Si estem preocupats, ens ho hem de guardar sempre.",
+        "correccio": "Si estem preocupats, ho podem ___.",
+        "opcions": [
+          "explicar a algú",
+          "amagar sempre",
+          "llençar"
+        ]
+      },
+      "noConfondre": [
+        "esta-trista"
+      ]
+    },
+    {
+      "id": "esta-malalta",
+      "nom": "està malalta",
+      "article": "",
+      "emoji": "🤒",
+      "imatge": "recursos/emocions/esta-malalta.webp",
+      "mitja": {
+        "veritat": "Té un termòmetre a la boca.",
+        "mentida": "Té un gelat a la boca."
+      },
+      "dificil": {
+        "veritat": "Quan estem malalts anem al metge.",
+        "mentida": "Quan tenim febre anem a la piscina.",
+        "correccio": "Quan tenim febre ___.",
+        "opcions": [
+          "descansem al llit",
+          "anem a la piscina",
+          "correm una cursa"
+        ]
+      }
+    },
+    {
+      "id": "fa-broma",
+      "nom": "fa broma",
+      "article": "",
+      "emoji": "😜",
+      "imatge": "recursos/emocions/fa-broma.webp",
+      "mitja": {
+        "veritat": "Treu la llengua.",
+        "mentida": "Té la boca tancada."
+      },
+      "dificil": {
+        "veritat": "Fem aquesta cara quan fem broma.",
+        "mentida": "Fem aquesta cara quan tenim por.",
+        "correccio": "Fem aquesta cara quan ___.",
+        "opcions": [
+          "fem broma",
+          "tenim por",
+          "tenim son"
+        ]
+      },
+      "noConfondre": [
+        "esta-contenta"
+      ]
+    }
+  ]
+}

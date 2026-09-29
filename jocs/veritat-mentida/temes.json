@@ -1,0 +1,47 @@
+{
+  "_nota": "Llista de temes del joc. Per afegir-ne un: crea temes/<id>.json (mateix format) i afegeix-lo aquí.",
+  "temes": [
+    {
+      "id": "animals",
+      "nom": "Animals",
+      "icona": "🐾",
+      "fitxer": "temes/animals.json"
+    },
+    {
+      "id": "fruites",
+      "nom": "Fruites i verdures",
+      "icona": "🍎",
+      "fitxer": "temes/fruites.json"
+    },
+    {
+      "id": "menjars",
+      "nom": "Menjars",
+      "icona": "🍕",
+      "fitxer": "temes/menjars.json"
+    },
+    {
+      "id": "transports",
+      "nom": "Transports",
+      "icona": "🚗",
+      "fitxer": "temes/transports.json"
+    },
+    {
+      "id": "natura",
+      "nom": "Natura i temps",
+      "icona": "🌦️",
+      "fitxer": "temes/natura.json"
+    },
+    {
+      "id": "banderes",
+      "nom": "Banderes",
+      "icona": "🚩",
+      "fitxer": "temes/banderes.json"
+    },
+    {
+      "id": "emocions",
+      "nom": "Emocions",
+      "icona": "😀",
+      "fitxer": "temes/emocions.json"
+    }
+  ]
+}

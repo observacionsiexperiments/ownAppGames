@@ -1,0 +1,350 @@
+{
+  "id": "banderes",
+  "nom": "Banderes",
+  "icona": "🚩",
+  "facil": "Aquesta és la bandera {article}{nom}.",
+  "elements": [
+    {
+      "id": "espanya",
+      "nom": "Espanya",
+      "article": "d'",
+      "emoji": "🇪🇸",
+      "imatge": "recursos/banderes/espanya.webp",
+      "mitja": {
+        "veritat": "És vermella i groga.",
+        "mentida": "És blava i blanca."
+      },
+      "dificil": {
+        "veritat": "La franja groga és la més ampla.",
+        "mentida": "Té una estrella blanca.",
+        "correccio": "Té ___.",
+        "opcions": [
+          "un escut",
+          "una estrella",
+          "una fulla"
+        ]
+      }
+    },
+    {
+      "id": "franca",
+      "nom": "França",
+      "article": "de ",
+      "emoji": "🇫🇷",
+      "imatge": "recursos/banderes/franca.webp",
+      "mitja": {
+        "veritat": "És blava, blanca i vermella.",
+        "mentida": "És verda i groga."
+      },
+      "dificil": {
+        "veritat": "Té tres franges verticals.",
+        "mentida": "Té les franges horitzontals.",
+        "correccio": "Les franges són ___.",
+        "opcions": [
+          "verticals",
+          "horitzontals",
+          "en creu"
+        ]
+      }
+    },
+    {
+      "id": "italia",
+      "nom": "Itàlia",
+      "article": "d'",
+      "emoji": "🇮🇹",
+      "imatge": "recursos/banderes/italia.webp",
+      "mitja": {
+        "veritat": "És verda, blanca i vermella.",
+        "mentida": "És blava i groga."
+      },
+      "dificil": {
+        "veritat": "S'assembla a la de França, però amb verd.",
+        "mentida": "El verd és a la dreta.",
+        "correccio": "El verd és ___.",
+        "opcions": [
+          "a l'esquerra",
+          "a la dreta",
+          "al mig"
+        ]
+      },
+      "noConfondre": [
+        "mexic"
+      ]
+    },
+    {
+      "id": "portugal",
+      "nom": "Portugal",
+      "article": "de ",
+      "emoji": "🇵🇹",
+      "imatge": "recursos/banderes/portugal.webp",
+      "mitja": {
+        "veritat": "És verda i vermella.",
+        "mentida": "És blanca i blava."
+      },
+      "dificil": {
+        "veritat": "Té un escut.",
+        "mentida": "El verd i el vermell són igual d'amples.",
+        "correccio": "La part més ampla és ___.",
+        "opcions": [
+          "la vermella",
+          "la verda",
+          "la blava"
+        ]
+      }
+    },
+    {
+      "id": "alemanya",
+      "nom": "Alemanya",
+      "article": "d'",
+      "emoji": "🇩🇪",
+      "imatge": "recursos/banderes/alemanya.webp",
+      "mitja": {
+        "veritat": "És negra, vermella i groga.",
+        "mentida": "És verda i blanca."
+      },
+      "dificil": {
+        "veritat": "Té tres franges horitzontals.",
+        "mentida": "La franja de dalt és groga.",
+        "correccio": "La franja de dalt és ___.",
+        "opcions": [
+          "negra",
+          "groga",
+          "vermella"
+        ]
+      }
+    },
+    {
+      "id": "regne-unit",
+      "nom": "Regne Unit",
+      "article": "del ",
+      "emoji": "🇬🇧",
+      "imatge": "recursos/banderes/regne-unit.webp",
+      "mitja": {
+        "veritat": "És blava, blanca i vermella.",
+        "mentida": "És verda i groga."
+      },
+      "dificil": {
+        "veritat": "Té creus.",
+        "mentida": "Té un sol al mig.",
+        "correccio": "Té ___.",
+        "opcions": [
+          "creus",
+          "un sol",
+          "una fulla"
+        ]
+      }
+    },
+    {
+      "id": "japo",
+      "nom": "Japó",
+      "article": "del ",
+      "emoji": "🇯🇵",
+      "imatge": "recursos/banderes/japo.webp",
+      "mitja": {
+        "veritat": "És blanca amb un cercle vermell.",
+        "mentida": "És blava amb un cercle groc."
+      },
+      "dificil": {
+        "veritat": "El cercle representa el sol.",
+        "mentida": "Té moltes estrelles.",
+        "correccio": "Té ___.",
+        "opcions": [
+          "un cercle",
+          "moltes estrelles",
+          "una fulla"
+        ]
+      }
+    },
+    {
+      "id": "xina",
+      "nom": "Xina",
+      "article": "de la ",
+      "emoji": "🇨🇳",
+      "imatge": "recursos/banderes/xina.webp",
+      "mitja": {
+        "veritat": "És vermella amb estrelles grogues.",
+        "mentida": "És verda amb estrelles blanques."
+      },
+      "dificil": {
+        "veritat": "Té cinc estrelles.",
+        "mentida": "Té una sola estrella.",
+        "correccio": "Té ___ estrelles.",
+        "opcions": [
+          "cinc",
+          "una",
+          "cinquanta"
+        ]
+      }
+    },
+    {
+      "id": "estats-units",
+      "nom": "Estats Units",
+      "article": "dels ",
+      "emoji": "🇺🇸",
+      "imatge": "recursos/banderes/estats-units.webp",
+      "mitja": {
+        "veritat": "Té franges vermelles i blanques.",
+        "mentida": "És verda i groga."
+      },
+      "dificil": {
+        "veritat": "Té cinquanta estrelles.",
+        "mentida": "Té un cercle vermell.",
+        "correccio": "Té ___.",
+        "opcions": [
+          "estrelles",
+          "un cercle",
+          "una fulla"
+        ]
+      }
+    },
+    {
+      "id": "brasil",
+      "nom": "Brasil",
+      "article": "del ",
+      "emoji": "🇧🇷",
+      "imatge": "recursos/banderes/brasil.webp",
+      "mitja": {
+        "veritat": "És verda i groga.",
+        "mentida": "És vermella i negra."
+      },
+      "dificil": {
+        "veritat": "Té un cercle blau amb estrelles.",
+        "mentida": "Té una creu blanca.",
+        "correccio": "Té ___.",
+        "opcions": [
+          "un cercle blau",
+          "una creu blanca",
+          "una fulla vermella"
+        ]
+      }
+    },
+    {
+      "id": "mexic",
+      "nom": "Mèxic",
+      "article": "de ",
+      "emoji": "🇲🇽",
+      "imatge": "recursos/banderes/mexic.webp",
+      "mitja": {
+        "veritat": "És verda, blanca i vermella.",
+        "mentida": "És blava i groga."
+      },
+      "dificil": {
+        "veritat": "Té una àguila al mig.",
+        "mentida": "Té un sol al mig.",
+        "correccio": "Al mig té ___.",
+        "opcions": [
+          "una àguila",
+          "un sol",
+          "una estrella"
+        ]
+      },
+      "noConfondre": [
+        "italia"
+      ]
+    },
+    {
+      "id": "argentina",
+      "nom": "Argentina",
+      "article": "de l'",
+      "emoji": "🇦🇷",
+      "imatge": "recursos/banderes/argentina.webp",
+      "mitja": {
+        "veritat": "És blau cel i blanca.",
+        "mentida": "És vermella i verda."
+      },
+      "dificil": {
+        "veritat": "Té un sol al mig.",
+        "mentida": "Té una àguila al mig.",
+        "correccio": "Al mig té ___.",
+        "opcions": [
+          "un sol",
+          "una àguila",
+          "una fulla"
+        ]
+      }
+    },
+    {
+      "id": "canada",
+      "nom": "Canadà",
+      "article": "del ",
+      "emoji": "🇨🇦",
+      "imatge": "recursos/banderes/canada.webp",
+      "mitja": {
+        "veritat": "És vermella i blanca.",
+        "mentida": "És blava i verda."
+      },
+      "dificil": {
+        "veritat": "Té una fulla d'auró.",
+        "mentida": "Té una estrella.",
+        "correccio": "Té ___.",
+        "opcions": [
+          "una fulla",
+          "una estrella",
+          "un sol"
+        ]
+      }
+    },
+    {
+      "id": "grecia",
+      "nom": "Grècia",
+      "article": "de ",
+      "emoji": "🇬🇷",
+      "imatge": "recursos/banderes/grecia.webp",
+      "mitja": {
+        "veritat": "És blava i blanca.",
+        "mentida": "És vermella i groga."
+      },
+      "dificil": {
+        "veritat": "Té una creu blanca en un racó.",
+        "mentida": "Té una fulla.",
+        "correccio": "Té ___.",
+        "opcions": [
+          "una creu",
+          "una fulla",
+          "un sol"
+        ]
+      }
+    },
+    {
+      "id": "suissa",
+      "nom": "Suïssa",
+      "article": "de ",
+      "emoji": "🇨🇭",
+      "imatge": "recursos/banderes/suissa.webp",
+      "mitja": {
+        "veritat": "És vermella amb una creu blanca.",
+        "mentida": "És blava amb una creu groga."
+      },
+      "dificil": {
+        "veritat": "És quadrada.",
+        "mentida": "La creu és negra.",
+        "correccio": "La creu és ___.",
+        "opcions": [
+          "blanca",
+          "negra",
+          "verda"
+        ]
+      }
+    },
+    {
+      "id": "marroc",
+      "nom": "Marroc",
+      "article": "del ",
+      "emoji": "🇲🇦",
+      "imatge": "recursos/banderes/marroc.webp",
+      "mitja": {
+        "veritat": "És vermella amb una estrella verda.",
+        "mentida": "És blava amb una estrella blanca."
+      },
+      "dificil": {
+        "veritat": "L'estrella té cinc puntes.",
+        "mentida": "Té un sol groc.",
+        "correccio": "Té ___.",
+        "opcions": [
+          "una estrella",
+          "un sol",
+          "una fulla"
+        ]
+      }
+    }
+  ]
+}

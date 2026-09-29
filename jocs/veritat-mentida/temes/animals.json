@@ -1,0 +1,260 @@
+{
+  "id": "animals",
+  "nom": "Animals",
+  "icona": "🐾",
+  "facil": "Això és {article} {nom}.",
+  "elements": [
+    {
+      "id": "gat",
+      "nom": "gat",
+      "article": "un",
+      "emoji": "🐱",
+      "imatge": "recursos/animals/gat.webp",
+      "mitja": {
+        "veritat": "El gat té quatre potes.",
+        "mentida": "El gat té plomes."
+      },
+      "dificil": {
+        "veritat": "El gat caça ratolins.",
+        "mentida": "Els gats ponen ous.",
+        "correccio": "Els gats tenen ___.",
+        "opcions": [
+          "cries",
+          "ous",
+          "escates"
+        ]
+      }
+    },
+    {
+      "id": "gos",
+      "nom": "gos",
+      "article": "un",
+      "emoji": "🐶",
+      "imatge": "recursos/animals/gos.webp",
+      "mitja": {
+        "veritat": "El gos borda.",
+        "mentida": "El gos té dues potes."
+      },
+      "dificil": {
+        "veritat": "El gos té molt bon olfacte.",
+        "mentida": "El gos viu dins l'aigua.",
+        "correccio": "El gos viu ___.",
+        "opcions": [
+          "a terra",
+          "al mar",
+          "als núvols"
+        ]
+      }
+    },
+    {
+      "id": "vaca",
+      "nom": "vaca",
+      "article": "una",
+      "emoji": "🐄",
+      "imatge": "recursos/animals/vaca.webp",
+      "mitja": {
+        "veritat": "La vaca fa llet.",
+        "mentida": "La vaca és molt petita."
+      },
+      "dificil": {
+        "veritat": "La vaca menja herba.",
+        "mentida": "La vaca menja carn.",
+        "correccio": "La vaca menja ___.",
+        "opcions": [
+          "herba",
+          "peix",
+          "pedres"
+        ]
+      }
+    },
+    {
+      "id": "cavall",
+      "nom": "cavall",
+      "article": "un",
+      "emoji": "🐴",
+      "imatge": "recursos/animals/cavall.webp",
+      "mitja": {
+        "veritat": "El cavall corre molt.",
+        "mentida": "El cavall té banyes."
+      },
+      "dificil": {
+        "veritat": "El cavall es pot muntar.",
+        "mentida": "El cavall dorm en un niu.",
+        "correccio": "El cavall dorm ___.",
+        "opcions": [
+          "a l'estable",
+          "en un niu",
+          "sota l'aigua"
+        ]
+      }
+    },
+    {
+      "id": "porc",
+      "nom": "porc",
+      "article": "un",
+      "emoji": "🐷",
+      "imatge": "recursos/animals/porc.webp",
+      "mitja": {
+        "veritat": "El porc té el morro pla.",
+        "mentida": "El porc vola."
+      },
+      "dificil": {
+        "veritat": "El porc té la cua cargolada.",
+        "mentida": "El porc pon ous.",
+        "correccio": "El porc té ___.",
+        "opcions": [
+          "garrins",
+          "pollets",
+          "ous"
+        ]
+      }
+    },
+    {
+      "id": "gallina",
+      "nom": "gallina",
+      "article": "una",
+      "emoji": "🐔",
+      "imatge": "recursos/animals/gallina.webp",
+      "mitja": {
+        "veritat": "La gallina té plomes.",
+        "mentida": "La gallina té quatre potes."
+      },
+      "dificil": {
+        "veritat": "La gallina pon ous.",
+        "mentida": "La gallina fa llet.",
+        "correccio": "La gallina fa ___.",
+        "opcions": [
+          "ous",
+          "llet",
+          "mel"
+        ]
+      }
+    },
+    {
+      "id": "peix",
+      "nom": "peix",
+      "article": "un",
+      "emoji": "🐟",
+      "imatge": "recursos/animals/peix.webp",
+      "mitja": {
+        "veritat": "El peix neda.",
+        "mentida": "El peix té potes."
+      },
+      "dificil": {
+        "veritat": "El peix respira sota l'aigua.",
+        "mentida": "El peix viu en un arbre.",
+        "correccio": "El peix viu ___.",
+        "opcions": [
+          "a l'aigua",
+          "en un arbre",
+          "al desert"
+        ]
+      }
+    },
+    {
+      "id": "ocell",
+      "nom": "ocell",
+      "article": "un",
+      "emoji": "🐦",
+      "imatge": "recursos/animals/ocell.webp",
+      "mitja": {
+        "veritat": "L'ocell té ales.",
+        "mentida": "L'ocell té quatre potes."
+      },
+      "dificil": {
+        "veritat": "L'ocell fa el niu als arbres.",
+        "mentida": "Els ocells no poden volar.",
+        "correccio": "Els ocells poden ___.",
+        "opcions": [
+          "volar",
+          "llegir",
+          "cavar túnels"
+        ]
+      }
+    },
+    {
+      "id": "conill",
+      "nom": "conill",
+      "article": "un",
+      "emoji": "🐰",
+      "imatge": "recursos/animals/conill.webp",
+      "mitja": {
+        "veritat": "El conill té les orelles llargues.",
+        "mentida": "El conill té el coll llarg."
+      },
+      "dificil": {
+        "veritat": "El conill viu en un cau.",
+        "mentida": "El conill menja carn.",
+        "correccio": "El conill menja ___.",
+        "opcions": [
+          "pastanagues",
+          "carn",
+          "peixos"
+        ]
+      }
+    },
+    {
+      "id": "elefant",
+      "nom": "elefant",
+      "article": "un",
+      "emoji": "🐘",
+      "imatge": "recursos/animals/elefant.webp",
+      "mitja": {
+        "veritat": "L'elefant és molt gran.",
+        "mentida": "L'elefant és petit."
+      },
+      "dificil": {
+        "veritat": "L'elefant beu amb la trompa.",
+        "mentida": "L'elefant no té orelles.",
+        "correccio": "L'elefant té les orelles ___.",
+        "opcions": [
+          "grans",
+          "de plomes",
+          "blaves"
+        ]
+      }
+    },
+    {
+      "id": "lleo",
+      "nom": "lleó",
+      "article": "un",
+      "emoji": "🦁",
+      "imatge": "recursos/animals/lleo.webp",
+      "mitja": {
+        "veritat": "El lleó té melena.",
+        "mentida": "El lleó és verd."
+      },
+      "dificil": {
+        "veritat": "El lleó és un animal salvatge.",
+        "mentida": "El lleó menja herba.",
+        "correccio": "El lleó menja ___.",
+        "opcions": [
+          "carn",
+          "herba",
+          "fruita"
+        ]
+      }
+    },
+    {
+      "id": "serp",
+      "nom": "serp",
+      "article": "una",
+      "emoji": "🐍",
+      "imatge": "recursos/animals/serp.webp",
+      "mitja": {
+        "veritat": "La serp és llarga.",
+        "mentida": "La serp té potes."
+      },
+      "dificil": {
+        "veritat": "La serp s'arrossega per terra.",
+        "mentida": "La serp té pèl.",
+        "correccio": "La serp té ___.",
+        "opcions": [
+          "escates",
+          "pèl",
+          "plomes"
+        ]
+      }
+    }
+  ]
+}
