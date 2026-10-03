@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFBF3">
+  <title>Encreuat de números · AppJocs</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="icon" href="../../icons/icon-192.png">
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    /* Colors per rol: verd = operació correcta · rosa = operació incorrecta · groc = pista ·
+       blau = casella per omplir (discontínua) / seleccionada (plena) · préssec = acció. Fitxes i caselles donades neutres. */
+    .joc { width: 100%; max-width: 1180px; margin: 0 auto; }
+    [hidden] { display: none !important; }
+    h2.titol { font-size: 1.15rem; margin: 16px 0 8px; }
+
+    /* ---------- Inici ---------- */
+    .inici { max-width: 860px; margin: 0 auto; }
+    .opcions { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+    .opcions button {
+      font: inherit; cursor: pointer; color: var(--text); touch-action: manipulation;
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: 14px; box-shadow: var(--ombra);
+      min-height: 56px; padding: 8px; font-weight: 700; font-size: 1.05rem;
+    }
+    .opcions button small { display: block; font-weight: 500; font-size: .82rem; color: var(--text-suau); margin-top: 2px; }
+    .opcions button[aria-pressed="true"] { background: var(--c-info); border-color: var(--c-info-vora); }
+    .opcions button[aria-pressed="true"] small { color: var(--text); }
+    @media (hover: hover) { .opcions button:hover { border-color: var(--c-info-vora); } }
+    #op-operacions button { font-size: 1.7rem; font-weight: 900; }
+    @media (orientation: portrait) and (max-width: 600px), (orientation: landscape) and (max-height: 500px) {
+      main .inici #op-operacions, main .inici #op-forma { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      main .inici #op-operacions button { font-size: 1.5rem; }
+      main .inici #op-forma button { font-size: .9rem; padding: 4px; }
+    }
+    @media (orientation: landscape) and (max-height: 500px) {
+      main .inici .explica { display: none; }
+      main .inici .opcions button { min-height: 40px; }
+      main .inici .opcions button small { display: none; }
+      main .inici h2.titol { margin-bottom: 4px; font-size: .92rem; }
+    }
+    .explica { color: var(--text-suau); text-align: center; margin: 14px 0 0; }
+    .comencar { text-align: center; margin: 20px 0 8px; }
+    .comencar .btn { font-size: 1.3rem; padding: 14px 40px; }
+
+    /* ---------- Joc ---------- */
+    .cap-joc { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 4px 0 10px; }
+    .dades { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .dada { background: var(--superficie); border: 1px solid var(--vora); border-radius: 999px; padding: 4px 12px; font-size: .95rem; }
+    .dada b { font-variant-numeric: tabular-nums; }
+
+    .tauler {
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi); padding: 14px;
+      display: grid; gap: 14px 22px; align-items: center;
+      grid-template-columns: minmax(0, 1fr) minmax(250px, 340px); grid-template-areas: "graella panell";
+    }
+    .zona-graella { grid-area: graella; display: flex; justify-content: center; align-items: center; min-width: 0; }
+    .graella { display: grid; gap: 4px; grid-template-columns: repeat(var(--cols), var(--cel, 48px)); grid-template-rows: repeat(var(--rows), var(--cel, 48px)); }
+    .cel {
+      display: grid; place-items: center; border-radius: calc(var(--cel, 48px) * .18); padding: 0;
+      font: inherit; font-weight: 900; font-size: calc(var(--cel, 48px) * .5); line-height: 1; color: var(--text);
+      background: var(--fons); border: 2px solid var(--vora); font-variant-numeric: tabular-nums;
+      touch-action: none; user-select: none; -webkit-user-select: none;
+    }
+    .cel.tres { font-size: calc(var(--cel, 48px) * .38); }
+    .cel.signe, .cel.igual { background: none; border-color: transparent; font-size: calc(var(--cel, 48px) * .55); }
+    .cel.forat { background: color-mix(in srgb, var(--c-info) 18%, white); border: 2px dashed var(--c-info-vora); cursor: pointer; }
+    .cel.forat.ple { background: var(--superficie); border-style: solid; border-color: var(--c-info-vora); }
+    .cel.forat.sel { background: var(--c-info); border-style: solid; border-color: var(--c-info-vora); }
+    .cel.be { background: var(--c-ok) !important; border: 2px solid var(--c-ok-vora) !important; cursor: default; }
+    .cel.mal { background: var(--c-esborrar) !important; border: 2px solid var(--c-esborrar-vora) !important; }
+    .cel.sobre { background: var(--c-info); }
+    @keyframes sacseig { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+    .sacseig { animation: sacseig .25s 2; }
+
+    .panell { grid-area: panell; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+    .fitxes { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+    .fitxa {
+      width: var(--fitxa, 52px); height: var(--fitxa, 52px); padding: 0; display: grid; place-items: center;
+      font: inherit; font-weight: 900; font-size: calc(var(--fitxa, 52px) * .45); color: var(--text); font-variant-numeric: tabular-nums;
+      background: var(--superficie); border: 3px solid var(--vora); border-radius: 12px; box-shadow: 0 4px 0 var(--vora);
+      cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none;
+    }
+    .fitxa.signe { font-size: calc(var(--fitxa, 52px) * .6); }
+    .fitxa.usada { visibility: hidden; }
+    .fitxa.arrossegant { opacity: .35; }
+    @media (hover: hover) { .fitxa:hover { border-color: var(--c-info-vora); } }
+    .fantasma {
+      position: fixed; z-index: 50; pointer-events: none; transform: translate(-50%, -60%) scale(1.1);
+      display: grid; place-items: center; font-weight: 900; border-radius: 12px; line-height: 1;
+      background: var(--superficie); border: 3px solid var(--c-info-vora); box-shadow: 0 8px 18px rgba(59, 51, 85, .25);
+    }
+    .signes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .signes button { font: inherit; font-size: 1.7rem; font-weight: 900; min-height: 52px; border-radius: 12px; border: 2px solid var(--vora); background: var(--superficie); box-shadow: var(--ombra); cursor: pointer; color: var(--text); }
+    .signes button:disabled { opacity: .35; cursor: default; }
+    .entrada-caixa { background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi); padding: 10px; }
+    #cel-mini { display: none; }
+    .fe-finestra #cel-mini { display: block; margin: 0 0 8px; text-align: center; font-size: 1.8rem; font-weight: 900; }
+    .fe-finestra #cel-mini b { color: var(--c-info-vora); }
+    .botons { display: flex; justify-content: center; gap: 10px; }
+    .botons button { font: inherit; font-weight: 700; padding: 8px 14px; min-height: 44px; border-radius: 12px; cursor: pointer; color: var(--text); background: var(--c-esborrar); border: 2px solid var(--c-esborrar-vora); }
+
+    .missatge {
+      min-height: 3.2rem; padding: 8px 12px; border-radius: var(--radi); text-align: center;
+      background: var(--superficie); border: 2px solid var(--vora); font-weight: 700; font-size: 1.05rem;
+      display: flex; flex-direction: column; justify-content: center; gap: 2px;
+    }
+    .missatge small { font-weight: 500; font-size: .92rem; }
+    .missatge small:empty { display: none; }
+    .missatge.es-pista   { background: var(--c-pista);    border-color: var(--c-pista-vora); }
+    .missatge.es-error   { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .missatge.es-guanyat { background: var(--c-ok);       border-color: var(--c-ok-vora); }
+
+    @media (orientation: landscape) and (max-height: 820px) {
+      .cap-joc { margin: 0 0 8px; }
+      .cap-joc .btn { padding: 6px 14px; }
+      .missatge { min-height: 0; padding: 6px 10px; }
+      h2.titol { margin: 10px 0 6px; }
+      .opcions button { min-height: 48px; }
+      .comencar { margin: 14px 0 4px; }
+    }
+    @media (orientation: portrait) {
+      .tauler { grid-template-columns: minmax(0, 1fr); grid-template-areas: "graella" "panell"; }
+      .panell { max-width: 560px; width: 100%; justify-self: center; }
+    }
+    @media (orientation: portrait) and (max-width: 600px), (orientation: landscape) and (max-height: 500px) {
+      .barra-joc { padding: 6px 0; }
+      .barra-joc h1 { font-size: 1.1rem; }
+      .cap-joc { margin: 0 0 6px; gap: 6px; flex-wrap: nowrap; }
+      .dada { font-size: .8rem; padding: 2px 8px; }
+      .cap-joc .btn { padding: 5px 10px; font-size: .85rem; white-space: nowrap; }
+      .tauler { padding: 10px; gap: 10px; }
+      .fitxes { gap: 6px; }
+      .signes button { min-height: 44px; font-size: 1.4rem; }
+      .missatge { min-height: 0; padding: 6px 10px; font-size: .95rem; }
+      .missatge small { font-size: .82rem; }
+      .botons button { min-height: 38px; padding: 4px 12px; font-size: .9rem; }
+    }
+    @media (orientation: landscape) and (max-height: 500px) {
+      .tauler { grid-template-columns: minmax(0, 1fr) minmax(200px, 280px); grid-template-areas: "graella panell"; }
+      .panell { gap: 6px; }
+      .signes button { min-height: 38px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="barra-joc">
+    <a href="../../">← Inici</a>
+    <h1>#️⃣ Encreuat de números</h1>
+  </nav>
+
+  <main class="joc">
+    <section class="inici" id="pantalla-inici">
+      <div class="grup">
+        <h2 class="titol">1. Forma</h2>
+        <div class="opcions" id="op-forma">
+          <button type="button" data-v="creu" aria-pressed="true">✚ Creu<small>2 operacions</small></button>
+          <button type="button" data-v="escala" aria-pressed="false">🪜 Escala<small>3 o 4 operacions</small></button>
+          <button type="button" data-v="quadre" aria-pressed="false">⬜ Quadre<small>4 operacions</small></button>
+          <button type="button" data-v="finestra" aria-pressed="false">🪟 Finestra<small>7 operacions</small></button>
+        </div>
+      </div>
+      <div class="grup">
+        <h2 class="titol">2. Dificultat</h2>
+        <div class="opcions" id="op-nivell">
+          <button type="button" data-v="facil" aria-pressed="true">🌱 Fàcil<small>fins a 10 · pocs forats</small></button>
+          <button type="button" data-v="mitja" aria-pressed="false">Mitjà<small>fins a 20 · taules</small></button>
+          <button type="button" data-v="dificil" aria-pressed="false">Difícil<small>fins a 100 · molts forats</small></button>
+        </div>
+      </div>
+      <div class="grup">
+        <h2 class="titol">3. Operacions</h2>
+        <div class="opcions" id="op-operacions">
+          <button type="button" data-v="+" aria-pressed="true" aria-label="Sumes">+</button>
+          <button type="button" data-v="−" aria-pressed="true" aria-label="Restes">−</button>
+          <button type="button" data-v="×" aria-pressed="false" aria-label="Multiplicacions">×</button>
+          <button type="button" data-v="÷" aria-pressed="false" aria-label="Divisions">÷</button>
+        </div>
+      </div>
+      <div class="grup">
+        <h2 class="titol">4. Què has d'omplir?</h2>
+        <div class="opcions" id="op-que">
+          <button type="button" data-v="numeros" aria-pressed="true">Números</button>
+          <button type="button" data-v="signes" aria-pressed="false">Números i signes</button>
+        </div>
+      </div>
+      <div class="grup">
+        <h2 class="titol">5. Com?</h2>
+        <div class="opcions" id="op-com">
+          <button type="button" data-v="fitxes" aria-pressed="true">🧩 Amb fitxes</button>
+          <button type="button" data-v="escriure" aria-pressed="false">✏️ Escrivint</button>
+        </div>
+      </div>
+      <p class="explica">Cada fila i cada columna és una operació. On es creuen, el número serveix per a totes dues.</p>
+      <div class="comencar"><button class="btn" id="btn-comencar" type="button">Comença! #️⃣</button></div>
+    </section>
+
+    <section id="pantalla-joc" hidden>
+      <div class="cap-joc">
+        <div class="dades" id="dades"></div>
+        <button class="btn" id="btn-nova" type="button">Nova partida</button>
+      </div>
+      <div class="tauler" id="tauler">
+        <div class="zona-graella" id="zona-graella"><div class="graella" id="graella"></div></div>
+        <div class="panell">
+          <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
+          <div class="fitxes" id="fitxes"></div>
+          <div class="signes" id="signes" hidden>
+            <button type="button" data-s="+">+</button><button type="button" data-s="−">−</button>
+            <button type="button" data-s="×">×</button><button type="button" data-s="÷">÷</button>
+          </div>
+          <div class="entrada-caixa" id="entrada-caixa" hidden>
+            <p id="cel-mini"></p>
+            <div id="entrada"></div>
+          </div>
+          <div class="botons"><button type="button" id="btn-buidar">↺ Treu el que no està bé</button></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../js/reconeixedor-xifres.js"></script>
+  <script src="../../js/entrada-numero.js"></script>
+  <script src="../../js/finestra-entrada.js"></script>
+  <script src="../../js/pantalla.js"></script>
+  <script src="../../js/preferencies.js"></script>
+  <script src="../../js/celebracio.js"></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    const config = { forma: 'creu', nivell: 'facil', ops: ['+', '−'], que: 'numeros', com: 'fitxes' };
+    const NIVELLS = {
+      facil:   { max: 10,  taula: [2, 5],  prod: 25,  forats: .34, signes: 1 },
+      mitja:   { max: 20,  taula: [2, 10], prod: 100, forats: .5,  signes: 1 },
+      dificil: { max: 100, taula: [2, 12], prod: 100, forats: .66, signes: 2 },
+    };
+    const SIGNES = ['+', '−', '×', '÷'];
+    const fer = (s, a, b) => s === '+' ? a + b : s === '−' ? a - b : s === '×' ? a * b : a / b;
+    const aleatori = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+    const tria = a => a[aleatori(0, a.length - 1)];
+    const barrejar = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+
+    let graella, ops, cols, rows, fitxes, sel, errors, errorsOp, acabat;
+
+    // ---------------- Inici ----------------
+    function grupOpcions(id, clau) {
+      $(id).addEventListener('click', e => {
+        const b = e.target.closest('button'); if (!b || !b.dataset.v) return;
+        $(id).querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+        config[clau] = b.dataset.v;
+      });
+    }
+    grupOpcions('op-forma', 'forma'); grupOpcions('op-nivell', 'nivell'); grupOpcions('op-que', 'que'); grupOpcions('op-com', 'com');
+    $('op-operacions').addEventListener('click', e => {
+      const b = e.target.closest('button'); if (!b) return;
+      const on = b.getAttribute('aria-pressed') === 'true';
+      if (on && config.ops.length === 1) { sacsejar(b); return; }
+      b.setAttribute('aria-pressed', !on);
+      config.ops = [...$('op-operacions').querySelectorAll('[aria-pressed="true"]')].map(x => x.dataset.v);
+    });
+    $('btn-comencar').addEventListener('click', comencar);
+    $('btn-nova').addEventListener('click', () => { finestra.tancar(); Celebracio.tancar(); $('pantalla-joc').hidden = true; $('pantalla-inici').hidden = false; });
+
+    // ---------------- Formes ----------------
+    // Cada operació: 5 caselles seguides (número · signe · número · = · resultat), en fila (H) o columna (V)
+    const H = (r, c) => [0, 1, 2, 3, 4].map(i => `${r},${c + i}`);
+    const V = (r, c) => [0, 1, 2, 3, 4].map(i => `${r + i},${c}`);
+    function forma(nom) {
+      if (nom === 'creu') { const pH = tria([0, 2, 4]), pV = tria([0, 2, 4]); return { rows: 5, cols: 5, ops: [H(pV, 0), V(0, pH)] }; }
+      if (nom === 'quadre') return { rows: 5, cols: 5, ops: [H(0, 0), V(0, 0), V(0, 4), H(4, 0)] };
+      if (nom === 'escala') return (Math.random() < .5 || innerHeight < 500)   // al mòbil apaisat no hi caben 9 files
+        ? { rows: 5, cols: 9, ops: [H(0, 0), V(0, 4), H(4, 4)] }
+        : { rows: 9, cols: 9, ops: [H(0, 0), V(0, 4), H(4, 4), V(4, 8)] };
+      return { rows: 5, cols: 9, ops: [H(0, 0), V(0, 0), H(0, 4), V(0, 4), V(0, 8), H(4, 0), H(4, 4)] };
+    }
+
+    // Totes les operacions vàlides del nivell (sense negatius, divisions exactes, sense +0, ×1 ni ÷1)
+    function tripletes(nv) {
+      const n = NIVELLS[nv], t = { '+': [], '−': [], '×': [], '÷': [] };
+      for (let a = 1; a < n.max; a++) for (let b = 1; a + b <= n.max; b++) t['+'].push([a, b, a + b]);
+      for (let a = 2; a <= n.max; a++) for (let b = 1; b < a; b++) t['−'].push([a, b, a - b]);
+      // × i ÷: un dels factors és de les taules del nivell; l'altre pot ser més gran (així les operacions es poden encadenar)
+      const dins = x => x >= n.taula[0] && x <= n.taula[1];
+      for (let a = 2; a <= n.prod / 2; a++) for (let b = 2; a * b <= n.prod; b++) if (dins(a) || dins(b)) { t['×'].push([a, b, a * b]); t['÷'].push([a * b, b, a]); }
+      return t;
+    }
+
+    function generar() {
+      const T = tripletes(config.nivell);
+      for (let intent = 0; intent < 400; intent++) {
+        const f = forma(config.forma);
+        const val = {}, signe = {};
+        let ok = true;
+        for (const o of f.ops) {
+          const [ka, ks, kb, , kc] = o;
+          const fix = [val[ka], val[kb], val[kc]];
+          let triat = null;
+          for (const s of barrejar(config.ops)) {
+            const c = T[s].filter(t => t.every((x, i) => fix[i] === undefined || fix[i] === x));
+            if (c.length) { triat = [s, tria(c)]; break; }
+          }
+          if (!triat) { ok = false; break; }
+          const [s, [a, b, r]] = triat;
+          val[ka] = a; val[kb] = b; val[kc] = r; signe[ks] = s;
+        }
+        if (ok) return { ...f, val, signe };
+      }
+      return null;
+    }
+
+    // Es pot resoldre pas a pas? (sempre hi ha una operació amb una sola incògnita)
+    function resoluble(g, amagats) {
+      const fet = new Set();
+      const conegut = k => !amagats.has(k) || fet.has(k);
+      let canvi = true;
+      while (canvi) {
+        canvi = false;
+        for (const o of g.ops) {
+          const [ka, ks, kb, , kc] = o;
+          const inc = [ka, ks, kb, kc].filter(k => !conegut(k));
+          if (inc.length !== 1) continue;
+          const k = inc[0];
+          if (k === ks) {   // el signe només si un sol signe hi encaixa
+            const n = SIGNES.filter(s => fer(s, g.val[ka], g.val[kb]) === g.val[kc]).length;
+            if (n !== 1) continue;
+          }
+          fet.add(k); canvi = true;
+        }
+      }
+      return [...amagats].every(k => fet.has(k));
+    }
+
+    // Forats: números (i signes, si cal) triats a l'atzar mentre l'encreuat es pugui resoldre pas a pas
+    function triarForats(g) {
+      const n = NIVELLS[config.nivell];
+      const nums = Object.keys(g.val);
+      const objNums = Math.max(2, Math.round(nums.length * n.forats));
+      const objSignes = config.que === 'signes' ? Math.max(1, Math.min(n.signes, g.ops.length - 1)) : 0;
+      const amagats = new Set();
+      let fets = { num: 0, signe: 0 };
+      const candidats = barrejar([...nums.map(k => ['num', k]), ...Object.keys(g.signe).map(k => ['signe', k])]);
+      // els signes primer, perquè no es quedin sense lloc
+      candidats.sort((x, y) => (x[0] === 'signe' ? 0 : 1) - (y[0] === 'signe' ? 0 : 1));
+      for (const [tipus, k] of candidats) {
+        if (tipus === 'num' ? fets.num >= objNums : fets.signe >= objSignes) continue;
+        amagats.add(k);
+        if (resoluble(g, amagats)) fets[tipus]++; else amagats.delete(k);
+      }
+      return amagats;
+    }
+
+    // ---------------- Començar ----------------
+    function comencar() {
+      let g = null, am = null;
+      for (let i = 0; i < 20 && !am; i++) {
+        g = generar(); if (!g) continue;
+        const a = triarForats(g);
+        if ([...a].some(k => g.val[k] !== undefined)) am = a;   // com a mínim un número amagat
+      }
+      if (!g || !am) { sacsejar($('btn-comencar')); $('pantalla-inici').querySelector('.explica').textContent = 'No surt cap encreuat amb aquestes opcions: prova d\'afegir alguna operació més.'; return; }
+      rows = g.rows; cols = g.cols; ops = g.ops;
+      graella = {};
+      g.ops.forEach((o, i) => o.forEach((k, j) => {
+        const [r, c] = k.split(',').map(Number);
+        const tipus = j === 1 ? 'signe' : j === 3 ? 'igual' : 'num';
+        const sol = tipus === 'num' ? g.val[k] : tipus === 'signe' ? g.signe[k] : '=';
+        graella[k] = graella[k] || { k, r, c, tipus, sol, amagat: am.has(k), posat: null, fitxa: null, estat: null, ops: [] };
+        graella[k].ops.push(i);
+      }));
+      errors = 0; errorsOp = ops.map(() => 0); acabat = false;
+      // Fitxes: les solucions dels forats (+ dues trampes a Difícil)
+      fitxes = Object.values(graella).filter(c => c.amagat).map(c => ({ v: c.sol, tipus: c.tipus, usada: false }));
+      if (config.nivell === 'dificil') for (let i = 0; i < 2; i++) {
+        const base = tria(fitxes.filter(f => f.tipus === 'num')).v;
+        let t = base + tria([-2, -1, 1, 2]); if (t < 1) t = base + 1;
+        fitxes.push({ v: t, tipus: 'num', usada: false });
+      }
+      fitxes = barrejar(fitxes).sort((a, b) => (a.tipus === 'signe') - (b.tipus === 'signe'));
+      const escriure = config.com === 'escriure';
+      $('fitxes').hidden = escriure;
+      $('entrada-caixa').hidden = !escriure;
+      $('signes').hidden = !(escriure && config.que === 'signes');
+      $('pantalla-inici').hidden = true; $('pantalla-joc').hidden = false;
+      entrada.buidar(); entrada.activar(escriure);
+      sel = primerBuit();
+      pintar();
+      mides(); requestAnimationFrame(mides);
+      mostrar('Omple les caselles blaves', escriure ? 'Toca una casella blava i escriu el número.' : 'Toca una fitxa (o arrossega-la) i va a la casella blava.');
+      pintarDades();
+      window.scrollTo({ top: 0 });
+    }
+
+    const buits = () => Object.values(graella).filter(c => c.amagat && c.posat === null);
+    function primerBuit(tipus) {
+      const b = buits().filter(c => !tipus || c.tipus === tipus).sort((x, y) => x.r - y.r || x.c - y.c);
+      return b.length ? b[0].k : null;
+    }
+
+    // ---------------- Dibuix ----------------
+    function pintar() {
+      const g = $('graella'); g.innerHTML = '';
+      g.style.setProperty('--cols', cols); g.style.setProperty('--rows', rows);
+      Object.values(graella).forEach(c => {
+        const el = document.createElement(c.amagat ? 'button' : 'div');
+        if (c.amagat) { el.type = 'button'; el.setAttribute('aria-label', c.tipus === 'signe' ? 'Signe per omplir' : 'Número per omplir'); }
+        el.className = 'cel' + (c.tipus === 'signe' ? ' signe' : c.tipus === 'igual' ? ' igual' : '');
+        el.dataset.k = c.k;
+        el.style.gridRow = c.r + 1; el.style.gridColumn = c.c + 1;
+        const t = c.amagat ? (c.posat ?? '') : c.sol;
+        el.textContent = t;
+        if (String(t).length >= 3) el.classList.add('tres');
+        if (c.amagat) {
+          el.classList.add('forat');
+          if (c.posat !== null) el.classList.add('ple');
+          if (sel === c.k && !acabat) el.classList.add('sel');
+          if (c.estat) el.classList.add(c.estat);
+        }
+        g.appendChild(el);
+      });
+      $('fitxes').innerHTML = '';
+      fitxes.forEach((f, i) => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'fitxa' + (f.tipus === 'signe' ? ' signe' : '') + (f.usada ? ' usada' : '');
+        b.dataset.f = i; b.textContent = f.v;
+        $('fitxes').appendChild(b);
+      });
+      const s = sel && graella[sel];
+      $('signes').querySelectorAll('button').forEach(b => b.disabled = !(s && s.tipus === 'signe'));
+      pintarMini();
+    }
+    // Dins la finestra del mòbil: l'operació de la casella triada, amb "?"
+    function pintarMini() {
+      const p = $('cel-mini'); p.textContent = '';
+      const c = sel && graella[sel]; if (!c) return;
+      ops[c.ops[0]].forEach(k => {
+        const x = graella[k];
+        if (k === sel) { const b = document.createElement('b'); b.textContent = '?'; p.append(b, ' '); }
+        else p.append((x.amagat ? (x.posat ?? '□') : x.sol) + ' ');
+      });
+    }
+
+    // Mida de les caselles segons l'espai
+    function mides() {
+      if ($('pantalla-joc').hidden || !graella) return;
+      const z = $('zona-graella'), gap = 4;
+      const vertical = matchMedia('(orientation: portrait)').matches;
+      const w = z.clientWidth;
+      const dalt = Pantalla.dalt(z);
+      const sota = vertical ? Pantalla.sota(z) : 0;
+      const h = Math.min(innerHeight, document.documentElement.clientHeight) - dalt - sota - 52;
+      const cel = Math.floor(Math.max(24, Math.min(64, (w - gap * (cols - 1)) / cols, (h - gap * (rows - 1)) / rows)));
+      $('graella').style.setProperty('--cel', cel + 'px');
+      $('tauler').style.setProperty('--fitxa', Math.max(40, Math.min(56, cel)) + 'px');
+    }
+    addEventListener('resize', () => { mides(); requestAnimationFrame(mides); });
+
+    // ---------------- Posar i treure ----------------
+    function posar(k, v, fi = null) {
+      const c = graella[k];
+      if (!c || !c.amagat || c.estat === 'be' || acabat) return;
+      if (c.posat !== null) treure(k);
+      c.posat = v; c.fitxa = fi;
+      if (fi !== null) fitxes[fi].usada = true;
+      sel = seguentBuit(k);
+      comprovar(c.ops);
+      if (!acabat) pintar();
+    }
+    function treure(k) {
+      const c = graella[k];
+      if (!c || c.estat === 'be' || c.posat === null) return;
+      if (c.fitxa !== null) fitxes[c.fitxa].usada = false;
+      c.posat = null; c.fitxa = null;
+      c.ops.forEach(i => ops[i].forEach(kk => { if (graella[kk].estat === 'mal') graella[kk].estat = null; }));
+    }
+    // Primer, una casella buida de la mateixa operació; si no, la primera buida
+    function seguentBuit(k) {
+      for (const i of graella[k].ops) for (const kk of ops[i]) { const x = graella[kk]; if (x.amagat && x.posat === null) return kk; }
+      return primerBuit();
+    }
+
+    // Tocar caselles i fitxes (i arrossegar fitxes)
+    let arr = null;
+    document.addEventListener('pointerdown', e => {
+      if ($('pantalla-joc').hidden || acabat || e.button > 0) return;
+      const f = e.target.closest('.fitxa:not(.usada)');
+      const cel = e.target.closest('.cel.forat');
+      if (!f && !cel) return;
+      e.preventDefault();
+      if (cel) { tocarCasella(cel.dataset.k); return; }
+      arr = { fi: Number(f.dataset.f), el: f, x: e.clientX, y: e.clientY, mogut: false, g: null, sobre: null };
+    });
+    document.addEventListener('pointermove', e => {
+      if (!arr) return;
+      if (!arr.mogut && Math.hypot(e.clientX - arr.x, e.clientY - arr.y) < 8) return;
+      if (!arr.mogut) {
+        arr.mogut = true;
+        const g = document.createElement('div'); g.className = 'fantasma';
+        const r = arr.el.getBoundingClientRect();
+        g.style.width = r.width + 'px'; g.style.height = r.height + 'px'; g.style.fontSize = getComputedStyle(arr.el).fontSize;
+        g.textContent = arr.el.textContent; document.body.appendChild(g); arr.g = g; arr.el.classList.add('arrossegant');
+      }
+      arr.g.style.left = e.clientX + 'px'; arr.g.style.top = e.clientY + 'px';
+      const sota = document.elementFromPoint(e.clientX, e.clientY);
+      const c = sota && sota.closest('.cel.forat');
+      if (arr.sobre && arr.sobre !== c) arr.sobre.classList.remove('sobre');
+      if (c) { c.classList.add('sobre'); arr.sobre = c; } else arr.sobre = null;
+    });
+    document.addEventListener('pointerup', e => {
+      if (!arr) return;
+      const a = arr; arr = null;
+      if (a.g) a.g.remove(); a.el.classList.remove('arrossegant');
+      const f = fitxes[a.fi];
+      if (!a.mogut) { usarFitxa(a.fi); return; }
+      const sota = document.elementFromPoint(e.clientX, e.clientY);
+      const c = sota && sota.closest('.cel.forat');
+      if (c && graella[c.dataset.k].tipus === f.tipus) posar(c.dataset.k, f.v, a.fi); else pintar();
+    });
+    document.addEventListener('pointercancel', () => { if (arr) { arr.g && arr.g.remove(); arr.el.classList.remove('arrossegant'); arr = null; } });
+
+    function tocarCasella(k) {
+      const c = graella[k];
+      if (c.estat === 'be') return;
+      if (c.posat !== null) treure(k);
+      sel = k; pintar();
+      if (config.com === 'escriure' && c.tipus === 'num') { entrada.buidar(); finestra.obrir(); }
+    }
+    function usarFitxa(fi) {
+      const f = fitxes[fi];
+      const k = sel && graella[sel] && graella[sel].tipus === f.tipus && graella[sel].posat === null ? sel : primerBuit(f.tipus);
+      if (k) posar(k, f.v, fi);
+    }
+    $('signes').addEventListener('click', e => {
+      const b = e.target.closest('button'); if (!b || !sel || graella[sel].tipus !== 'signe') return;
+      posar(sel, b.dataset.s);
+    });
+    $('btn-buidar').addEventListener('click', () => {
+      Object.values(graella).forEach(c => { if (c.amagat && c.estat !== 'be') { treure(c.k); c.estat = null; } });
+      sel = primerBuit(); pintar();
+    });
+
+    const entrada = EntradaNumero.crear($('entrada'), {
+      maxXifres: 3, clauMode: 'appjocs.encreuat.mode-entrada',
+      enEnviar: v => {
+        if (!sel || graella[sel].tipus !== 'num') { mostrar('Primer toca una casella blava', '', 'pista'); return; }
+        entrada.buidar(); finestra.tancar();
+        posar(sel, v);
+      },
+    });
+    const finestra = FinestraEntrada.crear({
+      entrada: $('entrada-caixa'), info: [$('missatge')],
+      avis: '👆 Toca una casella blava per escriure el número', enObrir: () => entrada.ajustar(),
+    });
+
+    // ---------------- Comprovar operacions ----------------
+    function comprovar(idx) {
+      for (const i of idx) {
+        const o = ops[i];
+        const cel = o.map(k => graella[k]);
+        if (cel.some(c => c.amagat && c.posat === null)) continue;
+        const v = c => c.amagat ? c.posat : c.sol;
+        const [A, S, B, , C] = cel;
+        if (cel.every(c => !c.amagat || c.posat === c.sol)) {
+          cel.forEach(c => { if (c.amagat) c.estat = 'be'; });
+          if (Object.values(graella).every(c => !c.amagat || c.estat === 'be')) return final();
+          setTimeout(() => Celebracio.petita($('graella').querySelector(`[data-k="${o[4]}"]`) || $('graella')), 0);
+          mostrar(Preferencies.felicitacio(`✓ ${A.sol} ${S.sol} ${B.sol} = ${C.sol}`), 'Molt bé! Continua amb una altra.', 'guanyat');
+          continue;
+        }
+        errors++; errorsOp[i]++;
+        cel.forEach(c => { if (c.amagat && c.posat !== null) c.estat = 'mal'; });
+        const quadra = fer(v(S), v(A), v(B)) === v(C);
+        setTimeout(() => o.forEach(k => { const el = $('graella').querySelector(`[data-k="${k}"]`); if (el) sacsejar(el); }), 0);
+        if (quadra) mostrar('Aquesta operació està bé…', 'però no encaixa amb les altres. Mira on es creuen!', 'pista');
+        else if (errorsOp[i] >= 2) mostrar('Encara no 🤔', 'Pista: ' + pistaOp(o), 'pista');
+        else mostrar('Alguna cosa no quadra', 'Toca la casella rosa per canviar-la.', 'error');
+      }
+      pintarDades();
+    }
+
+    function pistaOp(o) {
+      const [A, S, B, , C] = o.map(k => graella[k]);
+      const forats = [A, S, B, C].filter(c => c.amagat);
+      if (forats.length !== 1) return 'aquesta té més d\'un forat. Comença per una operació on només en falti un.';
+      if (S.amagat) return `quin signe fa que ${A.sol} ? ${B.sol} doni ${C.sol}? Prova'ls tots: + − × ÷`;
+      const a = A.sol, b = B.sol, c = C.sol, s = S.sol, am = A.amagat ? 0 : B.amagat ? 1 : 2;
+      const suma = (x, n) => n <= 5 ? Array(n).fill(x).join(' + ') : `${x} sumat ${n} vegades`;
+      if (s === '+') return am === 2 ? `ajunta ${a} i ${b}.` : `quant falta del ${am === 0 ? b : a} per arribar al ${c}?`;
+      if (s === '−') return am === 2 ? `compta enrere ${b} des del ${a}.` : am === 0 ? `quin número, si li treus ${b}, et deixa ${c}?` : `quant has de treure al ${a} per quedar-te amb ${c}?`;
+      if (s === '×') return am === 2 ? `${a} × ${b} és ${suma(a, b)}.` : `quin número per ${am === 0 ? b : a} fa ${c}?`;
+      return am === 2 ? `quin número per ${b} fa ${a}?` : am === 0 ? `${c} × ${b} = ?` : `quin número per ${c} fa ${a}?`;
+    }
+
+    // ---------------- Final ----------------
+    function final() {
+      acabat = true; sel = null; finestra.tancar(); entrada.activar(false);
+      pintar(); pintarDades();
+      const estrelles = errors === 0 ? 3 : errors <= 2 ? 2 : 1;
+      const sub = Preferencies.errors() ? (errors === 0 ? 'Sense cap error!' : `Amb ${errors} ${errors === 1 ? 'error' : 'errors'}.`) : 'Has omplert tot l\'encreuat.';
+      mostrar('🎉 Encreuat complet!', sub, 'guanyat');
+      Celebracio.gran({ titol: errors === 0 ? 'Encreuat perfecte!' : 'Encreuat complet!', emoji: errors === 0 ? '🏆' : '#️⃣', estrelles, subtitol: sub });
+    }
+
+    function pintarDades() {
+      const fets = ops.filter(o => o.every(k => !graella[k].amagat || graella[k].estat === 'be')).length;
+      $('dades').innerHTML = `<span class="dada">Operacions: <b>${fets}</b>/${ops.length}</span>`
+        + (Preferencies.errors() ? `<span class="dada">Errors: <b>${errors}</b></span>` : '');
+    }
+    function sacsejar(el) { el.classList.remove('sacseig'); void el.offsetWidth; el.classList.add('sacseig'); }
+    function mostrar(t, extra = '', estat = '') {
+      const m = $('missatge');
+      $('msg-text').textContent = t; $('msg-extra').textContent = extra;
+      m.classList.remove('es-pista', 'es-error', 'es-guanyat');
+      if (estat) m.classList.add('es-' + estat);
+    }
+
+    Pantalla.avisOrientacio('encreuat', { dins: document.getElementById('pantalla-inici') });
+  </script>
+</body>
+</html>

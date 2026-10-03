@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFBF3">
+  <title>Quin número falta? · AppJocs</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="icon" href="../../icons/icon-192.png">
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    /* Colors per rol (css/styles.css): verd = encert · rosa = error · groc = pista / temps que s'acaba ·
+       blau = carta per endevinar / opció triada · préssec = acció (Comencem?). Cartes i respostes neutres. */
+    .joc { width: 100%; max-width: 1100px; margin: 0 auto; }
+    [hidden] { display: none !important; }
+    h2.titol { font-size: 1.15rem; margin: 16px 0 8px; }
+
+    /* ---------- Pantalla d'inici ---------- */
+    .inici { max-width: 820px; margin: 0 auto; }
+    .opcions { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+    .opcions button {
+      font: inherit; cursor: pointer; color: var(--text); touch-action: manipulation;
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: 14px; box-shadow: var(--ombra);
+      min-height: 60px; padding: 8px; font-weight: 700; font-size: 1.1rem;
+    }
+    .opcions button small { display: block; font-weight: 500; font-size: .85rem; color: var(--text-suau); margin-top: 2px; }
+    .opcions button[aria-pressed="true"] { background: var(--c-info); border-color: var(--c-info-vora); }
+    .opcions button[aria-pressed="true"] small { color: var(--text); }
+    @media (hover: hover) { .opcions button:hover { border-color: var(--c-info-vora); } }
+    #op-operacions button { font-size: 1.9rem; font-weight: 900; }
+    @media (orientation: portrait) and (max-width: 600px), (orientation: landscape) and (max-height: 500px) {
+      main .inici #op-operacions { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      main .inici #op-operacions button { font-size: 1.6rem; }
+    }
+    @media (orientation: landscape) and (max-height: 500px) { main .inici .explica { display: none; } }
+    .explica { color: var(--text-suau); text-align: center; margin: 14px 0 0; }
+    .comencar { text-align: center; margin: 22px 0 8px; }
+    .comencar .btn { font-size: 1.3rem; padding: 14px 40px; }
+
+    /* ---------- Pantalla de joc ---------- */
+    .cap-joc { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 4px 0 12px; }
+    .dades { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .dada { background: var(--superficie); border: 1px solid var(--vora); border-radius: 999px; padding: 4px 12px; font-size: .95rem; }
+    .dada b { font-variant-numeric: tabular-nums; }
+    .dada.poc { background: var(--c-pista); border-color: var(--c-pista-vora); }
+    .botons-cap { display: flex; gap: 8px; }
+    .progres { display: inline-flex; gap: 4px; vertical-align: middle; margin-left: 4px; }
+    .progres i { width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--vora); background: var(--superficie); }
+    .progres i.be { background: var(--c-ok); border-color: var(--c-ok-vora); }
+    .progres i.ajuda { background: var(--c-pista); border-color: var(--c-pista-vora); }
+    .progres i.malament { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .progres i.fet { background: var(--vora); }
+    .progres i.ara { background: var(--c-info); border-color: var(--c-info-vora); }
+
+    .tauler {
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi);
+      padding: 16px; display: grid; gap: 16px 22px; align-items: center;
+      grid-template-columns: minmax(0, 1fr); grid-template-areas: "cartes" "resposta" "costat";
+    }
+    .tauler.escriure { grid-template-columns: minmax(0, 1fr) minmax(260px, 380px); grid-template-areas: "cartes resposta" "costat resposta"; }
+
+    /* Les cinc cartes: número · operació · número · = · resultat */
+    .cartes { grid-area: cartes; display: flex; justify-content: center; align-items: center; gap: clamp(6px, 1.4vw, 14px); min-height: var(--carta-h); --carta: clamp(64px, 15vw, 150px); --carta-h: calc(var(--carta) * 1.2); }
+    .escriure .cartes { --carta: clamp(60px, 9vw, 120px); }
+    .carta {
+      width: var(--carta); height: var(--carta-h); display: grid; place-items: center; border-radius: 18px;
+      background: var(--fons); border: 3px solid var(--vora); box-shadow: var(--ombra);
+      font-weight: 900; font-size: calc(var(--carta) * .5); font-variant-numeric: tabular-nums; line-height: 1;
+      font-family: inherit; color: var(--text); padding: 0;
+    }
+    .carta.tres { font-size: calc(var(--carta) * .38); }
+    .carta.signe { width: calc(var(--carta) * .6); background: none; border-color: transparent; box-shadow: none; font-size: calc(var(--carta) * .55); }
+    .carta.amagada { background: color-mix(in srgb, var(--c-info) 25%, white); border: 3px dashed var(--c-info-vora); color: var(--c-info-vora); }
+    button.carta.amagada { cursor: pointer; }
+    .carta.be { background: var(--c-ok); border: 3px solid var(--c-ok-vora); color: var(--text); }
+    .carta.dita { background: var(--c-pista); border: 3px solid var(--c-pista-vora); color: var(--text); }
+    .carta.buida { visibility: hidden; }
+    @keyframes apareix { from { transform: scale(.3) rotate(-8deg); opacity: 0; } 70% { transform: scale(1.08); opacity: 1; } to { transform: none; } }
+    .carta.apareix { animation: apareix .35s ease-out both; animation-delay: calc(var(--n) * 90ms); }
+    @media (prefers-reduced-motion: reduce) { .carta.apareix { animation: none; } }
+
+    .resposta { grid-area: resposta; min-width: 0; }
+    .opcions-resposta { display: grid; gap: clamp(10px, 2vw, 18px); grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); max-width: 720px; margin: 0 auto; }
+    .opcio {
+      font: inherit; font-weight: 900; font-size: clamp(1.8rem, 5vw, 2.6rem); color: var(--text); cursor: pointer; touch-action: manipulation;
+      min-height: clamp(64px, 12vh, 100px); background: var(--fons); border: 3px solid var(--vora); border-radius: 18px; box-shadow: var(--ombra);
+      font-variant-numeric: tabular-nums; transition: transform .1s;
+    }
+    .opcio:active { transform: scale(.97); }
+    @media (hover: hover) { .opcio:not(:disabled):hover { border-color: var(--c-info-vora); } }
+    .opcio:disabled { cursor: default; }
+    .opcio.errada { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); text-decoration: line-through; opacity: .7; }
+    .opcio.correcta { background: var(--c-ok); border-color: var(--c-ok-vora); }
+    .entrada-caixa { background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi); padding: 12px; }
+    .entrada-caixa p { margin: 0 0 8px; text-align: center; font-weight: 700; }
+    #op-mini { display: none; }
+    .fe-finestra #op-mini { display: block; margin: 0 0 8px; text-align: center; font-size: 2rem; font-weight: 900; font-variant-numeric: tabular-nums; }
+    .fe-finestra #op-mini b { color: var(--c-info-vora); }
+
+    .costat { grid-area: costat; display: flex; flex-direction: column; gap: 12px; align-items: stretch; min-width: 0; }
+    .gira { text-align: center; }
+    .gira .btn { font-size: 1.35rem; padding: 12px 34px; }
+    .missatge {
+      min-height: 3.2rem; padding: 8px 12px; border-radius: var(--radi); text-align: center;
+      background: var(--superficie); border: 2px solid var(--vora); font-weight: 700; font-size: 1.1rem;
+      display: flex; flex-direction: column; justify-content: center; gap: 2px;
+    }
+    .missatge small { font-weight: 500; font-size: .95rem; }
+    .missatge small:empty { display: none; }
+    .missatge.es-pista   { background: var(--c-pista);    border-color: var(--c-pista-vora); }
+    .missatge.es-error   { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .missatge.es-guanyat { background: var(--c-ok);       border-color: var(--c-ok-vora); }
+    @keyframes sacseig { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+    .sacseig { animation: sacseig .25s 2; }
+
+    /* Horitzontal baix (tauletes) */
+    @media (orientation: landscape) and (max-height: 820px) {
+      .cap-joc { margin: 0 0 8px; }
+      .cap-joc .btn { padding: 6px 14px; }
+      .tauler { padding: 14px; gap: 12px 20px; }
+      .missatge { min-height: 0; padding: 6px 10px; }
+      h2.titol { margin: 10px 0 6px; }
+      .opcions button { min-height: 50px; }
+      .comencar { margin: 14px 0 4px; }
+      .cartes { --carta: clamp(60px, 18vh, 140px); }
+      .escriure .cartes { --carta: clamp(56px, 13vh, 110px); }
+    }
+    /* Vertical (tauleta): cartes, resposta i missatge un sota l'altre */
+    @media (orientation: portrait) {
+      .tauler.escriure { grid-template-columns: minmax(0, 1fr); grid-template-areas: "cartes" "costat" "resposta"; }
+      .escriure .cartes { --carta: clamp(56px, 15vw, 120px); }
+      .escriure .resposta { max-width: 460px; width: 100%; justify-self: center; }
+    }
+    /* Mòbil: compacte; per escriure s'obre la finestra d'entrada */
+    @media (orientation: portrait) and (max-width: 600px), (orientation: landscape) and (max-height: 500px) {
+      .barra-joc { padding: 6px 0; }
+      .barra-joc h1 { font-size: 1.1rem; }
+      .cap-joc { margin: 0 0 8px; gap: 6px; flex-wrap: nowrap; }
+      .dades { gap: 4px; }
+      .dada { font-size: .8rem; padding: 2px 8px; }
+      .progres i { width: 8px; height: 8px; }
+      .cap-joc .btn { padding: 5px 10px; font-size: .85rem; white-space: nowrap; }
+      .tauler, .tauler.escriure { padding: 12px; gap: 12px; grid-template-columns: minmax(0, 1fr); grid-template-areas: "cartes" "resposta" "costat"; }
+      .cartes, .escriure .cartes { --carta: clamp(48px, 15vw, 80px); gap: 5px; }
+      .opcio { min-height: 56px; font-size: 1.7rem; }
+      .gira .btn { font-size: 1.15rem; padding: 10px 26px; }
+      .missatge { min-height: 0; padding: 6px 10px; font-size: 1rem; }
+      .missatge small { font-size: .85rem; }
+    }
+    @media (orientation: portrait) and (max-width: 600px) { .progres { display: none; } }
+    @media (orientation: landscape) and (max-height: 500px) {
+      .tauler, .tauler.escriure { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); grid-template-areas: "cartes costat" "resposta costat"; }
+      .cartes, .escriure .cartes { --carta: clamp(44px, 15vh, 70px); }
+      .opcio { min-height: 48px; font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="barra-joc">
+    <a href="../../">← Inici</a>
+    <h1>🧮 Quin número falta?</h1>
+  </nav>
+
+  <main class="joc">
+    <!-- ================= INICI ================= -->
+    <section class="inici" id="pantalla-inici">
+      <div class="grup">
+        <h2 class="titol">1. Com vols jugar?</h2>
+        <div class="opcions" id="op-mode">
+          <button type="button" data-v="ronda" aria-pressed="true">🔁 Ronda<small>10 operacions</small></button>
+          <button type="button" data-v="contra" aria-pressed="false" id="mode-contra">⏱️ Contrarellotge<small>totes les que puguis en 1 minut</small></button>
+          <button type="button" data-v="lliure" aria-pressed="false">♾️ Lliure<small>les que vulguis</small></button>
+        </div>
+      </div>
+
+      <div class="grup">
+        <h2 class="titol">2. Dificultat</h2>
+        <div class="opcions" id="op-nivell">
+          <button type="button" data-v="facil" aria-pressed="true">🌱 Fàcil<small>fins a 10 · tria entre 3</small></button>
+          <button type="button" data-v="mitja" aria-pressed="false">Mitjà<small>fins a 20 · tria entre 4</small></button>
+          <button type="button" data-v="dificil" aria-pressed="false">Difícil<small>fins a 100 · escriu-lo</small></button>
+        </div>
+      </div>
+
+      <div class="grup">
+        <h2 class="titol">3. Operacions <small id="ops-avis" style="font-weight:500;color:var(--text-suau)">(en pots triar més d'una)</small></h2>
+        <div class="opcions" id="op-operacions">
+          <button type="button" data-v="+" aria-pressed="true" aria-label="Sumes">+</button>
+          <button type="button" data-v="−" aria-pressed="false" aria-label="Restes">−</button>
+          <button type="button" data-v="×" aria-pressed="false" aria-label="Multiplicacions">×</button>
+          <button type="button" data-v="÷" aria-pressed="false" aria-label="Divisions">÷</button>
+        </div>
+      </div>
+
+      <div class="grup">
+        <h2 class="titol">4. Quin número endevines?</h2>
+        <div class="opcions" id="op-que">
+          <button type="button" data-v="resultat" aria-pressed="true">🎯 El resultat<small>3 + 4 = ?</small></button>
+          <button type="button" data-v="qualsevol" aria-pressed="false">🔀 Qualsevol<small>3 + ? = 7</small></button>
+        </div>
+      </div>
+
+      <p class="explica">Prem «Comencem?» i apareixeran els números d'una operació amb un d'amagat.</p>
+      <div class="comencar"><button class="btn" id="btn-comencar" type="button">Comença! 🧮</button></div>
+    </section>
+
+    <!-- ================= JOC ================= -->
+    <section id="pantalla-joc" hidden>
+      <div class="cap-joc">
+        <div class="dades" id="dades"></div>
+        <div class="botons-cap">
+          <button class="btn" id="btn-acabar" type="button" hidden>🏁 Acabar</button>
+          <button class="btn" id="btn-nova" type="button">Nova partida</button>
+        </div>
+      </div>
+
+      <div class="tauler" id="tauler">
+        <div class="cartes" id="cartes" aria-live="polite"></div>
+        <div class="resposta" id="resposta">
+          <div class="opcions-resposta" id="opcions-resposta"></div>
+          <div class="entrada-caixa" id="entrada-caixa" hidden>
+            <p id="op-mini"></p>
+            <div id="entrada"></div>
+          </div>
+        </div>
+        <div class="costat">
+          <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
+          <div class="gira"><button class="btn" id="btn-gira" type="button">▶ Comencem?</button></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../js/reconeixedor-xifres.js"></script>
+  <script src="../../js/entrada-numero.js"></script>
+  <script src="../../js/finestra-entrada.js"></script>
+  <script src="../../js/pantalla.js"></script>
+  <script src="../../js/preferencies.js"></script>
+  <script src="../../js/celebracio.js"></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    const RONDA = 10, CONTRA_S = 60;
+    const config = { mode: 'ronda', nivell: 'facil', ops: ['+'], que: 'resultat' };
+    // Fàcil: + − fins a 10, taules de l'1 al 5 · Mitjà: fins a 20, taules de l'1 al 10 · Difícil: fins a 100
+    const NIVELLS = {
+      facil:   { max: 10,  taula: [2, 5],  opcions: 3 },
+      mitja:   { max: 20,  taula: [2, 10], opcions: 4 },
+      dificil: { max: 100, taula: [2, 12], opcions: 0 },
+    };
+    let op, anterior, resultats, fetes, encerts, errorsOp, esperant, acabat, seguent;
+    let tempsFi, tempsResta, rellotge;
+
+    const aleatori = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+    const barrejar = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+
+    // ---------------- Inici ----------------
+    function grupOpcions(id, clau) {
+      $(id).addEventListener('click', e => {
+        const b = e.target.closest('button'); if (!b || !b.dataset.v) return;
+        $(id).querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+        config[clau] = b.dataset.v;
+      });
+    }
+    grupOpcions('op-mode', 'mode'); grupOpcions('op-nivell', 'nivell'); grupOpcions('op-que', 'que');
+    // Operacions: se'n poden triar diverses (com a mínim una)
+    $('op-operacions').addEventListener('click', e => {
+      const b = e.target.closest('button'); if (!b) return;
+      const on = b.getAttribute('aria-pressed') === 'true';
+      if (on && config.ops.length === 1) { b.classList.remove('sacseig'); void b.offsetWidth; b.classList.add('sacseig'); return; }
+      b.setAttribute('aria-pressed', !on);
+      config.ops = [...$('op-operacions').querySelectorAll('[aria-pressed="true"]')].map(x => x.dataset.v);
+    });
+    // Sense temporitzador (opcions generals) no hi ha contrarellotge
+    if (!Preferencies.temps()) $('mode-contra').hidden = true;
+
+    $('btn-comencar').addEventListener('click', comencar);
+    $('btn-nova').addEventListener('click', () => { aturarRellotge(); clearTimeout(seguent); finestra.tancar(); Celebracio.tancar(); $('pantalla-joc').hidden = true; $('pantalla-inici').hidden = false; });
+    $('btn-acabar').addEventListener('click', () => final());
+
+    function comencar() {
+      if (config.mode === 'contra' && !Preferencies.temps()) config.mode = 'ronda';
+      resultats = []; fetes = 0; encerts = 0; anterior = null; acabat = false; op = null; esperant = false;
+      tempsResta = CONTRA_S * 1000; tempsFi = null;
+      const escriure = config.nivell === 'dificil';
+      $('tauler').classList.toggle('escriure', escriure);
+      $('entrada-caixa').hidden = !escriure;
+      $('opcions-resposta').hidden = escriure;
+      $('btn-acabar').hidden = config.mode !== 'lliure';
+      $('pantalla-inici').hidden = true; $('pantalla-joc').hidden = false;
+      cartesBuides();
+      $('opcions-resposta').innerHTML = '';
+      entrada.buidar(); entrada.activar(false); entrada.ajustar();
+      $('btn-gira').hidden = false; $('btn-gira').disabled = false;
+      $('btn-gira').textContent = '▶ Comencem?';
+      mostrar(config.mode === 'contra' ? 'Tens 1 minut ⏱️' : 'Prem «Comencem?»',
+        config.mode === 'contra' ? 'Quan premis «Comencem?» comença el temps. Fes-ne tantes com puguis!' : 'Apareixerà una operació amb un número amagat.');
+      pintarDades();
+      window.scrollTo({ top: 0 });
+    }
+
+    // ---------------- Generar operacions ----------------
+    // Sense negatius, divisions exactes, sense +0, ×1 ni ÷1
+    function generar() {
+      const n = NIVELLS[config.nivell];
+      for (let t = 0; t < 100; t++) {
+        const s = config.ops[aleatori(0, config.ops.length - 1)];
+        let a, b, c;
+        if (s === '+') { c = aleatori(Math.min(4, n.max), n.max); a = aleatori(1, c - 1); b = c - a;
+          if (n.max === 100 && (a < 3 || b < 3)) continue; }
+        else if (s === '−') { a = aleatori(Math.min(4, n.max), n.max); b = aleatori(1, a - 1); c = a - b;
+          if (n.max === 100 && (b < 3 || c < 3)) continue; }
+        else if (s === '×') { a = aleatori(n.taula[0], n.taula[1]); b = aleatori(n.taula[0], n.max === 100 ? Math.min(12, Math.floor(100 / a)) : n.taula[1]); c = a * b;
+          if (n.max === 100 && c > 100) continue;
+          if (n.max === 10 && b > 5) continue; }
+        else { const d = aleatori(n.taula[0], n.taula[1]); const q = aleatori(n.taula[0], n.max === 100 ? Math.min(12, Math.floor(100 / d)) : n.taula[1]);
+          a = d * q; b = d; c = q; if (n.max === 100 && a > 100) continue; }
+        if (b < 1 || a < 1 || c < 0) continue;
+        const clau = `${a}${s}${b}`;
+        if (clau === anterior) continue;
+        anterior = clau;
+        const amagat = config.que === 'resultat' ? 2 : aleatori(0, 2);   // 0 = primer, 1 = segon, 2 = resultat
+        return { a, s, b, c, amagat, valor: [a, b, c][amagat] };
+      }
+      return { a: 2, s: '+', b: 3, c: 5, amagat: 2, valor: 5 };
+    }
+
+    // ---------------- Comencem? (apareixen els números) ----------------
+    $('btn-gira').addEventListener('click', gira);
+    function gira() {
+      if (acabat) return;
+      clearTimeout(seguent);
+      if (config.mode === 'contra' && tempsFi === null) iniciarRellotge();
+      op = generar(); errorsOp = 0; esperant = true;
+      pintarCartes(true);
+      $('btn-gira').hidden = true;
+      if (config.nivell === 'dificil') {
+        entrada.buidar(); entrada.activar(true); entrada.ajustar(); pintarOpMini();
+        mostrar('Quin número falta?', finestra.activa() ? 'Toca la carta blava per escriure\'l.' : 'Escriu-lo i prem OK.');
+        if (!finestra.activa()) setTimeout(() => entrada.enfocar && entrada.enfocar(), 50);
+      } else {
+        pintarOpcions();
+        mostrar('Quin número falta?', 'Tria\'l entre els de sota.');
+      }
+      pintarDades();
+    }
+
+    const text = n => String(n);
+    function cartesBuides() {
+      $('cartes').innerHTML = '';
+      ['', '', '', '=', ''].forEach((t, i) => {
+        const d = document.createElement('div'); d.className = 'carta' + (i === 1 || i === 3 ? ' signe' : '') + (i !== 3 ? ' buida' : '');
+        d.textContent = t; $('cartes').appendChild(d);
+      });
+    }
+    // Cartes: a · signe · b · = · c (la carta amagada és blava amb "?")
+    function pintarCartes(animar, estat) {
+      const vals = [op.a, op.s, op.b, '=', op.c];
+      const posAmagat = [0, 2, 4][op.amagat];
+      $('cartes').innerHTML = '';
+      vals.forEach((v, i) => {
+        const amagada = i === posAmagat;
+        const el = document.createElement(amagada && esperant ? 'button' : 'div');
+        if (el.tagName === 'BUTTON') { el.type = 'button'; el.setAttribute('aria-label', 'Número amagat: toca per escriure'); }
+        el.className = 'carta' + (i === 1 || i === 3 ? ' signe' : '');
+        if (amagada) el.classList.add(estat || (esperant ? 'amagada' : 'be'));
+        el.textContent = amagada && esperant ? '?' : text(v);
+        if (String(el.textContent).length >= 3) el.classList.add('tres');
+        if (animar) { el.classList.add('apareix'); el.style.setProperty('--n', i); }
+        $('cartes').appendChild(el);
+      });
+    }
+    $('cartes').addEventListener('click', e => { if (e.target.closest('.carta.amagada') && esperant) finestra.obrir(); });
+    function pintarOpMini() {
+      const p = $('op-mini'); p.textContent = '';
+      const parts = [op.a, ` ${op.s} `, op.b, ' = ', op.c];
+      const pos = [0, 2, 4][op.amagat];
+      parts.forEach((x, i) => { if (i === pos) { const b = document.createElement('b'); b.textContent = '?'; p.append(b); } else p.append(String(x)); });
+    }
+
+    // Opcions (Fàcil 3, Mitjà 4): la bona i trampes properes
+    function trampes() {
+      const v = op.valor, n = NIVELLS[config.nivell];
+      const cand = new Set();
+      [1, -1, 2, -2, 10, -10].forEach(d => cand.add(v + d));
+      const { a, b, c } = op;
+      if (op.amagat === 2) [a + b, Math.abs(a - b), a * b].forEach(x => cand.add(x));   // una altra operació
+      else [c + (op.amagat === 0 ? b : a), Math.abs(c - (op.amagat === 0 ? b : a))].forEach(x => cand.add(x));
+      const bones = [...cand].filter(x => x !== v && x >= 0 && x <= Math.max(n.max, v + 10));
+      const properes = barrejar(bones.filter(x => Math.abs(x - v) <= 2));
+      const altres = barrejar(bones.filter(x => Math.abs(x - v) > 2));
+      return [...properes.slice(0, 1), ...altres, ...properes.slice(1)].slice(0, n.opcions - 1);
+    }
+    function pintarOpcions() {
+      const cont = $('opcions-resposta'); cont.innerHTML = '';
+      const vals = barrejar([op.valor, ...trampes()]);
+      cont.style.setProperty('--n', vals.length);
+      vals.forEach(v => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'opcio'; b.textContent = v; b.dataset.v = v;
+        cont.appendChild(b);
+      });
+    }
+    $('opcions-resposta').addEventListener('click', e => {
+      const b = e.target.closest('.opcio'); if (!b || b.disabled || !esperant) return;
+      respondre(Number(b.dataset.v), b);
+    });
+
+    // Difícil: entrada de números (teclat o dibuix); al mòbil, en una finestra
+    const entrada = EntradaNumero.crear($('entrada'), {
+      maxXifres: 3,
+      clauMode: 'appjocs.quin-numero.mode-entrada',
+      enEnviar: v => { if (esperant) respondre(v); },
+    });
+    const finestra = FinestraEntrada.crear({
+      entrada: $('entrada-caixa'), info: [$('missatge')],
+      avis: '👆 Toca la carta blava per escriure el número',
+      enObrir: () => entrada.ajustar(),
+    });
+
+    // ---------------- Respondre ----------------
+    function respondre(v, boto) {
+      if (v === op.valor) {
+        esperant = false; fetes++; encerts++;
+        resultats.push(errorsOp === 0 ? 'be' : 'ajuda');
+        if (boto) boto.classList.add('correcta');
+        $('opcions-resposta').querySelectorAll('.opcio').forEach(x => x.disabled = true);
+        entrada.buidar(); entrada.activar(false); finestra.tancar();
+        pintarCartes(false, 'be');
+        Celebracio.petita($('cartes').querySelector('.carta.be') || $('cartes'));
+        mostrar(Preferencies.felicitacio(`✓ Molt bé, ${op.valor}!`), frase(), 'guanyat');
+        return despres();
+      }
+      errorsOp++;
+      if (boto) { boto.classList.add('errada'); boto.disabled = true; sacsejar(boto); }
+      else { entrada.sacsejar(); entrada.buidar(); }
+      if (config.mode === 'contra') {           // contrarellotge: sense pistes llargues, a provar ràpid
+        mostrar(`No és el ${v}`, 'Torna-ho a provar!', 'error');
+        pintarDades(); return;
+      }
+      if (errorsOp === 1) mostrar(`No és el ${v}`, 'Torna-ho a provar.', 'error');
+      else if (errorsOp === 2) mostrar(`No és el ${v}`, 'Pista: ' + pista(), 'pista');
+      else {
+        esperant = false; fetes++;
+        resultats.push('malament');
+        $('opcions-resposta').querySelectorAll('.opcio').forEach(x => { x.disabled = true; if (Number(x.dataset.v) === op.valor) x.classList.add('correcta'); });
+        entrada.buidar(); entrada.activar(false); finestra.tancar();
+        pintarCartes(false, 'dita');
+        mostrar(`Era el ${op.valor}`, frase(), 'pista');
+        return despres(2400);
+      }
+      pintarDades();
+    }
+
+    function despres(ms) {
+      pintarDades();
+      if (config.mode === 'ronda' && fetes >= RONDA) { seguent = setTimeout(final, ms || 1200); return; }
+      // Només es pregunta «Comencem?» la primera vegada: després la següent operació surt sola
+      const espera = config.mode === 'contra' ? 650 : (ms || 1500);
+      seguent = setTimeout(() => { if (!acabat && !$('pantalla-joc').hidden) gira(); }, espera);
+    }
+
+    const frase = () => `${op.a} ${op.s} ${op.b} = ${op.c}`;
+    // Pista (2n error): orienta sense donar la resposta
+    function pista() {
+      const { a, s, b, c, amagat } = op;
+      const suma = (x, n) => n <= 5 ? Array(n).fill(x).join(' + ') : `${x} sumat ${n} vegades`;
+      if (s === '+') return amagat === 2 ? `ajunta ${a} i ${b}: compta ${b} més a partir del ${a}.`
+        : `quant falta del ${amagat === 0 ? b : a} per arribar al ${c}?`;
+      if (s === '−') return amagat === 2 ? `compta enrere ${b} des del ${a}.`
+        : amagat === 0 ? `quin número, si li treus ${b}, et deixa ${c}? Prova ${c} + ${b}.`
+        : `quant has de treure al ${a} per quedar-te amb ${c}?`;
+      if (s === '×') return amagat === 2 ? `${a} × ${b} és ${suma(a, b)}.`
+        : `quin número per ${amagat === 0 ? b : a} fa ${c}? Pensa en la taula del ${amagat === 0 ? b : a}.`;
+      return amagat === 2 ? `quin número per ${b} fa ${a}?`
+        : amagat === 0 ? `${c} × ${b} = ?` : `quin número per ${c} fa ${a}?`;
+    }
+
+    // ---------------- Contrarellotge ----------------
+    function iniciarRellotge() { tempsFi = performance.now() + tempsResta; tic(); }
+    function tic() {
+      clearTimeout(rellotge);
+      if (tempsFi === null || acabat) return;
+      tempsResta = Math.max(0, tempsFi - performance.now());
+      pintarDades();
+      if (tempsResta <= 0) { final(); return; }
+      rellotge = setTimeout(tic, 250);
+    }
+    function aturarRellotge() { clearTimeout(rellotge); }
+    document.addEventListener('visibilitychange', () => {
+      if (config.mode !== 'contra' || tempsFi === null || acabat || $('pantalla-joc').hidden) return;
+      if (document.hidden) { tempsResta = Math.max(0, tempsFi - performance.now()); aturarRellotge(); }
+      else { tempsFi = performance.now() + tempsResta; tic(); }
+    });
+
+    // ---------------- Final ----------------
+    function final() {
+      if (acabat) return;
+      acabat = true; esperant = false; aturarRellotge(); clearTimeout(seguent);
+      entrada.activar(false); finestra.tancar();
+      $('opcions-resposta').querySelectorAll('.opcio').forEach(x => x.disabled = true);
+      $('btn-gira').hidden = true;
+      if (config.mode === 'contra') { tempsResta = 0; pintarDades(); }
+      const nets = resultats.filter(r => r === 'be').length;
+      const comptar = Preferencies.errors();
+      let titol, subtitol, estrelles, emoji = '🧮';
+      if (config.mode === 'contra') {
+        titol = "S'ha acabat el temps!"; emoji = '⏱️';
+        subtitol = `${encerts} ${encerts === 1 ? 'operació' : 'operacions'} en 1 minut`;
+        estrelles = encerts >= 15 ? 3 : encerts >= 8 ? 2 : 1;
+      } else if (config.mode === 'ronda') {
+        titol = nets === RONDA ? 'Totes a la primera!' : 'Ronda acabada!'; if (nets === RONDA) emoji = '🏆';
+        subtitol = `${nets} de ${RONDA} a la primera`;
+        const mal = resultats.filter(r => r === 'malament').length;
+        estrelles = nets >= 9 ? 3 : mal <= 2 ? 2 : 1;
+      } else {
+        titol = 'Molt bona feina!';
+        subtitol = fetes ? `${fetes} ${fetes === 1 ? 'operació' : 'operacions'} · ${nets} a la primera` : 'Prem «Comencem?» la propera vegada!';
+        estrelles = !fetes ? 1 : nets / fetes >= .9 ? 3 : nets / fetes >= .6 ? 2 : 1;
+      }
+      if (comptar && config.mode !== 'lliure') {
+        const valor = config.mode === 'contra' ? encerts : nets;
+        const clau = `appjocs.quin-numero.record.${config.mode}.${config.nivell}.${[...config.ops].sort().join('')}.${config.que}`;
+        let record = null; try { const v = localStorage.getItem(clau); record = v === null ? null : Number(v); } catch {}
+        const nou = record === null || valor > record;
+        if (nou) { try { localStorage.setItem(clau, String(valor)); } catch {} }
+        subtitol += nou ? (record !== null ? ' · 🏅 Nou rècord!' : '') : ` · Rècord: ${record}`;
+      }
+      if (!comptar) {   // sense comptar errors: títol i text neutres (sense "a la primera")
+        titol = config.mode === 'contra' ? "S'ha acabat el temps!" : config.mode === 'ronda' ? 'Ronda acabada!' : 'Molt bona feina!';
+        emoji = config.mode === 'contra' ? '⏱️' : '🧮';
+        subtitol = config.mode === 'contra' ? `${encerts} operacions en 1 minut` : config.mode === 'ronda' ? `Has fet les ${RONDA} operacions.` : `Has fet ${fetes} ${fetes === 1 ? 'operació' : 'operacions'}.`;
+      }
+      mostrar('🎉 ' + titol, subtitol, 'guanyat');
+      Celebracio.gran({ titol, subtitol, emoji, estrelles });
+    }
+
+    // ---------------- Dades i missatges ----------------
+    function pintarDades() {
+      const comptar = Preferencies.errors();
+      let html = '';
+      if (config.mode === 'ronda') {
+        const punts = Array.from({ length: RONDA }, (_, i) =>
+          `<i class="${i < resultats.length ? (comptar ? resultats[i] : 'fet') : (i === resultats.length && op && esperant) ? 'ara' : ''}"></i>`).join('');
+        html = `<span class="dada">Operació <b>${Math.min(fetes + (esperant ? 1 : 0), RONDA) || 1}</b>/${RONDA} <span class="progres">${punts}</span></span>`;
+      } else if (config.mode === 'contra') {
+        const s = Math.ceil(tempsResta / 1000);
+        html = `<span class="dada${s <= 10 ? ' poc' : ''}">⏱️ <b>0:${String(s).padStart(2, '0')}</b></span>`;
+      }
+      if (comptar || config.mode !== 'ronda') html += `<span class="dada">Encerts: <b>${encerts}</b></span>`;
+      $('dades').innerHTML = html;
+    }
+    function sacsejar(el) { el.classList.remove('sacseig'); void el.offsetWidth; el.classList.add('sacseig'); }
+    function mostrar(t, extra = '', estat = '') {
+      const m = $('missatge');
+      $('msg-text').textContent = t; $('msg-extra').textContent = extra;
+      m.classList.remove('es-pista', 'es-error', 'es-guanyat');
+      if (estat) m.classList.add('es-' + estat);
+    }
+
+    Pantalla.avisOrientacio('quin-numero', { dins: document.getElementById('pantalla-inici') });
+  </script>
+</body>
+</html>

@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFBF3">
+  <title>Dibuix secret · AppJocs</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="icon" href="../../icons/icon-192.png">
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    /* Colors per rol: rosa = casella equivocada · groc = pista · blau = opció triada · verd = acabat.
+       Els colors dels dibuixos (dibuixos.json) són una excepció, com el confeti. */
+    .joc { width: 100%; max-width: 1180px; margin: 0 auto; }
+    [hidden] { display: none !important; }
+    h2.titol { font-size: 1.15rem; margin: 16px 0 8px; }
+
+    /* ---------- Inici ---------- */
+    .inici { max-width: 800px; margin: 0 auto; }
+    .opcions { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+    .opcions button {
+      font: inherit; cursor: pointer; color: var(--text); touch-action: manipulation;
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: 14px; box-shadow: var(--ombra);
+      min-height: 60px; padding: 8px; font-weight: 700; font-size: 1.1rem;
+    }
+    .opcions button small { display: block; font-weight: 500; font-size: .85rem; color: var(--text-suau); margin-top: 2px; }
+    .opcions button[aria-pressed="true"] { background: var(--c-info); border-color: var(--c-info-vora); }
+    .opcions button[aria-pressed="true"] small { color: var(--text); }
+    @media (hover: hover) { .opcions button:hover { border-color: var(--c-info-vora); } }
+    @media (orientation: landscape) and (max-height: 500px) { main .inici .explica { display: none; } }
+    .explica { color: var(--text-suau); text-align: center; margin: 14px 0 0; }
+    .comencar { text-align: center; margin: 22px 0 8px; }
+    .comencar .btn { font-size: 1.3rem; padding: 14px 40px; }
+    .comencar .btn:disabled { opacity: .5; }
+
+    /* ---------- Joc ---------- */
+    .cap-joc { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 4px 0 10px; }
+    .dades { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .dada { background: var(--superficie); border: 1px solid var(--vora); border-radius: 999px; padding: 4px 12px; font-size: .95rem; }
+    .dada b { font-variant-numeric: tabular-nums; }
+
+    .tauler {
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi); padding: 12px;
+      display: grid; gap: 12px 22px; align-items: center; justify-items: center;
+      grid-template-columns: auto minmax(240px, 380px); grid-template-areas: "graella panell";
+      justify-content: center;
+    }
+    .quadricula {
+      grid-area: graella; display: grid; gap: 2px; grid-template-columns: repeat(var(--n), var(--q, 40px));
+      touch-action: none; user-select: none; -webkit-user-select: none;
+    }
+    .q {
+      width: var(--q, 40px); height: var(--q, 40px); padding: 0; display: grid; place-items: center;
+      font: inherit; font-weight: 700; font-size: calc(var(--q, 40px) * .38); font-variant-numeric: tabular-nums; color: var(--text);
+      background: var(--superficie); border: 1px solid var(--vora); border-radius: calc(var(--q, 40px) * .14); cursor: pointer;
+      transition: background-color .2s, color .2s;
+    }
+    .q.pintat { color: rgba(255, 255, 255, .9); border-color: transparent; }
+    .q.fosc { color: rgba(59, 51, 85, .75); }
+    .q.mal { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .q.ensenya { background: var(--c-pista); border: 2px solid var(--c-pista-vora); animation: avisa .6s 3; }
+    @keyframes avisa { 50% { transform: scale(1.2); } }
+    .acabat .q { cursor: default; }
+    .acabat .q:not(.pintat) { color: transparent; border-color: transparent; background: transparent; }
+    .acabat .q.pintat { color: transparent; border-radius: 0; }
+    .acabat.quadricula { gap: 0; }
+    @keyframes sacseig { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+    .sacseig { animation: sacseig .25s 2; }
+
+    .panell { grid-area: panell; display: flex; flex-direction: column; gap: 12px; width: 100%; min-width: 0; }
+    .ordre {
+      background: var(--fons); border: 2px solid var(--vora); border-radius: var(--radi); padding: 12px; text-align: center;
+      display: flex; flex-direction: column; gap: 8px; align-items: center;
+    }
+    .ordre .pinta { font-weight: 700; color: var(--text-suau); }
+    .llapis { display: inline-flex; align-items: center; gap: 8px; padding: 4px 14px 4px 6px; border-radius: 999px; background: var(--superficie); border: 2px solid var(--vora); font-weight: 800; }
+    .llapis i { width: 26px; height: 26px; border-radius: 50%; display: inline-block; border: 2px solid rgba(0, 0, 0, .15); }
+    .numero { font-size: clamp(1.6rem, 4.2vh, 2.4rem); font-weight: 900; line-height: 1.15; overflow-wrap: anywhere; }
+    .majuscules .numero.lletres { text-transform: uppercase; }
+    .barra { height: 10px; border-radius: 999px; background: var(--fons); border: 1px solid var(--vora); overflow: hidden; width: 100%; }
+    .barra i { display: block; height: 100%; width: 0; background: var(--c-ok-vora); transition: width .3s; }
+    .missatge {
+      min-height: 3.2rem; padding: 8px 12px; border-radius: var(--radi); text-align: center;
+      background: var(--superficie); border: 2px solid var(--vora); font-weight: 700; font-size: 1.05rem;
+      display: flex; flex-direction: column; justify-content: center; gap: 2px;
+    }
+    .missatge small { font-weight: 500; font-size: .92rem; }
+    .missatge small:empty { display: none; }
+    .missatge.es-pista   { background: var(--c-pista);    border-color: var(--c-pista-vora); }
+    .missatge.es-error   { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .missatge.es-guanyat { background: var(--c-ok);       border-color: var(--c-ok-vora); }
+
+    /* Lupa (caselles petites, mòbil): mentre el dit és a sobre, es veuen les caselles del voltant en gran */
+    .lupa {
+      position: fixed; z-index: 60; pointer-events: none; display: grid; gap: 3px; padding: 6px;
+      grid-template-columns: repeat(3, 52px); background: var(--superficie); border: 3px solid var(--c-info-vora);
+      border-radius: 16px; box-shadow: 0 8px 22px rgba(59, 51, 85, .3); transform: translate(-50%, calc(-100% - 34px));
+    }
+    .lupa span { width: 52px; height: 52px; display: grid; place-items: center; border-radius: 8px; font-weight: 800; font-size: 1.15rem; border: 1px solid var(--vora); background: var(--superficie); }
+    .lupa span.centre { outline: 3px solid var(--c-info-vora); }
+    .lupa span.buit { visibility: hidden; }
+
+    @media (orientation: landscape) and (max-height: 820px) {
+      .cap-joc { margin: 0 0 8px; }
+      .cap-joc .btn { padding: 6px 14px; }
+      .missatge { min-height: 0; padding: 6px 10px; }
+      h2.titol { margin: 10px 0 6px; }
+      .opcions button { min-height: 50px; }
+      .comencar { margin: 14px 0 4px; }
+    }
+    @media (orientation: portrait) {
+      .tauler { grid-template-columns: minmax(0, 1fr); grid-template-areas: "panell" "graella"; }
+      .panell { max-width: 560px; }
+      .ordre { flex-direction: row; flex-wrap: wrap; justify-content: center; padding: 8px 10px; gap: 6px 10px; }
+      .ordre .barra { flex-basis: 100%; }
+    }
+    @media (orientation: portrait) and (max-width: 600px), (orientation: landscape) and (max-height: 500px) {
+      .barra-joc { padding: 6px 0; }
+      .barra-joc h1 { font-size: 1.1rem; }
+      .cap-joc { margin: 0 0 6px; gap: 6px; flex-wrap: nowrap; }
+      .dada { font-size: .8rem; padding: 2px 8px; }
+      .cap-joc .btn { padding: 5px 10px; font-size: .85rem; white-space: nowrap; }
+      .tauler { padding: 8px; gap: 8px 12px; }
+      .panell { gap: 6px; }
+      .ordre { padding: 6px 8px; gap: 4px 8px; }
+      .ordre .pinta { font-size: .85rem; }
+      .llapis { padding: 2px 10px 2px 4px; font-size: .9rem; }
+      .llapis i { width: 20px; height: 20px; }
+      .numero { font-size: 1.35rem; }
+      .missatge { min-height: 0; padding: 5px 10px; font-size: .92rem; }
+      .missatge small { font-size: .8rem; }
+      .quadricula { gap: 1px; }
+    }
+    @media (orientation: landscape) and (max-height: 500px) {
+      .tauler { grid-template-columns: auto minmax(200px, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <nav class="barra-joc">
+    <a href="../../">← Inici</a>
+    <h1>🎨 Dibuix secret</h1>
+  </nav>
+
+  <main class="joc">
+    <section class="inici" id="pantalla-inici">
+      <div class="grup">
+        <h2 class="titol">1. Dificultat</h2>
+        <div class="opcions" id="op-nivell">
+          <button type="button" data-v="facil" aria-pressed="true">🌱 Fàcil<small>quadrícula 6 × 6 · de l'1 al 36</small></button>
+          <button type="button" data-v="mitja" aria-pressed="false">Mitjà<small>10 × 10 · de l'1 al 100</small></button>
+          <button type="button" data-v="dificil" aria-pressed="false">Difícil<small>13 × 13 · del 0 al 168</small></button>
+        </div>
+      </div>
+      <div class="grup">
+        <h2 class="titol">2. Com surt el número?</h2>
+        <div class="opcions" id="op-mode">
+          <button type="button" data-v="lletres" aria-pressed="true">✍️ En lletres<small>«trenta-dos»</small></button>
+          <button type="button" data-v="operacions" aria-pressed="false">🧮 Amb una operació<small>«4 × 8»</small></button>
+        </div>
+      </div>
+      <div class="grup" id="grup-lletra">
+        <h2 class="titol">3. Quina lletra?</h2>
+        <div class="opcions" id="op-lletra">
+          <button type="button" data-v="majuscula" aria-pressed="true">MAJÚSCULA</button>
+          <button type="button" data-v="minuscula" aria-pressed="false">minúscula</button>
+        </div>
+      </div>
+      <p class="explica">Pinta cada número del color que et diuen. Quan acabis, sortirà un dibuix!</p>
+      <div class="comencar"><button class="btn" id="btn-comencar" type="button" disabled>Comença! 🎨</button></div>
+    </section>
+
+    <section id="pantalla-joc" hidden>
+      <div class="cap-joc">
+        <div class="dades" id="dades"></div>
+        <button class="btn" id="btn-nova" type="button">Nova partida</button>
+      </div>
+      <div class="tauler" id="tauler">
+        <div class="quadricula" id="graella" aria-label="Quadrícula de números"></div>
+        <div class="panell">
+          <div class="ordre" id="ordre" aria-live="polite">
+            <span class="pinta">Pinta de</span>
+            <span class="llapis"><i id="llapis-color"></i><span id="llapis-nom"></span></span>
+            <span class="numero" id="numero"></span>
+            <div class="barra" aria-hidden="true"><i id="barra"></i></div>
+          </div>
+          <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../js/pantalla.js"></script>
+  <script src="../../js/preferencies.js"></script>
+  <script src="../../js/celebracio.js"></script>
+  <script>
+    // Els dibuixos són a dibuixos.json (fàcil d'ampliar sense tocar aquest fitxer)
+    const $ = id => document.getElementById(id);
+    const NIVELLS = { facil: { n: 6, inici: 1 }, mitja: { n: 10, inici: 1 }, dificil: { n: 13, inici: 0 } };
+    const config = { nivell: 'facil', mode: 'lletres', lletra: 'majuscula' };
+    let DADES = null, dibuix, N, INICI, cua, actual, pintades, total, errors, errorsAra, acabat;
+
+    const aleatori = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+    const barrejar = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+
+    // ---------------- Números en lletres (català) ----------------
+    const UNITATS = ['zero', 'u', 'dos', 'tres', 'quatre', 'cinc', 'sis', 'set', 'vuit', 'nou', 'deu', 'onze', 'dotze', 'tretze', 'catorze', 'quinze', 'setze', 'disset', 'divuit', 'dinou'];
+    const DESENES = ['', '', 'vint', 'trenta', 'quaranta', 'cinquanta', 'seixanta', 'setanta', 'vuitanta', 'noranta'];
+    function enLletres(n) {
+      if (n < 20) return UNITATS[n];
+      if (n < 100) { const d = Math.floor(n / 10), u = n % 10; return u === 0 ? DESENES[d] : DESENES[d] + (d === 2 ? '-i-' : '-') + UNITATS[u]; }
+      if (n === 100) return 'cent';
+      return 'cent ' + enLletres(n - 100);
+    }
+
+    // ---------------- Operació que dona n (segons el nivell) ----------------
+    function operacio(n) {
+      if (n === 0) { const k = aleatori(2, 9); return `${k} − ${k}`; }
+      const nv = config.nivell, op = [];
+      if (n >= 2) { const a = aleatori(1, n - 1); op.push(`${a} + ${n - a}`); }
+      const sumaMax = nv === 'facil' ? 40 : nv === 'mitja' ? 100 : 180;
+      if (n + 1 <= sumaMax) { const b = aleatori(1, Math.min(nv === 'facil' ? 9 : 20, sumaMax - n)); op.push(`${n + b} − ${b}`); }
+      if (nv !== 'facil') {
+        for (let a = 2; a <= 10; a++) if (n % a === 0 && n / a >= 2 && n / a <= (nv === 'mitja' ? 10 : 15)) op.push(`${a} × ${n / a}`);
+        if (n >= 1 && n <= (nv === 'mitja' ? 10 : 20)) { const d = aleatori(2, nv === 'mitja' ? 9 : 5); op.push(`${n * d} ÷ ${d}`); }
+      }
+      // preferència: a Mitjà i Difícil, ×/÷ si n'hi ha
+      const mult = op.filter(x => /[×÷]/.test(x));
+      if (mult.length && Math.random() < .6) return mult[aleatori(0, mult.length - 1)];
+      return op[aleatori(0, op.length - 1)];
+    }
+
+    async function carregar() {
+      try { DADES = await (await fetch('dibuixos.json', { cache: 'no-cache' })).json(); $('btn-comencar').disabled = false; }
+      catch (e) { console.error(e); $('btn-comencar').textContent = 'No s\'han pogut carregar els dibuixos'; }
+    }
+
+    // ---------------- Inici ----------------
+    function grupOpcions(id, clau) {
+      $(id).addEventListener('click', e => {
+        const b = e.target.closest('button'); if (!b || !b.dataset.v) return;
+        $(id).querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+        config[clau] = b.dataset.v;
+        $('grup-lletra').hidden = config.mode !== 'lletres';
+      });
+    }
+    grupOpcions('op-nivell', 'nivell'); grupOpcions('op-mode', 'mode'); grupOpcions('op-lletra', 'lletra');
+    $('btn-comencar').addEventListener('click', comencar);
+    $('btn-nova').addEventListener('click', () => { Celebracio.tancar(); $('pantalla-joc').hidden = true; $('pantalla-inici').hidden = false; });
+
+    function comencar() {
+      ({ n: N, inici: INICI } = NIVELLS[config.nivell]);
+      const llista = DADES.dibuixos[String(N)];
+      // un dibuix diferent de l'últim
+      const clau = 'appjocs.dibuix-secret.ultim.' + N;
+      let ultim = null; try { ultim = localStorage.getItem(clau); } catch {}
+      const possibles = llista.length > 1 ? llista.filter(d => d.id !== ultim) : llista;
+      dibuix = possibles[aleatori(0, possibles.length - 1)];
+      try { localStorage.setItem(clau, dibuix.id); } catch {}
+      // cua: casella a casella, agrupades per color (colors en ordre aleatori)
+      const perColor = {};
+      dibuix.files.forEach((fila, r) => [...fila].forEach((c, k) => { if (c !== '.') (perColor[c] = perColor[c] || []).push(r * N + k); }));
+      cua = barrejar(Object.keys(perColor)).flatMap(c => barrejar(perColor[c]).map(i => ({ i, c })));
+      total = cua.length; pintades = new Set(); errors = 0; acabat = false;
+      $('tauler').classList.toggle('majuscules', config.lletra === 'majuscula');
+      $('graella').classList.remove('acabat');
+      $('ordre').hidden = false;
+      $('pantalla-inici').hidden = true; $('pantalla-joc').hidden = false;
+      pintarGraella();
+      mides(); requestAnimationFrame(mides);
+      seguent();
+      window.scrollTo({ top: 0 });
+    }
+
+    function pintarGraella() {
+      const g = $('graella'); g.innerHTML = '';
+      g.style.setProperty('--n', N);
+      for (let i = 0; i < N * N; i++) {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'q'; b.dataset.i = i; b.textContent = INICI + i;
+        g.appendChild(b);
+      }
+    }
+
+    // Mida de les caselles: tan grans com hi càpiguen
+    function mides() {
+      if ($('pantalla-joc').hidden) return;
+      const vertical = matchMedia('(orientation: portrait)').matches;
+      const mobil = matchMedia('(orientation: portrait) and (max-width: 600px), (orientation: landscape) and (max-height: 500px)').matches;
+      const gap = mobil ? 1 : 2;
+      const amp = $('tauler').clientWidth - (mobil ? 18 : 26) - (vertical ? 0 : (mobil ? 212 : 262));
+      const g = $('graella');
+      const dalt = Pantalla.dalt(g);
+      const alt = Math.min(innerHeight, document.documentElement.clientHeight) - dalt - (mobil ? 22 : 30);
+      const q = Math.floor(Math.max(18, Math.min(64, (amp - gap * (N - 1)) / N, (alt - gap * (N - 1)) / N)));
+      g.style.setProperty('--q', q + 'px');
+      lupaActiva = q < 34;
+    }
+    addEventListener('resize', () => { mides(); });
+
+    // ---------------- Següent número ----------------
+    function seguent() {
+      if (!cua.length) return final();
+      actual = cua.shift(); errorsAra = 0;
+      const [nom, hex] = DADES.colors[actual.c];
+      $('llapis-color').style.background = hex; $('llapis-nom').textContent = nom;
+      const n = INICI + actual.i;
+      const el = $('numero');
+      el.classList.toggle('lletres', config.mode === 'lletres');
+      if (config.mode === 'lletres') el.textContent = 'el ' + enLletres(n);
+      else { actual.op = operacio(n); el.textContent = `el resultat de ${actual.op}`; }
+      $('barra').style.width = (100 * pintades.size / total) + '%';
+      if (!pintades.size) mostrar('Busca el número i toca la casella', config.mode === 'lletres' ? 'Llegeix-lo bé!' : 'Primer fes l\'operació.');
+      pintarDades();
+    }
+
+    function tocar(i) {
+      if (acabat || !actual) return;
+      const b = $('graella').querySelector(`.q[data-i="${i}"]`);
+      if (i === actual.i) {
+        const [, hex] = DADES.colors[actual.c];
+        b.style.background = hex; b.classList.add('pintat'); b.classList.remove('ensenya');
+        if (actual.c === 'Y') b.classList.add('fosc');
+        pintades.add(i);
+        mostrar(Preferencies.felicitacio(`✓ Molt bé, ${INICI + i}!`), '', 'guanyat');
+        return seguent();
+      }
+      if (pintades.has(i)) { mostrar(`El ${INICI + i} ja està pintat`, 'Busca el número que et diuen.', 'pista'); return; }
+      errors++; errorsAra++;
+      b.classList.add('mal'); sacsejar(b); setTimeout(() => b.classList.remove('mal'), 700);
+      const n = INICI + actual.i;
+      if (errorsAra === 1) mostrar(`Aquesta és la casella del ${INICI + i}`, 'Torna-ho a provar.', 'error');
+      else if (errorsAra === 2) mostrar('Pista', config.mode === 'operacions' ? 'P' + pista(n).slice(1) : pista(n), 'pista');
+      else {
+        const c = $('graella').querySelector(`.q[data-i="${actual.i}"]`);
+        c.classList.remove('ensenya'); void c.offsetWidth; c.classList.add('ensenya');
+        mostrar(`És el ${n}`, 'Mira la casella que s\'il·lumina i toca-la.', 'pista');
+      }
+      pintarDades();
+    }
+    function pista(n) {
+      const filaInici = INICI + Math.floor(actual.i / N) * N;
+      if (config.mode === 'operacions') return `primer calcula ${actual.op} (sense pressa!) i després busca el resultat a la quadrícula.`;
+      const du = n >= 10 ? ` El ${n} té ${Math.floor(n / 10)} desenes i ${n % 10} unitats.` : '';
+      return `Busca la fila que comença pel ${filaInici}.${du}`;
+    }
+
+    // ---------------- Tocar (i lupa per a caselles petites) ----------------
+    let lupaActiva = false, lupa = null, sota = null;
+    const g = $('graella');
+    const casellaA = (x, y) => { const el = document.elementFromPoint(x, y); return el && el.closest && el.closest('.q'); };
+    g.addEventListener('pointerdown', e => {
+      if (acabat) return;
+      const q = e.target.closest('.q'); if (!q) return;
+      if (!lupaActiva || e.pointerType === 'mouse') { tocar(Number(q.dataset.i)); return; }
+      e.preventDefault();
+      g.setPointerCapture && g.setPointerCapture(e.pointerId);
+      lupa = document.createElement('div'); lupa.className = 'lupa'; document.body.appendChild(lupa);
+      moureLupa(e);
+    });
+    g.addEventListener('pointermove', e => { if (lupa) moureLupa(e); });
+    g.addEventListener('pointerup', e => {
+      if (!lupa) return;
+      lupa.remove(); lupa = null;
+      if (sota) tocar(Number(sota.dataset.i));
+      sota = null;
+    });
+    g.addEventListener('pointercancel', () => { if (lupa) { lupa.remove(); lupa = null; sota = null; } });
+    function moureLupa(e) {
+      const q = casellaA(e.clientX, e.clientY);
+      if (q) sota = q;
+      if (!sota) return;
+      const i = Number(sota.dataset.i), r = Math.floor(i / N), c = i % N;
+      lupa.innerHTML = '';
+      for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
+        const s = document.createElement('span');
+        const rr = r + dr, cc = c + dc;
+        if (rr < 0 || cc < 0 || rr >= N || cc >= N) s.className = 'buit';
+        else {
+          const k = rr * N + cc, orig = g.children[k];
+          s.textContent = INICI + k;
+          if (orig.classList.contains('pintat')) { s.style.background = orig.style.background; s.style.color = 'rgba(255,255,255,.9)'; }
+          if (dr === 0 && dc === 0) s.classList.add('centre');
+        }
+        lupa.appendChild(s);
+      }
+      const x = Math.min(innerWidth - 100, Math.max(100, e.clientX));
+      lupa.style.left = x + 'px'; lupa.style.top = Math.max(200, e.clientY) + 'px';
+    }
+
+    // ---------------- Final ----------------
+    function final() {
+      acabat = true; actual = null;
+      $('barra').style.width = '100%';
+      $('graella').classList.add('acabat');
+      $('ordre').hidden = true;
+      const estrelles = errors === 0 ? 3 : errors <= 3 ? 2 : 1;
+      const sub = Preferencies.errors() ? (errors === 0 ? 'Sense cap error!' : `Amb ${errors} ${errors === 1 ? 'error' : 'errors'}.`) : `Has pintat ${dibuix.nom}.`;
+      mostrar(`🎉 És ${dibuix.nom}!`, sub, 'guanyat');
+      pintarDades();
+      setTimeout(() => Celebracio.gran({ titol: `És ${dibuix.nom}!`, emoji: '🎨', estrelles, subtitol: sub }), 1400);
+    }
+
+    function pintarDades() {
+      $('dades').innerHTML = `<span class="dada">Caselles: <b>${pintades.size}</b>/${total}</span>`
+        + (Preferencies.errors() ? `<span class="dada">Errors: <b>${errors}</b></span>` : '');
+    }
+    function sacsejar(el) { el.classList.remove('sacseig'); void el.offsetWidth; el.classList.add('sacseig'); }
+    function mostrar(t, extra = '', estat = '') {
+      const m = $('missatge');
+      $('msg-text').textContent = t; $('msg-extra').textContent = extra;
+      m.classList.remove('es-pista', 'es-error', 'es-guanyat');
+      if (estat) m.classList.add('es-' + estat);
+    }
+
+    carregar();
+    Pantalla.avisOrientacio('dibuix-secret', { dins: document.getElementById('pantalla-inici') });
+  </script>
+</body>
+</html>

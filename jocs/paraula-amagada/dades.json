@@ -1,0 +1,891 @@
+{
+ "_nota": "Abecedari de dibuixos (2-4 per lletra; el nom ha de començar per la lletra) i paraules amagades. El nivell surt sol de la llargada: Fàcil 3-4 lletres, Mitjà 5-6, Difícil 7 o més. Totes les lletres de les paraules han de tenir dibuix (À → A, Ç → C).",
+ "abecedari": {
+  "A": [
+   [
+    "✈️",
+    "avió"
+   ],
+   [
+    "🐝",
+    "abella"
+   ],
+   [
+    "🕷️",
+    "aranya"
+   ],
+   [
+    "🦆",
+    "ànec"
+   ]
+  ],
+  "B": [
+   [
+    "🐋",
+    "balena"
+   ],
+   [
+    "👢",
+    "bota"
+   ],
+   [
+    "🧙‍♀️",
+    "bruixa"
+   ],
+   [
+    "🚲",
+    "bicicleta"
+   ]
+  ],
+  "C": [
+   [
+    "🏠",
+    "casa"
+   ],
+   [
+    "🐌",
+    "cargol"
+   ],
+   [
+    "🚗",
+    "cotxe"
+   ],
+   [
+    "🍒",
+    "cireres"
+   ]
+  ],
+  "D": [
+   [
+    "🐬",
+    "dofí"
+   ],
+   [
+    "🐉",
+    "drac"
+   ],
+   [
+    "🦷",
+    "dent"
+   ],
+   [
+    "🎲",
+    "dau"
+   ]
+  ],
+  "E": [
+   [
+    "🐘",
+    "elefant"
+   ],
+   [
+    "⭐",
+    "estrella"
+   ],
+   [
+    "🪜",
+    "escala"
+   ],
+   [
+    "🐿️",
+    "esquirol"
+   ]
+  ],
+  "F": [
+   [
+    "🌸",
+    "flor"
+   ],
+   [
+    "🔥",
+    "foc"
+   ],
+   [
+    "🧀",
+    "formatge"
+   ],
+   [
+    "🦭",
+    "foca"
+   ]
+  ],
+  "G": [
+   [
+    "🐱",
+    "gat"
+   ],
+   [
+    "🎈",
+    "globus"
+   ],
+   [
+    "🦒",
+    "girafa"
+   ],
+   [
+    "🍦",
+    "gelat"
+   ]
+  ],
+  "H": [
+   [
+    "🚁",
+    "helicòpter"
+   ],
+   [
+    "🍔",
+    "hamburguesa"
+   ],
+   [
+    "🦛",
+    "hipopòtam"
+   ],
+   [
+    "👨",
+    "home"
+   ]
+  ],
+  "I": [
+   [
+    "🏝️",
+    "illa"
+   ],
+   [
+    "🧲",
+    "imant"
+   ],
+   [
+    "🪀",
+    "io-ió"
+   ],
+   [
+    "⛵",
+    "iot"
+   ]
+  ],
+  "J": [
+   [
+    "🧥",
+    "jaqueta"
+   ],
+   [
+    "💍",
+    "joia"
+   ],
+   [
+    "🧑‍⚖️",
+    "jutge"
+   ]
+  ],
+  "K": [
+   [
+    "🐨",
+    "koala"
+   ],
+   [
+    "🥝",
+    "kiwi"
+   ],
+   [
+    "🥋",
+    "karate"
+   ]
+  ],
+  "L": [
+   [
+    "🌙",
+    "lluna"
+   ],
+   [
+    "🦁",
+    "lleó"
+   ],
+   [
+    "📕",
+    "llibre"
+   ],
+   [
+    "✏️",
+    "llapis"
+   ]
+  ],
+  "M": [
+   [
+    "🍓",
+    "maduixa"
+   ],
+   [
+    "🐒",
+    "mico"
+   ],
+   [
+    "🏍️",
+    "moto"
+   ],
+   [
+    "🦉",
+    "mussol"
+   ]
+  ],
+  "N": [
+   [
+    "☁️",
+    "núvol"
+   ],
+   [
+    "👃",
+    "nas"
+   ],
+   [
+    "🧒",
+    "nen"
+   ],
+   [
+    "❄️",
+    "neu"
+   ]
+  ],
+  "O": [
+   [
+    "🐻",
+    "ós"
+   ],
+   [
+    "🥚",
+    "ou"
+   ],
+   [
+    "🐑",
+    "ovella"
+   ],
+   [
+    "👂",
+    "orella"
+   ]
+  ],
+  "P": [
+   [
+    "🍎",
+    "poma"
+   ],
+   [
+    "🐟",
+    "peix"
+   ],
+   [
+    "🍐",
+    "pera"
+   ],
+   [
+    "⚽",
+    "pilota"
+   ]
+  ],
+  "Q": [
+   [
+    "📓",
+    "quadern"
+   ],
+   [
+    "4️⃣",
+    "quatre"
+   ]
+  ],
+  "R": [
+   [
+    "🐭",
+    "ratolí"
+   ],
+   [
+    "⏰",
+    "rellotge"
+   ],
+   [
+    "🌹",
+    "rosa"
+   ],
+   [
+    "🍇",
+    "raïm"
+   ]
+  ],
+  "S": [
+   [
+    "☀️",
+    "sol"
+   ],
+   [
+    "🐍",
+    "serp"
+   ],
+   [
+    "👟",
+    "sabata"
+   ],
+   [
+    "🍉",
+    "síndria"
+   ]
+  ],
+  "T": [
+   [
+    "🍅",
+    "tomàquet"
+   ],
+   [
+    "🚆",
+    "tren"
+   ],
+   [
+    "🐢",
+    "tortuga"
+   ],
+   [
+    "🐯",
+    "tigre"
+   ]
+  ],
+  "U": [
+   [
+    "👁️",
+    "ull"
+   ],
+   [
+    "🦄",
+    "unicorn"
+   ],
+   [
+    "💅",
+    "ungla"
+   ],
+   [
+    "1️⃣",
+    "u"
+   ]
+  ],
+  "V": [
+   [
+    "🐄",
+    "vaca"
+   ],
+   [
+    "🚢",
+    "vaixell"
+   ],
+   [
+    "🎻",
+    "violí"
+   ],
+   [
+    "🌋",
+    "volcà"
+   ]
+  ],
+  "X": [
+   [
+    "🍫",
+    "xocolata"
+   ],
+   [
+    "🐏",
+    "xai"
+   ],
+   [
+    "🧴",
+    "xampú"
+   ]
+  ],
+  "Z": [
+   [
+    "🦓",
+    "zebra"
+   ],
+   [
+    "0️⃣",
+    "zero"
+   ]
+  ]
+ },
+ "paraules": [
+  {
+   "paraula": "gat",
+   "emoji": "🐱"
+  },
+  {
+   "paraula": "gos",
+   "emoji": "🐶"
+  },
+  {
+   "paraula": "sol",
+   "emoji": "☀️"
+  },
+  {
+   "paraula": "mar",
+   "emoji": "🌊"
+  },
+  {
+   "paraula": "nas",
+   "emoji": "👃"
+  },
+  {
+   "paraula": "peu",
+   "emoji": "🦶"
+  },
+  {
+   "paraula": "ull",
+   "emoji": "👁️"
+  },
+  {
+   "paraula": "riu",
+   "emoji": "🏞️"
+  },
+  {
+   "paraula": "neu",
+   "emoji": "❄️"
+  },
+  {
+   "paraula": "foc",
+   "emoji": "🔥"
+  },
+  {
+   "paraula": "pop",
+   "emoji": "🐙"
+  },
+  {
+   "paraula": "cel",
+   "emoji": "🌌"
+  },
+  {
+   "paraula": "sal",
+   "emoji": "🧂"
+  },
+  {
+   "paraula": "mel",
+   "emoji": "🍯"
+  },
+  {
+   "paraula": "rei",
+   "emoji": "🤴"
+  },
+  {
+   "paraula": "dau",
+   "emoji": "🎲"
+  },
+  {
+   "paraula": "bou",
+   "emoji": "🐂"
+  },
+  {
+   "paraula": "tren",
+   "emoji": "🚆"
+  },
+  {
+   "paraula": "vaca",
+   "emoji": "🐄"
+  },
+  {
+   "paraula": "poma",
+   "emoji": "🍎"
+  },
+  {
+   "paraula": "pera",
+   "emoji": "🍐"
+  },
+  {
+   "paraula": "llet",
+   "emoji": "🥛"
+  },
+  {
+   "paraula": "flor",
+   "emoji": "🌸"
+  },
+  {
+   "paraula": "lleó",
+   "emoji": "🦁"
+  },
+  {
+   "paraula": "bota",
+   "emoji": "👢"
+  },
+  {
+   "paraula": "casa",
+   "emoji": "🏠"
+  },
+  {
+   "paraula": "drac",
+   "emoji": "🐉"
+  },
+  {
+   "paraula": "fada",
+   "emoji": "🧚"
+  },
+  {
+   "paraula": "gall",
+   "emoji": "🐓"
+  },
+  {
+   "paraula": "moto",
+   "emoji": "🏍️"
+  },
+  {
+   "paraula": "peix",
+   "emoji": "🐟"
+  },
+  {
+   "paraula": "rosa",
+   "emoji": "🌹"
+  },
+  {
+   "paraula": "taxi",
+   "emoji": "🚕"
+  },
+  {
+   "paraula": "coet",
+   "emoji": "🚀"
+  },
+  {
+   "paraula": "mico",
+   "emoji": "🐒"
+  },
+  {
+   "paraula": "dent",
+   "emoji": "🦷"
+  },
+  {
+   "paraula": "sofà",
+   "emoji": "🛋️"
+  },
+  {
+   "paraula": "llit",
+   "emoji": "🛏️"
+  },
+  {
+   "paraula": "clau",
+   "emoji": "🔑"
+  },
+  {
+   "paraula": "bici",
+   "emoji": "🚲"
+  },
+  {
+   "paraula": "lluna",
+   "emoji": "🌙"
+  },
+  {
+   "paraula": "zebra",
+   "emoji": "🦓"
+  },
+  {
+   "paraula": "girafa",
+   "emoji": "🦒"
+  },
+  {
+   "paraula": "cavall",
+   "emoji": "🐴"
+  },
+  {
+   "paraula": "conill",
+   "emoji": "🐰"
+  },
+  {
+   "paraula": "ovella",
+   "emoji": "🐑"
+  },
+  {
+   "paraula": "balena",
+   "emoji": "🐋"
+  },
+  {
+   "paraula": "abella",
+   "emoji": "🐝"
+  },
+  {
+   "paraula": "gelat",
+   "emoji": "🍦"
+  },
+  {
+   "paraula": "pizza",
+   "emoji": "🍕"
+  },
+  {
+   "paraula": "plàtan",
+   "emoji": "🍌"
+  },
+  {
+   "paraula": "cirera",
+   "emoji": "🍒"
+  },
+  {
+   "paraula": "llapis",
+   "emoji": "✏️"
+  },
+  {
+   "paraula": "patata",
+   "emoji": "🥔"
+  },
+  {
+   "paraula": "llibre",
+   "emoji": "📕"
+  },
+  {
+   "paraula": "cadira",
+   "emoji": "🪑"
+  },
+  {
+   "paraula": "porta",
+   "emoji": "🚪"
+  },
+  {
+   "paraula": "núvol",
+   "emoji": "☁️"
+  },
+  {
+   "paraula": "arbre",
+   "emoji": "🌳"
+  },
+  {
+   "paraula": "platja",
+   "emoji": "🏖️"
+  },
+  {
+   "paraula": "cotxe",
+   "emoji": "🚗"
+  },
+  {
+   "paraula": "globus",
+   "emoji": "🎈"
+  },
+  {
+   "paraula": "camió",
+   "emoji": "🚚"
+  },
+  {
+   "paraula": "metro",
+   "emoji": "🚇"
+  },
+  {
+   "paraula": "tigre",
+   "emoji": "🐯"
+  },
+  {
+   "paraula": "sabata",
+   "emoji": "👟"
+  },
+  {
+   "paraula": "pilota",
+   "emoji": "⚽"
+  },
+  {
+   "paraula": "escola",
+   "emoji": "🏫"
+  },
+  {
+   "paraula": "dibuix",
+   "emoji": "🎨"
+  },
+  {
+   "paraula": "barret",
+   "emoji": "🎩"
+  },
+  {
+   "paraula": "corona",
+   "emoji": "👑"
+  },
+  {
+   "paraula": "regal",
+   "emoji": "🎁"
+  },
+  {
+   "paraula": "pastís",
+   "emoji": "🎂"
+  },
+  {
+   "paraula": "bruixa",
+   "emoji": "🧙‍♀️"
+  },
+  {
+   "paraula": "pirata",
+   "emoji": "🏴‍☠️"
+  },
+  {
+   "paraula": "sirena",
+   "emoji": "🧜‍♀️"
+  },
+  {
+   "paraula": "koala",
+   "emoji": "🐨"
+  },
+  {
+   "paraula": "cargol",
+   "emoji": "🐌"
+  },
+  {
+   "paraula": "mussol",
+   "emoji": "🦉"
+  },
+  {
+   "paraula": "volcà",
+   "emoji": "🌋"
+  },
+  {
+   "paraula": "elefant",
+   "emoji": "🐘"
+  },
+  {
+   "paraula": "papallona",
+   "emoji": "🦋"
+  },
+  {
+   "paraula": "cocodril",
+   "emoji": "🐊"
+  },
+  {
+   "paraula": "tortuga",
+   "emoji": "🐢"
+  },
+  {
+   "paraula": "granota",
+   "emoji": "🐸"
+  },
+  {
+   "paraula": "maduixa",
+   "emoji": "🍓"
+  },
+  {
+   "paraula": "tomàquet",
+   "emoji": "🍅"
+  },
+  {
+   "paraula": "xocolata",
+   "emoji": "🍫"
+  },
+  {
+   "paraula": "pastanaga",
+   "emoji": "🥕"
+  },
+  {
+   "paraula": "síndria",
+   "emoji": "🍉"
+  },
+  {
+   "paraula": "helicòpter",
+   "emoji": "🚁"
+  },
+  {
+   "paraula": "bicicleta",
+   "emoji": "🚲"
+  },
+  {
+   "paraula": "vaixell",
+   "emoji": "🚢"
+  },
+  {
+   "paraula": "tractor",
+   "emoji": "🚜"
+  },
+  {
+   "paraula": "ambulància",
+   "emoji": "🚑"
+  },
+  {
+   "paraula": "caramel",
+   "emoji": "🍬"
+  },
+  {
+   "paraula": "estrella",
+   "emoji": "⭐"
+  },
+  {
+   "paraula": "paraigua",
+   "emoji": "☂️"
+  },
+  {
+   "paraula": "rellotge",
+   "emoji": "⏰"
+  },
+  {
+   "paraula": "ordinador",
+   "emoji": "💻"
+  },
+  {
+   "paraula": "televisor",
+   "emoji": "📺"
+  },
+  {
+   "paraula": "motxilla",
+   "emoji": "🎒"
+  },
+  {
+   "paraula": "pissarra",
+   "emoji": "⬛"
+  },
+  {
+   "paraula": "castell",
+   "emoji": "🏰"
+  },
+  {
+   "paraula": "princesa",
+   "emoji": "👸"
+  },
+  {
+   "paraula": "fantasma",
+   "emoji": "👻"
+  },
+  {
+   "paraula": "unicorn",
+   "emoji": "🦄"
+  },
+  {
+   "paraula": "esquirol",
+   "emoji": "🐿️"
+  },
+  {
+   "paraula": "formatge",
+   "emoji": "🧀"
+  },
+  {
+   "paraula": "pollastre",
+   "emoji": "🍗"
+  },
+  {
+   "paraula": "crispetes",
+   "emoji": "🍿"
+  },
+  {
+   "paraula": "magdalena",
+   "emoji": "🧁"
+  },
+  {
+   "paraula": "dinosaure",
+   "emoji": "🦕"
+  },
+  {
+   "paraula": "hipopòtam",
+   "emoji": "🦛"
+  },
+  {
+   "paraula": "rinoceront",
+   "emoji": "🦏"
+  },
+  {
+   "paraula": "palmera",
+   "emoji": "🌴"
+  },
+  {
+   "paraula": "girassol",
+   "emoji": "🌻"
+  },
+  {
+   "paraula": "quadern",
+   "emoji": "📓"
+  },
+  {
+   "paraula": "biblioteca",
+   "emoji": "📚"
+  },
+  {
+   "paraula": "papagai",
+   "emoji": "🦜"
+  }
+ ]
+}

@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFBF3">
+  <title>Paraula amagada · AppJocs</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="icon" href="../../icons/icon-192.png">
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    /* Colors per rol: verd = encert · rosa = lletra equivocada / esborrar · groc = pistes ·
+       blau = forat actual / opció triada · préssec = acció. Taula de l'abecedari neutra. */
+    .joc { width: 100%; max-width: 1180px; margin: 0 auto; }
+    [hidden] { display: none !important; }
+    h2.titol { font-size: 1.15rem; margin: 16px 0 8px; }
+
+    /* ---------- Inici ---------- */
+    .inici { max-width: 800px; margin: 0 auto; }
+    .opcions { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+    .opcions button {
+      font: inherit; cursor: pointer; color: var(--text); touch-action: manipulation;
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: 14px; box-shadow: var(--ombra);
+      min-height: 60px; padding: 8px; font-weight: 700; font-size: 1.1rem;
+    }
+    .opcions button small { display: block; font-weight: 500; font-size: .85rem; color: var(--text-suau); margin-top: 2px; }
+    .opcions button[aria-pressed="true"] { background: var(--c-info); border-color: var(--c-info-vora); }
+    .opcions button[aria-pressed="true"] small { color: var(--text); }
+    @media (hover: hover) { .opcions button:hover { border-color: var(--c-info-vora); } }
+    @media (orientation: landscape) and (max-height: 500px) { main .inici .explica { display: none; } }
+    .explica { color: var(--text-suau); text-align: center; margin: 14px 0 0; }
+    .comencar { text-align: center; margin: 22px 0 8px; }
+    .comencar .btn { font-size: 1.3rem; padding: 14px 40px; }
+    .comencar .btn:disabled { opacity: .5; }
+
+    /* ---------- Joc ---------- */
+    .cap-joc { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 4px 0 10px; }
+    .dades { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .dada { background: var(--superficie); border: 1px solid var(--vora); border-radius: 999px; padding: 4px 12px; font-size: .95rem; }
+    .dada b { font-variant-numeric: tabular-nums; }
+    .progres { display: inline-flex; gap: 4px; vertical-align: middle; margin-left: 4px; }
+    .progres i { width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--vora); background: var(--superficie); }
+    .progres i.be { background: var(--c-ok); border-color: var(--c-ok-vora); }
+    .progres i.ajuda { background: var(--c-pista); border-color: var(--c-pista-vora); }
+    .progres i.malament { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .progres i.fet { background: var(--vora); }
+    .progres i.ara { background: var(--c-info); border-color: var(--c-info-vora); }
+
+    .tauler {
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi); padding: 14px;
+      display: grid; gap: 12px 22px; align-items: center;
+      grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "paraula taula";
+    }
+    .esquerra { grid-area: paraula; display: flex; flex-direction: column; gap: 12px; min-width: 0; align-items: center; }
+
+    /* La paraula: un dibuix per lletra i, a sota, el forat. Mida per JS: --l */
+    .paraula { display: flex; justify-content: center; gap: 6px; width: 100%; }
+    .lletra { display: flex; flex-direction: column; align-items: center; gap: 4px; width: var(--l, 60px); }
+    .lletra .dib { font-size: calc(var(--l, 60px) * .72); line-height: 1.1; height: calc(var(--l, 60px) * .85); display: grid; place-items: center; }
+    .forat {
+      width: var(--l, 60px); height: calc(var(--l, 60px) * 1.1); display: grid; place-items: center; padding: 0;
+      font: inherit; font-weight: 900; font-size: calc(var(--l, 60px) * .6); line-height: 1; color: var(--text);
+      background: var(--superficie); border: 3px dashed var(--c-info-vora); border-radius: 12px; cursor: pointer; touch-action: manipulation;
+    }
+    .forat.ple { border-style: solid; border-color: var(--vora); background: var(--fons); }
+    .forat.ara { border-style: solid; border-color: var(--c-info-vora); background: color-mix(in srgb, var(--c-info) 35%, white); }
+    .forat.mal { background: var(--c-esborrar); border: 3px solid var(--c-esborrar-vora); }
+    .forat.be { background: var(--c-ok); border: 3px solid var(--c-ok-vora); cursor: default; }
+    .majuscules .forat, .majuscules .cela .ll, .majuscules .descoberta b { text-transform: uppercase; }
+
+    .descoberta { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 0; }
+    .descoberta .gran { font-size: clamp(2.6rem, 8vh, 4.2rem); line-height: 1; }
+    .descoberta b { font-size: clamp(1.6rem, 4.5vh, 2.4rem); }
+    .ajudes { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+    .ajudes button {
+      font: inherit; font-weight: 700; font-size: 1rem; color: var(--text); cursor: pointer; touch-action: manipulation;
+      border-radius: 14px; padding: 8px 14px; min-height: 48px; border: 2px solid var(--vora); background: var(--superficie); box-shadow: var(--ombra);
+    }
+    .ajudes .pista { background: var(--c-pista); border-color: var(--c-pista-vora); }
+    .ajudes .treure { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .ajudes button:disabled { opacity: .4; cursor: default; }
+
+    /* Taula de l'abecedari: cada casella és un botó (dibuix + lletra) */
+    .taula { grid-area: taula; display: grid; gap: 6px; grid-template-columns: repeat(var(--tc, 6), var(--c, 70px)); }
+    .cela {
+      width: var(--c, 70px); height: calc(var(--c, 70px) * .95); padding: 2px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+      font: inherit; color: var(--text); background: var(--fons); border: 2px solid var(--vora); border-radius: 12px; cursor: pointer; touch-action: manipulation;
+    }
+    .cela .em { font-size: calc(var(--c, 70px) * .46); line-height: 1.05; }
+    .cela .ll { font-weight: 900; font-size: calc(var(--c, 70px) * .26); line-height: 1; }
+    .sense-lletres .cela .ll { display: none; }
+    .sense-lletres .cela .em { font-size: calc(var(--c, 70px) * .58); }
+    .cela:active { transform: scale(.95); }
+    @media (hover: hover) { .cela:hover { border-color: var(--c-info-vora); } }
+    .cela.pista { background: var(--c-pista); border-color: var(--c-pista-vora); animation: avisa .6s 3; }
+    @keyframes avisa { 50% { transform: scale(1.12); } }
+
+    .missatge {
+      margin-top: 10px; min-height: 3.2rem; padding: 8px 12px; border-radius: var(--radi); text-align: center;
+      background: var(--superficie); border: 2px solid var(--vora); font-weight: 700; font-size: 1.05rem;
+      display: flex; flex-direction: column; justify-content: center; gap: 2px;
+    }
+    .missatge small { font-weight: 500; font-size: .92rem; }
+    .missatge small:empty { display: none; }
+    .missatge.es-pista   { background: var(--c-pista);    border-color: var(--c-pista-vora); }
+    .missatge.es-error   { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .missatge.es-guanyat { background: var(--c-ok);       border-color: var(--c-ok-vora); }
+    @keyframes sacseig { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+    .sacseig { animation: sacseig .25s 2; }
+
+    @media (orientation: landscape) and (max-height: 820px) {
+      .cap-joc { margin: 0 0 8px; }
+      .cap-joc .btn { padding: 6px 14px; }
+      .tauler { padding: 12px; }
+      .missatge { margin-top: 8px; min-height: 0; padding: 6px 10px; }
+      h2.titol { margin: 10px 0 6px; }
+      .opcions button { min-height: 50px; }
+      .comencar { margin: 14px 0 4px; }
+    }
+    @media (orientation: portrait) {
+      .tauler { grid-template-columns: minmax(0, 1fr); grid-template-areas: "paraula" "taula"; justify-items: center; }
+    }
+    @media (orientation: portrait) and (max-width: 600px), (orientation: landscape) and (max-height: 500px) {
+      .barra-joc { padding: 6px 0; }
+      .barra-joc h1 { font-size: 1.1rem; }
+      .cap-joc { margin: 0 0 6px; gap: 6px; flex-wrap: nowrap; }
+      .dades { gap: 4px; }
+      .dada { font-size: .8rem; padding: 2px 8px; }
+      .progres i { width: 8px; height: 8px; }
+      .cap-joc .btn { padding: 5px 10px; font-size: .85rem; white-space: nowrap; }
+      .tauler { padding: 8px; gap: 8px 12px; }
+      .esquerra { gap: 8px; }
+      .paraula { gap: 3px; }
+      .forat { border-width: 2px; border-radius: 8px; }
+      .taula { gap: 4px; }
+      .cela { border-radius: 8px; }
+      .ajudes { gap: 6px; }
+      .ajudes button { font-size: .85rem; padding: 4px 10px; min-height: 40px; }
+      .missatge { margin-top: 6px; min-height: 0; padding: 5px 10px; font-size: .95rem; }
+      .missatge small { font-size: .82rem; }
+    }
+    @media (orientation: portrait) and (max-width: 600px) { .progres { display: none; } }
+  </style>
+</head>
+<body>
+  <nav class="barra-joc">
+    <a href="../../">← Inici</a>
+    <h1>🔍 Paraula amagada</h1>
+  </nav>
+
+  <main class="joc">
+    <section class="inici" id="pantalla-inici">
+      <div class="grup">
+        <h2 class="titol">1. Dificultat</h2>
+        <div class="opcions" id="op-nivell">
+          <button type="button" data-v="facil" aria-pressed="true">🌱 Fàcil<small>3 o 4 lletres · taula amb lletres</small></button>
+          <button type="button" data-v="mitja" aria-pressed="false">Mitjà<small>5 o 6 lletres · taula amb lletres</small></button>
+          <button type="button" data-v="dificil" aria-pressed="false">Difícil<small>7 o més · només dibuixos</small></button>
+        </div>
+      </div>
+      <div class="grup">
+        <h2 class="titol">2. Quina lletra?</h2>
+        <div class="opcions" id="op-lletra">
+          <button type="button" data-v="majuscula" aria-pressed="true">MAJÚSCULA</button>
+          <button type="button" data-v="minuscula" aria-pressed="false">minúscula</button>
+        </div>
+      </div>
+      <p class="explica">Cada dibuix amaga la lletra amb què comença el seu nom. Busca'l a l'abecedari i descobreix la paraula! 10 paraules.</p>
+      <div class="comencar"><button class="btn" id="btn-comencar" type="button" disabled>Comença! 🔍</button></div>
+    </section>
+
+    <section id="pantalla-joc" hidden>
+      <div class="cap-joc">
+        <div class="dades" id="dades"></div>
+        <button class="btn" id="btn-nova" type="button">Nova ronda</button>
+      </div>
+      <div class="tauler" id="tauler">
+        <div class="esquerra">
+          <div class="paraula" id="paraula" aria-label="La paraula amagada"></div>
+          <div class="descoberta" id="descoberta" hidden><span class="gran" id="desc-emoji"></span><b id="desc-text"></b></div>
+          <div class="ajudes">
+            <button type="button" class="pista" id="btn-lletra">💡 Quina lletra?</button>
+            <button type="button" class="pista" id="btn-dibuix">🖼️ Què és?</button>
+            <button type="button" class="treure" id="btn-esborrar" aria-label="Esborra l'última lletra">⌫</button>
+            <button type="button" id="btn-mostra" hidden>🙈 Mostra-la</button>
+          </div>
+        </div>
+        <div class="taula" id="taula" aria-label="Abecedari"></div>
+      </div>
+      <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
+    </section>
+  </main>
+
+  <script src="../../js/pantalla.js"></script>
+  <script src="../../js/preferencies.js"></script>
+  <script src="../../js/celebracio.js"></script>
+  <script>
+    // L'abecedari i les paraules són a dades.json (fàcil d'ampliar sense tocar aquest fitxer)
+    const $ = id => document.getElementById(id);
+    const RONDA = 10;
+    const NIVELLS = { facil: [1, 4], mitja: [5, 6], dificil: [7, 99] };
+    const config = { nivell: 'facil', lletra: 'majuscula' };
+    let ABC = {}, PARAULES = [];
+    let ronda, num, resultats, ajudesTotal, actual, lletres, posats, taulaAra, errors, ajudat, bloquejat, seguent, forat;
+
+    const aleatori = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+    const barrejar = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+    // Lletra de la taula per a cada lletra de la paraula (À → A, Ç → C)
+    const base = c => /ç/i.test(c) ? 'C' : c.normalize('NFD')[0].toUpperCase();
+    const llarg = p => Array.from(p.normalize('NFC')).length;
+
+    async function carregar() {
+      try {
+        const d = await (await fetch('dades.json', { cache: 'no-cache' })).json();
+        ABC = d.abecedari; PARAULES = d.paraules;
+        $('btn-comencar').disabled = false;
+      } catch (e) { console.error(e); $('btn-comencar').textContent = 'No s\'han pogut carregar les dades'; }
+    }
+
+    // ---------------- Inici ----------------
+    function grupOpcions(id, clau) {
+      $(id).addEventListener('click', e => {
+        const b = e.target.closest('button'); if (!b || !b.dataset.v) return;
+        $(id).querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+        config[clau] = b.dataset.v;
+      });
+    }
+    grupOpcions('op-nivell', 'nivell'); grupOpcions('op-lletra', 'lletra');
+    $('btn-comencar').addEventListener('click', () => {
+      const [min, max] = NIVELLS[config.nivell];
+      ronda = barrejar(PARAULES.filter(p => { const n = llarg(p.paraula); return n >= min && n <= max; })).slice(0, RONDA);
+      num = 1; resultats = []; ajudesTotal = 0;
+      $('tauler').classList.toggle('majuscules', config.lletra === 'majuscula');
+      $('taula').classList.toggle('sense-lletres', config.nivell === 'dificil');
+      $('pantalla-inici').hidden = true; $('pantalla-joc').hidden = false;
+      novaParaula();
+      window.scrollTo({ top: 0 });
+    });
+    $('btn-nova').addEventListener('click', () => { clearTimeout(seguent); Celebracio.tancar(); $('pantalla-joc').hidden = true; $('pantalla-inici').hidden = false; });
+
+    // ---------------- Paraula nova ----------------
+    function novaParaula() {
+      actual = ronda[num - 1];
+      lletres = Array.from(actual.paraula.normalize('NFC').toLowerCase());
+      posats = lletres.map(() => null);
+      errors = 0; ajudat = false; bloquejat = false; forat = 0;
+      // Abecedari sortejat: un dibuix per lletra (el mateix a la taula i a la paraula)
+      taulaAra = {};
+      for (const [l, dibs] of Object.entries(ABC)) taulaAra[l] = dibs[aleatori(0, dibs.length - 1)];
+      $('descoberta').hidden = true;
+      $('btn-lletra').disabled = false; $('btn-dibuix').disabled = false; $('btn-esborrar').disabled = false;
+      $('btn-mostra').hidden = true;
+      pintarTaula();
+      pintarParaula();
+      mides();
+      mostrar(`Paraula ${num} de ${ronda.length}`, config.nivell === 'dificil'
+        ? 'Amb quin so comença cada dibuix? Toca\'l a l\'abecedari.'
+        : 'Busca cada dibuix a l\'abecedari i toca\'l.');
+      pintarDades();
+    }
+
+    function pintarTaula() {
+      const t = $('taula'); t.innerHTML = '';
+      Object.keys(ABC).forEach(l => {
+        const [em, nom] = taulaAra[l];
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'cela'; b.dataset.l = l;
+        b.setAttribute('aria-label', config.nivell === 'dificil' ? nom : `${l}, ${nom}`);
+        b.innerHTML = '<span class="em"></span><span class="ll"></span>';
+        b.querySelector('.em').textContent = em;
+        b.querySelector('.ll').textContent = config.lletra === 'majuscula' ? l : l.toLowerCase();
+        t.appendChild(b);
+      });
+    }
+    function pintarParaula() {
+      const p = $('paraula'); p.innerHTML = '';
+      lletres.forEach((c, i) => {
+        const d = document.createElement('div'); d.className = 'lletra';
+        const dib = document.createElement('span'); dib.className = 'dib'; dib.textContent = taulaAra[base(c)][0];
+        dib.title = taulaAra[base(c)][1];
+        const f = document.createElement('button'); f.type = 'button'; f.className = 'forat'; f.dataset.i = i;
+        const v = posats[i];
+        if (v !== null) { f.classList.add('ple'); f.textContent = bloquejat && v === base(c) ? c : (config.lletra === 'majuscula' ? v : v.toLowerCase()); }
+        if (i === forat && !bloquejat) f.classList.add('ara');
+        f.setAttribute('aria-label', `Lletra ${i + 1}${v ? ': ' + v : ''}`);
+        d.append(dib, f); p.appendChild(d);
+      });
+    }
+
+    // Mides: la taula i la paraula s'adapten a l'espai
+    function mides() {
+      if ($('pantalla-joc').hidden || !lletres) return;
+      const vertical = matchMedia('(orientation: portrait)').matches;
+      const mobil = matchMedia('(orientation: portrait) and (max-width: 600px), (orientation: landscape) and (max-height: 500px)').matches;
+      const n = Object.keys(ABC).length;                       // 24
+      const tc = vertical ? 6 : (mobil ? 8 : 6);
+      const files = Math.ceil(n / tc);
+      const gap = mobil ? 4 : 6;
+      const amp = $('tauler').clientWidth - (mobil ? 20 : 30);
+      const alt = Math.min(innerHeight, document.documentElement.clientHeight);
+      let c;
+      if (vertical) {
+        const disp = alt - Pantalla.dalt($('tauler')) - (mobil ? 250 : 330);   // espai per a la paraula, botons i missatge
+        c = Math.min((amp - gap * (tc - 1)) / tc, (disp - gap * (files - 1)) / files / .95, 96);
+      } else {
+        const disp = alt - Pantalla.dalt($('tauler')) - (mobil ? 70 : 90);
+        c = Math.min((amp * (mobil ? .55 : .5) - gap * (tc - 1)) / tc, (disp - gap * (files - 1)) / files / .95, 96);
+      }
+      c = Math.max(36, Math.floor(c));
+      $('taula').style.setProperty('--tc', tc);
+      $('taula').style.setProperty('--c', c + 'px');
+      // Paraula: ample disponible a l'esquerra (o a dalt en vertical)
+      const ampP = vertical ? amp : amp - (c * tc + gap * (tc - 1)) - 22;
+      const g = mobil ? 3 : 6;
+      const l = Math.max(26, Math.min(mobil ? 50 : 64, Math.floor((ampP - g * (lletres.length - 1)) / lletres.length)));
+      $('paraula').style.setProperty('--l', l + 'px');
+    }
+    addEventListener('resize', () => { mides(); });
+
+    // ---------------- Posar lletres ----------------
+    function posar(l) {
+      if (bloquejat || !ABC[l]) return;
+      if (forat === null || forat >= lletres.length) return;
+      posats[forat] = l;
+      const seg = posats.findIndex(v => v === null);
+      forat = seg < 0 ? null : seg;
+      pintarParaula();
+      if (seg < 0) comprovar();
+    }
+    $('taula').addEventListener('click', e => { const b = e.target.closest('.cela'); if (b) posar(b.dataset.l); });
+    $('paraula').addEventListener('click', e => {
+      const f = e.target.closest('.forat'); if (!f || bloquejat) return;
+      const i = Number(f.dataset.i);
+      posats[i] = null; forat = i;                         // tocar un forat el buida i el deixa a punt
+      pintarParaula();
+    });
+    function esborrar() {
+      if (bloquejat) return;
+      let i = forat === null ? lletres.length - 1 : forat - 1;
+      if (forat !== null && posats[forat] !== null) i = forat;
+      while (i >= 0 && posats[i] === null) i--;
+      if (i < 0) return;
+      posats[i] = null; forat = i; pintarParaula();
+    }
+    $('btn-esborrar').addEventListener('click', esborrar);
+    document.addEventListener('keydown', e => {
+      if ($('pantalla-joc').hidden || bloquejat || e.ctrlKey || e.metaKey || e.altKey) return;
+      if (e.key === 'Backspace') { e.preventDefault(); esborrar(); return; }
+      if (e.key.length === 1 && /\p{L}/u.test(e.key)) { const l = base(e.key); if (ABC[l]) { e.preventDefault(); posar(l); } }
+    });
+
+    // ---------------- Pistes ----------------
+    $('btn-lletra').addEventListener('click', () => {
+      if (bloquejat) return;
+      const i = forat ?? posats.findIndex((v, k) => v !== base(lletres[k]));
+      if (i < 0) return;
+      const cela = $('taula').querySelector(`.cela[data-l="${base(lletres[i])}"]`);
+      cela.classList.remove('pista'); void cela.offsetWidth; cela.classList.add('pista');
+      setTimeout(() => cela.classList.remove('pista'), 2000);
+      ajuda();
+      mostrar('💡 Mira la casella que s\'il·lumina', `El dibuix ${taulaAra[base(lletres[i])][0]} és «${taulaAra[base(lletres[i])][1]}».`, 'pista');
+    });
+    $('btn-dibuix').addEventListener('click', () => {
+      if (bloquejat) return;
+      $('desc-emoji').textContent = actual.emoji; $('desc-text').textContent = '';
+      $('descoberta').hidden = false; $('btn-dibuix').disabled = true;
+      ajuda(); mides();
+      mostrar('🖼️ La paraula és això', 'Ara escriu-la amb l\'abecedari.', 'pista');
+    });
+    function ajuda() { if (!ajudat) ajudat = true; ajudesTotal++; pintarDades(); }
+
+    // ---------------- Comprovar ----------------
+    function comprovar() {
+      const mal = posats.map((v, i) => v !== base(lletres[i]));
+      if (!mal.some(Boolean)) {
+        bloquejat = true;
+        resultats.push(ajudat || errors ? 'ajuda' : 'be');
+        pintarParaula();
+        $('paraula').querySelectorAll('.forat').forEach(f => f.classList.add('be'));
+        $('desc-emoji').textContent = actual.emoji; $('desc-text').textContent = escrita();
+        $('descoberta').hidden = false;
+        Celebracio.petita($('paraula'));
+        mostrar(Preferencies.felicitacio(`✓ Molt bé! És «${escrita()}»`), '', 'guanyat');
+        return acabarParaula(2200);
+      }
+      errors++;
+      $('paraula').querySelectorAll('.forat').forEach((f, i) => f.classList.toggle('mal', mal[i]));
+      sacsejar($('paraula'));
+      forat = mal.indexOf(true);
+      const n = mal.filter(Boolean).length;
+      mostrar(n === 1 ? 'Hi ha una lletra que no és' : `Hi ha ${n} lletres que no són`,
+        errors >= 2 ? 'Toca les caselles roses i prova-ho. Pots demanar una pista 💡' : 'Toca les caselles roses per canviar-les.', errors >= 2 ? 'pista' : 'error');
+      if (errors >= 3) $('btn-mostra').hidden = false;
+      // es buiden les equivocades perquè es tornin a omplir
+      setTimeout(() => { if (bloquejat) return; mal.forEach((m, i) => { if (m) posats[i] = null; }); forat = posats.findIndex(v => v === null); pintarParaula(); $('paraula').querySelectorAll('.forat').forEach((f, i) => f.classList.toggle('mal', mal[i] && posats[i] === null)); }, 900);
+      pintarDades();
+    }
+    $('btn-mostra').addEventListener('click', () => {
+      if (bloquejat) return;
+      bloquejat = true; resultats.push('malament');
+      posats = lletres.map(base); pintarParaula();
+      $('paraula').querySelectorAll('.forat').forEach(f => f.classList.add('be'));
+      $('desc-emoji').textContent = actual.emoji; $('desc-text').textContent = escrita(); $('descoberta').hidden = false;
+      mostrar(`Era «${escrita()}»`, 'La propera segur que la trobes!', 'pista');
+      acabarParaula(2800);
+    });
+    const escrita = () => config.lletra === 'majuscula' ? actual.paraula.toUpperCase() : actual.paraula;
+    function acabarParaula(ms) {
+      ['btn-lletra', 'btn-dibuix', 'btn-esborrar'].forEach(id => $(id).disabled = true);
+      $('btn-mostra').hidden = true;
+      mides(); pintarDades();
+      seguent = setTimeout(() => { num++; if (num <= ronda.length) novaParaula(); else final(); }, ms);
+    }
+
+    // ---------------- Final ----------------
+    function final() {
+      num = ronda.length; pintarDades();
+      const total = ronda.length;
+      const sols = resultats.filter(r => r === 'be').length;
+      const fallades = resultats.filter(r => r === 'malament').length;
+      if (!Preferencies.errors()) {
+        mostrar('🎉 Ronda acabada!', `Has descobert les ${total} paraules.`, 'guanyat');
+        Celebracio.gran({ titol: 'Ronda acabada!', emoji: '🔍', subtitol: `Has descobert les ${total} paraules.` });
+        return;
+      }
+      const clau = `appjocs.paraula-amagada.record.${config.nivell}`;
+      let record = null; try { const v = localStorage.getItem(clau); record = v === null ? null : Number(v); } catch {}
+      const nou = record === null || sols > record;
+      if (nou) { try { localStorage.setItem(clau, String(sols)); } catch {} }
+      const estrelles = fallades === 0 && ajudesTotal <= 3 ? 3 : fallades <= 1 && ajudesTotal <= 8 ? 2 : 1;
+      const resum = `${sols} de ${total} sense cap ajuda`;
+      mostrar(sols === total ? '🏆 Totes sense ajuda!' : '🎉 Ronda acabada!', resum, 'guanyat');
+      Celebracio.gran({
+        titol: sols === total ? 'Totes sense ajuda!' : 'Ronda acabada!', emoji: sols === total ? '🏆' : '🔍', estrelles,
+        subtitol: resum + (nou ? (record !== null ? ' · 🏅 Nou rècord!' : '') : ` · Rècord: ${record}`),
+      });
+    }
+
+    function pintarDades() {
+      const comptar = Preferencies.errors(), total = ronda.length;
+      const punts = Array.from({ length: total }, (_, i) =>
+        `<i class="${i < resultats.length ? (comptar ? resultats[i] : 'fet') : i + 1 === num ? 'ara' : ''}"></i>`).join('');
+      $('dades').innerHTML = `<span class="dada">Paraula <b>${Math.min(num, total)}</b>/${total} <span class="progres">${punts}</span></span>`
+        + (comptar ? `<span class="dada">Ajudes: <b>${ajudesTotal}</b></span>` : '');
+    }
+    function sacsejar(el) { el.classList.remove('sacseig'); void el.offsetWidth; el.classList.add('sacseig'); }
+    function mostrar(t, extra = '', estat = '') {
+      const m = $('missatge');
+      $('msg-text').textContent = t; $('msg-extra').textContent = extra;
+      m.classList.remove('es-pista', 'es-error', 'es-guanyat');
+      if (estat) m.classList.add('es-' + estat);
+    }
+
+    carregar();
+    Pantalla.avisOrientacio('paraula-amagada', { dins: document.getElementById('pantalla-inici') });
+  </script>
+</body>
+</html>

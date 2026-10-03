@@ -99,6 +99,50 @@
     "estat": "actiu"
   },
   {
+    "id": "quin-numero",
+    "nom": "Quin número falta?",
+    "icona": "🧮",
+    "descripcio": "Gira i apareix una suma, resta, multiplicació o divisió amb un número amagat.",
+    "objectiu": "Trobar el número que falta a l'operació: el resultat o un dels números.",
+    "categories": [
+      "xifres"
+    ],
+    "estat": "actiu"
+  },
+  {
+    "id": "encreuat",
+    "nom": "Encreuat de números",
+    "icona": "#️⃣",
+    "descripcio": "Operacions que es creuen en files i columnes: omple els números (i els signes) que falten.",
+    "objectiu": "Completar l'encreuat fent que totes les operacions quadrin.",
+    "categories": [
+      "xifres"
+    ],
+    "estat": "actiu"
+  },
+  {
+    "id": "paraula-amagada",
+    "nom": "Paraula amagada",
+    "icona": "🔍",
+    "descripcio": "Cada dibuix amaga la lletra amb què comença. Busca'ls a l'abecedari i descobreix la paraula.",
+    "objectiu": "Trobar la primera lletra de cada dibuix i formar la paraula amagada.",
+    "categories": [
+      "lletres"
+    ],
+    "estat": "actiu"
+  },
+  {
+    "id": "dibuix-secret",
+    "nom": "Dibuix secret",
+    "icona": "🎨",
+    "descripcio": "Pinta els números que et diuen (en lletres o amb una operació) i descobreix el dibuix amagat.",
+    "objectiu": "Trobar cada número a la quadrícula i pintar-lo del color correcte.",
+    "categories": [
+      "xifres"
+    ],
+    "estat": "actiu"
+  },
+  {
     "id": "_plantilla",
     "nom": "Joc de prova",
     "icona": "🧪",

@@ -1,0 +1,284 @@
+{
+ "_nota": "Dibuixos de quadrets per mides (6, 10, 13). Cada fila és un text: '.' = buit, lletra = color de 'colors'. Afegeix-ne amb el mateix format.",
+ "colors": {
+  "K": [
+   "negre",
+   "#3B3355"
+  ],
+  "R": [
+   "vermell",
+   "#E5484D"
+  ],
+  "O": [
+   "taronja",
+   "#F59E42"
+  ],
+  "Y": [
+   "groc",
+   "#FFD43B"
+  ],
+  "G": [
+   "verd",
+   "#43A047"
+  ],
+  "B": [
+   "blau",
+   "#3D8BE0"
+  ],
+  "M": [
+   "marró",
+   "#8D5A3B"
+  ],
+  "N": [
+   "rosa",
+   "#F48FB1"
+  ],
+  "P": [
+   "lila",
+   "#9C6ADE"
+  ]
+ },
+ "dibuixos": {
+  "6": [
+   {
+    "id": "cor",
+    "nom": "un cor",
+    "files": [
+     ".R..R.",
+     "RRRRRR",
+     "RRRRRR",
+     ".RRRR.",
+     "..RR..",
+     "......"
+    ]
+   },
+   {
+    "id": "gat",
+    "nom": "un gat",
+    "files": [
+     "O....O",
+     "OO..OO",
+     "OOOOOO",
+     "OKOOKO",
+     "OOONOO",
+     ".OOOO."
+    ]
+   },
+   {
+    "id": "casa",
+    "nom": "una casa",
+    "files": [
+     "..RR..",
+     ".RRRR.",
+     "RRRRRR",
+     ".YYYY.",
+     ".YMYB.",
+     ".YMYY."
+    ]
+   },
+   {
+    "id": "bolet",
+    "nom": "un bolet",
+    "files": [
+     ".RRRR.",
+     "RYRRYR",
+     "RRRRRR",
+     "..MM..",
+     "..MM..",
+     ".GGGG."
+    ]
+   },
+   {
+    "id": "peix",
+    "nom": "un peix",
+    "files": [
+     "......",
+     ".BBB.B",
+     "BKBBBB",
+     "BBBBBB",
+     ".BBB.B",
+     "......"
+    ]
+   }
+  ],
+  "10": [
+   {
+    "id": "arbre",
+    "nom": "un arbre",
+    "files": [
+     "...GGGG...",
+     "..GGGGGG..",
+     ".GGGRGGGG.",
+     ".GGGGGGRG.",
+     "GGRGGGGGGG",
+     ".GGGGGGGG.",
+     "..GGGGGG..",
+     "....MM....",
+     "....MM....",
+     "GGGGGGGGGG"
+    ]
+   },
+   {
+    "id": "cotxe",
+    "nom": "un cotxe",
+    "files": [
+     "..........",
+     "..........",
+     "...RRRR...",
+     "..RBBRBBR.",
+     "RRRRRRRRRR",
+     "RRRRRRRRRR",
+     ".KK....KK.",
+     ".KK....KK.",
+     "..........",
+     "GGGGGGGGGG"
+    ]
+   },
+   {
+    "id": "sol",
+    "nom": "un sol",
+    "files": [
+     "Y...YY...Y",
+     ".Y..YY..Y.",
+     "...YYYY...",
+     "..YYYYYY..",
+     "YYYKYYKYYY",
+     "YYYYYYYYYY",
+     "..YYRRYY..",
+     "...YYYY...",
+     ".Y..YY..Y.",
+     "Y...YY...Y"
+    ]
+   },
+   {
+    "id": "papallona",
+    "nom": "una papallona",
+    "files": [
+     "...K..K...",
+     "PPP.KK.PPP",
+     "PNPPKKPPNP",
+     "PPPPKKPPPP",
+     ".PPPKKPPP.",
+     "..NPKKPN..",
+     ".NNNKKNNN.",
+     ".NNNKKNNN.",
+     "..NN..NN..",
+     ".........."
+    ]
+   },
+   {
+    "id": "vaixell",
+    "nom": "un vaixell",
+    "files": [
+     "....R.....",
+     "....RR....",
+     "....RRR...",
+     "....RRRR..",
+     "....M.....",
+     "....M.....",
+     "MMMMMMMMMM",
+     ".MMMMMMMM.",
+     "BBBBBBBBBB",
+     "B.B.B.B.B."
+    ]
+   }
+  ],
+  "13": [
+   {
+    "id": "gat",
+    "nom": "un gat",
+    "files": [
+     ".............",
+     ".K.........K.",
+     ".KK.......KK.",
+     ".K.K.....K.K.",
+     ".K..KKKKK..K.",
+     "K...........K",
+     "K..BB...BB..K",
+     "K...........K",
+     "K.....N.....K",
+     "K...K.K.K...K",
+     ".K...K.K...K.",
+     "..K.......K..",
+     "...KKKKKKK..."
+    ]
+   },
+   {
+    "id": "casa",
+    "nom": "una casa",
+    "files": [
+     "......R......",
+     ".....R.R.....",
+     "....R...R....",
+     "...R.....R...",
+     "..R.......R..",
+     ".RRRRRRRRRRR.",
+     "..M.......M..",
+     "..M.BB.BB.M..",
+     "..M.BB.BB.M..",
+     "..M..YYY..M..",
+     "..M..YYY..M..",
+     "..M..YYY..M..",
+     "GGGGGGGGGGGGG"
+    ]
+   },
+   {
+    "id": "cor",
+    "nom": "un cor",
+    "files": [
+     ".............",
+     "..RRR...RRR..",
+     ".R...R.R...R.",
+     "R.....R.....R",
+     "R..N........R",
+     "R...........R",
+     ".R.........R.",
+     "..R.......R..",
+     "...R.....R...",
+     "....R...R....",
+     ".....R.R.....",
+     "......R......",
+     "............."
+    ]
+   },
+   {
+    "id": "flor",
+    "nom": "una flor",
+    "files": [
+     ".............",
+     ".....NNN.....",
+     "...NN...NN...",
+     "..N..YYY..N..",
+     "..N.YYYYY.N..",
+     "..N.YYYYY.N..",
+     "...NNYYYNN...",
+     ".....NNN.....",
+     "......G......",
+     "..GG..G......",
+     "...GG.G..GG..",
+     ".....GG.GG...",
+     "......G......"
+    ]
+   },
+   {
+    "id": "coet",
+    "nom": "un coet",
+    "files": [
+     "......R......",
+     ".....RRR.....",
+     ".....K.K.....",
+     ".....KBK.....",
+     ".....K.K.....",
+     ".....K.K.....",
+     "....RK.KR....",
+     "...R.K.K.R...",
+     "...R.KKK.R...",
+     "......O......",
+     ".....OYO.....",
+     "......Y......",
+     "............."
+    ]
+   }
+  ]
+ }
+}

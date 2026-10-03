@@ -114,13 +114,19 @@
     document.body.appendChild(fons);
     const boto_ = fons.querySelector('.cel-tornar');
     // Tornar a jugar: amb les mateixes opcions (el botó "Comença" del joc, o "Nova partida" si no en té)
+    // Protecció: els primers instants no es pot prémer (un toc o un Enter que encara venia de la
+    // darrera resposta no ha de saltar-se la pantalla de premi)
+    const obertA = performance.now();
+    const massaAviat = () => performance.now() - obertA < 900;
+    fons.querySelector('.cel-menu').addEventListener('click', e => { if (massaAviat()) e.preventDefault(); });
     boto_.addEventListener('click', () => {
+      if (massaAviat()) return;
       tancarGran(); enTancar && enTancar();
       if (tornar) return tornar();
       const b = document.getElementById('btn-comencar') || document.getElementById('btn-nova');
       if (b) b.click();
     });
-    setTimeout(() => boto_.focus(), 50);
+    setTimeout(() => boto_.focus(), 900);
     so('gran');
     if (!menysMoviment()) confeti(fons.querySelector('.cel-confeti'));
   }
