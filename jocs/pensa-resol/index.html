@@ -1,0 +1,1242 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFBF3">
+  <title>Pensa i resol · AppJocs</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="icon" href="../../icons/icon-192.png">
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    /* Colors per rol (css/styles.css): verd = encert · rosa = error · groc = pista / ajuda ·
+       blau = triat / per omplir · préssec = acció. Les monedes tenen els seus colors reals. */
+    .joc { width: 100%; max-width: 1100px; margin: 0 auto; }
+    [hidden] { display: none !important; }
+    h2.titol { font-size: 1.15rem; margin: 16px 0 8px; }
+
+    /* ---------- Pantalla d'inici ---------- */
+    .inici { max-width: 820px; margin: 0 auto; }
+    .opcions { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+    .opcions button {
+      font: inherit; cursor: pointer; color: var(--text); touch-action: manipulation;
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: 14px; box-shadow: var(--ombra);
+      min-height: 60px; padding: 8px; font-weight: 700; font-size: 1.1rem;
+    }
+    .opcions button small { display: block; font-weight: 500; font-size: .85rem; color: var(--text-suau); margin-top: 2px; }
+    .opcions button[aria-pressed="true"] { background: var(--c-info); border-color: var(--c-info-vora); }
+    .opcions button[aria-pressed="true"] small { color: var(--text); }
+    @media (hover: hover) { .opcions button:hover { border-color: var(--c-info-vora); } }
+    .avis-veu { margin: 8px 0 0; padding: 8px 12px; border-radius: 12px; font-size: .92rem;
+      background: var(--c-pista); border: 2px solid var(--c-pista-vora); }
+    @media (orientation: landscape) and (max-height: 500px) { main .inici .explica { display: none; } }
+    .explica { color: var(--text-suau); text-align: center; margin: 14px 0 0; }
+    .comencar { text-align: center; margin: 22px 0 8px; }
+    .comencar .btn { font-size: 1.3rem; padding: 14px 40px; }
+
+    /* ---------- Pantalla de joc ---------- */
+    .cap-joc { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 4px 0 12px; }
+    .dades { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .dada { background: var(--superficie); border: 1px solid var(--vora); border-radius: 999px; padding: 4px 12px; font-size: .95rem; }
+    .dada b { font-variant-numeric: tabular-nums; }
+    .progres { display: inline-flex; gap: 4px; vertical-align: middle; margin-left: 4px; }
+    .progres i { width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--vora); background: var(--superficie); }
+    .progres i.be { background: var(--c-ok); border-color: var(--c-ok-vora); }
+    .progres i.ajuda { background: var(--c-pista); border-color: var(--c-pista-vora); }
+    .progres i.malament { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .progres i.fet { background: var(--vora); }
+    .progres i.ara { background: var(--c-info); border-color: var(--c-info-vora); }
+
+    .tauler {
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi);
+      padding: 16px; display: grid; gap: 14px 22px; align-items: start;
+      grid-template-columns: minmax(0, 1fr); grid-template-areas: "enun" "zona" "resp" "peu";
+    }
+    .tauler.escriure { grid-template-columns: minmax(0, 1fr) minmax(260px, 360px); grid-template-areas: "enun resp" "zona resp" "peu resp"; }
+
+    /* Enunciat */
+    .enunciat { grid-area: enun; display: flex; gap: 10px; align-items: flex-start; }
+    .enunciat .text { flex: 1; font-size: clamp(1.2rem, 2.6vw, 1.7rem); line-height: 1.4; font-weight: 600; }
+    .enunciat .text p { margin: 0; }
+    .enunciat .text p + p { margin-top: 6px; }
+    .enunciat .text .fet { font-size: .8em; font-weight: 500; color: var(--text-suau); }
+    .enunciat .text .titol-h { font-size: .8em; font-weight: 800; color: var(--text-suau); }
+    .enunciat .text .preg-clau { font-weight: 800; }
+    .maj .enunciat .text, .maj .preg, .maj .rao { text-transform: uppercase; }
+    .btn-veu { font: inherit; font-size: 1.4rem; cursor: pointer; flex: none; width: 52px; height: 52px; border-radius: 50%;
+      background: var(--c-pista); border: 2px solid var(--c-pista-vora); box-shadow: var(--ombra); }
+
+    .zona { grid-area: zona; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .zona:empty { display: none; }
+    .resp { grid-area: resp; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+    .resp:empty { display: none; }
+    .peu { grid-area: peu; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+    .botons-peu { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .btn-pista { background: var(--c-pista); border-color: var(--c-pista-vora); }
+    .btn-ok { background: var(--c-ok); border-color: var(--c-ok-vora); font-size: 1.2rem; padding: 10px 30px; }
+
+    .missatge {
+      min-height: 3.2rem; padding: 8px 12px; border-radius: var(--radi); text-align: center;
+      background: var(--superficie); border: 2px solid var(--vora); font-weight: 700; font-size: 1.1rem;
+      display: flex; flex-direction: column; justify-content: center; gap: 2px;
+    }
+    .missatge small { font-weight: 500; font-size: .95rem; }
+    .missatge small:empty { display: none; }
+    .missatge.es-pista   { background: var(--c-pista);    border-color: var(--c-pista-vora); }
+    .missatge.es-error   { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .missatge.es-guanyat { background: var(--c-ok);       border-color: var(--c-ok-vora); }
+    @keyframes sacseig { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+    .sacseig { animation: sacseig .25s 2; }
+
+    /* Botons de resposta (números, operacions, raons, preguntes) */
+    .opcions-resp { display: grid; gap: clamp(8px, 1.6vw, 14px); grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); width: 100%; max-width: 640px; margin: 0 auto; }
+    .opcio {
+      font: inherit; font-weight: 900; font-size: clamp(1.6rem, 4vw, 2.2rem); color: var(--text); cursor: pointer; touch-action: manipulation;
+      min-height: clamp(56px, 10vh, 84px); background: var(--fons); border: 3px solid var(--vora); border-radius: 16px; box-shadow: var(--ombra);
+      font-variant-numeric: tabular-nums; transition: transform .1s; padding: 4px;
+    }
+    .opcio.text { font-size: clamp(1rem, 2vw, 1.2rem); font-weight: 700; text-align: left; padding: 10px 14px; min-height: 0; }
+    .opcio:active { transform: scale(.97); }
+    @media (hover: hover) { .opcio:not(:disabled):hover { border-color: var(--c-info-vora); } }
+    .opcio:disabled { cursor: default; }
+    .opcio.errada { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); text-decoration: line-through; opacity: .7; }
+    .opcio.correcta { background: var(--c-ok); border-color: var(--c-ok-vora); }
+    .opcio.dita { background: var(--c-pista); border-color: var(--c-pista-vora); }
+    .opcio.triada { background: var(--c-info); border-color: var(--c-info-vora); }
+    .opcions-resp.una-col { grid-template-columns: minmax(0, 1fr); }
+    .etiqueta { font-weight: 700; text-align: center; color: var(--text-suau); margin: 0; }
+
+    .entrada-caixa { background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi); padding: 12px; }
+    .entrada-caixa > p { margin: 0 0 8px; text-align: center; font-weight: 700; }
+
+    /* Dibuix de pista */
+    .dibuix { display: flex; flex-direction: column; gap: 6px; align-items: center; width: 100%;
+      background: color-mix(in srgb, var(--c-pista) 35%, white); border: 2px dashed var(--c-pista-vora); border-radius: 14px; padding: 8px 10px;
+      --em: 1.9rem; }
+    .dibuix.petit { --em: 1.45rem; }
+    .dibuix .fila { display: flex; flex-wrap: wrap; gap: 2px 4px; align-items: center; justify-content: center; }
+    .dibuix .fila.alineada { justify-content: flex-start; flex-wrap: nowrap; width: 100%; }
+    .dibuix .nom-fila { font-weight: 700; font-size: .85rem; min-width: 5.5em; text-align: right; padding-right: 6px; flex: none; }
+    .dibuix .e { font-size: var(--em); line-height: 1.1; width: 1.15em; text-align: center; position: relative; }
+    .dibuix .e.ratllat { opacity: .35; }
+    .dibuix .e.ratllat::after { content: '✕'; position: absolute; inset: 0; color: var(--c-esborrar-vora); font-weight: 900; opacity: 1; display: grid; place-items: center; font-size: .9em; }
+    .dibuix .e.nou { background: color-mix(in srgb, var(--c-info) 45%, white); border-radius: 8px; }
+    .dibuix .signe { font-size: calc(var(--em) * .9); font-weight: 900; padding: 0 6px; }
+    .dibuix .grups { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+    .dibuix .grup-d { border: 2px solid var(--c-pista-vora); border-radius: 12px; padding: 2px 6px; display: flex; flex-direction: column; align-items: center; background: var(--superficie); }
+    .dibuix .grup-d .fila { max-width: 5.2em; }
+    .dibuix .nota { font-size: .95rem; font-weight: 700; margin: 0; text-align: center; }
+
+    /* Piràmide */
+    .piramide { display: flex; flex-direction: column; align-items: center; gap: 4px; --mao: clamp(52px, 9vw, 76px); }
+    .piramide .pis { display: flex; gap: 4px; }
+    .piramide .mao { width: var(--mao); height: calc(var(--mao) * .62); display: grid; place-items: center; border-radius: 8px;
+      background: var(--fons); border: 2px solid var(--vora); font-weight: 900; font-size: calc(var(--mao) * .34); font-variant-numeric: tabular-nums; }
+    .piramide .mao.buit { background: var(--superficie); border-style: dashed; }
+    .piramide .mao.pregunta { background: color-mix(in srgb, var(--c-info) 30%, white); border: 2px dashed var(--c-info-vora); color: var(--c-info-vora); }
+    .piramide .mao.pista { background: var(--c-pista); border-color: var(--c-pista-vora); }
+    .piramide .mao.be { background: var(--c-ok); border: 2px solid var(--c-ok-vora); color: var(--text); }
+
+    /* Cartes, fitxes i monedes */
+    .fitxes { display: flex; flex-wrap: wrap; gap: clamp(6px, 1.4vw, 12px); justify-content: center; --f: clamp(58px, 9vw, 92px); }
+    .fitxa { font: inherit; width: var(--f); height: calc(var(--f) * 1.15); border-radius: 14px; cursor: pointer; touch-action: manipulation;
+      background: var(--fons); border: 3px solid var(--vora); box-shadow: var(--ombra); color: var(--text);
+      font-weight: 900; font-size: calc(var(--f) * .42); font-variant-numeric: tabular-nums; padding: 0; }
+    .fitxa.exp { width: auto; min-width: var(--f); padding: 0 10px; font-size: calc(var(--f) * .32); white-space: nowrap; }
+    .fitxa.triada { background: var(--c-info); border-color: var(--c-info-vora); transform: translateY(-4px); }
+    .fitxa.errada { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .fitxa.correcta { background: var(--c-ok); border-color: var(--c-ok-vora); }
+    .fitxa.dita { background: var(--c-pista); border-color: var(--c-pista-vora); }
+    .fitxa:disabled { cursor: default; }
+    .suma-tria { font-size: 1.3rem; font-weight: 800; min-height: 1.6em; text-align: center; font-variant-numeric: tabular-nums; margin: 0; }
+
+    .monedes { display: flex; flex-wrap: wrap; gap: 8px 10px; justify-content: center; align-items: center; --m: clamp(44px, 6.5vw, 66px); }
+    .moneda { font: inherit; cursor: pointer; touch-action: manipulation; border-radius: 50%; padding: 0; position: relative;
+      width: calc(var(--m) * var(--r)); height: calc(var(--m) * var(--r)); display: grid; place-items: center;
+      font-weight: 900; font-size: calc(var(--m) * .28); color: #3b2a12; box-shadow: 0 3px 0 rgba(0,0,0,.15); border: 2px solid rgba(0,0,0,.25); }
+    .moneda.coure { background: radial-gradient(circle at 35% 30%, #f0b38a, #b8693d); }
+    .moneda.or { background: radial-gradient(circle at 35% 30%, #fbe39a, #d4a72c); }
+    .moneda.e1 { background: radial-gradient(circle, #e9e9e9 0 52%, #d4a72c 54%); }
+    .moneda.e2 { background: radial-gradient(circle, #f2cd5c 0 52%, #c9c9c9 54%); }
+    .moneda.bitllet { border-radius: 6px; width: calc(var(--m) * 1.6); height: calc(var(--m) * .9); background: linear-gradient(135deg, #d8d8d0, #b9bdb4); color: #333; }
+    .moneda.triada { outline: 4px solid var(--c-info-vora); outline-offset: 2px; transform: translateY(-4px); }
+    .moneda.dita { outline: 4px solid var(--c-pista-vora); outline-offset: 2px; }
+    .moneda:disabled { cursor: default; }
+
+    .preg-llista .opcio.text { font-weight: 700; }
+
+    /* Més aire per llegir (tauleta i ordinador; el mòbil té les seves regles més avall) */
+    .tauler { padding: 24px 28px; gap: 22px 40px; }
+    .enunciat .text { line-height: 1.55; letter-spacing: .01em; }
+    .enunciat .text p + p { margin-top: 16px; }
+    .enunciat .text .preg-clau { font-weight: 700; }
+    .maj .enunciat .text, .maj .preg, .maj .rao { letter-spacing: .03em; }
+    .opcions-resp { gap: 16px; }
+    .opcio.text { font-weight: 600; line-height: 1.4; padding: 14px 18px; }
+    .peu { gap: 14px; margin-top: 6px; }
+    .zona { gap: 16px; }
+    /* Horitzontal (tauletes i ordinadors): enunciat a l'esquerra, el que es toca a la dreta */
+    @media (orientation: landscape) {
+      .tauler { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "enun zona" "peu resp"; }
+      .tauler.sense-zona { grid-template-areas: "enun resp" "peu resp"; }
+      .tauler { grid-template-rows: auto 1fr; }
+      .peu { align-self: end; }
+      .zona, .resp { padding-left: 20px; border-left: 2px dashed var(--vora); }
+      .tauler.sense-zona .resp, .tauler:not(.sense-zona) .resp { padding-left: 20px; }
+      .tauler.escriure { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(250px, 330px); grid-template-areas: "enun zona resp" "peu zona resp"; }
+      .tauler.escriure.sense-zona { grid-template-columns: minmax(0, 1fr) minmax(250px, 340px); grid-template-areas: "enun resp" "peu resp"; }
+    }
+    @media (orientation: landscape) and (max-height: 820px) {
+      .cap-joc { margin: 0 0 8px; }
+      .cap-joc .btn { padding: 6px 14px; }
+      .tauler { padding: 18px 22px; gap: 14px 32px; }
+      .missatge { min-height: 0; padding: 6px 10px; }
+      h2.titol { margin: 10px 0 6px; }
+      .opcions button { min-height: 50px; }
+      .comencar { margin: 14px 0 4px; }
+      .enunciat .text { font-size: clamp(1.1rem, 3.3vh, 1.6rem); }
+    }
+    /* Vertical (tauleta): tot un sota l'altre; l'entrada sota */
+    @media (orientation: portrait) {
+      .tauler.escriure { grid-template-columns: minmax(0, 1fr); grid-template-areas: "enun" "zona" "peu" "resp"; }
+      .escriure .resp { max-width: 440px; width: 100%; justify-self: center; }
+    }
+    /* Mòbil */
+    @media (orientation: portrait) and (max-width: 600px), (orientation: landscape) and (max-height: 500px) {
+      .barra-joc { padding: 6px 0; }
+      .barra-joc h1 { font-size: 1.1rem; }
+      .cap-joc { margin: 0 0 6px; gap: 6px; flex-wrap: nowrap; }
+      .dades { gap: 4px; }
+      .dada { font-size: .8rem; padding: 2px 8px; }
+      .progres i { width: 8px; height: 8px; }
+      .cap-joc .btn { padding: 5px 10px; font-size: .85rem; white-space: nowrap; }
+      .tauler, .tauler.escriure, .tauler.escriure.sense-zona { padding: 10px; gap: 8px; }
+      .zona, .resp { padding-left: 0; border-left: 0; }
+      .enunciat .text p + p { margin-top: 8px; }
+      .opcions-resp { gap: 8px; }
+      .peu { gap: 8px; margin-top: 0; }
+      .zona { gap: 10px; }
+      .tauler.escriure, .tauler.escriure.sense-zona { grid-template-columns: minmax(0, 1fr); grid-template-areas: "enun" "zona" "resp" "peu"; }
+      .enunciat .text { font-size: 1.12rem; line-height: 1.35; }
+      .btn-veu { width: 40px; height: 40px; font-size: 1.1rem; }
+      .opcio { min-height: 48px; font-size: 1.5rem; }
+      .opcio.text { font-size: .92rem; padding: 7px 10px; }
+      .missatge { min-height: 0; padding: 5px 8px; font-size: .95rem; }
+      .missatge small { font-size: .82rem; }
+      .botons-peu .btn { padding: 6px 14px; font-size: .95rem; }
+      .btn-ok { font-size: 1rem; padding: 6px 20px; }
+      .opcio { min-height: 54px; }
+      .fitxes { --f: 58px; gap: 7px; }
+      .monedes { --m: 48px; gap: 6px 8px; }
+      .piramide { --mao: 54px; }
+      .dibuix { --em: 1.6rem; padding: 4px 6px; gap: 3px; }
+      .dibuix.petit { --em: 1.2rem; }
+      .dibuix .nom-fila { font-size: .75rem; }
+      .dibuix .nota { font-size: .82rem; }
+      .suma-tria { font-size: 1.05rem; }
+    }
+    @media (orientation: portrait) and (max-width: 600px) { .progres { display: none; } }
+    @media (orientation: landscape) and (max-height: 500px) {
+      .tauler, .tauler.sense-zona { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "enun zona" "peu resp"; }
+      .tauler.sense-zona { grid-template-areas: "enun resp" "peu resp"; }
+      .tauler.escriure, .tauler.escriure.sense-zona { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "enun zona" "peu resp"; }
+      .enunciat .text { font-size: .92rem; line-height: 1.3; }
+      .opcio { min-height: 40px; font-size: 1.25rem; }
+      .opcio.text { font-size: .82rem; padding: 5px 8px; }
+      .fitxes { --f: 40px; gap: 4px; }
+      .monedes { --m: 36px; gap: 4px 6px; }
+      .piramide { --mao: 38px; }
+      .dibuix { --em: 1.05rem; }
+      .dibuix.petit { --em: .9rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="barra-joc">
+    <a href="../../">← Inici</a>
+    <h1>🤔 Pensa i resol</h1>
+  </nav>
+
+  <main class="joc">
+    <!-- ================= INICI ================= -->
+    <section class="inici" id="pantalla-inici">
+      <div class="grup">
+        <h2 class="titol">1. Dificultat</h2>
+        <div class="opcions" id="op-nivell">
+          <button type="button" data-v="facil" aria-pressed="true">🌱 Fàcil<small>fins a 10 · tria entre 3</small></button>
+          <button type="button" data-v="mitja" aria-pressed="false">Mitjà<small>fins a 20 · tria entre 4</small></button>
+          <button type="button" data-v="dificil" aria-pressed="false">Difícil<small>fins a 100 · escriu-lo</small></button>
+        </div>
+      </div>
+
+      <div class="grup">
+        <h2 class="titol">2. Abans de respondre, tria l'operació?</h2>
+        <div class="opcions" id="op-tria">
+          <button type="button" data-v="no" aria-pressed="true">No<small>directament la resposta</small></button>
+          <button type="button" data-v="si" aria-pressed="false">Sí: + − × ÷<small>primer, quina operació és</small></button>
+        </div>
+      </div>
+
+      <div class="grup">
+        <h2 class="titol">3. Quina lletra?</h2>
+        <div class="opcions" id="op-lletra">
+          <button type="button" data-v="maj" aria-pressed="true">MAJÚSCULA</button>
+          <button type="button" data-v="min" aria-pressed="false">minúscula</button>
+        </div>
+      </div>
+
+      <div class="grup">
+        <h2 class="titol">4. Lectura en veu alta</h2>
+        <div class="opcions" id="op-veu">
+          <button type="button" data-v="no" aria-pressed="true">🔇 Sense veu<small>llegeix sense ajuda</small></button>
+          <button type="button" data-v="si" aria-pressed="false">🔊 Amb veu<small>botó per escoltar el problema</small></button>
+        </div>
+        <p class="avis-veu" id="avis-veu" hidden>Aquest dispositiu no té veu en català. Es pot afegir a Configuració → Accessibilitat → Contingut llegit → Veus → Català.</p>
+      </div>
+
+      <p class="explica">10 problemes: llegeix-los bé, pensa i resol. Si cal, demana una pista.</p>
+      <div class="comencar"><button class="btn" id="btn-comencar" type="button">Comença! 🤔</button></div>
+    </section>
+
+    <!-- ================= JOC ================= -->
+    <section id="pantalla-joc" hidden>
+      <div class="cap-joc">
+        <div class="dades" id="dades"></div>
+        <div class="botons-cap">
+          <button class="btn" id="btn-nova" type="button">Nova partida</button>
+        </div>
+      </div>
+
+      <div class="tauler" id="tauler">
+        <div class="enunciat">
+          <div class="text" id="enunciat" aria-live="polite"></div>
+          <button type="button" class="btn-veu" id="btn-veu" aria-label="Escolta el problema" hidden>🔊</button>
+        </div>
+        <div class="zona" id="zona"></div>
+        <div class="resp" id="resp"></div>
+        <div class="resp" id="resp-escriure" hidden>
+          <div class="entrada-caixa" id="entrada-caixa">
+            <p>Escriu la resposta</p>
+            <div id="entrada"></div>
+          </div>
+        </div>
+        <div class="peu">
+          <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
+          <div class="botons-peu">
+            <button class="btn btn-pista" id="btn-pista" type="button">💡 Vull una pista</button>
+            <button class="btn" id="btn-seguent" type="button" hidden>Següent ▶</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../js/reconeixedor-xifres.js"></script>
+  <script src="../../js/entrada-numero.js"></script>
+  <script src="../../js/finestra-entrada.js"></script>
+  <script src="../../js/pantalla.js"></script>
+  <script src="../../js/preferencies.js"></script>
+  <script src="../../js/celebracio.js"></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    const RONDA = 10;
+    const config = { nivell: 'facil', tria: 'no', lletra: 'maj', veu: 'no' };
+    const MAX = { facil: 10, mitja: 20, dificil: 100 };
+    let DADES = null;
+    let ronda, idx, resultats, P, errors, ambAjuda, pistaDonada, fase, acabat;
+
+    const aleatori = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+    const barrejar = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+    const triar = a => a[Math.floor(Math.random() * a.length)];
+    const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; };
+
+    // ---------------- Text: plantilles, noms i diners ----------------
+    function nouNom() {
+      const [n, art] = triar(DADES.noms);
+      const amb = art === "l'" ? `l'${n}` : `${art} ${n}`;
+      const de = art === 'en' ? `d'en ${n}` : `de ${amb}`;
+      return { nom: amb, Nom: amb[0].toUpperCase() + amb.slice(1), de_nom: de };
+    }
+    function omplir(text, v) {
+      return text.replace(/\{([a-zA-Z_]+)\}/g, (m, k) => v[k] !== undefined ? String(v[k]) : m);
+    }
+    // Avalua expressions com "{a} + {b} − {c}" després d'omplir-les (només números i + − × /)
+    function calcula(expr) {
+      const net = expr.replace(/−/g, '-').replace(/×/g, '*');
+      if (!/^[\d\s+\-*/().]+$/.test(net)) return null;
+      try { const r = Function(`return (${net})`)(); return Number.isFinite(r) ? Math.round(r * 100) / 100 : null; } catch { return null; }
+    }
+    function diners(c) {
+      if (c < 100) return `${c} cèntims`;
+      if (c % 100 === 0) return `${c / 100} €`;
+      return `${Math.floor(c / 100)},${String(c % 100).padStart(2, '0')} €`;
+    }
+
+    // ---------------- Inici ----------------
+    function grupOpcions(id, clau) {
+      $(id).addEventListener('click', e => {
+        const b = e.target.closest('button'); if (!b || !b.dataset.v) return;
+        $(id).querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+        config[clau] = b.dataset.v;
+      });
+    }
+    grupOpcions('op-nivell', 'nivell'); grupOpcions('op-tria', 'tria'); grupOpcions('op-lletra', 'lletra'); grupOpcions('op-veu', 'veu');
+    $('op-veu').addEventListener('click', () => { $('avis-veu').hidden = !(config.veu === 'si' && !veuCa); });
+
+    $('btn-comencar').addEventListener('click', comencar);
+    $('btn-nova').addEventListener('click', () => { aturarVeu(); finestra.tancar(); Celebracio.tancar(); $('pantalla-joc').hidden = true; $('pantalla-inici').hidden = false; });
+    $('btn-pista').addEventListener('click', () => donarPista());
+    $('btn-seguent').addEventListener('click', seguent);
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !$('btn-seguent').hidden && !$('pantalla-joc').hidden) { e.preventDefault(); seguent(); }
+    });
+
+    async function carregar() {
+      if (DADES) return DADES;
+      const r = await fetch('problemes.json');
+      DADES = await r.json();
+      return DADES;
+    }
+
+    async function comencar() {
+      try { await carregar(); } catch { alert("No s'han pogut carregar els problemes. Torna-ho a provar."); return; }
+      ronda = ferRonda(); idx = -1; resultats = []; acabat = false;
+      $('tauler').classList.toggle('maj', config.lletra === 'maj');
+      $('pantalla-inici').hidden = true; $('pantalla-joc').hidden = false;
+      seguent();
+      window.scrollTo({ top: 0 });
+    }
+
+    // ---------------- La ronda: 10 problemes barrejats ----------------
+    function ferRonda() {
+      const nv = config.nivell;
+      const tipus = [];
+      const nCalc = nv === 'dificil' ? 4 : 5;
+      for (let i = 0; i < nCalc; i++) tipus.push('calcul');
+      tipus.push('cartes', 'monedes', 'quin', 'quin', 'pregunta');
+      if (nv === 'dificil') tipus.push('historia');
+      // Ordre a l'atzar, procurant que no surtin dos del mateix tipus seguits (llevat dels de càlcul)
+      let ordre;
+      for (let t = 0; t < 50; t++) {
+        ordre = barrejar(tipus);
+        if (ordre.every((x, i) => i === 0 || x === 'calcul' || x !== ordre[i - 1])) break;
+      }
+      const calc = barrejar(DADES.calcul.filter(p => p.nivells.includes(nv)));
+      // Variar fórmules: primer una de cada, després la resta
+      const vistes = new Set(), triats = [];
+      calc.forEach(p => { if (!vistes.has(p.f)) { vistes.add(p.f); triats.push(p); } });
+      calc.forEach(p => { if (!triats.includes(p)) triats.push(p); });
+      const plantCalc = barrejar(triats.slice(0, nCalc));
+      const preg = barrejar(DADES.preguntes);
+      return ordre.map(t => ({ tipus: t, plantilla: t === 'calcul' ? plantCalc.shift() : t === 'pregunta' ? preg.shift() : null }));
+    }
+
+    function seguent() {
+      aturarVeu(); finestra.tancar();
+      if (acabat) return;
+      idx++;
+      if (idx >= RONDA) return final();
+      const item = ronda[idx];
+      errors = 0; ambAjuda = false; pistaDonada = false; fase = 'joc';
+      P = GENERA[item.tipus](item.plantilla);
+      $('btn-seguent').hidden = true;
+      $('btn-pista').hidden = false; $('btn-pista').disabled = false;
+      $('zona').innerHTML = ''; $('resp').innerHTML = '';
+      $('tauler').classList.remove('escriure', 'sense-zona');
+      $('resp-escriure').hidden = true; entrada.activar(false);
+      P.iniciar();
+      if (!$('zona').children.length) $('tauler').classList.add('sense-zona');
+      pintarDades();
+      $('btn-veu').hidden = !veuDisponible();
+    }
+
+    // Enunciat: paràgrafs de text (a l'enunciat només hi ha text, mai HTML del JSON)
+    function posarEnunciat(parts) {
+      const t = $('enunciat'); t.innerHTML = '';
+      parts.forEach(p => {
+        const x = typeof p === 'string' ? { text: p } : p;
+        t.appendChild(el('p', x.cls || '', x.text));
+      });
+    }
+
+    // ---------------- Generadors de números per fórmula ----------------
+    // Cada fórmula torna {v: variables, valor, op, trampes, dibuix, pista}
+    function rangSuma(M) {
+      const dif = M === 100;
+      for (let t = 0; t < 200; t++) {
+        const a = aleatori(dif ? 8 : 2, M - 2), b = aleatori(dif ? 5 : 2, M - a);
+        if (b < 2 || a + b > M) continue;
+        if (dif && a + b < 25) continue;
+        return [a, b];
+      }
+      return [3, 4];
+    }
+    function rangResta(M) {
+      const dif = M === 100;
+      for (let t = 0; t < 200; t++) {
+        const a = aleatori(dif ? 25 : 4, M), b = aleatori(dif ? 5 : 2, a - 1);
+        if (b < 1 || a - b < 1) continue;
+        return [a, b];
+      }
+      return [7, 3];
+    }
+    function rangMult(nv, pl) {
+      const M = MAX[nv];
+      for (let t = 0; t < 300; t++) {
+        let a = aleatori(2, nv === 'facil' ? 5 : 10);
+        let b = pl.b || aleatori(2, pl.maxB || (nv === 'facil' ? 5 : 10));
+        if (a * b > M) continue;
+        if (nv === 'dificil' && a * b < 12) continue;
+        if (nv === 'mitja' && a * b < 6) continue;
+        return [a, b];
+      }
+      return [2, pl.b || 2];
+    }
+
+    const FORMULES = {
+      suma(pl, nv) { const [a, b] = rangSuma(MAX[nv]); return { v: { a, b }, valor: a + b, op: '+', trampes: [Math.abs(a - b)], dibuix: { tipus: 'suma', a, b }, n: a + b,
+        pista: `Si n'hi afegim, n'hi ha més que abans. Compta ${b} més a partir del ${a}.` }; },
+      resta(pl, nv) { const [a, b] = rangResta(MAX[nv]); return { v: { a, b }, valor: a - b, op: '−', trampes: [a + b], dibuix: { tipus: 'resta', a, b }, n: a,
+        pista: `Si en treiem, en queden menys. Compta enrere ${b} des del ${a}.` }; },
+      compara(pl, nv) { const [a, b0] = rangResta(MAX[nv]); const b = Math.max(1, a - b0);   // b < a
+        return { v: { a, b }, valor: a - b, op: pl.op || '−', trampes: [a + b], dibuix: { tipus: 'files', a, b }, n: Math.max(a, b),
+        pista: `Quant falta del ${b} per arribar al ${a}?` }; },
+      mesResta(pl, nv) { const [a, b] = rangResta(MAX[nv]); return { v: { a, b }, valor: a - b, op: '−', trampes: [a + b], dibuix: { tipus: 'resta', a, b }, n: a,
+        pista: `L'altra persona en té menys: ${b} menys que ${a}.` }; },
+      menysSuma(pl, nv) { const [a, b] = rangSuma(MAX[nv]); return { v: { a, b }, valor: a + b, op: '+', trampes: [Math.abs(a - b)], dibuix: { tipus: 'suma', a, b }, n: a + b,
+        pista: `L'altra persona en té més: ${b} més que ${a}.` }; },
+      mult(pl, nv) { const [a, b] = rangMult(nv, pl); return { v: { a, b }, valor: a * b, op: '×', trampes: [a + b, a * b + b, a * b - b], dibuix: { tipus: 'grups', a, b }, n: a * b,
+        pista: `Són ${a} grups de ${b}: compta de ${b} en ${b}.` }; },
+      reparteix(pl, nv) { const a = aleatori(2, 10), q = aleatori(2, Math.min(10, Math.floor(100 / a))); const t = a * q;
+        return { v: { a, t }, valor: q, op: '÷', trampes: [t - a, a, q + 1, q - 1], dibuix: { tipus: 'reparteix', t, a }, n: t,
+        pista: `Reparteix-los d'un en un entre els ${a}. Quin número per ${a} fa ${t}?` }; },
+      agrupa(pl, nv) { const b = aleatori(2, 10), q = aleatori(2, Math.min(10, Math.floor(100 / b))); const t = b * q;
+        return { v: { b, t }, valor: q, op: '÷', trampes: [t - b, b, q + 1, q - 1], dibuix: { tipus: 'agrupa', t, b }, n: t,
+        pista: `Fes grups de ${b}. Quants grups de ${b} caben en ${t}?` }; },
+      dosPassos(pl, nv) { const M = MAX[nv];
+        for (let t = 0; t < 200; t++) {
+          const a = aleatori(2, M - 2), b = aleatori(1, Math.min(M - a, M === 100 ? 30 : 9)), c = aleatori(1, Math.min(a + b - 1, M === 100 ? 30 : 9));
+          if (a + b > M || a + b - c < 1 || c === b) continue;
+          return { v: { a, b, c }, valor: a + b - c, op: null, trampes: [a + b + c, a + b, Math.abs(a - b - c)], dibuix: { tipus: 'dosPassos', a, b, c }, n: a + b,
+            pista: `Fes-ho a poc a poc: primer afegeix els ${b} que arriben, i després treu els ${c} que marxen.` };
+        }
+        return { v: { a: 5, b: 3, c: 2 }, valor: 6, op: null, trampes: [10, 8], dibuix: null, n: 99, pista: 'Fes-ho a poc a poc.' }; },
+      multResta(pl, nv) { const a = aleatori(2, 5), b = aleatori(5, Math.floor(100 / a)); const c = aleatori(3, a * b - 2);
+        return { v: { a, b, c }, valor: a * b - c, op: null, trampes: [a * b, a * b + c, a + b - c > 0 ? a + b - c : a * b - c + 10], dibuix: null, n: 999,
+        pista: `Primer, quants llapis rep? Són ${a} capses de ${b}. Després treu els que ven.` }; },
+      canvi(pl, nv) { const B = triar(nv === 'mitja' ? [5, 10, 20] : [10, 20, 50]); const p = aleatori(1, B - 1);
+        return { v: { p, B }, valor: B - p, op: '−', trampes: [B + p, B - p + 1, B - p - 1], dibuix: null, n: 999,
+        pista: `Quant falta del ${p} per arribar al ${B}?` }; },
+      piramide(pl, nv) {
+        const n = nv === 'dificil' ? 4 : 3;
+        for (let t = 0; t < 500; t++) {
+          const base = Array.from({ length: n }, () => aleatori(1, nv === 'facil' ? 4 : nv === 'mitja' ? 7 : 20));
+          const pisos = [base]; while (pisos[0].length > 1) { const s = pisos[0]; pisos.unshift(s.slice(1).map((x, i) => x + s[i])); }
+          const dalt = pisos[0][0];
+          if (dalt > MAX[nv] || (nv === 'dificil' && dalt < 30) || (nv === 'mitja' && dalt < 11)) continue;
+          return { v: {}, valor: dalt, op: null, trampes: [base.reduce((x, y) => x + y, 0), dalt + 1, dalt - 1], dibuix: null, n: 999, pisos,
+            pista: 'Suma els dos maons de sota, pis a pis. Mira: ja t\'he omplert un pis.' };
+        }
+        return { v: {}, valor: 8, op: null, trampes: [6, 7], pisos: [[8], [3, 5], [1, 2, 3]], pista: 'Suma pis a pis.' };
+      },
+    };
+
+    // Les trampes: la bona, l'altra operació, i números a prop
+    function opcionsNum(valor, extres, nOpc, M) {
+      const valid = x => Number.isInteger(x) && x !== valor && x >= 0 && x <= Math.max(M, valor + 10);
+      const ext = [...new Set(extres)].filter(valid);
+      const prop = barrejar([...new Set([valor + 1, valor - 1, valor + 2, valor - 2, valor + 10, valor - 10])].filter(x => valid(x) && !ext.includes(x)));
+      const llista = [...ext.slice(0, 1), ...barrejar([...ext.slice(1), ...prop])];
+      return barrejar([valor, ...llista.slice(0, nOpc - 1)]);
+    }
+
+    // ---------------- Preguntes numèriques (càlcul, piràmide, història) ----------------
+    // q = { valor, op, unitat, pista, dibuixFn, trampes, enAcabar }
+    function preguntaNumerica(q) {
+      P.q = q; fase = (config.tria === 'si' && q.op) ? 'op' : 'num';
+      pintarResposta();
+    }
+    function pintarResposta() {
+      const q = P.q, cont = $('resp'); cont.innerHTML = '';
+      const nv = config.nivell;
+      $('resp-escriure').hidden = true;
+      if (fase === 'op') {
+        $('tauler').classList.remove('escriure');
+        cont.appendChild(el('p', 'etiqueta', 'Quina operació has de fer?'));
+        const ops = nv === 'dificil' ? ['+', '−', '×', '÷'] : ['+', '−', '×'];
+        if (q.op === '÷' && !ops.includes('÷')) ops.push('÷');
+        const g = el('div', 'opcions-resp'); g.style.setProperty('--n', ops.length);
+        ops.forEach(o => { const b = el('button', 'opcio', o); b.type = 'button'; b.dataset.op = o; g.appendChild(b); });
+        g.addEventListener('click', e => { const b = e.target.closest('.opcio'); if (b && !b.disabled) respondreOp(b); });
+        cont.appendChild(g);
+        mostrar('Pensa quina operació és', 'Llegeix bé el problema.');
+        return;
+      }
+      if (nv === 'dificil') {
+        $('tauler').classList.add('escriure');
+        $('resp-escriure').hidden = false;
+        entrada.buidar(); entrada.activar(true); entrada.ajustar();
+        mostrar('Quina és la resposta?', finestra.activa() ? 'Toca «✏️ Escriu la resposta».' : 'Escriu-la i prem OK.');
+        if (!finestra.activa()) setTimeout(() => entrada.enfocar && entrada.enfocar(), 50);
+      } else {
+        $('tauler').classList.remove('escriure');
+        const g = el('div', 'opcions-resp');
+        const vals = opcionsNum(q.valor, q.trampes || [], nv === 'facil' ? 3 : 4, MAX[nv]);
+        g.style.setProperty('--n', vals.length);
+        vals.forEach(v => { const b = el('button', 'opcio', String(v)); b.type = 'button'; b.dataset.v = v; g.appendChild(b); });
+        g.addEventListener('click', e => { const b = e.target.closest('.opcio'); if (b && !b.disabled) respondreNum(Number(b.dataset.v), b); });
+        cont.appendChild(g);
+        mostrar('Quina és la resposta?', 'Tria-la entre les opcions.');
+      }
+    }
+    const NOM_OP = { '+': 'una suma', '−': 'una resta', '×': 'una multiplicació', '÷': 'una divisió' };
+    const PISTA_OP = {
+      '+': 'Es junten coses o n\'arriben més: al final n\'hi ha més.',
+      '−': 'En marxen, en falten o busquem la diferència: és una resta.',
+      '×': 'Són grups iguals: el mateix número moltes vegades.',
+      '÷': 'Repartim a parts iguals o fem grups iguals.',
+    };
+    function respondreOp(b) {
+      const q = P.q;
+      if (b.dataset.op === q.op) {
+        b.classList.add('correcta');
+        $('resp').querySelectorAll('.opcio').forEach(x => x.disabled = true);
+        mostrar(`✓ Sí, és ${NOM_OP[q.op]}!`, 'Ara calcula-ho.', 'guanyat');
+        setTimeout(() => { if (P.q === q && fase === 'op') { fase = 'num'; pintarResposta(); } }, 900);
+        return;
+      }
+      errors++; b.classList.add('errada'); b.disabled = true; sacsejar(b);
+      mostrar(`No és ${NOM_OP[b.dataset.op]}`, 'Pista: ' + PISTA_OP[q.op], errors === 1 ? 'error' : 'pista');
+      pintarDades();
+    }
+    function respondreNum(v, boto) {
+      const q = P.q;
+      if (fase !== 'num') return;
+      if (v === q.valor) {
+        fase = 'espera';
+        if (boto) boto.classList.add('correcta');
+        $('resp').querySelectorAll('.opcio').forEach(x => x.disabled = true);
+        entrada.buidar(); entrada.activar(false); finestra.tancar();
+        return q.enEncert();
+      }
+      errors++;
+      if (boto) { boto.classList.add('errada'); boto.disabled = true; sacsejar(boto); }
+      else { entrada.sacsejar(); entrada.buidar(); }
+      if (errors >= 3) {
+        fase = 'espera';
+        $('resp').querySelectorAll('.opcio').forEach(x => { x.disabled = true; if (Number(x.dataset.v) === q.valor) x.classList.add('dita'); });
+        entrada.buidar(); entrada.activar(false); finestra.tancar();
+        return q.enMostrar();
+      }
+      fallar(`No és ${v}`);
+    }
+
+    // Entrada (Difícil): teclat o dibuix; al mòbil, en una finestra
+    const entrada = EntradaNumero.crear($('entrada'), {
+      maxXifres: 3,
+      clauMode: 'appjocs.pensa-resol.mode-entrada',
+      enEnviar: v => { if (P && P.q && fase === 'num' && config.nivell === 'dificil') respondreNum(v); },
+    });
+    const finestra = FinestraEntrada.crear({
+      entrada: $('entrada-caixa'), info: [$('enunciat'), $('missatge')], disparador: true,
+      avis: '✏️ Escriu la resposta',
+      enObrir: () => entrada.ajustar(),
+    });
+
+    // ---------------- Pistes ----------------
+    // «Vull una pista» (compta com a ajuda). Després del 1r error la pista surt sola (fallar).
+    function donarPista() {
+      if (!P || !P.pista || fase === 'fet') return;
+      pistaDonada = true; ambAjuda = true;
+      mostrar('💡 Pista', P.pista(), 'pista');
+      $('btn-pista').disabled = true;
+      pintarDades();
+    }
+    function fallar(titol) {
+      pistaDonada = true; $('btn-pista').disabled = true;
+      mostrar(titol, 'Pista: ' + P.pista(), errors === 1 ? 'error' : 'pista');
+      pintarDades();
+    }
+    function mostrarDibuix() { if (P.dibuix) { const d = P.dibuix(); if (d && !$('zona').querySelector('.dibuix')) { $('zona').prepend(d); $('tauler').classList.remove('sense-zona'); } } }
+
+    // ---------------- Dibuixos de pista ----------------
+    function emojis(n, e, cls = () => '') { const f = el('div', 'fila'); for (let i = 0; i < n; i++) f.appendChild(el('span', 'e ' + cls(i), e)); return f; }
+    function dibuixFormula(d, pl, nom) {
+      if (!d) return null;
+      const e1 = pl.e1 || '⚫', e2 = pl.e2 || e1;
+      const caixa = el('div', 'dibuix');
+      if (d.tipus === 'suma') {
+        if (d.a + d.b > 20) return null;
+        if (d.a + d.b > 12) caixa.classList.add('petit');
+        const f = el('div', 'fila');
+        f.append(...emojis(d.a, e1).childNodes, el('span', 'signe', '+'), ...emojis(d.b, e2).childNodes);
+        caixa.appendChild(f);
+      } else if (d.tipus === 'resta') {
+        if (d.a > 20) return null;
+        if (d.a > 12) caixa.classList.add('petit');
+        caixa.appendChild(emojis(d.a, e1, i => i >= d.a - d.b ? 'ratllat' : ''));
+      } else if (d.tipus === 'files') {
+        if (Math.max(d.a, d.b) > 20) return null;
+        if (Math.max(d.a, d.b) > 10) caixa.classList.add('petit');
+        const noms = (pl.files || ['', '']).map(x => omplir(x, nom));
+        [[d.a, e1, noms[0]], [d.b, e2, noms[1]]].forEach(([n, e, nomF]) => {
+          const f = emojis(n, e); f.classList.add('alineada'); f.prepend(el('span', 'nom-fila', nomF)); caixa.appendChild(f);
+        });
+      } else if (d.tipus === 'grups') {
+        if (d.a * d.b > 24 || d.a > 6) return null;
+        const g = el('div', 'grups');
+        for (let i = 0; i < d.a; i++) { const c = el('div', 'grup-d'); c.appendChild(el('span', 'e', e1)); c.appendChild(emojis(d.b, e2)); g.appendChild(c); }
+        if (d.a * d.b > 12) caixa.classList.add('petit');
+        caixa.appendChild(g);
+      } else if (d.tipus === 'dosPassos') {
+        if (d.a + d.b > 20) return null;
+        if (d.a + d.b > 12) caixa.classList.add('petit');
+        caixa.appendChild(emojis(d.a + d.b, e1, i => (i >= d.a ? 'nou ' : '') + (i >= d.a + d.b - d.c ? 'ratllat' : '')));
+        caixa.appendChild(el('p', 'nota', `Blau: els que arriben (${d.b}) · ✕: els que marxen (${d.c})`));
+      } else if (d.tipus === 'reparteix') {
+        if (d.t > 20) { caixa.appendChild(el('p', 'nota', `${d.t} entre ${d.a}: quin número per ${d.a} fa ${d.t}?`)); return caixa; }
+        caixa.classList.add('petit');
+        caixa.appendChild(emojis(d.t, e1)); caixa.appendChild(emojis(d.a, e2));
+        caixa.appendChild(el('p', 'nota', `Dona'n un a cadascú, i torna a començar.`));
+      } else if (d.tipus === 'agrupa') {
+        if (d.t > 20) { caixa.appendChild(el('p', 'nota', `Quantes vegades cap el ${d.b} dins del ${d.t}?`)); return caixa; }
+        caixa.classList.add('petit');
+        caixa.appendChild(emojis(d.t, e1));
+        caixa.appendChild(el('p', 'nota', `Fes grups de ${d.b} i compta els grups.`));
+      } else return null;
+      return caixa;
+    }
+
+    // ---------------- Generadors de cada tipus de problema ----------------
+    const GENERA = {
+      // Enunciats de càlcul (i piràmide)
+      calcul(pl) {
+        const nv = config.nivell, nom = nouNom();
+        const g = FORMULES[pl.f](pl, nv);
+        const text = omplir(pl.text, { ...g.v, ...nom });
+        const pr = {
+          pista: () => { mostrarDibuix(); if (pl.f === 'piramide') pintarPiramide(g.pisos, 'pista'); return g.pista; },
+          dibuix: () => dibuixFormula(g.dibuix, pl, nom),
+          text,
+          iniciar() {
+            posarEnunciat([text]);
+            if (pl.f === 'piramide') pintarPiramide(g.pisos);
+            const unitat = pl.unitat ? ' ' + pl.unitat : '';
+            preguntaNumerica({ valor: g.valor, op: g.op, trampes: g.trampes,
+              enEncert: () => { if (pl.f === 'piramide') pintarPiramide(g.pisos, 'tot'); acabarProblema(true, Preferencies.felicitacio(`✓ Molt bé! ${g.valor}${unitat}`)); },
+              enMostrar: () => { if (pl.f === 'piramide') pintarPiramide(g.pisos, 'tot'); acabarProblema(false, `Era ${g.valor}${unitat}`, g.pista); } });
+          },
+        };
+        return pr;
+      },
+
+      // Triar cartes que sumen
+      cartes() {
+        const nv = config.nivell;
+        const pl = triar(DADES.cartes.filter(c => c.nivells.includes(nv)));
+        const k = pl.quantes;
+        const n = k === 3 ? 7 : nv === 'facil' ? 4 : 6;
+        const [tMin, tMax] = nv === 'facil' ? [5, 10] : nv === 'mitja' ? [11, 20] : [30, 100];
+        let t, cartes, bones;
+        for (let i = 0; i < 2000; i++) {
+          t = aleatori(tMin, tMax);
+          bones = k === 2 ? (() => { const x = aleatori(1, t - 1); return [x, t - x]; })()
+            : (() => { const x = aleatori(2, t - 4), y = aleatori(1, t - x - 1); return [x, y, t - x - y]; })();
+          if (new Set(bones).size < k || bones.some(x => x < 1)) continue;
+          cartes = [...bones];
+          let ok = true;
+          for (let j = 0; j < 200 && cartes.length < n; j++) {
+            const c = nv === 'dificil' && Math.random() < .6 ? triar(bones) + triar([-3, -2, -1, 1, 2, 3]) : aleatori(1, t - 1);
+            if (c < 1 || c >= t || cartes.includes(c)) continue;
+            cartes.push(c);
+            if (combinacions(cartes, k, t) > 1 || (k === 3 && combinacions(cartes, 2, t) > 0)) cartes.pop();
+          }
+          if (cartes.length < n) ok = false;
+          if (ok && combinacions(cartes, k, t) === 1) break;
+        }
+        cartes = barrejar(cartes);
+        const text = omplir(pl.text, { t });
+        let triades = [];
+        const pr = {
+          text,
+          pista: () => { const x = Math.max(...bones.filter(b => b < t)); return `Si tries el ${x}, quant et falta per arribar a ${t}?`; },
+          iniciar() {
+            posarEnunciat([text]);
+            const f = el('div', 'fitxes');
+            cartes.forEach(c => { const b = el('button', 'fitxa', String(c)); b.type = 'button'; b.dataset.v = c; f.appendChild(b); });
+            const linia = el('p', 'suma-tria', ' ');
+            f.addEventListener('click', e => {
+              const b = e.target.closest('.fitxa'); if (!b || b.disabled) return;
+              b.classList.remove('errada');
+              b.classList.toggle('triada');
+              triades = [...f.querySelectorAll('.triada')].map(x => Number(x.dataset.v));
+              linia.textContent = triades.length ? `${triades.join(' + ')} = ${triades.length > 1 ? triades.reduce((x, y) => x + y, 0) : '…'}` : ' ';
+            });
+            $('zona').append(f, linia);
+            const ok = el('button', 'btn btn-ok', 'OK ✓'); ok.type = 'button';
+            ok.addEventListener('click', () => comprovar(ok));
+            const r = el('div', 'botons-peu'); r.appendChild(ok); $('resp').appendChild(r);
+            mostrar(`Toca ${k === 2 ? 'dues' : 'tres'} cartes i prem OK`, `Han de sumar ${t}.`);
+          },
+        };
+        function comprovar(ok) {
+          if (triades.length !== k) { mostrar(`Has de triar ${k === 2 ? 'dues' : 'tres'} cartes`, `Ara n'has triat ${triades.length}.`, 'pista'); return; }
+          const s = triades.reduce((x, y) => x + y, 0);
+          if (s === t) {
+            $('zona').querySelectorAll('.fitxa').forEach(x => { x.disabled = true; if (x.classList.contains('triada')) { x.classList.remove('triada'); x.classList.add('correcta'); } });
+            ok.disabled = true;
+            return acabarProblema(true, Preferencies.felicitacio(`✓ Molt bé! ${triades.join(' + ')} = ${t}`));
+          }
+          errors++;
+          $('zona').querySelectorAll('.fitxa.triada').forEach(x => { x.classList.remove('triada'); x.classList.add('errada'); sacsejar(x); });
+          triades = []; $('zona').querySelector('.suma-tria').textContent = ' ';
+          if (errors >= 3) {
+            $('zona').querySelectorAll('.fitxa').forEach(x => { x.disabled = true; x.classList.remove('errada'); if (bones.includes(Number(x.dataset.v))) x.classList.add('dita'); });
+            ok.disabled = true;
+            return acabarProblema(false, `Eren ${bones.join(' + ')} = ${t}`);
+          }
+          fallar(`Sumen ${s}, no ${t}`);
+        }
+        return pr;
+      },
+
+      // Pagar amb monedes
+      monedes() {
+        const nv = config.nivell;
+        const valors = nv === 'facil' ? [200, 100] : nv === 'mitja' ? [200, 100, 50, 20, 10] : [500, 200, 100, 50, 20, 10, 5, 2, 1];
+        let preu, justes;
+        for (let i = 0; i < 500; i++) {
+          preu = nv === 'facil' ? aleatori(2, 10) * 100 : nv === 'mitja' ? aleatori(3, 120) * 10 : aleatori(150, 1200);
+          justes = []; let r = preu;
+          valors.forEach(v => { while (r >= v) { justes.push(v); r -= v; } });
+          if (justes.length <= (nv === 'facil' ? 5 : 6) && justes.length >= 2) break;
+        }
+        const total = nv === 'facil' ? aleatori(6, 7) : aleatori(8, 10);
+        const pool = [...justes];
+        while (pool.length < total) pool.push(triar(valors));
+        const monedes = barrejar(pool).sort((x, y) => y - x);
+        const textPl = triar(DADES.monedes.textos);
+        const text = omplir(textPl, { preu: diners(preu), objecte: triar(DADES.monedes.objectes) });
+        let portes = 0;
+        const pr = {
+          text,
+          pista: () => {
+            const d = preu - portes;
+            const gran = valors.find(v => v <= preu);
+            return (portes ? (d > 0 ? `Et falten ${diners(d)}. ` : d < 0 ? `T'has passat de ${diners(-d)}. ` : '') : '')
+              + `Comença per la moneda més grossa que no et passi (${etiquetaMoneda(gran)}).`;
+          },
+          iniciar() {
+            posarEnunciat([text]);
+            const f = el('div', 'monedes');
+            monedes.forEach((v, i) => {
+              const b = el('button', 'moneda ' + classeMoneda(v), etiquetaMoneda(v)); b.type = 'button'; b.dataset.v = v; b.dataset.i = i;
+              b.style.setProperty('--r', midaMoneda(v)); b.setAttribute('aria-label', diners(v)); f.appendChild(b);
+            });
+            const linia = el('p', 'suma-tria', `Portes: 0 €`);
+            f.addEventListener('click', e => {
+              const b = e.target.closest('.moneda'); if (!b || b.disabled) return;
+              b.classList.toggle('triada');
+              portes = [...f.querySelectorAll('.triada')].reduce((s, x) => s + Number(x.dataset.v), 0);
+              linia.textContent = `Portes: ${portes ? diners(portes) : '0 €'}`;
+            });
+            $('zona').append(f, linia);
+            const ok = el('button', 'btn btn-ok', 'Pagar ✓'); ok.type = 'button';
+            ok.addEventListener('click', () => comprovar(ok));
+            const r = el('div', 'botons-peu'); r.appendChild(ok); $('resp').appendChild(r);
+            mostrar('Toca les monedes per pagar', `Has de pagar ${diners(preu)}.`);
+          },
+        };
+        function comprovar(ok) {
+          if (!portes) { mostrar('Encara no has triat cap moneda', `Has de pagar ${diners(preu)}.`, 'pista'); return; }
+          if (portes === preu) {
+            $('zona').querySelectorAll('.moneda').forEach(x => x.disabled = true);
+            ok.disabled = true;
+            return acabarProblema(true, Preferencies.felicitacio(`✓ Molt bé! Has pagat ${diners(preu)}`));
+          }
+          errors++;
+          sacsejar($('zona').querySelector('.monedes'));
+          if (errors >= 3) {
+            const f = $('zona').querySelector('.monedes');
+            f.querySelectorAll('.moneda').forEach(x => { x.classList.remove('triada'); x.disabled = true; });
+            const queden = [...justes];
+            f.querySelectorAll('.moneda').forEach(x => { const k = queden.indexOf(Number(x.dataset.v)); if (k >= 0) { queden.splice(k, 1); x.classList.add('dita'); } });
+            ok.disabled = true;
+            return acabarProblema(false, `Una manera: ${justes.map(etiquetaMoneda).join(' + ')}`);
+          }
+          fallar(`Portes ${diners(portes)} i has de pagar ${diners(preu)}`);
+        }
+        return pr;
+      },
+
+      // Quin no hi encaixa? (qualsevol fitxa val si la raó és certa)
+      quin() {
+        const s = serieQuin(config.nivell);
+        const text = 'Quin no hi encaixa? Tria\'n un i pensa per què.';
+        let triat = null;
+        const pr = {
+          text, serie: s,
+          pista: () => s.pista,
+          iniciar() {
+            posarEnunciat([{ text, cls: 'preg-clau' }]);
+            const f = el('div', 'fitxes');
+            s.fitxes.forEach((x, i) => { const b = el('button', 'fitxa' + (s.exp ? ' exp' : ''), x.text); b.type = 'button'; b.dataset.i = i; f.appendChild(b); });
+            f.addEventListener('click', e => { const b = e.target.closest('.fitxa'); if (b && !b.disabled) tocar(b); });
+            $('zona').appendChild(f);
+            mostrar('Toca el que no hi encaixa', 'Després triaràs per què.');
+          },
+        };
+        function tocar(b) {
+          const i = Number(b.dataset.i);
+          const certes = s.raons(i);
+          const zona = $('zona');
+          if (!certes.length) {
+            errors++; b.classList.add('errada'); sacsejar(b); b.disabled = true;
+            if (errors >= 3) return mostrarQuin();
+            return fallar("Aquest no té res diferent dels altres. Prova'n un altre.");
+          }
+          zona.querySelectorAll('.fitxa').forEach(x => { x.classList.remove('triada'); });
+          b.classList.add('triada'); triat = i;
+          const bona = certes.includes(s.raoRegla) && i === s.diferent ? s.raoRegla : triar(certes);
+          const falses = barrejar(s.falses(i)).slice(0, 2);
+          const raons = barrejar([bona, ...falses]);
+          const cont = $('resp'); cont.innerHTML = '';
+          cont.appendChild(el('p', 'etiqueta', `Per què el ${s.fitxes[i].text}?`));
+          const g = el('div', 'opcions-resp una-col');
+          raons.forEach(r => { const x = el('button', 'opcio text rao', r); x.type = 'button'; x.dataset.bona = r === bona ? '1' : ''; g.appendChild(x); });
+          g.addEventListener('click', e => {
+            const x = e.target.closest('.opcio'); if (!x || x.disabled) return;
+            if (x.dataset.bona) {
+              x.classList.add('correcta'); g.querySelectorAll('.opcio').forEach(y => y.disabled = true);
+              zona.querySelectorAll('.fitxa').forEach(y => y.disabled = true);
+              b.classList.remove('triada'); b.classList.add('correcta');
+              return acabarProblema(true, Preferencies.felicitacio('✓ Bona raó!'), x.textContent);
+            }
+            errors++; x.classList.add('errada'); x.disabled = true; sacsejar(x);
+            if (errors >= 3) return mostrarQuin();
+            fallar(`Aquesta raó no és certa per al ${s.fitxes[i].text}`);
+          });
+          cont.appendChild(g);
+          mostrar(`Has triat el ${s.fitxes[i].text}`, 'Per què no hi encaixa?');
+        }
+        function mostrarQuin() {
+          const zona = $('zona');
+          zona.querySelectorAll('.fitxa').forEach((x, j) => { x.disabled = true; x.classList.remove('triada', 'errada'); if (j === s.diferent) x.classList.add('dita'); });
+          $('resp').innerHTML = '';
+          acabarProblema(false, `Per exemple, el ${s.fitxes[s.diferent].text}`, s.raoRegla);
+        }
+        return pr;
+      },
+
+      // Quina pregunta no es pot respondre?
+      pregunta(pl) {
+        const nv = config.nivell, M = MAX[nv], nom = nouNom();
+        const [a, b] = rangResta(Math.max(M, 10));
+        const c = aleatori(1, Math.min(a + b - 1, nv === 'dificil' ? 30 : 5));
+        const v = { a, b, c, ...nom };
+        const dades = omplir(pl.dades, v);
+        let si = barrejar(pl.si);
+        if (nv === 'facil') si = si.slice(0, 2);
+        const preguntes = barrejar([...si.map(([p, com]) => ({ p: omplir(p, v), com: omplir(com, v) })), { p: omplir(pl.no, v), no: true }]);
+        const pr = {
+          text: dades + ' Quina pregunta NO es pot respondre?',
+          pista: () => 'Per a cada pregunta, busca a les dades si hi ha el que necessites.',
+          iniciar() {
+            posarEnunciat([dades, { text: 'Amb aquestes dades, quina pregunta NO es pot respondre?', cls: 'preg-clau' }]);
+            $('tauler').classList.add('sense-zona');
+            const g = el('div', 'opcions-resp una-col preg-llista');
+            preguntes.forEach((q, i) => { const x = el('button', 'opcio text preg', q.p); x.type = 'button'; x.dataset.i = i; g.appendChild(x); });
+            g.addEventListener('click', e => {
+              const x = e.target.closest('.opcio'); if (!x || x.disabled) return;
+              const q = preguntes[Number(x.dataset.i)];
+              if (q.no) {
+                x.classList.add('correcta'); g.querySelectorAll('.opcio').forEach(y => y.disabled = true);
+                return acabarProblema(true, Preferencies.felicitacio('✓ Molt bé!'), pl.falta);
+              }
+              errors++; x.classList.add('errada'); x.disabled = true; sacsejar(x);
+              const r = calcula(q.com);
+              const com = r !== null && !/^\d+$/.test(q.com.trim()) ? `${q.com} = ${r}` : q.com;
+              if (errors >= 3) {
+                g.querySelectorAll('.opcio').forEach(y => { y.disabled = true; if (preguntes[Number(y.dataset.i)].no) y.classList.add('dita'); });
+                return acabarProblema(false, 'No es pot saber: ' + preguntes.find(q => q.no).p, pl.falta);
+              }
+              fallar(`Aquesta sí que es pot respondre: ${com}`);
+            });
+            $('resp').appendChild(g);
+            mostrar('Llegeix les dades i les preguntes', 'Toca la que NO es pot respondre.');
+          },
+        };
+        return pr;
+      },
+
+      // Història encadenada (Difícil): 3 preguntes seguides = 1 problema
+      historia() {
+        const h = triar(DADES.histories);
+        const v = VARS_HISTORIA[h.id]();
+        const passos = h.passos.map(p => ({ text: omplir(p.text, v), op: p.op, valor: calcula(omplir(p.resposta, v)), unitat: p.unitat }));
+        let pas = 0, mostrada = false, errorsAbans = 0;
+        const fets = [];
+        const pistaPas = p => p.op === '×' ? 'Són grups iguals: multiplica.' : p.op === '÷' ? 'Reparteix o fes grups iguals: divideix.' : p.op === '−' ? 'Quant falta per arribar? Resta.' : 'Ajunta-ho: suma.';
+        const pr = {
+          get text() { return passos[Math.min(pas, passos.length - 1)].text; },
+          pista: () => pistaPas(passos[Math.min(pas, passos.length - 1)]),
+          iniciar() { pintarPas(); },
+        };
+        function pintarPas() {
+          if (fase === 'fet' || P !== pr) return;
+          const p = passos[pas];
+          errorsAbans += errors; errors = 0;   // cada pregunta té els seus 3 intents
+          posarEnunciat([{ text: `${h.titol} · pregunta ${pas + 1} de ${passos.length}`, cls: 'titol-h' },
+            ...fets.map(f => ({ text: `${f.text} → ${f.valor} ${f.unitat} ✓`, cls: 'fet' })), p.text]);
+          pistaDonada = false; $('btn-pista').disabled = false;
+          preguntaNumerica({ valor: p.valor, op: p.op, trampes: [],
+            enEncert: () => {
+              fets.push(p); pas++;
+              if (pas < passos.length) { mostrar(Preferencies.felicitacio(`✓ Molt bé! ${p.valor} ${p.unitat}`), 'Ara la pregunta següent.', 'guanyat'); setTimeout(pintarPas, 1300); }
+              else { errors += errorsAbans; acabarProblema(!mostrada, Preferencies.felicitacio('✓ Has resolt tota la història!'), `${p.valor} ${p.unitat}`); }
+            },
+            enMostrar: () => {
+              fets.push(p); pas++; mostrada = true;
+              if (pas < passos.length) { mostrar(`Era ${p.valor} ${p.unitat}`, 'Seguim amb la pregunta següent.', 'pista'); ambAjuda = true; setTimeout(pintarPas, 2200); }
+              else { errors += errorsAbans; acabarProblema(false, `Era ${p.valor} ${p.unitat}`); }
+            } });
+        }
+        return pr;
+      },
+    };
+
+    const VARS_HISTORIA = {
+      panellets: () => ({ g: triar([20, 25, 30, 35, 40, 45, 50]), s: triar([4, 5, 8, 10]), p: aleatori(2, 9) }),
+      'berenar-classe': () => {
+        for (let i = 0; i < 500; i++) {
+          const n = aleatori(10, 25), b = aleatori(2, 4), k = triar([5, 10]), p = aleatori(2, 5);
+          if ((n * b) % k || n * b > 100 || (n * b / k) * p > 100) continue;
+          return { n, b, k, p };
+        }
+        return { n: 20, b: 2, k: 10, p: 3 };
+      },
+    };
+
+    function combinacions(arr, k, t) {
+      let c = 0;
+      const rec = (i, n, s) => { if (n === k) { if (s === t) c++; return; } for (let j = i; j < arr.length; j++) rec(j + 1, n + 1, s + arr[j]); };
+      rec(0, 0, 0); return c;
+    }
+
+    // ---------------- Monedes ----------------
+    const classeMoneda = v => v === 500 ? 'bitllet' : v === 200 ? 'e2' : v === 100 ? 'e1' : v >= 10 ? 'or' : 'coure';
+    const etiquetaMoneda = v => v >= 100 ? `${v / 100}€` : `${v}c`;
+    const MIDES = { 1: .66, 2: .76, 5: .86, 10: .8, 20: .9, 50: .98, 100: .94, 200: 1.04, 500: 1 };
+    const midaMoneda = v => MIDES[v] || 1;
+
+    // ---------------- Quin no hi encaixa: sèries ----------------
+    function serieQuin(nv) {
+      const regles = nv === 'facil' ? ['parells', 'senars', 'unaXifra', 'resultat']
+        : nv === 'mitja' ? ['parells', 'senars', 'de5', 'de10', 'desena', 'unaXifra', 'resultat']
+        : ['de5', 'de10', 'desena', 'taula3', 'taula4', 'resultat', 'parells', 'senars'];
+      for (let t = 0; t < 300; t++) {
+        const r = triar(regles);
+        const s = r === 'resultat' ? serieResultat(nv) : serieNumeros(r, nv);
+        if (s) return s;
+      }
+      return serieNumeros('parells', 'facil');
+    }
+    function unics(vals, n) {   // n números diferents
+      return new Set(vals).size === vals.length && vals.length === n;
+    }
+    function serieNumeros(r, nv) {
+      const M = nv === 'facil' ? 10 : nv === 'mitja' ? 50 : 100;
+      const pick = (f, lo = 1, hi = M) => { const c = []; for (let x = lo; x <= hi; x++) if (f(x)) c.push(x); return c; };
+      let bons, dolent, raoRegla, pista;
+      if (r === 'parells') { bons = barrejar(pick(x => x % 2 === 0, 2)).slice(0, 3); dolent = triar(pick(x => x % 2 === 1)); raoRegla = "És l'únic senar."; pista = 'Mira si són parells o senars.'; }
+      else if (r === 'senars') { bons = barrejar(pick(x => x % 2 === 1)).slice(0, 3); dolent = triar(pick(x => x % 2 === 0, 2)); raoRegla = "És l'únic parell."; pista = 'Mira si són parells o senars.'; }
+      else if (r === 'de5') { bons = barrejar(pick(x => x % 5 === 0, 5)).slice(0, 3); dolent = triar(pick(x => x % 5 !== 0, 3)); raoRegla = "És l'únic que no surt comptant de 5 en 5."; pista = 'Prova de comptar de 5 en 5.'; }
+      else if (r === 'de10') { bons = barrejar(pick(x => x % 10 === 0, 10)).slice(0, 3); dolent = triar(pick(x => x % 10 === 5, 5)); raoRegla = "És l'únic que no acaba en 0."; pista = "Mira l'última xifra de cada número."; }
+      else if (r === 'unaXifra') { bons = barrejar(pick(x => x < 10, 1, 9)).slice(0, 3); dolent = aleatori(10, nv === 'facil' ? 15 : 30); raoRegla = "És l'únic de dues xifres."; pista = 'Compta quantes xifres té cada número.'; }
+      else if (r === 'desena') {
+        const d = aleatori(1, nv === 'mitja' ? 4 : 9);
+        bons = barrejar(pick(x => Math.floor(x / 10) === d, d * 10, d * 10 + 9)).slice(0, 3);
+        dolent = triar(pick(x => Math.floor(x / 10) !== d && x >= 10, 10, Math.min(M, 99)));
+        raoRegla = `És l'únic que no comença per ${d}.`; pista = 'Mira la primera xifra de cada número.';
+      }
+      else if (r === 'taula3' || r === 'taula4') {
+        const k = r === 'taula3' ? 3 : 4;
+        bons = barrejar(pick(x => x % k === 0, k * 2, k * 10)).slice(0, 3);
+        dolent = triar(pick(x => x % k !== 0, k * 2, k * 10));
+        raoRegla = `És l'únic que no és de la taula del ${k}.`; pista = `Pensa en la taula del ${k}.`;
+      }
+      const vals = [...bons, dolent];
+      if (!unics(vals, 4) || dolent === undefined) return null;
+      const ordre = barrejar(vals);
+      const fitxes = ordre.map(x => ({ text: String(x), v: x }));
+      const diferent = ordre.indexOf(dolent);
+      // Propietats que poden fer única una fitxa (la més gran i la més petita no compten com a raó bona)
+      const props = [
+        [x => x % 2 === 1, "És l'únic senar."], [x => x % 2 === 0, "És l'únic parell."],
+        [x => x % 5 !== 0, "És l'únic que no surt comptant de 5 en 5."], [x => x % 10 !== 0, "És l'únic que no acaba en 0."],
+        [x => x % 10 === 5, "És l'únic que acaba en 5."], [x => x % 10 === 0, "És l'únic que acaba en 0."],
+        [x => x >= 10, "És l'únic de dues xifres."], [x => x < 10, "És l'únic d'una xifra."],
+        [x => x % 3 !== 0, "És l'únic que no és de la taula del 3."], [x => x % 4 !== 0, "És l'únic que no és de la taula del 4."],
+      ];
+      // Primera xifra compartida pels altres
+      const altresProps = i => {
+        const altres = ordre.filter((_, j) => j !== i);
+        const extra = [];
+        const ds = new Set(altres.map(x => x >= 10 ? Math.floor(x / 10) : -1));
+        if (ds.size === 1 && !ds.has(-1)) { const d = [...ds][0]; extra.push([x => x < 10 || Math.floor(x / 10) !== d, `És l'únic que no comença per ${d}.`]); }
+        return extra;
+      };
+      const unicPer = (i, f) => f(ordre[i]) && ordre.every((x, j) => j === i || !f(x));
+      const raons = i => [...props.filter(([f, t]) => {
+          if (/taula del (\d)/.test(t) && !['taula3', 'taula4'].includes(r)) return false;   // les taules, només a les sèries de taules
+          return unicPer(i, f);
+        }), ...altresProps(i).filter(([f]) => unicPer(i, f))].map(([, t]) => t);
+      const falses = i => {
+        const certes = raons(i);
+        const llista = props.filter(([f, t]) => !unicPer(i, f) && !certes.includes(t) && (!/taula/.test(t) || ['taula3', 'taula4'].includes(r))).map(([, t]) => t);
+        const max = Math.max(...ordre), min = Math.min(...ordre);
+        if (ordre[i] !== max) llista.push('És el més gran.');
+        if (ordre[i] !== min) llista.push('És el més petit.');
+        return llista;
+      };
+      return { fitxes, diferent, raoRegla, pista, raons, falses, exp: false };
+    }
+    function serieResultat(nv) {
+      const rMax = nv === 'facil' ? 10 : nv === 'mitja' ? 20 : 50;
+      const r = aleatori(5, rMax);
+      const exps = new Set(), llista = [];
+      for (let t = 0; t < 100 && llista.length < 3; t++) {
+        const resta = nv !== 'facil' && Math.random() < .3;
+        let a, b, txt;
+        if (resta) { b = aleatori(1, 9); a = r + b; txt = `${a} − ${b}`; }
+        else { a = aleatori(1, r - 1); b = r - a; txt = `${a} + ${b}`; }
+        if (exps.has(txt)) continue; exps.add(txt); llista.push({ text: txt, v: r, op: resta ? '−' : '+' });
+      }
+      const rd = r + triar([-1, 1, 2, -2]);
+      const a = aleatori(1, rd - 1); const dtxt = `${a} + ${rd - a}`;
+      if (exps.has(dtxt) || llista.length < 3) return null;
+      const ordre = barrejar([...llista, { text: dtxt, v: rd, op: '+' }]);
+      const diferent = ordre.findIndex(x => x.v === rd);
+      const raoRegla = `És l'única que no fa ${r}.`;
+      const unicOp = (i, op) => ordre[i].op === op && ordre.every((x, j) => j === i || x.op !== op);
+      const raons = i => {
+        const c = [];
+        if (i === diferent) c.push(raoRegla);
+        if (unicOp(i, '−')) c.push("És l'única resta.");
+        if (unicOp(i, '+')) c.push("És l'única suma.");
+        return c;
+      };
+      const falses = i => {
+        const l = [`És l'única que fa ${r + 3}.`];
+        if (i !== diferent) l.push(`És l'única que no fa ${r}.`);
+        if (!unicOp(i, '−')) l.push("És l'única resta.");
+        if (!unicOp(i, '+')) l.push("És l'única suma.");
+        return l;
+      };
+      return { fitxes: ordre, diferent, raoRegla, pista: 'Calcula el resultat de cada operació.', raons, falses, exp: true };
+    }
+
+    // ---------------- Piràmide ----------------
+    // mode: undefined = només la base i '?' a dalt · 'pista' = també el pis de sobre la base · 'tot' = tots
+    function pintarPiramide(pisos, mode) {
+      let p = $('zona').querySelector('.piramide');
+      if (!p) { p = el('div', 'piramide'); $('zona').appendChild(p); }
+      p.innerHTML = '';
+      const n = pisos.length;
+      pisos.forEach((pis, i) => {
+        const f = el('div', 'pis');
+        pis.forEach(x => {
+          let cls = 'mao', txt = '';
+          if (i === n - 1) txt = x;
+          else if (mode === 'tot') { txt = x; if (i === 0) cls += ' be'; }
+          else if (i === n - 2 && mode === 'pista') { txt = x; cls += ' pista'; }
+          else if (i === 0) { txt = '?'; cls += ' pregunta'; }
+          else cls += ' buit';
+          if (mode === 'pista' && i === n - 2) { /* ja posat */ }
+          f.appendChild(el('div', cls, String(txt)));
+        });
+        p.appendChild(f);
+      });
+      if (mode === 'pista') p.dataset.pista = '1';
+    }
+
+    // ---------------- Acabar un problema ----------------
+    function acabarProblema(be, titol, extra = '') {
+      fase = 'fet';
+      const r = !be ? 'malament' : (errors === 0 && !ambAjuda) ? 'be' : 'ajuda';
+      resultats.push(r);
+      $('btn-pista').hidden = true;
+      $('btn-seguent').hidden = false;
+      $('btn-seguent').textContent = idx + 1 >= RONDA ? 'Acabar 🏁' : 'Següent ▶';
+      mostrar(titol, extra, be ? 'guanyat' : 'pista');
+      if (be) Celebracio.petita(document.querySelector('#tauler .correcta, #zona .be') || $('missatge'));
+      pintarDades();
+      setTimeout(() => { if (!finestra.activa() && !$('btn-seguent').hidden) $('btn-seguent').focus({ preventScroll: true }); }, 50);
+    }
+
+    // ---------------- Final ----------------
+    function final() {
+      if (acabat) return;
+      acabat = true;
+      const nets = resultats.filter(r => r === 'be').length;
+      const mal = resultats.filter(r => r === 'malament').length;
+      const comptar = Preferencies.errors();
+      let titol = nets === RONDA ? 'Tots a la primera!' : 'Ronda acabada!';
+      let emoji = nets === RONDA ? '🏆' : '🤔';
+      let subtitol = `${nets} de ${RONDA} a la primera`;
+      const estrelles = nets >= 9 ? 3 : mal <= 2 ? 2 : 1;
+      if (comptar) {
+        const clau = `appjocs.pensa-resol.record.${config.nivell}.${config.tria}`;
+        let record = null; try { const v = localStorage.getItem(clau); record = v === null ? null : Number(v); } catch {}
+        const nou = record === null || nets > record;
+        if (nou) { try { localStorage.setItem(clau, String(nets)); } catch {} }
+        subtitol += nou ? (record !== null ? ' · 🏅 Nou rècord!' : '') : ` · Rècord: ${record}`;
+      } else { titol = 'Ronda acabada!'; emoji = '🤔'; subtitol = `Has resolt els ${RONDA} problemes.`; }
+      $('btn-seguent').hidden = true;
+      mostrar('🎉 ' + titol, subtitol, 'guanyat');
+      Celebracio.gran({ titol, subtitol, emoji, estrelles });
+    }
+
+    // ---------------- Dades i missatges ----------------
+    function pintarDades() {
+      const comptar = Preferencies.errors();
+      const punts = Array.from({ length: RONDA }, (_, i) =>
+        `<i class="${i < resultats.length ? (comptar ? resultats[i] : 'fet') : i === resultats.length ? 'ara' : ''}"></i>`).join('');
+      let html = `<span class="dada">Problema <b>${Math.min(idx + 1, RONDA)}</b>/${RONDA} <span class="progres">${punts}</span></span>`;
+      if (comptar) html += `<span class="dada">A la primera: <b>${resultats.filter(r => r === 'be').length}</b></span>`;
+      $('dades').innerHTML = html;
+    }
+    function sacsejar(x) { x.classList.remove('sacseig'); void x.offsetWidth; x.classList.add('sacseig'); }
+    function mostrar(t, extra = '', estat = '') {
+      const m = $('missatge');
+      $('msg-text').textContent = t; $('msg-extra').textContent = extra;
+      m.classList.remove('es-pista', 'es-error', 'es-guanyat');
+      if (estat) m.classList.add('es-' + estat);
+    }
+
+    // ---------------- Veu: llegeix el problema ----------------
+    let veuCa = null;
+    function buscarVeu() {
+      if (!('speechSynthesis' in window)) return;
+      veuCa = speechSynthesis.getVoices().find(v => /^ca(-|_|$)/i.test(v.lang)) || null;
+      $('btn-veu').hidden = !veuDisponible() || $('pantalla-joc').hidden;
+      $('avis-veu').hidden = !(config.veu === 'si' && !veuCa);
+    }
+    const veuDisponible = () => config.veu === 'si' && !!veuCa;
+    if ('speechSynthesis' in window) { buscarVeu(); speechSynthesis.addEventListener?.('voiceschanged', buscarVeu); }
+    function aturarVeu() { try { speechSynthesis.cancel(); } catch {} }
+    $('btn-veu').addEventListener('click', () => {
+      if (!veuDisponible() || !P) return;
+      aturarVeu();
+      let text = [...$('enunciat').querySelectorAll('p')].map(p => p.textContent).join(' ');
+      const preg = [...$('resp').querySelectorAll('.preg')].map(p => p.textContent);
+      if (preg.length) text += ' ' + preg.join(' ');
+      const u = new SpeechSynthesisUtterance(text.replace(/€/g, ' euros').toLocaleLowerCase('ca'));
+      u.voice = veuCa; u.lang = veuCa.lang; u.rate = .85;
+      speechSynthesis.speak(u);
+    });
+
+    Pantalla.avisOrientacio('pensa-resol', { dins: document.getElementById('pantalla-inici') });
+  </script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+{
+  "_ajuda": "Pensa i resol: plantilles. {a} {b} {c} {t} = números que tria el joc segons la fórmula (f) i el nivell. {nom} = 'la Júlia', 'en Pau'…; {Nom} = el mateix amb majúscula; {de_nom} = 'de la Júlia', 'd'en Pau'. Fórmules: suma, resta, compara (a > b, resposta a − b), mesResta (a − b), menysSuma (a + b), mult (a grups de b; 'b' fix opcional), reparteix (t entre a), agrupa (t en grups de b), dosPassos (a + b − c), multResta (a × b − c), canvi (bitllet B − preu p), piramide. nivells: facil, mitja, dificil. e1/e2 = dibuixos de la pista.",
+  "noms": [
+    ["Júlia", "la"], ["Pau", "en"], ["Martina", "la"], ["Marc", "en"], ["Laia", "la"],
+    ["Jan", "en"], ["Aina", "l'"], ["Biel", "en"], ["Clara", "la"], ["Nil", "en"]
+  ],
+  "calcul": [
+    { "id": "globus-colors", "f": "suma", "nivells": ["facil", "mitja", "dificil"], "e1": "🎈", "e2": "🎈", "unitat": "globus",
+      "text": "A la festa d'aniversari hi ha {a} globus vermells i {b} de blaus. Quants globus hi ha en total?" },
+    { "id": "cromos-regal", "f": "suma", "nivells": ["facil", "mitja", "dificil"], "e1": "🃏", "unitat": "cromos",
+      "text": "{Nom} té {a} cromos i el seu germà li'n regala {b}. Quants cromos té ara?" },
+    { "id": "pati", "f": "suma", "nivells": ["facil", "mitja", "dificil"], "e1": "🧒", "unitat": "nens i nenes",
+      "text": "Al pati hi ha {a} nens i nenes jugant a pilota. N'arriben {b} més. Quants infants hi ha ara?" },
+    { "id": "granja", "f": "suma", "nivells": ["facil", "mitja", "dificil"], "e1": "🐔", "e2": "🦆", "unitat": "animals",
+      "text": "A la granja hi ha {a} gallines i {b} ànecs. Quants animals hi ha en total?" },
+    { "id": "estoig", "f": "suma", "nivells": ["facil", "mitja", "dificil"], "e1": "✏️", "unitat": "llapis",
+      "text": "A l'estoig {de_nom} hi ha {a} llapis de colors. La seva tieta li'n regala {b} més. Quants llapis té ara?" },
+
+    { "id": "biblioteca", "f": "resta", "nivells": ["facil", "mitja", "dificil"], "e1": "📚", "unitat": "llibres",
+      "text": "La biblioteca té {a} llibres de dinosaures. {Nom} se n'endú {b} a casa. Quants en queden a la biblioteca?" },
+    { "id": "ocells", "f": "resta", "nivells": ["facil", "mitja", "dificil"], "e1": "🐦", "unitat": "ocells",
+      "text": "A l'arbre hi ha {a} ocells. Se n'escapen {b} volant. Quants en queden?" },
+    { "id": "galetes-nom", "f": "resta", "nivells": ["facil", "mitja", "dificil"], "e1": "🍪", "unitat": "galetes",
+      "text": "{Nom} tenia {a} galetes i se n'ha menjat {b}. Quantes galetes li queden?" },
+    { "id": "berenar", "f": "resta", "nivells": ["facil", "mitja", "dificil"], "e1": "🍪", "unitat": "galetes",
+      "text": "Per berenar hi havia {a} galetes a la capsa. Ens n'hem menjat {b}. Quantes en queden?" },
+    { "id": "maduixes", "f": "compara", "op": "−", "nivells": ["mitja", "dificil"], "e1": "🍓", "unitat": "maduixes",
+      "files": ["abans", "ara"],
+      "text": "Al plat hi havia {a} maduixes. Ara n'hi ha {b}. Quantes maduixes s'han menjat?" },
+
+    { "id": "torre", "f": "compara", "nivells": ["facil", "mitja", "dificil"], "e1": "🟦", "unitat": "pisos",
+      "files": ["torre", "bloc"],
+      "text": "La torre del rellotge té {a} pisos i el bloc de pisos en té {b}. Quants pisos més té la torre?" },
+    { "id": "prestatge", "f": "compara", "nivells": ["facil", "mitja", "dificil"], "e1": "📕", "unitat": "contes",
+      "files": ["dalt", "baix"],
+      "text": "Al prestatge de dalt hi ha {a} contes i al de baix n'hi ha {b}. Quants contes menys hi ha al de baix?" },
+    { "id": "punts", "f": "compara", "nivells": ["mitja", "dificil"], "e1": "⭐", "unitat": "punts",
+      "files": ["{nom}", "amic"],
+      "text": "{Nom} ha fet {a} punts al joc i el seu amic n'ha fet {b}. Quants punts més ha fet {nom}?" },
+    { "id": "cadires", "f": "compara", "nivells": ["facil", "mitja", "dificil"], "e1": "🧑", "e2": "🪑", "unitat": "cadires",
+      "files": ["convidats", "cadires"],
+      "text": "Vindran {a} convidats a dinar i a casa només tenim {b} cadires. Quantes cadires falten?" },
+    { "id": "album", "f": "compara", "nivells": ["facil", "mitja", "dificil"], "e1": "⬜", "e2": "🃏", "unitat": "cromos",
+      "files": ["forats", "cromos"],
+      "text": "L'àlbum {de_nom} té {a} forats i ja hi té enganxats {b} cromos. Quants cromos li falten?" },
+    { "id": "mes-que-amiga", "f": "mesResta", "nivells": ["mitja", "dificil"], "e1": "🃏", "unitat": "cromos",
+      "files": ["{nom}", "amiga"],
+      "text": "{Nom} té {a} cromos. En té {b} més que la seva amiga. Quants cromos té l'amiga?" },
+    { "id": "menys-que-germa", "f": "menysSuma", "nivells": ["dificil"], "e1": "🃏", "unitat": "cromos",
+      "files": ["{nom}", "germà"],
+      "text": "{Nom} té {a} cromos. En té {b} menys que el seu germà. Quants cromos té el germà?" },
+
+    { "id": "globus-amics", "f": "mult", "nivells": ["facil", "mitja", "dificil"], "e1": "🧒", "e2": "🎈", "unitat": "globus",
+      "text": "A la festa d'aniversari som {a} amics i amigues i cadascú vol {b} globus. Quants globus hem d'inflar?" },
+    { "id": "bancs", "f": "mult", "nivells": ["facil", "mitja", "dificil"], "e1": "🪑", "e2": "🧑", "unitat": "persones",
+      "text": "Al parc hi ha {a} bancs i a cada banc hi poden seure {b} persones. Quantes persones poden seure en total?" },
+    { "id": "gossos", "f": "mult", "b": 4, "nivells": ["facil", "mitja", "dificil"], "e1": "🐕", "e2": "🐾", "unitat": "potes",
+      "text": "Cada gos té 4 potes. Quantes potes tenen {a} gossos?" },
+    { "id": "capses-ous", "f": "mult", "nivells": ["mitja", "dificil"], "e1": "📦", "e2": "🥚", "unitat": "ous",
+      "text": "A la botiga, cada capsa porta {b} ous. Quants ous hi ha en {a} capses?" },
+    { "id": "cinema", "f": "mult", "nivells": ["facil", "mitja", "dificil"], "e1": "🎬", "e2": "💺", "unitat": "butaques",
+      "text": "Al cinema, cada fila té {b} butaques. Quantes butaques hi ha en {a} files?" },
+    { "id": "gelats", "f": "mult", "maxB": 3, "nivells": ["facil", "mitja", "dificil"], "e1": "🍦", "e2": "🪙", "unitat": "€",
+      "text": "Un gelat val {b} €. Quant costen {a} gelats?" },
+    { "id": "pastis", "f": "mult", "nivells": ["mitja", "dificil"], "e1": "🎂", "e2": "🥚", "unitat": "ous",
+      "text": "Per fer un pastís calen {b} ous. Quants ous calen per fer-ne {a}?" },
+
+    { "id": "caramels", "f": "reparteix", "nivells": ["dificil"], "e1": "🍬", "e2": "🧒", "unitat": "caramels",
+      "text": "{Nom} té {t} caramels i els reparteix a parts iguals entre {a} amics i amigues. Quants caramels li toquen a cadascun?" },
+    { "id": "plats", "f": "agrupa", "nivells": ["dificil"], "e1": "🍪", "e2": "🍽️", "unitat": "plats",
+      "text": "Tenim {t} galetes i en posem {b} a cada plat. Quants plats omplim?" },
+    { "id": "cotxes", "f": "agrupa", "nivells": ["dificil"], "e1": "🧒", "e2": "🚗", "unitat": "cotxes",
+      "text": "A l'excursió hi van {t} infants i a cada cotxe hi caben {b}. Quants cotxes calen?" },
+
+    { "id": "autobus", "f": "dosPassos", "nivells": ["facil", "mitja", "dificil"], "e1": "🧑", "unitat": "persones",
+      "text": "A l'autobús de la ciutat hi ha {a} persones. A la parada de l'escola en pugen {b} i en baixen {c}. Quantes persones hi ha ara a l'autobús?" },
+    { "id": "cromos-pati", "f": "dosPassos", "nivells": ["facil", "mitja", "dificil"], "e1": "🃏", "unitat": "cromos",
+      "text": "{Nom} té {a} cromos. Al pati en guanya {b} i després en perd {c}. Quants cromos té ara?" },
+    { "id": "galliner", "f": "dosPassos", "nivells": ["mitja", "dificil"], "e1": "🥚", "unitat": "ous",
+      "text": "Al galliner hi havia {a} ous. Al matí les gallines n'han post {b} més i n'hem agafat {c} per fer un pastís. Quants ous queden?" },
+    { "id": "papereria", "f": "multResta", "nivells": ["dificil"], "e1": "✏️", "unitat": "llapis",
+      "text": "La papereria rep {a} capses de {b} llapis i en ven {c}. Quants llapis li queden?" },
+
+    { "id": "llibre-canvi", "f": "canvi", "nivells": ["mitja", "dificil"], "unitat": "€",
+      "text": "Compres un llibre de {p} € i pagues amb un bitllet de {B} €. Quant et tornen?" },
+    { "id": "joguina-canvi", "f": "canvi", "nivells": ["mitja", "dificil"], "unitat": "€",
+      "text": "Una joguina val {p} €. {Nom} paga amb un bitllet de {B} €. Quant li tornen?" },
+
+    { "id": "piramide", "f": "piramide", "nivells": ["facil", "mitja", "dificil"],
+      "text": "A cada maó hi va la suma dels dos maons de sota. Quin nombre va a dalt de tot?" }
+  ],
+
+  "cartes": [
+    { "id": "robot", "quantes": 2, "nivells": ["facil", "mitja", "dificil"],
+      "text": "El robot de la ciutat necessita dues targetes que sumin {t}. Quines tries?" },
+    { "id": "castell", "quantes": 2, "nivells": ["facil", "mitja", "dificil"],
+      "text": "La porta del castell només s'obre amb dues claus que sumin {t}. Quines tries?" },
+    { "id": "nau", "quantes": 3, "nivells": ["dificil"],
+      "text": "Per guanyar la cursa, la nau necessita tres piles que sumin {t}. Quines tries?" }
+  ],
+
+  "monedes": {
+    "textos": [
+      "Has de pagar exactament {preu} al quiosc. Tria les monedes.",
+      "A la fira, {objecte} val {preu}. Tria els diners justos per comprar-lo.",
+      "Vols comprar {objecte} a la botiga. Val {preu}. Quines monedes hi poses?"
+    ],
+    "objectes": ["un gelat", "una pilota", "una llibreta", "un globus", "un llibre de contes", "un joc de cartes", "una samarreta"]
+  },
+
+  "preguntes": [
+    { "id": "biblioteca", "dades": "La biblioteca té {a} contes i {b} còmics. Aquesta setmana n'han deixat {c} en préstec.",
+      "si": [ ["Quants llibres té la biblioteca en total?", "{a} + {b}"],
+              ["Quants contes més que còmics hi ha?", "{a} − {b}"],
+              ["Quants llibres queden a les prestatgeries?", "{a} + {b} − {c}"] ],
+      "no": "Quantes pàgines té cada conte?", "falta": "Les dades no diuen res de les pàgines." },
+    { "id": "fruita", "dades": "{Nom} compra {a} pomes i {b} peres. Paga amb un bitllet de 5 €.",
+      "si": [ ["Quantes fruites compra?", "{a} + {b}"],
+              ["Quantes pomes més que peres compra?", "{a} − {b}"],
+              ["Amb quin bitllet paga?", "amb el de 5 €"] ],
+      "no": "Quant li tornen de canvi?", "falta": "No sabem quant costa la fruita." },
+    { "id": "excursio", "dades": "A l'excursió hi van {a} infants i {b} mestres. Surten a les 9 del matí.",
+      "si": [ ["Quantes persones hi van?", "{a} + {b}"],
+              ["Quants infants més que mestres hi van?", "{a} − {b}"],
+              ["A quina hora surten?", "a les 9"] ],
+      "no": "A quina hora tornen?", "falta": "Les dades només diuen quan surten." },
+    { "id": "hort", "dades": "A l'hort hi ha {a} enciams i {b} tomaqueres. Avui n'hem regat {c}.",
+      "si": [ ["Quantes plantes hi ha a l'hort?", "{a} + {b}"],
+              ["Quantes plantes falten per regar?", "{a} + {b} − {c}"],
+              ["Quants enciams més que tomaqueres hi ha?", "{a} − {b}"] ],
+      "no": "Quants tomàquets fa cada tomaquera?", "falta": "Les dades no diuen res dels tomàquets." },
+    { "id": "basquet", "dades": "Al partit de bàsquet, l'equip blau ha fet {a} punts i el vermell n'ha fet {b}.",
+      "si": [ ["Quin equip ha guanyat?", "el blau"],
+              ["Per quants punts ha guanyat?", "{a} − {b}"],
+              ["Quants punts han fet entre tots dos?", "{a} + {b}"] ],
+      "no": "Quants jugadors té cada equip?", "falta": "Les dades només parlen de punts." },
+    { "id": "autobus", "dades": "A l'autobús hi ha {a} persones. A la parada en pugen {b}.",
+      "si": [ ["Quantes persones hi ha ara?", "{a} + {b}"],
+              ["Quantes persones han pujat?", "{b}"],
+              ["Hi ha més persones que abans?", "sí"] ],
+      "no": "Quantes persones baixaran a la parada següent?", "falta": "Encara no sabem què passarà a la parada següent." }
+  ],
+
+  "histories": [
+    { "id": "panellets", "titol": "Els panellets de la Castanyada",
+      "passos": [
+        { "text": "Per fer 20 panellets calen {g} grams d'ametlla. Quanta ametlla cal per fer-ne 40?", "op": "×", "resposta": "{g} * 2", "unitat": "grams" },
+        { "text": "Posem els 40 panellets en safates de {s}. Quantes safates omplim?", "op": "÷", "resposta": "40 / {s}", "unitat": "safates" },
+        { "text": "L'ametlla costa {p} € i paguem amb un bitllet de 10 €. Quant ens tornen?", "op": "−", "resposta": "10 - {p}", "unitat": "€" }
+      ] },
+    { "id": "berenar-classe", "titol": "El berenar de la classe",
+      "passos": [
+        { "text": "A la classe som {n} nens i nenes i cadascú vol {b} galetes. Quantes galetes calen?", "op": "×", "resposta": "{n} * {b}", "unitat": "galetes" },
+        { "text": "Cada paquet porta {k} galetes. Quants paquets hem de comprar?", "op": "÷", "resposta": "{n} * {b} / {k}", "unitat": "paquets" },
+        { "text": "Cada paquet val {p} €. Quant costen tots els paquets?", "op": "×", "resposta": "{n} * {b} / {k} * {p}", "unitat": "€" }
+      ] }
+  ]
+}

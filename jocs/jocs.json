@@ -143,6 +143,17 @@
     "estat": "actiu"
   },
   {
+    "id": "pensa-resol",
+    "nom": "Pensa i resol",
+    "icona": "🤔",
+    "descripcio": "Petits problemes: llegeix, pensa quina operació cal i resol-los. Amb cartes, monedes i preguntes trampa.",
+    "objectiu": "Resoldre problemes de sumar, restar, multiplicar i repartir, i pensar bé què demanen.",
+    "categories": [
+      "xifres"
+    ],
+    "estat": "actiu"
+  },
+  {
     "id": "_plantilla",
     "nom": "Joc de prova",
     "icona": "🧪",

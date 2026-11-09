@@ -409,9 +409,15 @@ main.inici-app { display: flex; flex-direction: column; max-width: 1300px; paddi
 .op-sino button[aria-pressed="true"] { background: var(--c-info); border-color: var(--c-info-vora); }
 .op-botons { display: grid; grid-template-columns: 1fr 1.4fr; gap: 10px; margin-top: 4px; }
 .op-botons .op-desa { background: var(--c-ok); border-color: var(--c-ok-vora); }
+.op-manual { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; min-height: 46px; padding: 6px 12px;
+  border-radius: 14px; border: 2px solid var(--c-info-vora); background: var(--superficie); box-shadow: var(--ombra);
+  color: var(--text); font-weight: 700; font-size: 1.05rem; text-decoration: none; touch-action: manipulation; }
+.op-manual small { font-weight: 500; font-size: .85rem; color: var(--text-suau); }
+.op-manual:hover { background: var(--c-info); }
 @media (orientation: landscape) and (max-height: 500px) {
   .opcions-finestra { max-width: 640px; padding: 12px 16px; gap: 10px; display: grid; grid-template-columns: 1fr 1fr; }
-  .opcions-finestra h2, .op-botons { grid-column: 1 / -1; }
+  .opcions-finestra h2, .op-botons, .op-manual { grid-column: 1 / -1; }
+  .op-manual { min-height: 40px; }
   label.op-camp { grid-column: 1 / -1; }
   .op-camp small { display: none; }
 }
