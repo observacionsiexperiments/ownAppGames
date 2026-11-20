@@ -38,7 +38,7 @@ jobs:
       - name: Preparar només els fitxers de l'app
         run: |
           mkdir _site
-          cp -r index.html manifest.webmanifest sw.js css js icons jocs _site/
+          cp -r index.html manual.html manifest.webmanifest sw.js css js icons jocs _site/
 
       - name: Configurar Pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0 (24/03/2026)
