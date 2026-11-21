@@ -1,0 +1,286 @@
+{
+ "_ajuda": "Petit o gros?: paraula (p), diminutiu (dim), augmentatiu (aug, null si no sona natural) i regla d'ortografia del diminutiu: regular, vocal (perd la vocal final), ss, qu, gu, cgu (c → gu), çc, jg, especial (amb 'arrel': com queda la paraula abans del sufix). Sense pejoratius.",
+ "paraules": [
+  {
+   "p": "gat",
+   "dim": "gatet",
+   "aug": "gatàs",
+   "regla": "regular"
+  },
+  {
+   "p": "cap",
+   "dim": "capet",
+   "aug": "capàs",
+   "regla": "regular"
+  },
+  {
+   "p": "llop",
+   "dim": "llopet",
+   "aug": "llopàs",
+   "regla": "regular"
+  },
+  {
+   "p": "plat",
+   "dim": "platet",
+   "aug": "platàs",
+   "regla": "regular"
+  },
+  {
+   "p": "got",
+   "dim": "gotet",
+   "aug": "gotàs",
+   "regla": "regular"
+  },
+  {
+   "p": "ull",
+   "dim": "ullet",
+   "aug": "ullàs",
+   "regla": "regular"
+  },
+  {
+   "p": "dit",
+   "dim": "ditet",
+   "aug": "ditàs",
+   "regla": "regular"
+  },
+  {
+   "p": "vent",
+   "dim": "ventet",
+   "aug": "ventàs",
+   "regla": "regular"
+  },
+  {
+   "p": "peix",
+   "dim": "peixet",
+   "aug": "peixàs",
+   "regla": "regular"
+  },
+  {
+   "p": "llit",
+   "dim": "llitet",
+   "aug": "llitàs",
+   "regla": "regular"
+  },
+  {
+   "p": "cavall",
+   "dim": "cavallet",
+   "aug": "cavallàs",
+   "regla": "regular"
+  },
+  {
+   "p": "ocell",
+   "dim": "ocellet",
+   "aug": "ocellàs",
+   "regla": "regular"
+  },
+  {
+   "p": "mocador",
+   "dim": "mocadoret",
+   "aug": "mocadoràs",
+   "regla": "regular"
+  },
+  {
+   "p": "veu",
+   "dim": "veueta",
+   "aug": "veuassa",
+   "regla": "regular"
+  },
+  {
+   "p": "noi",
+   "dim": "noiet",
+   "aug": null,
+   "regla": "regular"
+  },
+  {
+   "p": "cotxe",
+   "dim": "cotxet",
+   "aug": "cotxàs",
+   "regla": "vocal"
+  },
+  {
+   "p": "llibre",
+   "dim": "llibret",
+   "aug": null,
+   "regla": "vocal"
+  },
+  {
+   "p": "casa",
+   "dim": "caseta",
+   "aug": "casassa",
+   "regla": "vocal"
+  },
+  {
+   "p": "cadira",
+   "dim": "cadireta",
+   "aug": "cadirassa",
+   "regla": "vocal"
+  },
+  {
+   "p": "noia",
+   "dim": "noieta",
+   "aug": null,
+   "regla": "vocal"
+  },
+  {
+   "p": "taula",
+   "dim": "tauleta",
+   "aug": "taulassa",
+   "regla": "vocal"
+  },
+  {
+   "p": "pilota",
+   "dim": "piloteta",
+   "aug": "pilotassa",
+   "regla": "vocal"
+  },
+  {
+   "p": "porta",
+   "dim": "porteta",
+   "aug": "portassa",
+   "regla": "vocal"
+  },
+  {
+   "p": "caixa",
+   "dim": "caixeta",
+   "aug": "caixassa",
+   "regla": "vocal"
+  },
+  {
+   "p": "finestra",
+   "dim": "finestreta",
+   "aug": "finestrassa",
+   "regla": "vocal"
+  },
+  {
+   "p": "cullera",
+   "dim": "cullereta",
+   "aug": "cullerassa",
+   "regla": "vocal"
+  },
+  {
+   "p": "olla",
+   "dim": "olleta",
+   "aug": "ollassa",
+   "regla": "vocal"
+  },
+  {
+   "p": "sabata",
+   "dim": "sabateta",
+   "aug": "sabatassa",
+   "regla": "vocal"
+  },
+  {
+   "p": "bossa",
+   "dim": "bosseta",
+   "aug": "bossassa",
+   "regla": "vocal"
+  },
+  {
+   "p": "pedra",
+   "dim": "pedreta",
+   "aug": "pedrassa",
+   "regla": "vocal"
+  },
+  {
+   "p": "sopa",
+   "dim": "sopeta",
+   "aug": null,
+   "regla": "vocal"
+  },
+  {
+   "p": "gos",
+   "dim": "gosset",
+   "aug": "gossàs",
+   "regla": "ss"
+  },
+  {
+   "p": "nas",
+   "dim": "nasset",
+   "aug": "nassàs",
+   "regla": "ss"
+  },
+  {
+   "p": "os",
+   "dim": "osset",
+   "aug": "ossàs",
+   "regla": "ss"
+  },
+  {
+   "p": "boca",
+   "dim": "boqueta",
+   "aug": "bocassa",
+   "regla": "qu"
+  },
+  {
+   "p": "vaca",
+   "dim": "vaqueta",
+   "aug": "vacassa",
+   "regla": "qu"
+  },
+  {
+   "p": "roca",
+   "dim": "roqueta",
+   "aug": "rocassa",
+   "regla": "qu"
+  },
+  {
+   "p": "botiga",
+   "dim": "botigueta",
+   "aug": "botigassa",
+   "regla": "gu"
+  },
+  {
+   "p": "amic",
+   "dim": "amiguet",
+   "aug": null,
+   "regla": "cgu"
+  },
+  {
+   "p": "braç",
+   "dim": "bracet",
+   "aug": "braçàs",
+   "regla": "çc"
+  },
+  {
+   "p": "pluja",
+   "dim": "plugeta",
+   "aug": null,
+   "regla": "jg"
+  },
+  {
+   "p": "mà",
+   "dim": "maneta",
+   "aug": "manassa",
+   "regla": "especial",
+   "arrel": "man"
+  },
+  {
+   "p": "pa",
+   "dim": "panet",
+   "aug": null,
+   "regla": "especial",
+   "arrel": "pan"
+  },
+  {
+   "p": "home",
+   "dim": "homenet",
+   "aug": null,
+   "regla": "especial",
+   "arrel": "homen"
+  },
+  {
+   "p": "riu",
+   "dim": "rierol",
+   "aug": null,
+   "regla": "especial",
+   "arrel": "rier"
+  },
+  {
+   "p": "bèstia",
+   "dim": "bestiola",
+   "aug": "bestiassa",
+   "regla": "especial",
+   "arrel": "besti"
+  }
+ ]
+}

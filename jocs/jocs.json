@@ -1,6 +1,7 @@
 [
   {
     "id": "endevina-numero",
+    "num": 1,
     "nom": "Endevina el número",
     "icona": "🔢",
     "descripcio": "He pensat un número de l'1 al 100. Les pistes t'ajudaran a trobar-lo.",
@@ -12,6 +13,7 @@
   },
   {
     "id": "arbre-numeros",
+    "num": 2,
     "nom": "L'arbre dels números",
     "icona": "🌳",
     "descripcio": "Parteix un número en dues parts, i cada part en dues més, fins arribar als uns.",
@@ -23,6 +25,7 @@
   },
   {
     "id": "piramide",
+    "num": 3,
     "nom": "La piràmide de números",
     "icona": "🔺",
     "descripcio": "Cada maó és la suma dels dos que té a sota. Puja des de la base fins a la cúspide.",
@@ -34,6 +37,7 @@
   },
   {
     "id": "quadre-numeric",
+    "num": 4,
     "nom": "El quadre numèric",
     "icona": "🧩",
     "descripcio": "Un tros de la taula del 100: a partir d'un número, troba els que té al voltant.",
@@ -45,6 +49,7 @@
   },
   {
     "id": "paraules",
+    "num": 5,
     "nom": "Llegeix i tria",
     "icona": "📖",
     "descripcio": "Una paraula en lletra gran, separada en síl·labes, i quatre dibuixos.",
@@ -56,6 +61,7 @@
   },
   {
     "id": "suma-rapida",
+    "num": 6,
     "nom": "Suma ràpida",
     "icona": "⚡",
     "descripcio": "Un número gran i moltes fitxes: tria les que, sumades, hi arriben.",
@@ -67,6 +73,7 @@
   },
   {
     "id": "gran-petit",
+    "num": 7,
     "nom": "Gran o petit?",
     "icona": "🔎",
     "descripcio": "Uns quants números i una pregunta: quin és el més gran? I el més petit?",
@@ -78,6 +85,7 @@
   },
   {
     "id": "veritat-mentida",
+    "num": 8,
     "nom": "Veritat o mentida?",
     "icona": "✅",
     "descripcio": "Un dibuix i una frase: llegeix-la i digues si és veritat o mentida.",
@@ -89,6 +97,7 @@
   },
   {
     "id": "anagrames",
+    "num": 9,
     "nom": "Anagrames",
     "icona": "🔀",
     "descripcio": "Les lletres d'una paraula estan desordenades: posa-les en ordre.",
@@ -100,6 +109,7 @@
   },
   {
     "id": "quin-numero",
+    "num": 10,
     "nom": "Quin número falta?",
     "icona": "🧮",
     "descripcio": "Gira i apareix una suma, resta, multiplicació o divisió amb un número amagat.",
@@ -111,6 +121,7 @@
   },
   {
     "id": "encreuat",
+    "num": 11,
     "nom": "Encreuat de números",
     "icona": "#️⃣",
     "descripcio": "Operacions que es creuen en files i columnes: omple els números (i els signes) que falten.",
@@ -122,6 +133,7 @@
   },
   {
     "id": "paraula-amagada",
+    "num": 12,
     "nom": "Paraula amagada",
     "icona": "🔍",
     "descripcio": "Cada dibuix amaga la lletra amb què comença. Busca'ls a l'abecedari i descobreix la paraula.",
@@ -133,6 +145,7 @@
   },
   {
     "id": "dibuix-secret",
+    "num": 13,
     "nom": "Dibuix secret",
     "icona": "🎨",
     "descripcio": "Pinta els números que et diuen (en lletres o amb una operació) i descobreix el dibuix amagat.",
@@ -144,12 +157,61 @@
   },
   {
     "id": "pensa-resol",
+    "num": 14,
     "nom": "Pensa i resol",
     "icona": "🤔",
     "descripcio": "Petits problemes: llegeix, pensa quina operació cal i resol-los. Amb cartes, monedes i preguntes trampa.",
     "objectiu": "Resoldre problemes de sumar, restar, multiplicar i repartir, i pensar bé què demanen.",
     "categories": [
       "xifres"
+    ],
+    "estat": "actiu"
+  },
+  {
+    "id": "pica-paraules",
+    "num": 15,
+    "nom": "Pica paraules",
+    "icona": "👏",
+    "descripcio": "Llegeix la paraula, pica de mans a cada tros i digues quantes síl·labes té.",
+    "objectiu": "Comptar les síl·labes de paraules d'1 a 6 síl·labes.",
+    "categories": [
+      "lletres"
+    ],
+    "estat": "actiu"
+  },
+  {
+    "id": "sinonims",
+    "num": 16,
+    "nom": "Sinònims i antònims",
+    "icona": "🔁",
+    "descripcio": "Busca la paraula que vol dir el mateix o el contrari, i uneix les parelles amb línies.",
+    "objectiu": "Reconèixer sinònims i antònims de paraules de cada dia.",
+    "categories": [
+      "lletres"
+    ],
+    "estat": "actiu"
+  },
+  {
+    "id": "petit-gros",
+    "num": 17,
+    "nom": "Petit o gros?",
+    "icona": "🐭",
+    "descripcio": "Fes les paraules petites (diminutius) o grosses (augmentatius): caseta, casassa.",
+    "objectiu": "Formar diminutius (-et, -eta, -ol, -ola) i augmentatius (-às, -assa) amb bona ortografia.",
+    "categories": [
+      "lletres"
+    ],
+    "estat": "actiu"
+  },
+  {
+    "id": "compostes",
+    "num": 18,
+    "nom": "Paraules compostes",
+    "icona": "🧩",
+    "descripcio": "Uneix les peces per formar paraules compostes: renta + plats = rentaplats.",
+    "objectiu": "Formar i escriure paraules compostes a partir de les paraules que les formen.",
+    "categories": [
+      "lletres"
     ],
     "estat": "actiu"
   },

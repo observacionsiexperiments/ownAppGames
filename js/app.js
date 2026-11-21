@@ -1,5 +1,5 @@
 // Llançadora: llegeix jocs/jocs.json i pinta una targeta per joc.
-const VERSIO_APP = '0.27.0';
+const VERSIO_APP = '0.33.0';
 
 // Categories dels jocs (camp "categories" de jocs.json)
 const CATEGORIES = { xifres: '🔢 Xifres', lletres: '🔤 Lletres' };
@@ -12,8 +12,7 @@ async function carregarJocs() {
   const llista = document.getElementById('llista-jocs');
   try {
     const resposta = await fetch('jocs/jocs.json', { cache: 'no-cache' });
-    jocs = (await resposta.json()).filter(j => j.estat !== 'ocult');
-    mides();
+    jocs = (await resposta.json()).filter(j => j.estat !== 'ocult').sort((a, b) => (a.num || 999) - (b.num || 999));
     pintarJocs();
   } catch (e) {
     console.error(e);
@@ -28,13 +27,14 @@ function pintarJocs() {
   const llista = document.getElementById('llista-jocs');
   const text = normal(document.getElementById('cerca').value.trim());
   document.getElementById('netejar-filtres').hidden = !text && filtre === 'tots';
+  // Si s'escriu un número («7») es busca el joc amb aquest número
+  const num = /^\d+$/.test(text) ? Number(text) : null;
   const visibles = jocs.filter(j =>
     (filtre === 'tots' || (j.categories || []).includes(filtre)) &&
-    (!text || normal([j.nom, j.descripcio, j.objectiu, ...(j.categories || []).map(c => CATEGORIES[c])].join(' ')).includes(text)));
+    (!text || (num !== null ? j.num === num
+      : normal([j.nom, j.descripcio, j.objectiu, ...(j.categories || []).map(c => CATEGORIES[c])].join(' ')).includes(text))));
 
   llista.innerHTML = '';
-  // Mateixa mida de targeta sempre; només canvia quantes columnes es fan servir (per centrar-les)
-  llista.style.setProperty('--cols', Math.max(1, Math.min(columnes, visibles.length)));
   if (!visibles.length) {
     const li = document.createElement('li');
     li.className = 'buit';
@@ -45,37 +45,6 @@ function pintarJocs() {
   }
   for (const joc of visibles) llista.appendChild(crearTargeta(joc));
 }
-
-// Mida de les targetes: proporció fixa 3:4 i la més gran possible perquè hi càpiguen TOTS els jocs
-// (no només els filtrats) sense desplaçar. Així la mida no canvia en filtrar ni en girar la pantalla
-// (només canvia com es reparteixen).
-const PROPORCIO = 4 / 3, AMPLE_MIN = 70, AMPLE_MAX = 270;
-let columnes = 3;
-function mides() {
-  const g = document.getElementById('llista-jocs');
-  const n = Math.max(1, jocs.length);
-  const cs = getComputedStyle(g);
-  const gap = parseFloat(cs.columnGap) || 16;
-  const W = g.clientWidth;
-  const dalt = g.getBoundingClientRect().top + window.scrollY;
-  const H = Math.min(innerHeight, document.documentElement.clientHeight) - dalt - document.querySelector('.peu').offsetHeight - parseFloat(cs.marginBottom) - 6;
-  let millor = null;
-  for (let c = 1; c <= n; c++) {
-    const r = Math.ceil(n / c);
-    const w = Math.min((W - (c - 1) * gap) / c, (H - (r - 1) * gap) / r / PROPORCIO, AMPLE_MAX);
-    const buits = c * r - n;
-    if (!millor || w > millor.w + 1 || (Math.abs(w - millor.w) <= 1 && buits < millor.buits)) millor = { c, r, w, buits };
-  }
-  const w = Math.max(AMPLE_MIN, Math.floor(millor.w));
-  columnes = millor.c;
-  g.style.setProperty('--card-w', w + 'px');
-  // Centrat vertical calculat amb tots els jocs: en filtrar, les targetes no es mouen de lloc
-  const alt = millor.r * w * PROPORCIO + (millor.r - 1) * gap;
-  g.style.paddingTop = Math.max(0, Math.floor((H - alt) / 2)) + 'px';
-  g.style.setProperty('--cols', columnes);
-}
-let esperaMides;
-window.addEventListener('resize', () => { clearTimeout(esperaMides); esperaMides = setTimeout(() => { mides(); pintarJocs(); }, 80); });
 
 function triarFiltre(f) {
   filtre = f;
@@ -102,17 +71,17 @@ function crearTargeta(joc) {
   if (joc.estat === 'properament') a.setAttribute('aria-disabled', 'true');
 
   a.innerHTML = `
-    <span class="icona" aria-hidden="true"></span>
+    <span class="dalt"><span class="num"></span><span class="icona" aria-hidden="true"></span></span>
     <h2></h2>
     <p class="descripcio"></p>
-    <p class="objectiu"><span class="rotul">🎯 Objectiu</span><span class="text-objectiu"></span></p>
     <span class="peu-targeta"><span class="categories"></span>${joc.estat === 'properament' ? '<span class="etiqueta">Properament</span>' : '<span class="jugar">Jugar →</span>'}</span>
   `;
   // textContent per evitar injectar HTML des del JSON
   a.querySelector('.icona').textContent = joc.icona || '🎲';
   a.querySelector('h2').textContent = joc.nom;
   a.querySelector('.descripcio').textContent = joc.descripcio || '';
-  a.querySelector('.text-objectiu').textContent = joc.objectiu || '';
+  a.querySelector('.num').textContent = joc.num || '';
+  a.querySelector('.num').setAttribute('aria-label', `Joc ${joc.num}`);
   a.querySelector('.categories').textContent = (joc.categories || []).map(c => CATEGORIES[c] || c).join(' · ');
   li.appendChild(a);
   return li;
@@ -162,7 +131,6 @@ function passos() {
 
 function pintarAvis() {
   pintarAvisSense();
-  if (jocs.length) { mides(); pintarJocs(); }
 }
 function pintarAvisSense() {
   if (jaInstal() || avisTancat()) { avis.hidden = true; return; }
@@ -195,7 +163,6 @@ document.getElementById('avis-tancar').addEventListener('click', () => {
   avis.hidden = true;
   try { localStorage.setItem('appjocs.avis-instal-tancat', '1'); } catch {}
   if (promptInstal) btnInstal.hidden = false;   // encara es pot installar amb el botó petit
-  if (jocs.length) { mides(); pintarJocs(); }
 });
 pintarAvis();
 
@@ -237,7 +204,6 @@ document.getElementById('form-opcions').addEventListener('submit', e => {
   Preferencies.desar({ nom: document.getElementById('op-nom').value, ...triaOp });
   pintarSalutacio();
   tancarOpcions();
-  if (jocs.length) { mides(); pintarJocs(); }
 });
 pintarSalutacio();
 

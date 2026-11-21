@@ -1,0 +1,877 @@
+{
+ "_ajuda": "Sinònims i antònims. Cada grup: paraules que volen dir el mateix (sinònims). 'contraris' = ids dels grups que en són el contrari (antònims). Per afegir una paraula, posa-la al grup que toca; per fer un grup nou, dona-li id (la primera paraula) i, si en té, els contraris (als dos grups).",
+ "grups": [
+  {
+   "id": "petit",
+   "paraules": [
+    "petit",
+    "menut",
+    "xic"
+   ],
+   "contraris": [
+    "gran"
+   ]
+  },
+  {
+   "id": "gran",
+   "paraules": [
+    "gran",
+    "enorme",
+    "gegant"
+   ],
+   "contraris": [
+    "petit"
+   ]
+  },
+  {
+   "id": "ràpid",
+   "paraules": [
+    "ràpid",
+    "veloç"
+   ],
+   "contraris": [
+    "lent"
+   ]
+  },
+  {
+   "id": "lent",
+   "paraules": [
+    "lent"
+   ],
+   "contraris": [
+    "ràpid"
+   ]
+  },
+  {
+   "id": "content",
+   "paraules": [
+    "content",
+    "alegre",
+    "feliç"
+   ],
+   "contraris": [
+    "trist"
+   ]
+  },
+  {
+   "id": "trist",
+   "paraules": [
+    "trist",
+    "apenat"
+   ],
+   "contraris": [
+    "content"
+   ]
+  },
+  {
+   "id": "fred",
+   "paraules": [
+    "fred",
+    "gelat"
+   ],
+   "contraris": [
+    "calent"
+   ]
+  },
+  {
+   "id": "calent",
+   "paraules": [
+    "calent",
+    "bullent"
+   ],
+   "contraris": [
+    "fred"
+   ]
+  },
+  {
+   "id": "bonic",
+   "paraules": [
+    "bonic",
+    "maco",
+    "preciós"
+   ],
+   "contraris": [
+    "lleig"
+   ]
+  },
+  {
+   "id": "lleig",
+   "paraules": [
+    "lleig"
+   ],
+   "contraris": [
+    "bonic"
+   ]
+  },
+  {
+   "id": "net",
+   "paraules": [
+    "net",
+    "polit"
+   ],
+   "contraris": [
+    "brut"
+   ]
+  },
+  {
+   "id": "brut",
+   "paraules": [
+    "brut",
+    "tacat"
+   ],
+   "contraris": [
+    "net"
+   ]
+  },
+  {
+   "id": "alt",
+   "paraules": [
+    "alt"
+   ],
+   "contraris": [
+    "baix"
+   ]
+  },
+  {
+   "id": "baix",
+   "paraules": [
+    "baix"
+   ],
+   "contraris": [
+    "alt"
+   ]
+  },
+  {
+   "id": "començar",
+   "paraules": [
+    "començar",
+    "iniciar"
+   ],
+   "contraris": [
+    "acabar"
+   ]
+  },
+  {
+   "id": "acabar",
+   "paraules": [
+    "acabar",
+    "finalitzar"
+   ],
+   "contraris": [
+    "començar"
+   ]
+  },
+  {
+   "id": "obrir",
+   "paraules": [
+    "obrir"
+   ],
+   "contraris": [
+    "tancar"
+   ]
+  },
+  {
+   "id": "tancar",
+   "paraules": [
+    "tancar"
+   ],
+   "contraris": [
+    "obrir"
+   ]
+  },
+  {
+   "id": "pujar",
+   "paraules": [
+    "pujar"
+   ],
+   "contraris": [
+    "baixar"
+   ]
+  },
+  {
+   "id": "baixar",
+   "paraules": [
+    "baixar"
+   ],
+   "contraris": [
+    "pujar"
+   ]
+  },
+  {
+   "id": "entrar",
+   "paraules": [
+    "entrar"
+   ],
+   "contraris": [
+    "sortir"
+   ]
+  },
+  {
+   "id": "sortir",
+   "paraules": [
+    "sortir"
+   ],
+   "contraris": [
+    "entrar"
+   ]
+  },
+  {
+   "id": "dia",
+   "paraules": [
+    "dia"
+   ],
+   "contraris": [
+    "nit"
+   ]
+  },
+  {
+   "id": "nit",
+   "paraules": [
+    "nit"
+   ],
+   "contraris": [
+    "dia"
+   ]
+  },
+  {
+   "id": "ple",
+   "paraules": [
+    "ple"
+   ],
+   "contraris": [
+    "buit"
+   ]
+  },
+  {
+   "id": "buit",
+   "paraules": [
+    "buit"
+   ],
+   "contraris": [
+    "ple"
+   ]
+  },
+  {
+   "id": "fort",
+   "paraules": [
+    "fort",
+    "forçut"
+   ],
+   "contraris": [
+    "feble"
+   ]
+  },
+  {
+   "id": "feble",
+   "paraules": [
+    "feble",
+    "dèbil"
+   ],
+   "contraris": [
+    "fort"
+   ]
+  },
+  {
+   "id": "tranquil",
+   "paraules": [
+    "tranquil",
+    "calmat"
+   ],
+   "contraris": [
+    "nerviós"
+   ]
+  },
+  {
+   "id": "nerviós",
+   "paraules": [
+    "nerviós",
+    "inquiet"
+   ],
+   "contraris": [
+    "tranquil"
+   ]
+  },
+  {
+   "id": "riure",
+   "paraules": [
+    "riure"
+   ],
+   "contraris": [
+    "plorar"
+   ]
+  },
+  {
+   "id": "plorar",
+   "paraules": [
+    "plorar"
+   ],
+   "contraris": [
+    "riure"
+   ]
+  },
+  {
+   "id": "dur",
+   "paraules": [
+    "dur"
+   ],
+   "contraris": [
+    "tou"
+   ]
+  },
+  {
+   "id": "tou",
+   "paraules": [
+    "tou",
+    "flonjo"
+   ],
+   "contraris": [
+    "dur"
+   ]
+  },
+  {
+   "id": "llarg",
+   "paraules": [
+    "llarg"
+   ],
+   "contraris": [
+    "curt"
+   ]
+  },
+  {
+   "id": "curt",
+   "paraules": [
+    "curt"
+   ],
+   "contraris": [
+    "llarg"
+   ]
+  },
+  {
+   "id": "vell",
+   "paraules": [
+    "vell",
+    "antic"
+   ],
+   "contraris": [
+    "nou"
+   ]
+  },
+  {
+   "id": "nou",
+   "paraules": [
+    "nou"
+   ],
+   "contraris": [
+    "vell"
+   ]
+  },
+  {
+   "id": "gruixut",
+   "paraules": [
+    "gruixut"
+   ],
+   "contraris": [
+    "prim"
+   ]
+  },
+  {
+   "id": "prim",
+   "paraules": [
+    "prim"
+   ],
+   "contraris": [
+    "gruixut"
+   ]
+  },
+  {
+   "id": "pesat",
+   "paraules": [
+    "pesat"
+   ],
+   "contraris": [
+    "lleuger"
+   ]
+  },
+  {
+   "id": "lleuger",
+   "paraules": [
+    "lleuger"
+   ],
+   "contraris": [
+    "pesat"
+   ]
+  },
+  {
+   "id": "guanyar",
+   "paraules": [
+    "guanyar"
+   ],
+   "contraris": [
+    "perdre"
+   ]
+  },
+  {
+   "id": "perdre",
+   "paraules": [
+    "perdre"
+   ],
+   "contraris": [
+    "guanyar",
+    "trobar"
+   ]
+  },
+  {
+   "id": "trobar",
+   "paraules": [
+    "trobar"
+   ],
+   "contraris": [
+    "perdre"
+   ]
+  },
+  {
+   "id": "dolç",
+   "paraules": [
+    "dolç"
+   ],
+   "contraris": [
+    "amarg"
+   ]
+  },
+  {
+   "id": "amarg",
+   "paraules": [
+    "amarg"
+   ],
+   "contraris": [
+    "dolç"
+   ]
+  },
+  {
+   "id": "sempre",
+   "paraules": [
+    "sempre"
+   ],
+   "contraris": [
+    "mai"
+   ]
+  },
+  {
+   "id": "mai",
+   "paraules": [
+    "mai"
+   ],
+   "contraris": [
+    "sempre"
+   ]
+  },
+  {
+   "id": "davant",
+   "paraules": [
+    "davant"
+   ],
+   "contraris": [
+    "darrere"
+   ]
+  },
+  {
+   "id": "darrere",
+   "paraules": [
+    "darrere"
+   ],
+   "contraris": [
+    "davant"
+   ]
+  },
+  {
+   "id": "dins",
+   "paraules": [
+    "dins"
+   ],
+   "contraris": [
+    "fora"
+   ]
+  },
+  {
+   "id": "fora",
+   "paraules": [
+    "fora"
+   ],
+   "contraris": [
+    "dins"
+   ]
+  },
+  {
+   "id": "clar",
+   "paraules": [
+    "clar"
+   ],
+   "contraris": [
+    "fosc"
+   ]
+  },
+  {
+   "id": "fosc",
+   "paraules": [
+    "fosc"
+   ],
+   "contraris": [
+    "clar"
+   ]
+  },
+  {
+   "id": "sec",
+   "paraules": [
+    "sec"
+   ],
+   "contraris": [
+    "mullat"
+   ]
+  },
+  {
+   "id": "mullat",
+   "paraules": [
+    "mullat",
+    "moll"
+   ],
+   "contraris": [
+    "sec"
+   ]
+  },
+  {
+   "id": "ric",
+   "paraules": [
+    "ric"
+   ],
+   "contraris": [
+    "pobre"
+   ]
+  },
+  {
+   "id": "pobre",
+   "paraules": [
+    "pobre"
+   ],
+   "contraris": [
+    "ric"
+   ]
+  },
+  {
+   "id": "valent",
+   "paraules": [
+    "valent",
+    "coratjós"
+   ],
+   "contraris": [
+    "poruc"
+   ]
+  },
+  {
+   "id": "poruc",
+   "paraules": [
+    "poruc",
+    "covard"
+   ],
+   "contraris": [
+    "valent"
+   ]
+  },
+  {
+   "id": "amic",
+   "paraules": [
+    "amic"
+   ],
+   "contraris": [
+    "enemic"
+   ]
+  },
+  {
+   "id": "enemic",
+   "paraules": [
+    "enemic"
+   ],
+   "contraris": [
+    "amic"
+   ]
+  },
+  {
+   "id": "bo",
+   "paraules": [
+    "bo",
+    "bondadós"
+   ],
+   "contraris": [
+    "dolent"
+   ]
+  },
+  {
+   "id": "dolent",
+   "paraules": [
+    "dolent"
+   ],
+   "contraris": [
+    "bo"
+   ]
+  },
+  {
+   "id": "cansat",
+   "paraules": [
+    "cansat",
+    "esgotat"
+   ],
+   "contraris": [
+    "descansat"
+   ]
+  },
+  {
+   "id": "descansat",
+   "paraules": [
+    "descansat"
+   ],
+   "contraris": [
+    "cansat"
+   ]
+  },
+  {
+   "id": "silenci",
+   "paraules": [
+    "silenci"
+   ],
+   "contraris": [
+    "soroll"
+   ]
+  },
+  {
+   "id": "soroll",
+   "paraules": [
+    "soroll"
+   ],
+   "contraris": [
+    "silenci"
+   ]
+  },
+  {
+   "id": "aviat",
+   "paraules": [
+    "aviat"
+   ],
+   "contraris": [
+    "tard"
+   ]
+  },
+  {
+   "id": "tard",
+   "paraules": [
+    "tard"
+   ],
+   "contraris": [
+    "aviat"
+   ]
+  },
+  {
+   "id": "primer",
+   "paraules": [
+    "primer"
+   ],
+   "contraris": [
+    "últim"
+   ]
+  },
+  {
+   "id": "últim",
+   "paraules": [
+    "últim",
+    "darrer"
+   ],
+   "contraris": [
+    "primer"
+   ]
+  },
+  {
+   "id": "igual",
+   "paraules": [
+    "igual"
+   ],
+   "contraris": [
+    "diferent"
+   ]
+  },
+  {
+   "id": "diferent",
+   "paraules": [
+    "diferent"
+   ],
+   "contraris": [
+    "igual"
+   ]
+  },
+  {
+   "id": "fàcil",
+   "paraules": [
+    "fàcil",
+    "senzill"
+   ],
+   "contraris": [
+    "difícil"
+   ]
+  },
+  {
+   "id": "difícil",
+   "paraules": [
+    "difícil",
+    "complicat"
+   ],
+   "contraris": [
+    "fàcil"
+   ]
+  },
+  {
+   "id": "pregunta",
+   "paraules": [
+    "pregunta"
+   ],
+   "contraris": [
+    "resposta"
+   ]
+  },
+  {
+   "id": "resposta",
+   "paraules": [
+    "resposta"
+   ],
+   "contraris": [
+    "pregunta"
+   ]
+  },
+  {
+   "id": "camí",
+   "paraules": [
+    "camí",
+    "ruta",
+    "sender"
+   ],
+   "contraris": []
+  },
+  {
+   "id": "casa",
+   "paraules": [
+    "casa",
+    "llar"
+   ],
+   "contraris": []
+  },
+  {
+   "id": "cotxe",
+   "paraules": [
+    "cotxe",
+    "automòbil"
+   ],
+   "contraris": []
+  },
+  {
+   "id": "mirar",
+   "paraules": [
+    "mirar",
+    "observar"
+   ],
+   "contraris": []
+  },
+  {
+   "id": "parlar",
+   "paraules": [
+    "parlar",
+    "xerrar"
+   ],
+   "contraris": []
+  },
+  {
+   "id": "llest",
+   "paraules": [
+    "llest",
+    "espavilat",
+    "intel·ligent"
+   ],
+   "contraris": []
+  },
+  {
+   "id": "enfadat",
+   "paraules": [
+    "enfadat",
+    "empipat"
+   ],
+   "contraris": []
+  },
+  {
+   "id": "tirar",
+   "paraules": [
+    "tirar",
+    "llançar"
+   ],
+   "contraris": []
+  },
+  {
+   "id": "cara",
+   "paraules": [
+    "cara",
+    "rostre"
+   ],
+   "contraris": []
+  },
+  {
+   "id": "por",
+   "paraules": [
+    "por",
+    "temor"
+   ],
+   "contraris": []
+  },
+  {
+   "id": "regal",
+   "paraules": [
+    "regal",
+    "obsequi"
+   ],
+   "contraris": []
+  },
+  {
+   "id": "feina",
+   "paraules": [
+    "feina",
+    "treball"
+   ],
+   "contraris": []
+  },
+  {
+   "id": "paraula",
+   "paraules": [
+    "paraula",
+    "mot"
+   ],
+   "contraris": []
+  },
+  {
+   "id": "menjar",
+   "paraules": [
+    "menjar",
+    "aliment"
+   ],
+   "contraris": []
+  },
+  {
+   "id": "ruc",
+   "paraules": [
+    "ruc",
+    "ase"
+   ],
+   "contraris": []
+  },
+  {
+   "id": "escola",
+   "paraules": [
+    "escola",
+    "col·legi"
+   ],
+   "contraris": []
+  }
+ ]
+}

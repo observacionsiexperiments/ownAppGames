@@ -65,73 +65,54 @@ body {
 
 main { flex: 1; width: 100%; max-width: 960px; margin: 0 auto; }
 
-/* ─── Targetes de la llançadora ───
-   Totes fan la MATEIXA mida i proporció (3:4) en qualsevol pantalla i orientació. La mida la calcula
-   js/app.js (--card-w, --cols) perquè hi càpiguen TOTS els jocs, i no canvia en filtrar o buscar.
-   Dins de la targeta, les mides van en unitats cqw (percentatge de l'amplada de la targeta). */
+/* ─── Targetes de la llançadora (v0.33.0) ───
+   Pensades per a tauleta: 3 per fila en horitzontal, 2 en vertical, 2 en mòbil. Lletra gran i en
+   MAJÚSCULA. Si no hi caben, la pàgina es desplaça cap avall (ja no s'encongeixen per cabre). */
 .graella {
-  --card-w: min(200px, 100%); --cols: 1;   /* valors inicials segurs (sense desbordar) fins que app.js calcula la mida */
-  list-style: none; padding: 0; margin: 14px 0 10px;
-  display: grid; gap: 18px; justify-content: center; align-content: start;
-  grid-template-columns: repeat(var(--cols), var(--card-w));
-  grid-auto-rows: calc(var(--card-w) * 4 / 3);
+  list-style: none; padding: 0; margin: 18px auto 12px; width: 100%; max-width: 1060px;
+  display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
 }
-.graella > li { container-type: size; min-width: 0; }
+.graella > li { min-width: 0; display: flex; }
 .targeta {
-  height: 100%; display: flex; flex-direction: column; gap: 4cqw;
-  padding: 7cqw 7cqw 6cqw;
-  background: var(--superficie);
-  border: 2px solid var(--vora);
-  border-radius: var(--radi);
-  box-shadow: var(--ombra);
+  flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 16px 18px 16px;
+  background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi); box-shadow: var(--ombra);
   color: var(--text); text-decoration: none; overflow: hidden;
   transition: transform .15s, border-color .15s, box-shadow .15s;
 }
 .targeta:hover { transform: translateY(-3px); border-color: var(--c-info-vora); box-shadow: 0 8px 0 rgba(59, 51, 85, .08); }
-.targeta:focus-visible { outline: 3px solid var(--c-info-vora); outline-offset: 3px; }
+.targeta:focus-visible { outline: 4px solid var(--c-info-vora); outline-offset: 3px; }
+/* Fila de dalt: número del joc (gran) i icona */
+.targeta .dalt { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.targeta .num {
+  font-family: "Avenir Next", "Avenir", "Helvetica Neue", Arial, system-ui, sans-serif;
+  font-size: 3.4rem; font-weight: 900; line-height: .9; color: var(--text); font-variant-numeric: tabular-nums;
+}
 .targeta .icona {
-  flex: none; align-self: center; width: 34cqw; height: 34cqw; border-radius: 9cqw;
-  font-size: 19cqw; line-height: 1; display: grid; place-items: center; background: var(--c-info);
+  flex: none; width: 72px; height: 72px; border-radius: 20px; font-size: 2.6rem; line-height: 1;
+  display: grid; place-items: center; background: var(--c-info);
 }
-/* El nom sempre ocupa dues línies: així les descripcions comencen a la mateixa alçada a totes les targetes */
+/* El nom sempre ocupa dues línies: així les descripcions comencen a la mateixa alçada */
 .targeta h2 {
-  flex: none; margin: 0; font-size: clamp(.8rem, 9.6cqw, 1.5rem); line-height: 1.15; min-height: 2.3em;
-  display: flex; align-items: center; justify-content: center; text-align: center;
+  margin: 0; font-size: 1.45rem; line-height: 1.15; min-height: 2.3em; letter-spacing: .02em;
+  text-transform: uppercase; display: flex; align-items: center;
 }
-.targeta .descripcio {
-  flex: none; margin: 0; color: var(--text-suau); font-size: clamp(.74rem, 7.2cqw, 1.1rem); line-height: 1.3;
-  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden;
+.targeta .descripcio { margin: 0; color: var(--text-suau); font-size: 1.08rem; line-height: 1.35; }
+.peu-targeta { margin-top: auto; padding-top: 4px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.peu-targeta .categories { font-size: 1rem; font-weight: 600; color: var(--text-suau); white-space: nowrap; }
+.jugar {
+  font-weight: 800; color: var(--text); background: var(--c-info); border: 2px solid var(--c-info-vora); border-radius: 999px;
+  padding: .35em 1.1em; font-size: 1.1rem; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; margin-left: auto;
 }
-.targeta .objectiu {
-  flex: none; margin: 0; font-size: clamp(.7rem, 5.8cqw, 1rem); line-height: 1.3; color: var(--text);
-  background: var(--fons); border: 1px solid var(--vora); border-radius: 12px; padding: 3cqw 4cqw;
-}
-.targeta .objectiu .rotul {
-  display: block; font-size: .78em; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
-  color: var(--text-suau); margin-bottom: 2px;
-}
-.peu-targeta { flex: none; margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: 2cqw; }
-.peu-targeta .categories { font-size: clamp(.64rem, 6.2cqw, .95rem); font-weight: 600; color: var(--text-suau); white-space: nowrap; }
-.jugar { font-weight: 700; color: var(--text); background: var(--c-info); border-radius: 999px; padding: .25em .8em; font-size: clamp(.74rem, 7.4cqw, 1.05rem); white-space: nowrap; margin-left: auto; }
-/* Targetes més petites: primer fora l'objectiu, després la descripció i el tipus */
-/* L'objectiu només hi cap en targetes grans (pantalles grans o pocs jocs) */
-@container (max-width: 259px) { .targeta .objectiu { display: none; } }
-@container (max-height: 199px) { .targeta .descripcio { -webkit-line-clamp: 2; } }
-@container (max-width: 159px) {
+/* Mòbil vertical: dues per fila, sense descripció */
+@media (max-width: 600px) {
+  .graella { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .targeta { padding: 12px; gap: 8px; }
+  .targeta .num { font-size: 2.4rem; }
+  .targeta .icona { width: 48px; height: 48px; border-radius: 14px; font-size: 1.7rem; }
+  .targeta h2 { font-size: 1.02rem; min-height: 3.45em; }
   .targeta .descripcio, .peu-targeta .categories { display: none; }
   .peu-targeta { justify-content: center; }
-  .peu-targeta .jugar { margin: 0; }
-}
-@container (max-width: 115px) {
-  .targeta { gap: 3cqw; padding: 6cqw 5cqw; }
-  .targeta h2 { font-size: .72rem; }
-  .targeta .icona { width: 30cqw; height: 30cqw; font-size: 17cqw; }
-  .jugar { font-size: .7rem; padding: .2em .6em; }
-}
-@container (max-width: 90px) {
-  .targeta { gap: 2cqw; padding: 5cqw 4cqw; }
-  .targeta h2 { font-size: .64rem; }
-  .jugar { font-size: .62rem; padding: .15em .5em; }
+  .jugar { margin: 0; font-size: .95rem; padding: .3em .9em; }
 }
 .targeta[aria-disabled="true"] { opacity: .5; pointer-events: none; }
 .etiqueta {
@@ -436,7 +417,6 @@ main.inici-app { display: flex; flex-direction: column; max-width: 1300px; paddi
   .filtres { padding-left: 4px; gap: 2px; }
   .filtres button { padding: 4px 10px; min-height: 36px; }
   .filtres .txt { display: none; }          /* en mòbil, només les icones (🔢 🔤) */
-  .graella { gap: 10px; margin: 10px 0 6px; }
 }
 @media (orientation: landscape) and (max-height: 500px) {
   .subtitol { display: none; }
