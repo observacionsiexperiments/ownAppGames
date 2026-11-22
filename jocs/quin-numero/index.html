@@ -232,7 +232,7 @@
         </div>
       </div>
 
-      <p class="explica">Prem «Comencem?» i apareixeran els números d'una operació amb un d'amagat.</p>
+      <p class="explica">Sortirà una operació amb un número amagat: troba quin falta.</p>
       <div class="comencar"><button class="btn" id="btn-comencar" type="button">Comença! 🧮</button></div>
     </section>
 
@@ -242,7 +242,7 @@
         <div class="dades" id="dades"></div>
         <div class="botons-cap">
           <button class="btn" id="btn-acabar" type="button" hidden>🏁 Acabar</button>
-          <button class="btn" id="btn-nova" type="button">Nova partida</button>
+          <button class="btn" id="btn-nova" type="button">↺ Nova partida</button>
         </div>
       </div>
 
@@ -328,6 +328,8 @@
         config.mode === 'contra' ? 'Quan premis «Comencem?» comença el temps. Fes-ne tantes com puguis!' : 'Apareixerà una operació amb un número amagat.');
       pintarDades();
       window.scrollTo({ top: 0 });
+      // v0.44.0: la primera operació surt de seguida; «Comencem?» només a contrarellotge (és quan comença el temps)
+      if (config.mode !== 'contra') gira();
     }
 
     // ---------------- Generar operacions ----------------
@@ -485,10 +487,10 @@
 
     function despres(ms) {
       pintarDades();
-      if (config.mode === 'ronda' && fetes >= RONDA) { seguent = setTimeout(final, ms || 1200); return; }
-      // Només es pregunta «Comencem?» la primera vegada: després la següent operació surt sola
+      if (config.mode === 'ronda' && fetes >= RONDA) { seguent = Pantalla.despres(final, ms || 1200, ms >= 2000); return; }
+      // La següent operació surt sola
       const espera = config.mode === 'contra' ? 650 : (ms || 1500);
-      seguent = setTimeout(() => { if (!acabat && !$('pantalla-joc').hidden) gira(); }, espera);
+      seguent = Pantalla.despres(() => { if (!acabat && !$('pantalla-joc').hidden) gira(); }, espera, ms >= 2000 && config.mode !== 'contra');
     }
 
     const frase = () => `${op.a} ${op.s} ${op.b} = ${op.c}`;
@@ -546,7 +548,7 @@
         estrelles = nets >= 9 ? 3 : mal <= 2 ? 2 : 1;
       } else {
         titol = 'Molt bona feina!';
-        subtitol = fetes ? `${fetes} ${fetes === 1 ? 'operació' : 'operacions'} · ${nets} a la primera` : 'Prem «Comencem?» la propera vegada!';
+        subtitol = fetes ? `${fetes} ${fetes === 1 ? 'operació' : 'operacions'} · ${nets} a la primera` : 'Prova-ho la propera vegada!';
         estrelles = !fetes ? 1 : nets / fetes >= .9 ? 3 : nets / fetes >= .6 ? 2 : 1;
       }
       if (comptar && config.mode !== 'lliure') {

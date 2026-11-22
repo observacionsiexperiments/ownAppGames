@@ -80,13 +80,6 @@
     .zona-objectiu .quants { font-weight: 700; color: var(--text); }
 
     .panell { display: flex; flex-direction: column; gap: 10px; }
-    .operacio {
-      min-height: 3.2rem; padding: 8px 12px; border-radius: 14px; text-align: center;
-      background: var(--superficie); border: 2px dashed var(--vora);
-      font-size: clamp(1.2rem, 2.6vw, 1.6rem); font-weight: 800; font-variant-numeric: tabular-nums;
-      display: grid; place-items: center; word-break: break-word;
-    }
-    .operacio .buit { color: var(--text-suau); font-weight: 600; font-size: 1rem; }
     .botons { display: grid; grid-template-columns: 1fr 2fr; gap: 10px; }
     .boto {
       font: inherit; font-weight: 800; font-size: 1.25rem; cursor: pointer; min-height: 58px; border-radius: 16px;
@@ -120,7 +113,6 @@
       .zona-objectiu { padding: 8px; }
       .objectiu { font-size: clamp(3rem, 15vh, 6rem); }
       .panell { gap: 8px; }
-      .operacio { min-height: 2.6rem; padding: 6px 10px; }
       .boto { min-height: 50px; }
       .missatge { min-height: 0; padding: 6px 10px; }
       h2.titol { margin: 10px 0 6px; }
@@ -150,7 +142,6 @@
       .fitxes { gap: 8px; }
       .fitxa { min-height: clamp(52px, 8.5vh, 72px); font-size: 1.6rem; border-radius: 14px; }
       .panell { gap: 8px; }
-      .operacio { min-height: 2.4rem; padding: 4px 10px; font-size: 1.1rem; }
       .boto { min-height: 48px; font-size: 1.1rem; }
       .missatge { min-height: 0; padding: 5px 10px; font-size: .95rem; }
       .missatge small { font-size: .85rem; }
@@ -190,10 +181,8 @@
       .objectiu { font-size: clamp(4rem, min(9vw, 17vh), 9rem); }
       .zona-objectiu .quants { font-size: clamp(1rem, 2.3vh, 1.3rem); }
       /* Franja de sota: operació · missatge · ⌫ i OK */
-      .panell { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) clamp(220px, 24vw, 340px);
-        grid-template-areas: "op msg bot"; gap: 12px; align-items: stretch; }
-      .operacio { grid-area: op; min-height: 0; font-size: clamp(1.2rem, 3vh, 1.8rem); }
-      .operacio .buit { font-size: clamp(.95rem, 2.2vh, 1.15rem); }
+      .panell { display: grid; grid-template-columns: minmax(0, 1fr) clamp(220px, 24vw, 340px);
+        grid-template-areas: "msg bot"; gap: 12px; align-items: stretch; }
       .botons { grid-area: bot; }
       .boto { min-height: clamp(50px, 8vh, 72px); font-size: clamp(1.2rem, 2.8vh, 1.6rem); }
       .missatge { grid-area: msg; min-height: 0; font-size: clamp(1rem, 2.4vh, 1.25rem); }
@@ -213,6 +202,16 @@
       .fitxes { flex: 1 1 auto; grid-auto-rows: 1fr; }
       .fitxa { min-height: 0; font-size: clamp(1.6rem, min(9vw, 5vh), 2.6rem); }
     }
+  
+    /* v0.44.0: una sola caixa. L'operació que es va fent surt dins del missatge (a dalt, gran) */
+    .missatge .operacio { all: unset; display: block; font-weight: 800; font-size: 1.35em; font-variant-numeric: tabular-nums; word-break: break-word; }
+    .missatge .operacio:empty { display: none; }
+    .missatge.amb-op:not(.es-pista):not(.es-error):not(.es-guanyat) #msg-text,
+    .missatge.amb-op:not(.es-pista):not(.es-error):not(.es-guanyat) #msg-extra { display: none; }
+    /* Números més grans a les fitxes */
+    @media (min-width: 601px) and (min-height: 501px) { .fitxa { font-size: clamp(2.2rem, min(7vw, 11vh), 6rem); } }
+    @media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) { .fitxa { font-size: clamp(2.6rem, 11vw, 6rem); } }
+    @media (orientation: portrait) and (max-width: 600px) { .fitxa { font-size: clamp(2rem, min(13vw, 7vh), 3.6rem); } }
   </style>
 </head>
 <body>
@@ -280,7 +279,7 @@
     <section id="pantalla-joc" hidden>
       <div class="cap-joc">
         <div class="dades" id="dades"></div>
-        <button class="btn" id="btn-nova" type="button">Nova ronda</button>
+        <button class="btn" id="btn-nova" type="button">↺ Nova partida</button>
       </div>
 
       <div class="disposicio">
@@ -295,12 +294,11 @@
         </div>
 
         <div class="panell">
-          <div class="operacio" id="operacio" aria-live="polite"></div>
           <div class="botons">
             <button type="button" class="boto esborrar" id="btn-esborrar" aria-label="Treure totes les fitxes triades">⌫</button>
             <button type="button" class="boto ok" id="btn-ok">OK ✓</button>
           </div>
-          <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
+          <div class="missatge" id="missatge" aria-live="polite"><b class="operacio" id="operacio"></b><span id="msg-text"></span><small id="msg-extra"></small></div>
         </div>
       </div>
     </section>
@@ -460,7 +458,7 @@
       $('objectiu').textContent = objectiu;
       $('quants').textContent = `amb ${sm.text}`;
       pintarFitxes(); pintarOperacio(); pintarDades();
-      mostrar(`Cadena ${cadena} de ${config.cadenes}`, 'Toca les fitxes que sumades donen el número gran.');
+      mostrar('Toca les fitxes que sumades donen el número gran', 'Quan ho tinguis, prem OK.');
     }
 
     // ---------------- Dibuix ----------------
@@ -478,9 +476,8 @@
     }
     // Operació sense resultat: "12 + 8 + 20 = ?" (s'ha de calcular de cap)
     function pintarOperacio() {
-      $('operacio').innerHTML = triades.length
-        ? triades.map(f => f.v).join(' + ') + ' = ?'
-        : '<span class="buit">Encara no has triat cap fitxa</span>';
+      $('operacio').textContent = triades.length ? triades.map(f => f.v).join(' + ') + ' = ?' : '';
+      $('missatge').classList.toggle('amb-op', triades.length > 0);
       $('btn-ok').disabled = bloquejat || triades.length === 0;
       $('btn-esborrar').disabled = bloquejat || triades.length === 0;
     }
@@ -532,7 +529,7 @@
       const cont = $('fitxes');
       triades.forEach(f => { const b = cont.querySelector(`.fitxa[data-id="${f.id}"]`); if (b) b.classList.add('correcta'); });
       cont.querySelectorAll('.fitxa').forEach(b => b.disabled = true);
-      $('operacio').textContent = triades.map(f => f.v).join(' + ') + ' = ' + objectiu;
+      $('operacio').textContent = triades.map(f => f.v).join(' + ') + ' = ' + objectiu; $('missatge').classList.add('amb-op');
       $('btn-ok').disabled = true; $('btn-esborrar').disabled = true;
       mostrar(Preferencies.felicitacio('✓ Molt bé!'), '', 'guanyat');
       Celebracio.petita($('objectiu'));

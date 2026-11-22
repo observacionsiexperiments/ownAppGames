@@ -14,6 +14,8 @@ Problemes petits de la vida de cada dia: calcular, triar cartes, pagar amb moned
 
 Ronda de 10: 5 de càlcul (al Difícil, 4 i una història encadenada de 3 preguntes), 1 de cartes, 1 de monedes, 2 de «Quin no hi encaixa?» i 1 de «Quina pregunta NO es pot respondre?». Després de cada problema hi ha el botó «Següent ▶».
 
+En horitzontal (tauleta i portàtil, v0.44.0) l'enunciat va a l'esquerra; a la dreta, el dibuix o les dades i les respostes, junts i centrats; la franja (missatge + botons) ocupa tota l'amplada a baix.
+
 Pistes: «💡 Vull una pista»; després del primer error la pista surt sola, al segon és més clara i al tercer es mostra la resposta. Les pistes poden portar dibuixos (grups, files) quan hi ha 20 objectes o menys.
 
 ## Contingut

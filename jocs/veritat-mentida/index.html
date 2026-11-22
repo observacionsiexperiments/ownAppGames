@@ -240,7 +240,7 @@
     <section id="pantalla-joc" hidden>
       <div class="cap-joc">
         <div class="dades" id="dades"></div>
-        <button class="btn" id="btn-nova" type="button">Nova ronda</button>
+        <button class="btn" id="btn-nova" type="button">↺ Nova partida</button>
       </div>
 
       <div class="tauler" id="tauler">
@@ -433,7 +433,7 @@
       resultats.push(false);
       mostrar("S'ha acabat el temps ⏱", (actual.certa ? 'Era veritat. ' : 'Era mentida. ') + explicacio(), 'pista');
       pintarDades();
-      seguent = setTimeout(passar, 2800);
+      seguent = Pantalla.despres(passar, 2800, true);
     }
 
     // ---------------- Resposta (un sol intent) ----------------
@@ -459,7 +459,7 @@
       botoResposta(bona()).classList.add('correcta');
       mostrar(actual.certa ? 'No, era veritat' : 'No, era mentida', explicacio(), 'error');
       pintarDades();
-      seguent = setTimeout(passar, 3000);
+      seguent = Pantalla.despres(passar, 3000, true);
     });
     function tancarRespostes() { $('respostes').querySelectorAll('.resposta').forEach(b => b.disabled = true); }
 
@@ -498,7 +498,7 @@
         resultats.push(false);
         b.classList.add('errada'); sacsejar(b);
         mostrar(`No és «${o}»`, explicacio(), 'error');
-        seguent = setTimeout(passar, 3000);
+        seguent = Pantalla.despres(passar, 3000, true);
       }
       pintarDades();
     }

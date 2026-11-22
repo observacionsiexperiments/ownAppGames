@@ -182,6 +182,15 @@
       .disposicio { grid-template-columns: 1fr clamp(340px, 28vw, 420px); grid-template-rows: minmax(0, 1fr) auto; }
       .panell { align-self: start; }
     }
+  
+    /* Capçalera comuna (v0.44.0): títol com una dada més, tot en una fila */
+    .cap-joc { flex-wrap: nowrap; justify-content: flex-start; }
+    .cap-joc h2 { flex: 0 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;
+      font-size: .95rem; font-weight: 700; line-height: 1.3; background: var(--superficie); border: 1px solid var(--vora); border-radius: 999px; padding: 4px 12px; }
+    .cap-joc .dades { flex: 0 0 auto; flex-wrap: nowrap; }
+    .cap-joc .btn { flex: none; margin-left: auto; white-space: nowrap; }
+    @media (max-height: 500px) { .cap-joc h2 { font-size: .8rem; padding: 2px 8px; } }
+    @media (orientation: portrait) and (max-width: 600px) { .cap-joc h2 { display: none; } }
   </style>
 </head>
 <body>
@@ -221,7 +230,7 @@
       <div class="cap-joc">
         <h2 id="titol-joc"></h2>
         <div class="dades" id="dades"></div>
-        <button class="btn" id="btn-nou" type="button">Nou arbre</button>
+        <button class="btn" id="btn-nou" type="button">↺ Nova partida</button>
       </div>
 
       <div class="disposicio">

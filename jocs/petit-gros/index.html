@@ -217,6 +217,13 @@
       .paraula { font-size: clamp(2rem, 11vw, 3.4rem); }
       .opcio { font-size: clamp(1.1rem, 5.4vw, 1.6rem); min-height: clamp(52px, 9vh, 90px); }
     }
+  
+    /* v0.44.0: l'etiqueta «més petit / més gros» més gran i clara, centrada sobre la casella */
+    .fletxa { color: var(--text); font-size: clamp(1rem, 2.6vh, 1.45rem); background: var(--superficie); border: 2px solid var(--vora); border-radius: 999px; padding: .15em .8em; text-align: center; }
+    .fletxa .petit { font-size: 1.15em; } .fletxa .gros { font-size: 1.35em; vertical-align: -2px; }
+    .costat .casella { width: 100%; max-width: 8em; }
+    @media (max-height: 500px) { .fletxa { font-size: .85rem; padding: .1em .6em; } }
+    @media (orientation: portrait) and (max-width: 600px) { .fletxa { font-size: .72rem; padding: .1em .45em; } }
   </style>
 </head>
 <body>
@@ -266,7 +273,7 @@
     <section id="pantalla-joc" hidden>
       <div class="cap-joc">
         <div class="dades" id="dades"></div>
-        <button class="btn" id="btn-nova" type="button">Nova partida</button>
+        <button class="btn" id="btn-nova" type="button">↺ Nova partida</button>
       </div>
       <div class="tauler" id="tauler">
         <p class="enunciat" id="enunciat"></p>
@@ -468,7 +475,7 @@
             mostrar(`No és «${format(v)}»`, textPista(p, t), 'error');
             resultatsPas[t] = 'dita'; mostrada = true;
             pintarDades();
-            seguentT = setTimeout(() => passar(false), 2600); bloquejat = true;
+            seguentT = Pantalla.despres(() => passar(false), 2600, true); bloquejat = true;
             return;
           }
           return mostrarResposta();
@@ -486,7 +493,7 @@
         const fet = pas + 1 >= tipusLlista.length;
         bloquejat = true; if (fet) aturar();
         mostrar(config.temps && !errorsPas ? "S'ha acabat el temps ⏱" : `Era «${format(p[t])}»`, textPista(p, t), 'pista');
-        seguentT = setTimeout(() => passar(false), 2800);
+        seguentT = Pantalla.despres(() => passar(false), 2800, true);
       }
       function passar(be) {
         const t = tipusLlista[pas];
@@ -711,7 +718,7 @@
       mostrar(titol, extra, r === 'malament' ? 'pista' : 'guanyat');
       if (r !== 'malament') Celebracio.petita(origen || $('missatge'));
       pintarDades();
-      seguentT = setTimeout(seguent, r === 'malament' ? 2600 : 1600);
+      seguentT = Pantalla.despres(seguent, r === 'malament' ? 2600 : 1600, r === 'malament');
     }
 
     // ---------------- Temps ----------------

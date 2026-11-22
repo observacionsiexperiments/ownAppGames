@@ -18,6 +18,9 @@ Només es poden omplir els maons que ja es poden deduir (vora blava discontínua
 
 Pistes en groc: «suma els dos de sota» o «el de dalt menys el del costat».
 
+
+Capçalera (v0.44.0): com la resta de jocs, una sola fila amb el títol de la partida en una píndola, els comptadors i «↺ Nova partida». Al mòbil vertical el títol s'amaga.
+
 ## Premi
 
 3 estrelles sense errors, 2 amb 2 errors o menys, 1 si no.

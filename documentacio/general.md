@@ -38,6 +38,12 @@ La pantalla d'inici llegeix `jocs/jocs.json` i pinta una targeta per joc, ordena
 
 La pantalla d'inici és pensada per a tauleta: 3 targetes per fila en horitzontal i 2 en vertical. Si no hi caben totes, llisca cap avall. El buscador troba per nom, per descripció o pel número del joc.
 
+### Altres elements de la pantalla d'inici (v0.45.0)
+
+- **🕘 Hi vas jugar fa poc:** sota el buscador, els 3 últims jocs on s'ha començat una partida. `js/pantalla.js` desa l'`id` del joc a `appjocs.recents` (llista JSON, el més recent primer, màxim 3) cada vegada que es prem `#btn-comencar`; `pintarRecents()` d'`app.js` la llegeix. La fila no surt si no hi ha historial, ni mentre es busca o hi ha un filtre. Al mòbil, cada joc és una targeta petita amb la icona i el nom en dues línies.
+- **⚙️ Opcions:** a la tauleta i a l'ordinador el botó diu «⚙️ Opcions»; al mòbil només hi ha la icona.
+- **📖 Manual d'ús:** botó al peu, sobre el número de versió.
+
 ## Opcions generals (⚙️)
 
 Les guarda `js/preferencies.js` al dispositiu (`localStorage`, clau `appjocs.preferencies`) i les fan servir tots els jocs:
@@ -86,6 +92,25 @@ Des de la v0.40.0 **tots els jocs** segueixen el criteri. Detalls que cal saber 
 - **Mòbil vertical (v0.41.0):** també segueix el criteri. El joc comença sota la capçalera i omple l'alçada; a la franja de sota, el missatge a l'esquerra i els botons a la dreta, en una sola línia. El botó de pista té dos textos (`<span class="txt-llarg">Vull una pista</span><span class="txt-curt">Pista</span>`): al mòbil vertical només es veu el curt. Cada joc té al final un bloc `@media (orientation: portrait) and (max-width: 600px)` amb les mides. El mòbil apaïsat continua amb el panell al costat.
 - **Tauleta vertical:** cada joc pot tenir un bloc `@media (orientation: portrait) and (min-width: 601px) and (min-height: 501px)` on la lletra es calcula també per l'alçada.
 - **Mesures de JS:** mentre `Pantalla.dalt/sota` mesuren, la classe `sense-centrar` desactiva el creixement (`flex-grow: 0`) dins de `main.joc.ple`; si no, el tauler estirat fa que el càlcul de «què hi ha a sota» sigui circular i surti diminut.
+
+## Navegació i ajuda dins dels jocs (v0.43.0)
+
+Tot això ho fa `js/pantalla.js` sol, quan la pàgina és dins de `jocs/<id>/`. Els jocs no han de fer res.
+
+- **Botó ❓ a la barra.** Obre una finestra amb el «Com es juga» d'aquell joc. És `manual.html?dins=1#joc-<id>` dins d'un iframe; amb `?dins=1` el manual amaga la barra i la resta de seccions.
+- **Confirmar abans de sortir.** «← Inici» i «↺ Nova partida» pregunten «Vols deixar aquesta partida?» si l'infant ja ha tocat alguna cosa del joc. Si no ha tocat res, o la partida ja s'ha acabat (hi ha la celebració), no pregunten. Esc o «Continuo jugant» tanquen la finestra.
+- **«↺ Nova partida».** Tots els jocs fan servir aquest text (`#btn-nova`, o `#btn-nou` a l'arbre). El botó té un estil neutre, perquè no competeixi amb les accions del joc.
+
+### Després d'un error: `Pantalla.despres(fn, ms, ambExplicacio)`
+
+- Si encerta, el joc passa sol a la pregunta següent, com abans. És un `setTimeout` normal.
+- Si s'equivoca i el joc ensenya una explicació, no passa sol: apareix un botó «Següent ▶» al missatge i l'infant decideix quan continua. Així té temps de llegir l'explicació.
+- Retorna un identificador que `clearTimeout` entén: si el joc el cancel·la (per exemple, amb Nova partida), el botó desapareix.
+- Famílies, Busca l'intrús i Pensa i resol ja tenien el seu propi «Següent ▶» i no el fan servir.
+
+### Mode fosc: botons desactivats
+
+En fosc, un botó desactivat queda transparent amb la vora discontínua. Així no es confon amb un botó actiu de color pastel.
 
 ## Afegir un joc nou
 

@@ -11,7 +11,7 @@ La paraula surt com una fila de dibuixos, un per lletra. Cada dibuix amaga la ll
 
 ## Com es juga
 
-10 paraules. Es toca la lletra a la taula (o s'escriu amb el teclat: A val per À, C per Ç) i va al buit blau. Quan la paraula és plena es comprova: verda, o les lletres errònies en rosa. Pistes en groc: 💡 Quina lletra? i 🖼️ Què és? (mostra el dibuix de la paraula). Al tercer error surt 🙈 Mostra-la.
+10 paraules. Es toca la lletra a la taula (o s'escriu amb el teclat: A val per À, C per Ç) i va al buit blau. Quan la paraula és plena es comprova: verda, o les lletres errònies en rosa. Pistes en groc: 💡 Quina lletra? i 🖼️ Què és? (mostra el dibuix de la paraula). Des de la v0.44.0 són a la franja de sota, al costat del missatge, amb ⌫ (rosa). Al tercer error surt 🙈 Mostra-la.
 
 ## Contingut
 

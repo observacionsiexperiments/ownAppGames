@@ -18,6 +18,9 @@ Cada número pendent té dos cercles buits a sota. Es toca un cercle, s'escriu �
 
 Al segon error surt la pista: «Si una part és a, quant falta per arribar a n?».
 
+
+Capçalera (v0.44.0): com la resta de jocs, una sola fila amb el títol de la partida en una píndola, els comptadors i «↺ Nova partida». Al mòbil vertical el títol s'amaga.
+
 ## Premi
 
 Lliure: 3 estrelles. Arbre més baixet: 3 estrelles amb el mínim de pisos, 2 amb un pis més. Completa l'arbre: segons els errors.

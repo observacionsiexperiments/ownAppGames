@@ -1,5 +1,5 @@
 // Llançadora: llegeix jocs/jocs.json i pinta una targeta per joc.
-const VERSIO_APP = '0.42.0';
+const VERSIO_APP = '0.45.0';
 
 // Categories dels jocs (camp "categories" de jocs.json)
 const CATEGORIES = { xifres: '🔢 Xifres', lletres: '🔤 Lletres' };
@@ -27,6 +27,7 @@ function pintarJocs() {
   const llista = document.getElementById('llista-jocs');
   const text = normal(document.getElementById('cerca').value.trim());
   document.getElementById('netejar-filtres').hidden = !text && filtre === 'tots';
+  pintarRecents();
   // Si s'escriu un número («7») es busca el joc amb aquest número
   const num = /^\d+$/.test(text) ? Number(text) : null;
   const visibles = jocs.filter(j =>
@@ -44,6 +45,30 @@ function pintarJocs() {
     return;
   }
   for (const joc of visibles) llista.appendChild(crearTargeta(joc));
+}
+
+// «Hi vas jugar fa poc»: els 3 darrers jocs començats. Només sense cerca ni filtre, perquè no molesti quan es busca
+function pintarRecents() {
+  const sec = document.getElementById('recents');
+  let ids = [];
+  try { ids = JSON.parse(localStorage.getItem('appjocs.recents') || '[]'); } catch {}
+  const r = (Array.isArray(ids) ? ids : []).map(id => jocs.find(j => j.id === id && j.estat !== 'properament')).filter(Boolean);
+  const cercant = document.getElementById('cerca').value.trim() || filtre !== 'tots';
+  sec.hidden = !r.length || !!cercant;
+  const ul = document.getElementById('llista-recents');
+  ul.innerHTML = '';
+  for (const joc of r) {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.className = 'recent';
+    a.href = `jocs/${joc.id}/`;
+    a.innerHTML = '<span class="icona" aria-hidden="true"></span><span class="nom"></span><span class="num"></span>';
+    a.querySelector('.icona').textContent = joc.icona || '🎲';
+    a.querySelector('.nom').textContent = joc.nom;
+    a.querySelector('.num').textContent = joc.num || '';
+    a.querySelector('.num').setAttribute('aria-label', `Joc ${joc.num}`);
+    li.appendChild(a); ul.appendChild(li);
+  }
 }
 
 function triarFiltre(f) {
@@ -86,6 +111,8 @@ function crearTargeta(joc) {
   li.appendChild(a);
   return li;
 }
+
+window.addEventListener('pageshow', e => { if (e.persisted && jocs.length) pintarRecents(); });
 
 // Service worker (només funciona sota HTTPS o localhost)
 if ('serviceWorker' in navigator) {

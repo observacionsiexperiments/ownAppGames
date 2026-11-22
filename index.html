@@ -19,7 +19,7 @@
 </head>
 <body>
   <header class="capcalera">
-    <button type="button" class="btn-opcions" id="btn-opcions" aria-label="Opcions" title="Opcions" aria-haspopup="dialog">⚙️</button>
+    <button type="button" class="btn-opcions" id="btn-opcions" aria-label="Opcions" title="Opcions" aria-haspopup="dialog">⚙️<span class="txt"> Opcions</span></button>
     <h1>🧩 Juguem?</h1>
     <p class="subtitol" id="subtitol">Tria un minijoc per començar</p>
     <button id="btn-instal" class="btn" hidden>Instal·la l'app</button>
@@ -51,6 +51,12 @@
       <!-- Treu el filtre i el text de cerca (només es veu quan n'hi ha) -->
       <button type="button" class="netejar-filtres" id="netejar-filtres" hidden aria-label="Treure filtres i cerca" title="Treure filtres">✕</button>
     </div>
+
+    <!-- Els 3 darrers jocs on s'ha començat una partida (appjocs.recents, el desa pantalla.js) -->
+    <section class="recents" id="recents" aria-labelledby="recents-titol" hidden>
+      <h2 id="recents-titol">🕘 Hi vas jugar fa poc</h2>
+      <ul id="llista-recents"></ul>
+    </section>
 
     <ul id="llista-jocs" class="graella" aria-live="polite">
       <li class="buit">Carregant jocs…</li>
@@ -102,6 +108,7 @@
   </div>
 
   <footer class="peu">
+    <a class="peu-manual" href="manual.html">📖 Manual d'ús</a>
     <small id="versio"></small>
   </footer>
 

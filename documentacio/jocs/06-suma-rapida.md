@@ -14,7 +14,7 @@ Hi ha un número objectiu i unes quantes fitxes. Cal tocar les fitxes que, sumad
 
 ## Com es juga
 
-Les fitxes triades es posen blaves i a dalt surt «a + b + … = ?». OK comprova que la suma i el nombre de fitxes siguin correctes. Primer error en rosa; segon, pista en groc: «et falten X» o «t'has passat de X».
+Les fitxes triades es posen blaves i, dins de la caixa del missatge (a dalt, en gran), surt «a + b + … = ?»; només hi ha una caixa de missatge (v0.44.0). El missatge inicial ja no repeteix «Cadena 1 de 5», que és al comptador. OK comprova que la suma i el nombre de fitxes siguin correctes. Primer error en rosa; segon, pista en groc: «et falten X» o «t'has passat de X».
 
 ## Premi i rècord
 

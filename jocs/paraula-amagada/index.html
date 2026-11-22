@@ -72,14 +72,6 @@
     .descoberta { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 0; }
     .descoberta .gran { font-size: clamp(2.6rem, 8vh, 4.2rem); line-height: 1; }
     .descoberta b { font-size: clamp(1.6rem, 4.5vh, 2.4rem); }
-    .ajudes { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
-    .ajudes button {
-      font: inherit; font-weight: 700; font-size: 1rem; color: var(--text); cursor: pointer; touch-action: manipulation;
-      border-radius: 14px; padding: 8px 14px; min-height: 48px; border: 2px solid var(--vora); background: var(--superficie); box-shadow: var(--ombra);
-    }
-    .ajudes .pista { background: var(--c-pista); border-color: var(--c-pista-vora); color: var(--tinta); }
-    .ajudes .treure { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); color: var(--tinta); }
-    .ajudes button:disabled { opacity: .4; cursor: default; }
 
     /* Taula de l'abecedari: cada casella és un botó (dibuix + lletra) */
     .taula { grid-area: taula; display: grid; gap: 6px; grid-template-columns: repeat(var(--tc, 6), var(--c, 70px)); }
@@ -135,8 +127,6 @@
       .forat { border-width: 2px; border-radius: 8px; }
       .taula { gap: 4px; }
       .cela { border-radius: 8px; }
-      .ajudes { gap: 6px; }
-      .ajudes button { font-size: .85rem; padding: 4px 10px; min-height: 40px; }
       .missatge { margin-top: 6px; min-height: 0; padding: 5px 10px; font-size: .95rem; }
       .missatge small { font-size: .82rem; }
     }
@@ -145,9 +135,25 @@
     @media (min-width: 601px) and (min-height: 501px) {
       .tauler { padding: clamp(12px, 2vh, 22px) clamp(14px, 2vw, 26px); }
       .esquerra { gap: clamp(12px, 3vh, 30px); }
-      .ajudes button { font-size: clamp(1rem, 2.4vh, 1.3rem); min-height: clamp(48px, 7vh, 64px); padding: .45em 1em; }
       .missatge { margin-top: 12px; min-height: 0; font-size: clamp(1rem, 2.4vh, 1.25rem); }
       .missatge small { font-size: .88em; }
+    }
+  
+    /* Ajudes a la franja de sota (v0.44.0), com la resta de jocs: grogues les pistes, rosa treure/esborrar */
+    .peu.franja { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+    .peu.franja > .botons-peu { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+    .botons-peu .btn-pista { background: var(--c-pista); border-color: var(--c-pista-vora); color: var(--tinta); }
+    .botons-peu .btn-treure { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); color: var(--tinta); }
+    .botons-peu .btn:disabled { opacity: .45; cursor: default; }
+    @media (max-height: 500px) { .peu.franja { margin-top: 6px; gap: 6px; } .peu.franja .btn { padding: 6px 12px; font-size: .9rem; } }
+    @media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) {
+      main.joc.ple .peu.franja { flex-direction: column; }
+      main.joc.ple .peu.franja > .botons-peu { justify-content: center; }
+    }
+    @media (orientation: portrait) and (max-width: 600px) {
+      main.joc.ple .peu.franja { flex-direction: column; gap: 6px; }
+      main.joc.ple .peu.franja > .botons-peu { flex-direction: row; justify-content: center; gap: 6px; }
+      main.joc.ple .peu.franja > .botons-peu .btn { flex: 1 1 0; padding: 8px 6px; font-size: .95rem; }
     }
   </style>
 </head>
@@ -181,22 +187,24 @@
     <section id="pantalla-joc" hidden>
       <div class="cap-joc">
         <div class="dades" id="dades"></div>
-        <button class="btn" id="btn-nova" type="button">Nova ronda</button>
+        <button class="btn" id="btn-nova" type="button">↺ Nova partida</button>
       </div>
       <div class="tauler" id="tauler">
         <div class="esquerra">
           <div class="paraula" id="paraula" aria-label="La paraula amagada"></div>
           <div class="descoberta" id="descoberta" hidden><span class="gran" id="desc-emoji"></span><b id="desc-text"></b></div>
-          <div class="ajudes">
-            <button type="button" class="pista" id="btn-lletra">💡 Quina lletra?</button>
-            <button type="button" class="pista" id="btn-dibuix">🖼️ Què és?</button>
-            <button type="button" class="treure" id="btn-esborrar" aria-label="Esborra l'última lletra">⌫</button>
-            <button type="button" id="btn-mostra" hidden>🙈 Mostra-la</button>
-          </div>
         </div>
         <div class="taula" id="taula" aria-label="Abecedari"></div>
       </div>
-      <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
+      <div class="peu franja">
+        <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
+        <div class="botons-peu">
+          <button type="button" class="btn btn-pista" id="btn-lletra">💡 <span class="txt-llarg">Quina lletra?</span><span class="txt-curt">Lletra</span></button>
+          <button type="button" class="btn btn-pista btn-dibuix" id="btn-dibuix">🖼️ Què és?</button>
+          <button type="button" class="btn btn-treure" id="btn-esborrar" aria-label="Esborra l'última lletra">⌫</button>
+          <button type="button" class="btn" id="btn-mostra" hidden>🙈 Mostra-la</button>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -418,7 +426,7 @@
       ['btn-lletra', 'btn-dibuix', 'btn-esborrar'].forEach(id => $(id).disabled = true);
       $('btn-mostra').hidden = true;
       mides(); pintarDades();
-      seguent = setTimeout(() => { num++; if (num <= ronda.length) novaParaula(); else final(); }, ms);
+      seguent = Pantalla.despres(() => { num++; if (num <= ronda.length) novaParaula(); else final(); }, ms, ms > 2200);   // si s'ha mostrat la paraula, «Següent ▶»
     }
 
     // ---------------- Final ----------------

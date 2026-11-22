@@ -204,7 +204,7 @@
     <section id="pantalla-joc" hidden>
       <div class="cap-joc">
         <div class="dades" id="dades"></div>
-        <button class="btn" id="btn-nova" type="button">Nova partida</button>
+        <button class="btn" id="btn-nova" type="button">↺ Nova partida</button>
       </div>
       <div class="tauler" id="tauler">
         <p class="pregunta">Quantes síl·labes té?</p>
@@ -395,7 +395,7 @@
       resultats.push('malament');
       mostrar(titol, `En té ${n}: ${actual.sillabes.map(format).join(' · ')}`, temps0 ? 'pista' : 'error');
       pintarDades();
-      seguentT = setTimeout(seguent, ESPERA_MAL);
+      seguentT = Pantalla.despres(seguent, ESPERA_MAL, true);
     }
     function tancarNumeros() { $('numeros').querySelectorAll('.numero').forEach(b => b.disabled = true); $('btn-pista').disabled = true; }
 

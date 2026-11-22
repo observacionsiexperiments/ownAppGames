@@ -271,7 +271,13 @@
       .tauler { grid-template-rows: minmax(0, 1fr) auto; }
       .zona { align-self: stretch; }
       .tauler.sense-zona .resp, .tauler.escriure .resp { align-self: center; }
-      .tauler:not(.sense-zona):not(.escriure) .resp { align-self: end; }
+      /* v0.44.0: el dibuix o les dades i les respostes, junts i centrats a la dreta; la franja, a baix de tot */
+      .tauler:not(.escriure) { grid-template-rows: minmax(0, 1fr) auto auto minmax(0, 1fr) auto; row-gap: 0;
+        grid-template-areas: "enun ." "enun zona" "enun resp" "enun ." "peu peu"; }
+      .tauler.sense-zona:not(.escriure) { grid-template-areas: "enun ." "enun resp" "enun resp" "enun ." "peu peu"; }
+      .tauler:not(.escriure) .zona { align-self: stretch; padding-bottom: clamp(10px, 2vh, 20px); }
+      .tauler:not(.escriure) .resp { align-self: stretch; }
+      .tauler:not(.escriure) .peu { margin-top: clamp(10px, 2vh, 20px); }
     }
     @media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) {
       .tauler { align-content: space-between; }
@@ -344,7 +350,7 @@
       <div class="cap-joc">
         <div class="dades" id="dades"></div>
         <div class="botons-cap">
-          <button class="btn" id="btn-nova" type="button">Nova partida</button>
+          <button class="btn" id="btn-nova" type="button">↺ Nova partida</button>
         </div>
       </div>
 
@@ -1038,7 +1044,7 @@
             },
             enMostrar: () => {
               fets.push(p); pas++; mostrada = true;
-              if (pas < passos.length) { mostrar(`Era ${p.valor} ${p.unitat}`, 'Seguim amb la pregunta següent.', 'pista'); ambAjuda = true; setTimeout(pintarPas, 2200); }
+              if (pas < passos.length) { mostrar(`Era ${p.valor} ${p.unitat}`, 'Seguim amb la pregunta següent.', 'pista'); ambAjuda = true; Pantalla.despres(pintarPas, 2200, true); }
               else { errors += errorsAbans; acabarProblema(false, `Era ${p.valor} ${p.unitat}`); }
             } });
         }

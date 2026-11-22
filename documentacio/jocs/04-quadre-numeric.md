@@ -14,6 +14,9 @@ Es toca una casella buida i s'escriu el número. Les caselles que quedarien fora
 
 Al segon error, la pista dibuixa fletxes des del número que ja es dona.
 
+
+Capçalera (v0.44.0): com la resta de jocs, una sola fila amb el títol de la partida en una píndola, els comptadors i «↺ Nova partida». Al mòbil vertical el títol s'amaga.
+
 ## Premi
 
 3 estrelles sense errors, 2 amb 3 errors o menys, 1 si no.

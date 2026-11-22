@@ -15,7 +15,7 @@ Diminutius (-et/-eta, -ol/-ola) i augmentatius (-às/-assa), sense pejoratius.
 
 ## Com es juga
 
-La fila és `← casella · PARAULA · casella →`: a l'esquerra el més petit i a la dreta el més gros. Al Difícil, si només falla l'accent surt «Gairebé! Revisa l'accent». Al segon error, la pista explica la regla d'ortografia («treu la vocal final i afegeix -et»).
+La fila és `← casella · PARAULA · casella →`: a l'esquerra el més petit i a la dreta el més gros. L'etiqueta «← 🐭 més petit» / «més gros 🐘 →» és una píndola gran centrada sobre la casella (v0.44.0). Al Difícil, si només falla l'accent surt «Gairebé! Revisa l'accent». Al segon error, la pista explica la regla d'ortografia («treu la vocal final i afegeix -et»).
 
 ## Contingut
 

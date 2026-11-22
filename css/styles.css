@@ -170,6 +170,37 @@ main { flex: 1; width: 100%; max-width: 960px; margin: 0 auto; }
 }
 .barra-joc a:hover { background: var(--c-info); color: var(--tinta); }
 .barra-joc h1 { margin: 0; font-size: 1.3rem; }
+/* ❓ Com es juga (js/pantalla.js): a la dreta de la barra */
+.barra-joc a { white-space: nowrap; flex: none; }
+.barra-joc h1 { min-width: 0; }
+.ajuda-joc { margin-left: auto; font: inherit; font-size: 1.15rem; line-height: 1; cursor: pointer; color: var(--text);
+  width: 34px; height: 34px; border-radius: 50%; padding: 0; display: grid; place-items: center; background: var(--superficie); border: 2px solid var(--c-info-vora); touch-action: manipulation; }
+.ajuda-joc:hover { background: var(--c-info); }
+@media (max-width: 600px), (max-height: 500px) { .ajuda-joc { width: 28px; height: 28px; font-size: .95rem; flex: none; } .barra-joc { gap: 8px; } }
+@media (max-width: 400px) { .barra-joc h1 { font-size: 1rem; } main #btn-nova, main #btn-nou { font-size: .85rem; padding: 5px 10px; white-space: nowrap; } }
+/* «↺ Nova partida»: botó neutre (el préssec és per a les respostes i per a «Comença!») */
+main #btn-nova, main #btn-nou { background: var(--superficie); border-color: var(--vora); color: var(--text); box-shadow: none; }
+@media (hover: hover) { main #btn-nova:hover, main #btn-nou:hover { border-color: var(--c-info-vora); } }
+/* «Següent ▶» quan hi ha una explicació per llegir (Pantalla.despres): dins del missatge, a sota del text */
+.btn-seguent-auto { align-self: center; margin-top: 6px; font-size: 1.05rem; padding: .45em 1.4em; }
+/* Botons d'acció desactivats en mode fosc: sense color i amb vora discontínua (el pastel amb opacitat queda brut sobre fosc) */
+html[data-tema="fosc"] :is(.btn, .boto, .botons-peu button, .ajudes button):disabled { background: transparent; border-style: dashed; color: var(--text-suau); opacity: .8; box-shadow: none; }
+@media (prefers-color-scheme: dark) { html:not([data-tema="clar"]) :is(.btn, .boto, .botons-peu button, .ajudes button):disabled { background: transparent; border-style: dashed; color: var(--text-suau); opacity: .8; box-shadow: none; } }
+/* Finestres pròpies (js/pantalla.js): sortir de la partida i «Com es juga» */
+.fj-fons { position: fixed; inset: 0; z-index: 200; background: rgba(30, 26, 46, .55); display: grid; place-items: center; padding: 16px; }
+.fj-fons[hidden] { display: none; }
+.fj-finestra { width: 100%; max-width: 420px; background: var(--fons); color: var(--text); border: 3px solid var(--c-info-vora);
+  border-radius: 24px; padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+.fj-finestra h2 { margin: 0; font-size: 1.35rem; }
+.fj-finestra p { margin: 0; color: var(--text-suau); }
+.fj-botons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+.fj-botons button, .fj-tanca { font: inherit; font-weight: 800; cursor: pointer; min-height: 52px; border-radius: 14px; padding: 8px 12px; touch-action: manipulation; }
+.fj-segueix { background: var(--c-ok); border: 2px solid var(--c-ok-vora); color: var(--tinta); }
+.fj-deixa { background: var(--c-esborrar); border: 2px solid var(--c-esborrar-vora); color: var(--tinta); }
+.fj-finestra.fj-gran { max-width: 760px; height: min(86dvh, 820px); padding: 12px; text-align: left; }
+.fj-cap { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 1.15rem; }
+.fj-tanca { min-height: 42px; background: var(--superficie); color: var(--text); border: 2px solid var(--c-info-vora); }
+.fj-finestra iframe { flex: 1 1 auto; width: 100%; border: 0; border-radius: 14px; background: var(--fons); }
 
 /* ─── Component d'entrada de números (js/entrada-numero.js) ─── */
 .en { width: 100%; }
@@ -704,3 +735,36 @@ html.fe-oberta, html.fe-oberta body { overflow: hidden; }   /* la pàgina del da
   .fe-finestra .en-llenc, .fe-finestra .en-gran .en-llenc { height: clamp(110px, 45dvh, 200px); }
   .fe-finestra .en-ok-ample { min-height: clamp(34px, 10dvh, 46px); margin-top: 7px; font-size: 1.1rem; }
 }
+
+/* ─── Pantalla d'inici (v0.45.0): «Hi vas jugar fa poc», «⚙️ Opcions» amb text i Manual al peu ─── */
+.recents { width: 100%; max-width: 1060px; margin: 14px auto 0; }
+.recents h2 { margin: 0 0 8px; font-size: 1rem; font-weight: 800; color: var(--text-suau); }
+.recents ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.recents li { min-width: 0; display: flex; }
+.recent { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; min-height: 58px; padding: 8px 14px;
+  border-radius: 16px; background: var(--superficie); border: 2px solid var(--vora); box-shadow: var(--ombra);
+  color: var(--text); text-decoration: none; font-weight: 800; font-size: 1.05rem; touch-action: manipulation; }
+.recent:hover, .recent:focus-visible { border-color: var(--c-info-vora); }
+.recent .icona { flex: none; font-size: 1.6rem; line-height: 1; }
+.recent .nom { flex: 1; min-width: 0; overflow: hidden; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.recent .num { flex: none; font-size: .9rem; color: var(--text-suau); font-variant-numeric: tabular-nums; }
+.recents:not([hidden]) + .graella { margin-top: 18px; }
+@media (max-width: 600px), (orientation: landscape) and (max-height: 500px) {
+  .recents { margin-top: 10px; }
+  .recents h2 { font-size: .9rem; margin-bottom: 6px; }
+  .recents ul { gap: 8px; }
+  .recent { flex-direction: column; justify-content: center; gap: 2px; min-height: 0; padding: 6px 6px; font-size: .8rem; text-align: center; border-radius: 14px; }
+  .recent .nom { line-height: 1.15; }
+  .recent .num { display: none; }
+  .recents:not([hidden]) + .graella { margin-top: 12px; }
+}
+@media (orientation: landscape) and (max-height: 500px) { .recent { flex-direction: row; gap: 6px; padding: 6px 10px; } .recent .nom { -webkit-line-clamp: 1; } }
+.btn-opcions .txt { display: none; }
+@media (min-width: 601px) and (min-height: 501px) {
+  .btn-opcions { width: auto; padding: 0 16px 0 12px; border-radius: 999px; font: inherit; font-weight: 800; font-size: 1.05rem; color: var(--text); display: inline-flex; align-items: center; gap: 2px; }
+  .btn-opcions .txt { display: inline; }
+}
+footer.peu { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.peu-manual { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 4px 16px; border-radius: 999px;
+  border: 2px solid var(--c-info-vora); background: var(--superficie); color: var(--text); font-weight: 700; text-decoration: none; touch-action: manipulation; }
+.peu-manual:hover { background: var(--c-info); color: var(--tinta); }

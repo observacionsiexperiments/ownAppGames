@@ -197,7 +197,7 @@
     <section id="pantalla-joc" hidden>
       <div class="cap-joc">
         <div class="dades" id="dades"></div>
-        <button class="btn" id="btn-nova" type="button">Nova ronda</button>
+        <button class="btn" id="btn-nova" type="button">↺ Nova partida</button>
       </div>
 
       <div class="tauler">
@@ -335,7 +335,7 @@
       resultats.push(false);
       mostrar("S'ha acabat el temps ⏱", `El ${busca === 'gran' ? 'més gran' : 'més petit'} era el ${c}.`, 'pista');
       pintarDades();
-      seguent = setTimeout(passar, ESPERA_MS + 500);
+      seguent = Pantalla.despres(passar, ESPERA_MS + 500, true);
     }
 
     // ---------------- Resposta (un sol intent) ----------------
@@ -358,7 +358,7 @@
       botoDe(c).classList.add('correcta');
       mostrar(`No, el ${v} no és el ${busca === 'gran' ? 'més gran' : 'més petit'}`, explicar(c, v), 'error');
       pintarDades();
-      seguent = setTimeout(passar, ESPERA_MS + 1000);
+      seguent = Pantalla.despres(passar, ESPERA_MS + 1000, true);
     }
     function tancarFitxes() { $('fitxes').querySelectorAll('.fitxa').forEach(b => b.disabled = true); }
 

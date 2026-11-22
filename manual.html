@@ -8,6 +8,7 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon-192.png">
   <script>try{var t=JSON.parse(localStorage.getItem("appjocs.preferencies")||"{}").aparenca;if(t==="fosc"||t==="clar")document.documentElement.dataset.tema=t}catch(e){}</script>
+  <script>if(/[?&]dins=1/.test(location.search))document.documentElement.classList.add("dins")</script>
   <link rel="stylesheet" href="css/styles.css">
   <style>
     /* Manual per a famílies i mestres. Seccions plegables: només una d'oberta alhora. */
@@ -69,6 +70,14 @@
       .manual table { font-size: .88rem; }
       .manual th, .manual td { padding: 6px 6px; }
     }
+    /* Dins d'un joc (botó ❓): només el «Com es juga» d'aquell joc */
+    html.dins body { padding-top: 0; }
+    html.dins .barra-joc, html.dins .intro, html.dins .versio, html.dins .manual > details:not(#com-es-juga),
+    html.dins #com-es-juga > summary, html.dins details.joc:not([open]) { display: none; }
+    html.dins #com-es-juga { border: 0; background: none; box-shadow: none; }
+    html.dins #com-es-juga > .cos > p:first-child { display: none; }
+    html.dins details.joc > summary { pointer-events: none; }
+    html.dins details.joc > summary::after { content: none; }
   </style>
 </head>
 <body>
@@ -97,7 +106,9 @@
           <li><b>Buscador 🔍:</b> escriu una part del nom del joc, o el seu número, i només es veuran els que hi coincideixen.</li>
           <li><b>Filtres:</b> «Tots», «🔢 Xifres» (jocs de números) i «🔤 Lletres» (jocs de lectura). L'app recorda l'últim filtre.</li>
           <li><b>✕ Treure filtres:</b> el botó rosa torna a mostrar tots els jocs.</li>
-          <li><b>⚙️ Opcions:</b> el botó de dalt a la dreta obre les opcions generals i aquest manual.</li>
+          <li><b>🕘 Hi vas jugar fa poc:</b> sota el buscador surten els tres últims jocs on has començat una partida, per tornar-hi sense lliscar. No surt mentre busques o tens un filtre posat.</li>
+          <li><b>⚙️ Opcions:</b> el botó de dalt a la dreta obre les opcions generals i aquest manual. A la tauleta i a l'ordinador hi diu «Opcions»; al mòbil només hi ha la icona.</li>
+          <li><b>📖 Manual d'ús:</b> a sota de tot hi ha un botó que obre aquest manual. Dins de cada joc, el botó ❓ obre directament com es juga a aquell joc.</li>
           <li><b>Versió:</b> a sota de tot hi ha el número de versió (per exemple, v0.31.0). Serveix per saber si tens l'última versió.</li>
         </ul>
         <p>Si has posat un nom a les opcions, a dalt sortirà «Hola, Anna! Tria un minijoc per començar».</p>
@@ -125,12 +136,13 @@
         <ol>
           <li><b>Tria les opcions del joc.</b> Cada joc comença amb una pantalla d'opcions: dificultat, tipus de lletra, temps… L'opció triada es veu en blau. Després prem el botó «Comença!».</li>
           <li><b>Juga la ronda.</b> La majoria de jocs tenen rondes de 10 preguntes o problemes. A dalt es veu per quin vas i uns punts de colors amb el que ja has fet.</li>
-          <li><b>Nova partida.</b> El botó de dalt a la dreta torna a la pantalla d'opcions del joc.</li>
+          <li><b>↺ Nova partida.</b> El botó de dalt a la dreta torna a la pantalla d'opcions del joc. Si la partida ja ha començat, abans pregunta «Vols deixar aquesta partida?», perquè no es perdi sense voler.</li>
           <li><b>Final.</b> Quan s'acaba la ronda surt una celebració amb les estrelles (de 1 a 3) i, si n'hi ha, el rècord. Pots triar «🔁 Tornar a jugar» o «🏠 Menú principal».</li>
         </ol>
         <p><b>Dificultat.</b> En els jocs de números, normalment Fàcil va fins al 10, Mitjà fins al 20 i Difícil fins al 100. A Fàcil i Mitjà es tria la resposta entre unes quantes opcions. A Difícil s'ha d'escriure.</p>
         <p><b>Estrelles i rècords.</b> Les estrelles depenen de quantes en fa a la primera. Cada joc guarda el millor resultat per a cada combinació d'opcions. Si a les opcions generals has triat no comptar errors, no surten ni estrelles ni rècords.</p>
-        <p><b>Per tornar a l'inici,</b> prem «← Inici», a dalt a l'esquerra.</p>
+        <p><b>Per tornar a l'inici,</b> prem «← Inici», a dalt a l'esquerra (també pregunta si hi ha una partida començada).</p>
+        <p><b>❓ Com es juga.</b> A dalt a la dreta de cada joc hi ha el botó «❓»: obre l'explicació d'aquell joc en una finestra, sense sortir de la partida.</p>
       </div>
     </details>
 
@@ -191,7 +203,7 @@
       <div class="cos">
         <table>
           <tr><th>Núm.</th><th>Joc</th><th>Què treballa</th><th>Tipus</th></tr>
-          <tr><td class="num">1</td><td><a href="#joc-endevina-numero">🔢 Endevina el número</a></td><td>Ordre dels números de l'1 al 100; fer servir pistes (més gran, més petit, parell, desena)</td><td>Xifres</td></tr>
+          <tr><td class="num">1</td><td><a href="#joc-endevina-numero">🔢 Endevina el número</a></td><td>Ordre dels números de l'1 al 20, al 50 o al 100; fer servir pistes (més gran, més petit, parell, desena)</td><td>Xifres</td></tr>
           <tr><td class="num">2</td><td><a href="#joc-arbre-numeros">🌳 L'arbre dels números</a></td><td>Descompondre un número en sumes fins a arribar als uns</td><td>Xifres</td></tr>
           <tr><td class="num">3</td><td><a href="#joc-piramide">🔺 La piràmide de números</a></td><td>Sumar (i restar) maons: cada maó és la suma dels dos de sota</td><td>Xifres</td></tr>
           <tr><td class="num">4</td><td><a href="#joc-quadre-numeric">🧩 El quadre numèric</a></td><td>La taula del 100: desenes (amunt i avall) i unitats (als costats)</td><td>Xifres</td></tr>
@@ -222,10 +234,11 @@
         <details class="joc" name="joc" id="joc-endevina-numero">
           <summary>🔢 1. Endevina el número</summary>
           <div class="cos-joc">
-            <p class="obj">🎯 L&#x27;app pensa un número de l&#x27;1 al 100. L&#x27;has d&#x27;endevinar fent servir les pistes, amb els mínims intents possibles.</p>
+            <p class="obj">🎯 L&#x27;app pensa un número. L&#x27;has d&#x27;endevinar fent servir les pistes, amb els mínims intents possibles.</p>
+            <h4>Abans de començar</h4><ul><li>Tria fins a quin número: de l&#x27;1 al 20 (fàcil), al 50 (mitjà) o al 100 (difícil). L&#x27;app ho recorda per a la propera vegada.</li></ul>
             <h4>Com es juga</h4><ol><li>Escriu un número amb el teclat de la pantalla i prem OK.</li><li>A la caixa 💡 Pista veuràs si t&#x27;has quedat lluny o a prop, i pistes especials (el doble, la meitat, les xifres girades…).</li><li>La llista «Ja saps que…» recull tot el que has descobert. Fes-la servir per triar el número següent.</li><li>Torna-ho a provar fins que l&#x27;encertis.</li></ol>
             <h4>Si t'encalles</h4><p>A l&#x27;intent 4 et diu si és parell o senar; al 7, la desena; al 10, quant sumen les xifres.</p>
-            <h4>Quan s'acaba</h4><p>Quan l&#x27;encertes. Amb 5 intents o menys, 3 estrelles.</p>
+            <h4>Quan s'acaba</h4><p>Quan l&#x27;encertes. Com menys intents, més estrelles (de l&#x27;1 al 100, amb 5 intents o menys, 3 estrelles). Cada nivell té el seu rècord.</p>
           </div>
         </details>
         <details class="joc" name="joc" id="joc-arbre-numeros">
@@ -273,7 +286,7 @@
           <div class="cos-joc">
             <p class="obj">🎯 Hi ha un número objectiu i unes quantes fitxes. Toca les fitxes que, sumades, fan l&#x27;objectiu.</p>
             <h4>Abans de començar</h4><ul><li>Tria el nivell (fins a 20, 50 o 100), amb quants números has de sumar, quantes fitxes surten, quantes sumes seguides i si vols números rodons.</li></ul>
-            <h4>Com es juga</h4><ol><li>Toca les fitxes que vols sumar: es posen blaves i a dalt veus la suma.</li><li>Si te n&#x27;equivoques, torna a tocar la fitxa per treure-la.</li><li>Quan creguis que està bé, prem OK.</li></ol>
+            <h4>Com es juga</h4><ol><li>Toca les fitxes que vols sumar: es posen blaves i al missatge de sota veus la suma que vas fent.</li><li>Si te n&#x27;equivoques, torna a tocar la fitxa per treure-la.</li><li>Quan creguis que està bé, prem OK.</li></ol>
             <h4>Si t'encalles</h4><p>Si no està bé, et diu quant et falta o quant t&#x27;has passat.</p>
             <h4>Quan s'acaba</h4><p>Quan acabes totes les sumes. Com més ràpid, millor rècord.</p>
           </div>
@@ -304,16 +317,16 @@
             <p class="obj">🎯 Les lletres d&#x27;una paraula estan desordenades. Posa-les en ordre.</p>
             <h4>Abans de començar</h4><ul><li>Tria el tema i la dificultat (paraules de 3–4, 5–6 o 7–10 lletres).</li></ul>
             <h4>Com es juga</h4><ol><li>Toca una lletra i anirà a la primera casella buida, o arrossega-la a la casella que vulguis.</li><li>També pots escriure amb el teclat de l&#x27;ordinador.</li><li>Per treure una lletra, toca-la a la casella o prem ⌫.</li><li>Quan les caselles són plenes, es comprova sola.</li></ol>
-            <h4>Si t'encalles</h4><p>📝 Pista et dona una frase (i el dibuix); 🔤 Destapa una lletra en posa una al seu lloc. Al tercer error surt 🙈 Mostra-la.</p>
+            <h4>Si t'encalles</h4><p>Els botons d&#x27;ajuda són a sota, al costat del missatge: 💡 Vull una pista et dona una frase (i el dibuix); 🔤 Destapa una lletra en posa una al seu lloc; ↺ Treu-les torna totes les lletres a baix. Al tercer error surt 🙈 Mostra-la.</p>
             <h4>Quan s'acaba</h4><p>Després de 10 paraules.</p>
           </div>
         </details>
         <details class="joc" name="joc" id="joc-quin-numero">
           <summary>🧮 10. Quin número falta?</summary>
           <div class="cos-joc">
-            <p class="obj">🎯 Prem ✨ Gira i surt una operació amb un número amagat. Troba&#x27;l.</p>
+            <p class="obj">🎯 Surt una operació amb un número amagat. Troba&#x27;l.</p>
             <h4>Abans de començar</h4><ul><li>Tria el mode (10 operacions, contrarellotge d&#x27;1 minut o lliure), la dificultat, les operacions (+ − × ÷) i què s&#x27;amaga (el resultat o qualsevol número).</li></ul>
-            <h4>Com es juga</h4><ol><li>Prem ✨ Gira.</li><li>Pensa quin número falta.</li><li>Al Fàcil i al Mitjà, toca la resposta entre les opcions; al Difícil, escriu-la.</li></ol>
+            <h4>Com es juga</h4><ol><li>Prem «Comença!» i surt la primera operació (al contrarellotge, prem «▶ Comencem?» quan estiguis a punt: és quan comença el temps).</li><li>Pensa quin número falta.</li><li>Al Fàcil i al Mitjà, toca la resposta entre les opcions; al Difícil, escriu-la. Quan l'encertes, surt la següent tota sola.</li></ol>
             <h4>Si t'encalles</h4><p>Al segon error surt una pista segons l&#x27;operació (per exemple, «7 × 3 és 7 + 7 + 7»).</p>
             <h4>Quan s'acaba</h4><p>Quan acabes les operacions, o el temps al contrarellotge.</p>
           </div>
@@ -334,7 +347,7 @@
             <p class="obj">🎯 La paraula surt amb dibuixos: cada dibuix amaga la lletra per la qual comença el seu nom.</p>
             <h4>Abans de començar</h4><ul><li>Tria la dificultat (paraules curtes, mitjanes o llargues) i la lletra.</li></ul>
             <h4>Com es juga</h4><ol><li>Mira el primer dibuix i digues el seu nom: per quina lletra comença?</li><li>Busca aquella lletra a la taula de l&#x27;abecedari i toca-la (o escriu-la amb el teclat).</li><li>Fes el mateix amb cada dibuix fins a omplir la paraula.</li></ol>
-            <h4>Si t'encalles</h4><p>💡 Quina lletra? t&#x27;ajuda amb la lletra i 🖼️ Què és? et mostra el dibuix de la paraula.</p>
+            <h4>Si t'encalles</h4><p>Els botons d&#x27;ajuda són a sota, al costat del missatge: 💡 Quina lletra? t&#x27;ajuda amb la lletra i 🖼️ Què és? et mostra el dibuix de la paraula. ⌫ treu l&#x27;última lletra.</p>
             <h4>Quan s'acaba</h4><p>Després de 10 paraules.</p>
           </div>
         </details>

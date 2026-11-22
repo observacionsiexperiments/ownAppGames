@@ -13,7 +13,7 @@ Les lletres d'una paraula surten desordenades i cal posar-les en ordre a les cas
 
 10 paraules, sense temps. Es toca una fitxa i va a la primera casella lliure, o s'arrossega a qualsevol casella. També es pot escriure amb el teclat (A val per À, C per Ç), i ⌫ treu l'última lletra.
 
-- **Pistes (groc):** 📝 Pista (una frase, i el dibuix al Mitjà i al Difícil) i 🔤 Destapa una lletra.
+- **Pistes (groc):** «💡 Vull una pista» (una frase, i el dibuix al Mitjà i al Difícil) i «🔤 Destapa una lletra». Des de la v0.44.0 són a la franja de sota, al costat del missatge, amb «↺ Treu-les» (rosa) i «🙈 Mostra-la»; al mòbil vertical, en una fila sota el missatge amb text curt («💡 Pista», «🔤 Lletra»).
 - **Errors:** el primer, «Hi ha lletres canviades de lloc» en rosa; després, en groc, quantes lletres ja són al seu lloc. A partir del tercer error surt 🙈 Mostra-la.
 
 ## Contingut

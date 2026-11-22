@@ -4,7 +4,7 @@
     "num": 1,
     "nom": "Endevina el número",
     "icona": "🔢",
-    "descripcio": "He pensat un número de l'1 al 100. Les pistes t'ajudaran a trobar-lo.",
+    "descripcio": "Penso un número fins al 20, al 50 o al 100. Les pistes t'ajudaran a trobar-lo.",
     "objectiu": "Encertar el número amb els mínims intents possibles.",
     "categories": [
       "xifres"

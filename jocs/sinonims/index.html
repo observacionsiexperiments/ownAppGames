@@ -280,7 +280,7 @@
     <section id="pantalla-joc" hidden>
       <div class="cap-joc">
         <div class="dades" id="dades"></div>
-        <button class="btn" id="btn-nova" type="button">Nova partida</button>
+        <button class="btn" id="btn-nova" type="button">↺ Nova partida</button>
       </div>
       <div class="tauler" id="tauler">
         <div class="enunciat"><div class="text" id="enunciat"></div><button type="button" class="btn-veu" id="btn-veu" aria-label="Escolta" hidden>🔊</button></div>
@@ -726,7 +726,7 @@
       mostrar(titol, extra, r === 'malament' ? 'pista' : 'guanyat');
       if (r !== 'malament') Celebracio.petita(origen || $('missatge'));
       pintarDades();
-      seguentT = setTimeout(seguent, r === 'malament' ? 3000 : config.nivell === 'facil' ? 1500 : 1800);
+      seguentT = Pantalla.despres(seguent, r === 'malament' ? 3000 : config.nivell === 'facil' ? 1500 : 1800, r === 'malament');
     }
 
     // ---------------- Temps ----------------

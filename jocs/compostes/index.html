@@ -275,7 +275,7 @@
     <section id="pantalla-joc" hidden>
       <div class="cap-joc">
         <div class="dades" id="dades"></div>
-        <button class="btn" id="btn-nova" type="button">Nova partida</button>
+        <button class="btn" id="btn-nova" type="button">↺ Nova partida</button>
       </div>
       <div class="tauler" id="tauler">
         <p class="enunciat" id="enunciat"></p>
@@ -736,7 +736,7 @@
       mostrar(titol, extra, r === 'malament' ? 'pista' : 'guanyat');
       if (r !== 'malament') Celebracio.petita(origen || $('missatge'));
       pintarDades();
-      seguentT = setTimeout(seguent, r === 'malament' ? 2800 : 1800);
+      seguentT = Pantalla.despres(seguent, r === 'malament' ? 2800 : 1800, r === 'malament');
     }
 
     // ---------------- Temps ----------------

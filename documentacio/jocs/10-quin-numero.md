@@ -16,6 +16,8 @@ En prémer «✨ Gira» apareix una operació (suma, resta, multiplicació o div
 
 ## Com es juga
 
+En prémer «Comença!» surt de seguida la primera operació (v0.44.0). Només al Contrarellotge hi ha el pas «▶ Comencem?», perquè és quan comença el temps.
+
 Les opcions trampa són properes a la bona (±1, ±2, ±10, o el resultat d'una altra operació). Primer error en rosa; segon, pista en groc segons l'operació («7 × 3 és 7 + 7 + 7»); tercer, es mostra la resposta. Al Contrarellotge només hi ha rosa i es passa sol a la següent.
 
 ## Premi i rècord
