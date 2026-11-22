@@ -240,6 +240,42 @@
     "estat": "actiu"
   },
   {
+    "id": "recta-numerica",
+    "num": 21,
+    "nom": "La recta numèrica",
+    "icona": "📏",
+    "descripcio": "Una fletxa assenyala una marca de la recta. Compta d'1 en 1, de 5 en 5, de 100 en 100… i troba quin número hi va.",
+    "objectiu": "Comptar amb salts i situar els números a la recta fins al 1000.",
+    "categories": [
+      "xifres"
+    ],
+    "estat": "actiu"
+  },
+  {
+    "id": "frases",
+    "num": 22,
+    "nom": "Frases desordenades",
+    "icona": "🧱",
+    "descripcio": "Les paraules d'una frase estan barrejades. Posa-les en ordre.",
+    "objectiu": "Ordenar les paraules d'una frase, amb majúscula al començament i punt al final.",
+    "categories": [
+      "lletres"
+    ],
+    "estat": "actiu"
+  },
+  {
+    "id": "rima",
+    "num": 23,
+    "nom": "Rima que rima",
+    "icona": "🎵",
+    "descripcio": "Troba la paraula que rima amb la de dalt. Al Difícil, també en pots escriure una tu.",
+    "objectiu": "Escoltar com acaben les paraules i trobar-ne que rimin.",
+    "categories": [
+      "lletres"
+    ],
+    "estat": "actiu"
+  },
+  {
     "id": "_plantilla",
     "nom": "Joc de prova",
     "icona": "🧪",

@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFBF3">
+  <title>Frases desordenades · Juguem?</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="icon" href="../../icons/icon-192.png">
+  <script>try{var t=JSON.parse(localStorage.getItem("appjocs.preferencies")||"{}").aparenca;if(t==="fosc"||t==="clar")document.documentElement.dataset.tema=t}catch(e){}</script>
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    /* Colors per rol (css/styles.css): verd = encert · rosa = error / treure · groc = pista · blau = caselles per omplir · préssec = fitxes */
+    [hidden] { display: none !important; }
+    h2.titol { font-size: 1.15rem; margin: 16px 0 8px; }
+
+    /* ---------- Inici ---------- */
+    .inici { max-width: 860px; margin: 0 auto; }
+    .opcions { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+    .opcions button { font: inherit; cursor: pointer; color: var(--text); touch-action: manipulation;
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: 14px; box-shadow: var(--ombra);
+      min-height: 56px; padding: 8px; font-weight: 700; font-size: 1.05rem; }
+    .opcions button small { display: block; font-weight: 500; font-size: .82rem; color: var(--text-suau); margin-top: 2px; }
+    .opcions button[aria-pressed="true"] { background: var(--c-info); border-color: var(--c-info-vora); color: var(--tinta); }
+    .opcions button[aria-pressed="true"] small { color: var(--tinta); }
+    @media (hover: hover) { .opcions button:hover { border-color: var(--c-info-vora); } }
+    #op-tema { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    #op-nivell { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .comencar { text-align: center; margin: 20px 0 8px; }
+    .comencar .btn { font-size: 1.3rem; padding: 14px 40px; }
+
+    /* ---------- Joc ---------- */
+    .cap-joc { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 4px 0 12px; }
+    .dades { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .dada { background: var(--superficie); border: 1px solid var(--vora); border-radius: 999px; padding: 4px 12px; font-size: .95rem; white-space: nowrap; }
+    .dada b { font-variant-numeric: tabular-nums; }
+    .progres { display: inline-flex; gap: 4px; vertical-align: middle; margin-left: 4px; }
+    .progres i { width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--vora); background: var(--superficie); }
+    .progres i.be { background: var(--c-ok); border-color: var(--c-ok-vora); }
+    .progres i.ajuda { background: var(--c-pista); border-color: var(--c-pista-vora); }
+    .progres i.malament { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .progres i.fet { background: var(--vora); }
+    .progres i.ara { background: var(--c-info); border-color: var(--c-info-vora); }
+
+    .tauler { background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi); padding: 16px 20px;
+      display: flex; flex-direction: column; gap: 14px; --mot: clamp(1.1rem, 2.6vw, 1.6rem); }
+    .enunciat { margin: 0; text-align: center; font-weight: 700; font-size: clamp(1.05rem, 2.2vw, 1.3rem); }
+    #zona { display: flex; flex-direction: column; gap: 18px; }
+
+    /* La frase: caselles on van les paraules, i el punt final */
+    .frase { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .35em; padding: 14px; min-height: 2.4em;
+      font: 800 var(--mot) "Avenir Next", "Avenir", "Helvetica Neue", Arial, system-ui, sans-serif; }
+    .casella { font: inherit; color: var(--text); min-width: 3.2em; height: 1.9em; padding: 0 .45em; border-radius: 12px; touch-action: none; user-select: none; -webkit-user-select: none;
+      background: var(--superficie); border: 3px dashed var(--c-info-vora); cursor: pointer; display: inline-grid; place-items: center; white-space: nowrap; }
+    .casella.plena { border-style: solid; border-color: var(--vora); background: var(--fons); box-shadow: var(--ombra); min-width: 0; }
+    .casella.seguent { border-style: solid; background: color-mix(in srgb, var(--c-info) 30%, var(--superficie)); }
+    .casella.fixa { background: var(--c-pista); border: 3px solid var(--c-pista-vora); color: var(--tinta); cursor: default; }
+    .casella.be { background: var(--c-ok); border: 3px solid var(--c-ok-vora); color: var(--tinta); }
+    .casella.dita { background: var(--c-pista); border: 3px solid var(--c-pista-vora); color: var(--tinta); }
+    .casella.sobre { background: var(--c-info); border-style: solid; color: var(--tinta); }
+    .punt { font-size: 1.4em; line-height: 1; margin-left: -.1em; }
+
+    /* Les fitxes amb les paraules barrejades */
+    .fitxes { display: flex; flex-wrap: wrap; justify-content: center; gap: .45em; font: 800 var(--mot) "Avenir Next", "Avenir", "Helvetica Neue", Arial, system-ui, sans-serif; }
+    .fitxa { font: inherit; color: var(--text); height: 2em; padding: 0 .6em; border-radius: 12px; cursor: grab; white-space: nowrap; touch-action: none; user-select: none; -webkit-user-select: none;
+      background: var(--superficie); border: 3px solid var(--vora); box-shadow: 0 4px 0 var(--vora); transition: transform .1s; }
+    .fitxa:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--vora); }
+    @media (hover: hover) { .fitxa:hover { border-color: var(--c-info-vora); } }
+    .fitxa.usada { visibility: hidden; }
+    .fitxa.arrossegant, .casella.arrossegant { opacity: .35; }
+    .fantasma { position: fixed; z-index: 50; pointer-events: none; transform: translate(-50%, -60%) scale(1.08); display: grid; place-items: center; white-space: nowrap;
+      font-weight: 800; border-radius: 12px; padding: 0 .6em; background: var(--superficie); border: 3px solid var(--c-info-vora); box-shadow: 0 8px 18px rgba(59, 51, 85, .25); color: var(--text); }
+
+    .missatge { min-height: 3.2rem; padding: 8px 12px; border-radius: var(--radi); text-align: center; background: var(--superficie);
+      border: 2px solid var(--vora); font-weight: 700; font-size: 1.1rem; display: flex; flex-direction: column; justify-content: center; gap: 2px; }
+    .missatge small { font-weight: 500; font-size: .98rem; }
+    .missatge small:empty { display: none; }
+    .missatge.es-pista { background: var(--c-pista); border-color: var(--c-pista-vora); color: var(--tinta); }
+    .missatge.es-error { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); color: var(--tinta); }
+    .missatge.es-guanyat { background: var(--c-ok); border-color: var(--c-ok-vora); color: var(--tinta); }
+    .peu.franja { display: flex; flex-direction: column; gap: 10px; }
+    .peu.franja > .botons-peu { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+    .botons-peu .btn-pista { background: var(--c-pista); border-color: var(--c-pista-vora); color: var(--tinta); }
+    .botons-peu .btn-treure { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); color: var(--tinta); }
+    .botons-peu .btn:disabled { opacity: .45; cursor: default; }
+    @keyframes sacseig { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+    .sacseig { animation: sacseig .25s 2; }
+
+    /* Tauleta i portàtil (criteri «ple») */
+    @media (min-width: 601px) and (min-height: 501px) {
+      .tauler { --mot: clamp(1.3rem, min(3.2vw, 5.4vh), 2.8rem); padding: 16px 24px; gap: clamp(10px, 2vh, 20px); }
+      .enunciat { font-size: clamp(1.1rem, 2.8vh, 1.6rem); }
+      #zona { flex: 1 1 auto; min-height: 0; justify-content: center; gap: clamp(16px, 4vh, 44px); }
+    }
+    @media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) {
+      .tauler { --mot: clamp(1.3rem, min(4vw, 3vh), 2.2rem); }
+      main.joc.ple .peu.franja { flex-direction: column; }
+      main.joc.ple .peu.franja > .botons-peu { justify-content: center; }
+    }
+    /* Mòbil */
+    @media (orientation: portrait) and (max-width: 600px), (orientation: landscape) and (max-height: 500px) {
+      .barra-joc { padding: 6px 0; }
+      .barra-joc h1 { font-size: 1.1rem; }
+      .cap-joc { margin: 0 0 6px; gap: 6px; }
+      .dada { font-size: .8rem; padding: 2px 8px; }
+      .progres i { width: 8px; height: 8px; }
+      .cap-joc .btn { padding: 5px 10px; font-size: .85rem; white-space: nowrap; }
+      .tauler { padding: 10px; gap: 8px; --mot: 1.05rem; }
+      .enunciat { font-size: .95rem; }
+      .frase { padding: 8px; gap: .3em; }
+      .casella { border-width: 2px; border-radius: 10px; }
+      .fitxa { border-width: 2px; border-radius: 10px; box-shadow: 0 3px 0 var(--vora); }
+      .missatge { min-height: 0; padding: 5px 8px; font-size: .95rem; }
+      .missatge small { font-size: .85rem; }
+      .peu.franja { margin-top: 6px; gap: 6px; }
+      .peu.franja .btn { padding: 6px 12px; font-size: .9rem; }
+    }
+    @media (orientation: portrait) and (max-width: 600px) {
+      .progres { display: none; }
+      .tauler { --mot: clamp(1rem, min(4.8vw, 2.8vh), 1.4rem); }
+      #zona { flex: 1 1 auto; min-height: 0; justify-content: center; gap: clamp(12px, 3vh, 30px); }
+      main.joc.ple .peu.franja { flex-direction: column; gap: 6px; }
+      main.joc.ple .peu.franja > .botons-peu { flex-direction: row; justify-content: center; gap: 6px; }
+      main.joc.ple .peu.franja > .botons-peu .btn { flex: 1 1 0; padding: 8px 6px; font-size: .95rem; }
+      main.joc .inici h2.titol { font-size: .92rem; margin: 5px 0 3px; }
+      main.joc .inici .opcions { gap: 6px; }
+      main.joc .inici .opcions button { min-height: 38px; padding: 3px; font-size: .88rem; }
+      main.joc .inici .opcions button small { display: none; }
+      main.joc .inici .comencar { margin: 8px 0 2px; }
+    }
+    @media (orientation: landscape) and (max-height: 500px) {
+      .tauler { padding: 8px 14px; gap: 6px; --mot: 1rem; }
+      #zona { gap: 8px; }
+      .frase { padding: 6px; }
+      .casella { height: 1.8em; }
+      .fitxa { height: 1.9em; }
+      main.joc .inici h2.titol { font-size: .88rem; margin: 2px 0 2px; }
+      main.joc .inici .grup + .grup { margin-top: 4px; }
+      main.joc .inici .opcions button { min-height: 38px; font-size: .92rem; padding: 4px; }
+      main.joc .inici .opcions button small { display: none; }
+      main.joc .inici .comencar { margin: 6px 0 2px; }
+      #op-tema { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <nav class="barra-joc">
+    <a href="../../">← Inici</a>
+    <h1>🧱 Frases desordenades</h1>
+  </nav>
+
+  <main class="joc ple">
+    <!-- ================= INICI ================= -->
+    <section class="inici" id="pantalla-inici">
+      <div class="grup">
+        <h2 class="titol">1. Tema</h2>
+        <div class="opcions" id="op-tema"></div>
+      </div>
+      <div class="grup">
+        <h2 class="titol">2. Dificultat</h2>
+        <div class="opcions" id="op-nivell">
+          <button type="button" data-v="facil" aria-pressed="true">🌱 Fàcil<small>3 o 4 paraules</small></button>
+          <button type="button" data-v="mitja" aria-pressed="false">Mitjà<small>5 o 6 paraules</small></button>
+          <button type="button" data-v="dificil" aria-pressed="false">Difícil<small>de 7 a 10, sense majúscula</small></button>
+        </div>
+      </div>
+      <div class="comencar"><button class="btn" id="btn-comencar" type="button">Comença! 🧱</button></div>
+    </section>
+
+    <!-- ================= JOC ================= -->
+    <section id="pantalla-joc" hidden>
+      <div class="cap-joc">
+        <div class="dades" id="dades"></div>
+        <button class="btn" id="btn-nova" type="button">↺ Nova partida</button>
+      </div>
+      <div class="tauler" id="tauler">
+        <p class="enunciat" id="enunciat">Posa les paraules en ordre</p>
+        <div id="zona">
+          <div class="frase safata-pregunta" id="frase" aria-label="La frase"></div>
+          <div class="fitxes" id="fitxes" aria-label="Paraules"></div>
+        </div>
+        <div class="peu franja">
+          <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
+          <div class="botons-peu">
+            <button type="button" class="btn btn-pista" id="btn-pista">💡 <span class="txt-llarg">Vull una pista</span><span class="txt-curt">Pista</span></button>
+            <button type="button" class="btn btn-treure" id="btn-treure" aria-label="Treu totes les paraules">↺ Treu-les</button>
+            <button type="button" class="btn" id="btn-mostra" hidden>🙈 Mostra-la</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../js/pantalla.js"></script>
+  <script src="../../js/preferencies.js"></script>
+  <script src="../../js/celebracio.js"></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    const RONDES = 10;
+    const config = { tema: 'animals', nivell: 'facil' };
+    const CLAU = 'appjocs.frases.opcions';
+    let D = null, ronda = [], num = 0, resultats = [], F = null, caselles = [], fitxes = [], errors = 0, pistes = 0, bloquejat = false, seguentT = null;
+
+    const triar = a => a[Math.floor(Math.random() * a.length)];
+    const barrejar = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+    const paraules = f => f.replace(/\.$/, '').split(' ');
+    const minus = w => w.charAt(0).toLocaleLowerCase('ca') + w.slice(1);
+    const majus = w => w.charAt(0).toLocaleUpperCase('ca') + w.slice(1);
+
+    // ---------------- Inici ----------------
+    try { Object.assign(config, JSON.parse(localStorage.getItem(CLAU) || '{}')); } catch {}
+    function grupOpcions(id, clau) {
+      const marcar = () => $(id).querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x.dataset.v === config[clau]));
+      $(id).addEventListener('click', e => {
+        const b = e.target.closest('button'); if (!b) return;
+        config[clau] = b.dataset.v; marcar();
+        try { localStorage.setItem(CLAU, JSON.stringify(config)); } catch {}
+      });
+      marcar();
+    }
+    async function carregar() {
+      D = await fetch('frases.json').then(r => r.json());
+    }
+    async function pintarTemes() {
+      try { await carregar(); } catch (e) { console.error(e); return; }
+      $('op-tema').innerHTML = D.temes.map(t => `<button type="button" data-v="${t.id}" aria-pressed="false">${t.e} ${t.nom}</button>`).join('')
+        + '<button type="button" data-v="barreja" aria-pressed="false">🎲 Barreja<small>de tots els temes</small></button>';
+      if (config.tema !== 'barreja' && !D.temes.some(t => t.id === config.tema)) config.tema = 'animals';
+      grupOpcions('op-tema', 'tema');
+    }
+    pintarTemes();
+    grupOpcions('op-nivell', 'nivell');
+
+    $('btn-comencar').addEventListener('click', comencar);
+    $('btn-nova').addEventListener('click', () => { clearTimeout(seguentT); Celebracio.tancar(); $('pantalla-joc').hidden = true; $('pantalla-inici').hidden = false; });
+    $('btn-pista').addEventListener('click', donarPista);
+    $('btn-treure').addEventListener('click', () => { if (bloquejat) return; caselles.forEach((c, i) => { if (!c.fixa) treure(i); }); pintar(); });
+    $('btn-mostra').addEventListener('click', () => { if (bloquejat) return; mostrarFrase(); });
+
+    async function comencar() {
+      try { if (!D) await carregar(); }
+      catch (e) { console.error(e); alert("No s'han pogut carregar les frases. Torna-ho a provar."); return; }
+      const temes = config.tema === 'barreja' ? D.temes.map(t => t.id) : [config.tema];
+      const totes = temes.flatMap(t => D.frases[t][config.nivell]);
+      ronda = barrejar(totes).slice(0, RONDES);
+      num = 0; resultats = [];
+      $('pantalla-inici').hidden = true; $('pantalla-joc').hidden = false;
+      window.scrollTo({ top: 0 });
+      novaFrase();
+    }
+
+    // ---------------- Una frase ----------------
+    // Paraules que porten majúscula pròpia (noms de lloc i de persona): les que van en majúscula enmig d'alguna versió
+    function nomsPropis(f) {
+      const s = new Set();
+      [f.f, ...(f.alt || [])].forEach(v => paraules(v).slice(1).forEach(w => { if (/^[A-ZÀ-Ý]/.test(w)) s.add(w); }));
+      return s;
+    }
+    function novaFrase() {
+      clearTimeout(seguentT);
+      const f = ronda[num];
+      const propis = nomsPropis(f);
+      const ws = paraules(f.f);
+      // Com es veu cada paraula a les fitxes: al Fàcil i al Mitjà, la primera amb majúscula (és una pista);
+      // al Difícil, totes en minúscula (menys els noms propis)
+      const veure = (w, i) => propis.has(w) ? w : (i === 0 && config.nivell !== 'dificil') ? w : minus(w);
+      F = { ...f, ws, propis, versions: [f.f, ...(f.alt || [])].map(v => paraules(v).map(w => w.toLocaleLowerCase('ca'))) };
+      fitxes = ws.map((w, i) => ({ w, v: veure(w, i), usada: false }));
+      // Barrejar fins que no quedi en cap ordre bo
+      let ordre;
+      for (let k = 0; k < 30; k++) { ordre = barrejar(fitxes.map((_, i) => i)); if (!esBona(ordre.map(i => fitxes[i].w))) break; }
+      fitxes = ordre.map(i => fitxes[i]);
+      caselles = ws.map(() => ({ fi: null, fixa: false }));
+      errors = 0; pistes = 0; bloquejat = false;
+      $('btn-pista').disabled = false; $('btn-treure').disabled = false; $('btn-mostra').hidden = true;
+      pintar();
+      mostrar('Posa les paraules en ordre', num === 0 ? 'Toca-les o arrossega-les a les caselles.' : '');
+      pintarDades();
+    }
+    const esBona = ws => F.versions.some(v => v.length === ws.length && v.every((w, i) => w === ws[i].toLocaleLowerCase('ca')));
+
+    // Text de la paraula d'una casella: a la primera, amb majúscula
+    const textCasella = (fi, ci) => { const f = fitxes[fi]; return ci === 0 ? majus(f.w) : (F.propis.has(f.w) ? f.w : minus(f.w)); };
+    function pintar() {
+      const seg = caselles.findIndex(c => c.fi === null);
+      const fr = $('frase'); fr.innerHTML = '';
+      caselles.forEach((c, i) => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'casella'; b.dataset.i = i;
+        if (c.fi !== null) { b.classList.add('plena'); b.textContent = textCasella(c.fi, i); }
+        if (c.fixa) b.classList.add('fixa');
+        if (c.estat) b.classList.add(c.estat);
+        if (i === seg && !bloquejat) b.classList.add('seguent');
+        b.setAttribute('aria-label', c.fi === null ? `Casella ${i + 1}, buida` : `Casella ${i + 1}: ${fitxes[c.fi].w}`);
+        fr.appendChild(b);
+      });
+      const p = document.createElement('span'); p.className = 'punt'; p.textContent = '.'; p.setAttribute('aria-hidden', 'true');
+      fr.appendChild(p);
+      $('fitxes').innerHTML = '';
+      fitxes.forEach((f, i) => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'fitxa opcio-resposta' + (f.usada ? ' usada' : ''); b.dataset.f = i;
+        b.textContent = f.v; b.setAttribute('aria-label', `Paraula ${f.v}`);
+        if (f.usada) b.tabIndex = -1;
+        $('fitxes').appendChild(b);
+      });
+    }
+
+    // ---------------- Moure paraules ----------------
+    function posar(fi, ci) {
+      const c = caselles[ci];
+      if (bloquejat || c.fixa) return false;
+      const origen = caselles.findIndex(x => x.fi === fi);
+      if (origen === ci) return false;
+      const abans = c.fi;
+      if (origen >= 0) caselles[origen].fi = abans;               // intercanvi entre caselles
+      else if (abans !== null) fitxes[abans].usada = false;
+      c.fi = fi; fitxes[fi].usada = true;
+      return true;
+    }
+    function treure(ci) {
+      const c = caselles[ci];
+      if (bloquejat || c.fixa || c.fi === null) return;
+      fitxes[c.fi].usada = false; c.fi = null;
+    }
+    function posarAlSeguent(fi) {
+      const ci = caselles.findIndex(c => c.fi === null);
+      if (ci < 0 || fitxes[fi].usada) return;
+      posar(fi, ci); despres();
+    }
+    function despres() {
+      pintar();
+      if (caselles.every(c => c.fi !== null)) comprovar();
+    }
+
+    // Tocar i arrossegar (com a Anagrames)
+    let arr = null;
+    function inici(e) {
+      if (bloquejat || e.button > 0) return;
+      const fitxa = e.target.closest('.fitxa:not(.usada)');
+      const casella = e.target.closest('.casella');
+      let fi = null, desDe = null;
+      if (fitxa) fi = Number(fitxa.dataset.f);
+      else if (casella) { const c = caselles[casella.dataset.i]; if (c.fixa || c.fi === null) return; fi = c.fi; desDe = Number(casella.dataset.i); }
+      else return;
+      arr = { fi, desDe, el: fitxa || casella, x: e.clientX, y: e.clientY, mogut: false, fantasma: null, sobre: null };
+      arr.el.setPointerCapture && arr.el.setPointerCapture(e.pointerId);
+    }
+    function moure(e) {
+      if (!arr) return;
+      if (!arr.mogut && Math.hypot(e.clientX - arr.x, e.clientY - arr.y) < 8) return;
+      if (!arr.mogut) {
+        arr.mogut = true;
+        const g = document.createElement('div'); g.className = 'fantasma';
+        const r = arr.el.getBoundingClientRect();
+        g.style.height = r.height + 'px'; g.style.font = getComputedStyle(arr.el).font;
+        g.textContent = arr.el.textContent;
+        document.body.appendChild(g); arr.fantasma = g;
+        arr.el.classList.add('arrossegant');
+      }
+      arr.fantasma.style.left = e.clientX + 'px'; arr.fantasma.style.top = e.clientY + 'px';
+      const sota = document.elementFromPoint(e.clientX, e.clientY);
+      const cas = sota && sota.closest('.casella');
+      if (arr.sobre && arr.sobre !== cas) arr.sobre.classList.remove('sobre');
+      if (cas && !caselles[cas.dataset.i].fixa) { cas.classList.add('sobre'); arr.sobre = cas; } else arr.sobre = null;
+    }
+    function fi(e) {
+      if (!arr) return;
+      const a = arr; arr = null;
+      if (a.fantasma) a.fantasma.remove();
+      a.el.classList.remove('arrossegant');
+      if (!a.mogut) {
+        if (a.desDe !== null) { treure(a.desDe); pintar(); }
+        else posarAlSeguent(a.fi);
+        return;
+      }
+      const sota = document.elementFromPoint(e.clientX, e.clientY);
+      const cas = sota && sota.closest('.casella');
+      if (cas) { posar(a.fi, Number(cas.dataset.i)); despres(); }
+      else if (a.desDe !== null) { treure(a.desDe); pintar(); }
+      else pintar();
+    }
+    document.addEventListener('pointerdown', e => { if (e.target.closest('#frase, #fitxes')) { e.preventDefault(); inici(e); } });
+    document.addEventListener('pointermove', moure);
+    document.addEventListener('pointerup', fi);
+    document.addEventListener('pointercancel', () => { if (arr) { arr.fantasma && arr.fantasma.remove(); arr.el.classList.remove('arrossegant'); arr = null; pintar(); } });
+    // Teclat: Tab per anar d'una fitxa a l'altra i Enter (o espai) per posar-la; ⌫ treu l'última
+    $('fitxes').addEventListener('keydown', e => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const f = e.target.closest('.fitxa'); if (!f) return;
+      e.preventDefault();
+      const i = Number(f.dataset.f);
+      posarAlSeguent(i);
+      const seg = $('fitxes').querySelector('.fitxa:not(.usada)'); if (seg && !bloquejat) seg.focus();
+    });
+    $('frase').addEventListener('keydown', e => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const c = e.target.closest('.casella'); if (!c) return;
+      e.preventDefault(); treure(Number(c.dataset.i)); pintar();
+    });
+    document.addEventListener('keydown', e => {
+      if ($('pantalla-joc').hidden || bloquejat || e.ctrlKey || e.metaKey || e.altKey) return;
+      if (e.key === 'Backspace' && document.activeElement?.tagName !== 'INPUT') {
+        const ci = caselles.map((c, i) => i).filter(i => caselles[i].fi !== null && !caselles[i].fixa).pop();
+        if (ci !== undefined) { e.preventDefault(); treure(ci); pintar(); }
+      }
+    });
+
+    // ---------------- Pistes ----------------
+    // 1a pista: la primera paraula al seu lloc; 2a: l'última
+    function donarPista() {
+      if (bloquejat || pistes >= 2) return;
+      const ci = pistes === 0 ? 0 : caselles.length - 1;
+      fixar(ci, F.ws[ci]);
+      pistes++;
+      if (pistes >= 2) $('btn-pista').disabled = true;
+      pintar();
+      mostrar('💡 Pista', pistes === 1 ? 'La primera paraula ja és al seu lloc.' : 'L\'última paraula també ja és al seu lloc.', 'pista');
+      pintarDades();
+      if (caselles.every(c => c.fi !== null)) comprovar();
+    }
+    // Posa la paraula w (de la frase principal) a la casella ci i la deixa fixa
+    function fixar(ci, w) {
+      const c = caselles[ci];
+      if (c.fi !== null && fitxes[c.fi].w === w) { c.fixa = true; return; }
+      if (c.fi !== null) { fitxes[c.fi].usada = false; c.fi = null; }
+      // Una fitxa amb aquesta paraula: millor una de lliure; si totes són posades, la treu d'una casella no fixa
+      let fiN = fitxes.findIndex(f => f.w === w && !f.usada);
+      if (fiN < 0) { const k = caselles.findIndex(x => !x.fixa && x.fi !== null && fitxes[x.fi].w === w); fiN = caselles[k].fi; caselles[k].fi = null; }
+      c.fi = fiN; fitxes[fiN].usada = true; c.fixa = true;
+    }
+
+    // ---------------- Comprovar ----------------
+    function comprovar() {
+      const fetes = caselles.map(c => fitxes[c.fi].w);
+      if (esBona(fetes)) {
+        bloquejat = true;
+        resultats.push(errors === 0 && pistes === 0 ? 'be' : 'ajuda');
+        caselles.forEach(c => c.estat = 'be');
+        pintar();
+        Celebracio.petita($('frase'));
+        mostrar(Preferencies.felicitacio('✓ Molt bé!'), fraseEscrita(fetes), 'guanyat');
+        acabar(1800);
+        return;
+      }
+      errors++;
+      sacsejar($('frase'));
+      // Quantes paraules ja són al seu lloc (respecte de la versió que més s'hi assembla)
+      const bons = Math.max(...F.versions.map(v => v.filter((w, i) => w === fetes[i].toLocaleLowerCase('ca')).length));
+      if (errors === 1) mostrar('Gairebé! Hi ha paraules canviades de lloc.', 'Toca una paraula per treure-la i prova-ho una altra vegada.', 'error');
+      else mostrar(`${bons === 1 ? 'Una paraula ja és' : `${bons} paraules ja són`} al seu lloc`, 'Canvia d\'ordre les altres. Pots demanar una pista 💡', 'pista');
+      if (errors >= 3) $('btn-mostra').hidden = false;
+      pintarDades();
+    }
+    const fraseEscrita = ws => ws.map((w, i) => i === 0 ? majus(w) : (F.propis.has(w) ? w : minus(w))).join(' ') + '.';
+    function mostrarFrase() {
+      resultats.push('malament');
+      bloquejat = true;
+      fitxes.forEach(f => f.usada = false);
+      caselles.forEach((c, i) => { const k = fitxes.findIndex(f => f.w === F.ws[i] && !f.usada); c.fi = k; fitxes[k].usada = true; c.estat = 'dita'; c.fixa = false; });
+      pintar();
+      mostrar('Era així', F.f, 'pista');
+      acabar(3000, true);
+    }
+    function acabar(ms, ambBoto) {
+      ['btn-pista', 'btn-treure'].forEach(id => $(id).disabled = true);
+      $('btn-mostra').hidden = true;
+      pintarDades();
+      seguentT = Pantalla.despres(passar, ms, ambBoto);
+    }
+    function passar() {
+      num++;
+      if (num < ronda.length) novaFrase(); else final();
+    }
+
+    // ---------------- Final ----------------
+    function final() {
+      const n = ronda.length;
+      const nets = resultats.filter(r => r === 'be').length;
+      const mal = resultats.filter(r => r === 'malament').length;
+      let titol = nets === n ? 'Totes a la primera!' : 'Partida acabada!';
+      let subtitol = `${nets} de ${n} a la primera i sense pistes`;
+      const estrelles = nets >= n - 1 ? 3 : mal <= 2 ? 2 : 1;
+      if (Preferencies.errors()) {
+        const clau = `appjocs.frases.record.${config.nivell}`;
+        let record = null; try { const v = localStorage.getItem(clau); record = v === null ? null : Number(v); } catch {}
+        const nou = record === null || nets > record;
+        if (nou) { try { localStorage.setItem(clau, String(nets)); } catch {} }
+        subtitol += nou ? (record !== null ? ' · 🏅 Nou rècord!' : '') : ` · Rècord: ${record}`;
+      } else { titol = 'Partida acabada!'; subtitol = `Has ordenat ${n} frases.`; }
+      mostrar('🎉 ' + titol, subtitol, 'guanyat');
+      Celebracio.gran({ titol, subtitol, emoji: nets === n ? '🏆' : '🧱', estrelles });
+    }
+
+    // ---------------- Dades i missatges ----------------
+    function pintarDades() {
+      const comptar = Preferencies.errors();
+      const n = ronda.length || RONDES;
+      const punts = Array.from({ length: n }, (_, i) =>
+        `<i class="${i < resultats.length ? (comptar ? resultats[i] : 'fet') : i === resultats.length ? 'ara' : ''}"></i>`).join('');
+      let html = `<span class="dada">Frase <b>${Math.min(num + 1, n)}</b>/${n} <span class="progres">${punts}</span></span>`;
+      if (comptar) html += `<span class="dada">A la primera: <b>${resultats.filter(r => r === 'be').length}</b></span>`;
+      $('dades').innerHTML = html;
+    }
+    function sacsejar(x) { x.classList.remove('sacseig'); void x.offsetWidth; x.classList.add('sacseig'); }
+    function mostrar(t, extra = '', estat = '') {
+      const m = $('missatge');
+      $('msg-text').textContent = t; $('msg-extra').textContent = extra;
+      m.classList.remove('es-pista', 'es-error', 'es-guanyat');
+      if (estat) m.classList.add('es-' + estat);
+    }
+
+    Pantalla.avisOrientacio('frases', { dins: document.getElementById('pantalla-inici') });
+  </script>
+</body>
+</html>

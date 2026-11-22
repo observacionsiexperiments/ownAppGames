@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFBF3">
+  <title>La recta numèrica · Juguem?</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="icon" href="../../icons/icon-192.png">
+  <script>try{var t=JSON.parse(localStorage.getItem("appjocs.preferencies")||"{}").aparenca;if(t==="fosc"||t==="clar")document.documentElement.dataset.tema=t}catch(e){}</script>
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    /* Colors per rol (css/styles.css): verd = encert · rosa = error · groc = pista · blau = la marca a omplir · préssec = respostes */
+    [hidden] { display: none !important; }
+    h2.titol { font-size: 1.15rem; margin: 16px 0 8px; }
+
+    /* ---------- Inici: una sola pregunta (com a Endevina el número) ---------- */
+    .inici { max-width: 760px; margin: 0 auto; }
+    .opcions { display: grid; gap: 10px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .opcions button { font: inherit; cursor: pointer; color: var(--text); touch-action: manipulation; min-height: 64px; font-weight: 700; font-size: 1.15rem; padding: 6px;
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: 14px; box-shadow: var(--ombra); }
+    .opcions button b { display: block; font-size: 1.4em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .opcions button small { display: block; font-weight: 500; font-size: .85rem; color: var(--text-suau); }
+    .opcions button[aria-pressed="true"] { background: var(--c-info); border-color: var(--c-info-vora); color: var(--tinta); }
+    .opcions button[aria-pressed="true"] small { color: var(--tinta); }
+    @media (hover: hover) { .opcions button:hover { border-color: var(--c-info-vora); } }
+    .comencar { text-align: center; margin: 24px 0 8px; }
+    .comencar .btn { font-size: 1.3rem; padding: 14px 40px; }
+    .inici .explica { text-align: center; color: var(--text-suau); }
+
+    /* ---------- Joc ---------- */
+    .cap-joc { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 4px 0 12px; }
+    .dades { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .dada { background: var(--superficie); border: 1px solid var(--vora); border-radius: 999px; padding: 4px 12px; font-size: .95rem; white-space: nowrap; }
+    .dada b { font-variant-numeric: tabular-nums; }
+    .progres { display: inline-flex; gap: 4px; vertical-align: middle; margin-left: 4px; }
+    .progres i { width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--vora); background: var(--superficie); }
+    .progres i.be { background: var(--c-ok); border-color: var(--c-ok-vora); }
+    .progres i.ajuda { background: var(--c-pista); border-color: var(--c-pista-vora); }
+    .progres i.malament { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .progres i.fet { background: var(--vora); }
+    .progres i.ara { background: var(--c-info); border-color: var(--c-info-vora); }
+
+    .tauler { background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi); padding: 16px 20px;
+      display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); grid-template-areas: "enun" "recta" "resp" "peu"; --op: clamp(1.3rem, 3vw, 2rem); }
+    .enunciat { grid-area: enun; margin: 0; text-align: center; font-weight: 700; font-size: clamp(1.05rem, 2.2vw, 1.3rem); }
+    .zona-recta { grid-area: recta; display: flex; align-items: center; justify-content: center; min-height: 0; }
+    .zona-recta svg { width: 100%; height: auto; max-height: 100%; overflow: visible; display: block; }
+    .respostes { grid-area: resp; display: flex; justify-content: center; align-items: center; }
+    .peu { grid-area: peu; display: flex; flex-direction: column; gap: 10px; }
+
+    /* La recta (SVG): la línia, les marques i els números */
+    .r-linia { stroke: var(--text); stroke-width: 5; stroke-linecap: round; }
+    .r-marca { stroke: var(--text); stroke-width: 4; stroke-linecap: round; }
+    .r-num { fill: var(--text); font: 800 34px "Avenir Next", "Avenir", "Helvetica Neue", Arial, system-ui, sans-serif; text-anchor: middle; font-variant-numeric: tabular-nums; }
+    .r-caixa { fill: var(--c-info); stroke: var(--c-info-vora); stroke-width: 4; stroke-dasharray: 9 6; }
+    .r-caixa.be { fill: var(--c-ok); stroke: var(--c-ok-vora); stroke-dasharray: none; }
+    .r-caixa.dita { fill: var(--c-pista); stroke: var(--c-pista-vora); stroke-dasharray: none; }
+    .r-interrog { fill: var(--tinta); font: 900 36px "Avenir Next", "Avenir", "Helvetica Neue", Arial, system-ui, sans-serif; text-anchor: middle; }
+    .r-fletxa { fill: var(--c-info-vora); }
+    .r-punt { fill: var(--c-pista-vora); opacity: 0; }
+    .r-punt.vist { animation: punt .35s ease-out forwards; }
+    @keyframes punt { from { opacity: 0; transform: scale(.2); } to { opacity: 1; transform: none; } }
+    .r-punt { transform-box: fill-box; transform-origin: center; }
+    @media (prefers-reduced-motion: reduce) { .r-punt.vist { animation: none; opacity: 1; } }
+
+    /* Targetes de resposta (Fàcil i Mitjà) */
+    .opcions-joc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; width: min(100%, 720px); }
+    .op { font: 900 var(--op) "Avenir Next", "Avenir", "Helvetica Neue", Arial, system-ui, sans-serif; font-variant-numeric: tabular-nums; cursor: pointer; color: var(--text); touch-action: manipulation;
+      background: var(--superficie); border: 3px solid var(--vora); border-radius: 16px; box-shadow: var(--ombra); padding: .45em .3em; }
+    .op:disabled { cursor: default; }
+    .op.mal { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); color: var(--tinta); }
+    .op.be { background: var(--c-ok); border-color: var(--c-ok-vora); color: var(--tinta); }
+    .op.dita { background: var(--c-pista); border-color: var(--c-pista-vora); color: var(--tinta); }
+    .op.apagada { opacity: .45; }
+    @media (hover: hover) { .op:not(:disabled):hover { border-color: var(--c-info-vora); } }
+
+    /* Difícil: s'escriu el número */
+    .entrada-caixa { background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi); padding: 10px; width: min(100%, 360px); }
+
+    .missatge { min-height: 3.2rem; padding: 8px 12px; border-radius: var(--radi); text-align: center; background: var(--superficie);
+      border: 2px solid var(--vora); font-weight: 700; font-size: 1.1rem; display: flex; flex-direction: column; justify-content: center; gap: 2px; }
+    .missatge small { font-weight: 500; font-size: .98rem; }
+    .missatge small:empty { display: none; }
+    .missatge.es-pista { background: var(--c-pista); border-color: var(--c-pista-vora); color: var(--tinta); }
+    .missatge.es-error { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); color: var(--tinta); }
+    .missatge.es-guanyat { background: var(--c-ok); border-color: var(--c-ok-vora); color: var(--tinta); }
+    .botons-peu { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+    .btn-pista { background: var(--c-pista); border-color: var(--c-pista-vora); color: var(--tinta); }
+    @keyframes sacseig { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+    .sacseig { animation: sacseig .25s 2; }
+
+    /* Tauleta i portàtil (criteri «ple»): la recta creix i les targetes també */
+    @media (min-width: 601px) and (min-height: 501px) {
+      .tauler { grid-template-rows: auto minmax(0, 1fr) auto auto; --op: clamp(1.6rem, min(4vw, 6vh), 3.2rem); padding: 16px 24px; gap: clamp(10px, 2vh, 20px); }
+      .enunciat { font-size: clamp(1.1rem, 2.8vh, 1.6rem); }
+      .opcions-joc { width: min(100%, 900px); gap: clamp(12px, 2vw, 24px); }
+      .op { padding: .5em .3em; }
+      /* Difícil en horitzontal: el teclat de números a la dreta */
+      .tauler.escriure { grid-template-columns: minmax(0, 1fr) clamp(280px, 28vw, 360px); grid-template-rows: auto minmax(0, 1fr) auto;
+        grid-template-areas: "enun resp" "recta resp" "peu resp"; column-gap: clamp(16px, 2.4vw, 32px); }
+      .tauler.escriure .respostes { align-items: center; }
+      .tauler.escriure .entrada-caixa { width: 100%; }
+    }
+    /* Tauleta vertical: el teclat a sota, centrat */
+    @media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) {
+      .tauler.escriure { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto auto; grid-template-areas: "enun" "recta" "resp" "peu"; }
+      .tauler.escriure .entrada-caixa { width: min(100%, 420px); }
+      .tauler { --op: clamp(1.6rem, 6vw, 3rem); }
+    }
+    /* Mòbil (vertical i apaïsat): més compacte */
+    @media (orientation: portrait) and (max-width: 600px), (orientation: landscape) and (max-height: 500px) {
+      .barra-joc { padding: 6px 0; }
+      .barra-joc h1 { font-size: 1.1rem; }
+      .cap-joc { margin: 0 0 6px; gap: 6px; }
+      .dada { font-size: .8rem; padding: 2px 8px; }
+      .progres i { width: 8px; height: 8px; }
+      .cap-joc .btn { padding: 5px 10px; font-size: .85rem; white-space: nowrap; }
+      .tauler { padding: 10px; gap: 8px; --op: 1.4rem; }
+      .enunciat { font-size: .95rem; }
+      .opcions-joc { gap: 8px; }
+      .op { border-width: 2px; }
+      .missatge { min-height: 0; padding: 5px 8px; font-size: .95rem; }
+      .missatge small { font-size: .85rem; }
+      .botons-peu .btn { padding: 6px 14px; font-size: .95rem; }
+      .inici .explica { font-size: .9rem; }
+    }
+    @media (orientation: portrait) and (max-width: 600px) {
+      .progres { display: none; }
+      .tauler { grid-template-rows: auto minmax(0, 1fr) auto auto; --op: clamp(1.3rem, min(7vw, 4vh), 2rem); }
+      .op { padding: clamp(.4em, 2vh, .9em) .2em; }
+      main.joc.ple > #pantalla-inici { justify-content: center; }
+      main.joc.ple .inici > .grup { flex: none; max-height: none; }
+      #op-nivell button { min-height: clamp(90px, 16vh, 150px); }
+    }
+    /* Mòbil apaïsat: la recta a l'esquerra i el missatge i les respostes a la dreta */
+    @media (orientation: landscape) and (max-height: 500px) {
+      .tauler { grid-template-columns: minmax(0, 1fr) minmax(200px, 270px); grid-template-rows: auto minmax(0, 1fr) auto;
+        grid-template-areas: "enun peu" "recta peu" "resp peu"; column-gap: 16px; row-gap: 6px; padding: 8px 14px; --op: 1.25rem; }
+      .tauler .peu { align-self: center; }
+      .zona-recta svg { width: auto; max-width: 100%; max-height: calc(100dvh - 190px); }
+      /* Difícil: la pregunta ja és al missatge; a la dreta, el botó per escriure i el missatge */
+      .tauler.escriure .enunciat { display: none; }
+      .tauler.escriure { grid-template-rows: auto minmax(0, 1fr); grid-template-areas: "recta resp" "recta peu"; }
+      .tauler.escriure .peu { align-self: start; }
+      .tauler.escriure .respostes { align-items: stretch; }
+      .tauler.escriure .fe-disparador { font-size: .95rem; padding: 8px 10px; }
+      .opcions-joc { gap: 8px; }
+      .op { padding: .22em .2em; }
+      .inici .explica { display: none; }
+      .comencar { margin: 12px 0 4px; }
+      #op-nivell button { min-height: 70px; }
+    }
+    /* Pantalla d'opcions: una sola pregunta, centrada i amb botons grans */
+    @media (min-width: 601px) and (min-height: 501px) {
+      main.joc.ple > #pantalla-inici { justify-content: center; }
+      main.joc.ple .inici > .grup { flex: none; max-height: none; }
+      #op-nivell button { min-height: clamp(90px, 20vh, 200px); font-size: clamp(1.2rem, 3.4vh, 1.9rem); }
+    }
+  </style>
+</head>
+<body>
+  <nav class="barra-joc">
+    <a href="../../">← Inici</a>
+    <h1>📏 La recta numèrica</h1>
+  </nav>
+
+  <main class="joc ple">
+    <!-- ================= INICI ================= -->
+    <section class="inici" id="pantalla-inici">
+      <div class="grup">
+        <h2 class="titol">Fins a quin número?</h2>
+        <div class="opcions" id="op-nivell">
+          <button type="button" data-v="facil" aria-pressed="true" aria-label="Fàcil: del 0 al 20, d'1 en 1"><b>0 – 20</b><small>🌱 Fàcil · d'1 en 1</small></button>
+          <button type="button" data-v="mitja" aria-pressed="false" aria-label="Mitjà: del 0 al 100, de 2, 5 o 10 en 10"><b>0 – 100</b><small>Mitjà · de 2, 5 o 10</small></button>
+          <button type="button" data-v="dificil" aria-pressed="false" aria-label="Difícil: del 0 al 1000, de 10 o 100 en 100, escrivint el número"><b>0 – 1000</b><small>Difícil · l'escrius tu</small></button>
+        </div>
+      </div>
+      <p class="explica">Una fletxa assenyala una marca de la recta. Quin número hi va?</p>
+      <div class="comencar"><button class="btn" id="btn-comencar" type="button">Comença! 📏</button></div>
+    </section>
+
+    <!-- ================= JOC ================= -->
+    <section id="pantalla-joc" hidden>
+      <div class="cap-joc">
+        <div class="dades" id="dades"></div>
+        <button class="btn" id="btn-nova" type="button">↺ Nova partida</button>
+      </div>
+      <div class="tauler" id="tauler">
+        <p class="enunciat" id="enunciat">Quin número va a la fletxa?</p>
+        <div class="zona-recta safata-pregunta" id="recta" aria-live="polite"></div>
+        <div class="respostes" id="respostes">
+          <div class="opcions-joc" id="opcions-joc"></div>
+          <div class="entrada-caixa" id="entrada-caixa" hidden><div id="entrada"></div></div>
+        </div>
+        <div class="peu franja">
+          <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
+          <div class="botons-peu">
+            <button class="btn btn-pista" id="btn-pista" type="button">💡 <span class="txt-llarg">Vull una pista</span><span class="txt-curt">Pista</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../js/reconeixedor-xifres.js"></script>
+  <script src="../../js/entrada-numero.js"></script>
+  <script src="../../js/finestra-entrada.js"></script>
+  <script src="../../js/pantalla.js"></script>
+  <script src="../../js/preferencies.js"></script>
+  <script src="../../js/celebracio.js"></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    const RONDES = 10, MARQUES = 11;
+    const CLAU_NIVELL = 'appjocs.recta-numerica.nivell';
+    // Salts possibles i fins on arriba cada nivell
+    const NIVELLS = { facil: { salts: [1], max: 20 }, mitja: { salts: [2, 5, 10], max: 100 }, dificil: { salts: [10, 100], max: 1000 } };
+    const config = { nivell: 'facil' };
+    let R = null, resultats = [], idx = -1, errors = 0, ambAjuda = false, esperant = false, seguentT = null, usades = new Set();
+
+    const triar = a => a[Math.floor(Math.random() * a.length)];
+    const barrejar = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+    const escriure = () => config.nivell === 'dificil';
+
+    // ---------------- Inici ----------------
+    try { const v = localStorage.getItem(CLAU_NIVELL); if (v in NIVELLS) config.nivell = v; } catch {}
+    const botonsNivell = $('op-nivell').querySelectorAll('button');
+    const marcarNivell = () => botonsNivell.forEach(b => b.setAttribute('aria-pressed', b.dataset.v === config.nivell));
+    botonsNivell.forEach(b => b.addEventListener('click', () => {
+      config.nivell = b.dataset.v; marcarNivell();
+      try { localStorage.setItem(CLAU_NIVELL, config.nivell); } catch {}
+    }));
+    marcarNivell();
+
+    $('btn-comencar').addEventListener('click', comencar);
+    $('btn-nova').addEventListener('click', () => { clearTimeout(seguentT); finestra.tancar(); Celebracio.tancar(); $('pantalla-joc').hidden = true; $('pantalla-inici').hidden = false; });
+    $('btn-pista').addEventListener('click', () => { if (esperant) { ambAjuda = true; donarPista(); $('btn-pista').disabled = true; pintarDades(); } });
+    $('opcions-joc').addEventListener('click', e => { const b = e.target.closest('.op'); if (b && !b.disabled && esperant) respondre(Number(b.dataset.v), b); });
+
+    // Difícil: el número s'escriu (teclat o dibuix); al mòbil, en una finestra
+    const entrada = EntradaNumero.crear($('entrada'), { maxXifres: 4, clauMode: 'appjocs.recta-numerica.mode-entrada', enEnviar: v => { if (esperant) respondre(v); } });
+    const finestra = FinestraEntrada.crear({ entrada: $('entrada-caixa'), info: [$('missatge')], avis: '✏️ Toca aquí per escriure el número', disparador: true, enObrir: () => entrada.ajustar() });
+
+    function comencar() {
+      idx = -1; resultats = []; usades = new Set();
+      $('tauler').classList.toggle('escriure', escriure());
+      $('opcions-joc').hidden = escriure(); $('entrada-caixa').hidden = !escriure();
+      $('pantalla-inici').hidden = true; $('pantalla-joc').hidden = false;
+      window.scrollTo({ top: 0 });
+      seguent();
+    }
+
+    // ---------------- Crear una recta ----------------
+    // 11 marques; es veuen escrits el primer, l'últim i un del mig. La fletxa assenyala una marca sense número:
+    // al Fàcil, sempre al costat d'un número escrit; al Mitjà, com a molt a 2 marques; al Difícil, a qualsevol lloc.
+    function crearRecta() {
+      const N = NIVELLS[config.nivell];
+      for (let intent = 0; intent < 200; intent++) {
+        const salt = triar(N.salts);
+        const maxInici = N.max - salt * (MARQUES - 1);
+        const inici = salt * Math.floor(Math.random() * (Math.floor(maxInici / salt) + 1));
+        const valors = Array.from({ length: MARQUES }, (_, i) => inici + i * salt);
+        const mig = 2 + Math.floor(Math.random() * (MARQUES - 4));          // 2..8
+        const escrits = new Set([0, MARQUES - 1, mig]);
+        const dist = i => Math.min(...[...escrits].map(j => Math.abs(i - j)));
+        const lliures = valors.map((_, i) => i).filter(i => !escrits.has(i));
+        const maxDist = config.nivell === 'facil' ? 1 : config.nivell === 'mitja' ? 2 : 9;
+        const cands = lliures.filter(i => dist(i) <= maxDist && (config.nivell !== 'dificil' || dist(i) >= 2 || Math.random() < .3));
+        if (!cands.length) continue;
+        const t = triar(cands);
+        const clau = `${salt}:${valors[t]}`;
+        if (usades.has(clau) && intent < 150) continue;
+        usades.add(clau);
+        // Número escrit més proper per l'esquerra (per a la pista i la trampa de comptar d'1 en 1)
+        const esq = Math.max(...[...escrits].filter(j => j < t));
+        return { salt, valors, escrits, t, v: valors[t], esq, opcions: escriure() ? null : crearOpcions(valors, t, salt, esq, escrits) };
+      }
+    }
+    // Les trampes: un salt més, un salt menys i comptar d'1 en 1 des del número escrit
+    // (mai un número que ja es veu escrit a la recta: seria massa fàcil descartar-lo)
+    function crearOpcions(valors, t, salt, esq, escrits) {
+      const v = valors[t], max = NIVELLS[config.nivell].max;
+      const vist = new Set([...escrits].map(i => valors[i]));
+      const valid = x => x >= 0 && x <= max && x !== v && !vist.has(x);
+      const trampes = [v + salt, v - salt];
+      if (salt > 1) trampes.unshift(valors[esq] + (t - esq));
+      trampes.push(v + 2 * salt, v - 2 * salt, v + 3 * salt, v - 3 * salt);
+      const tria = [...new Set(trampes.filter(valid))].slice(0, 2);
+      for (let k = 1; tria.length < 2 && k < 50; k++) { const x = v + (k % 2 ? k : -k) * (salt > 1 ? 1 : 2); if (valid(x) && !tria.includes(x)) tria.push(x); }
+      return barrejar([v, ...tria]);
+    }
+
+    // ---------------- Dibuixar la recta (SVG) ----------------
+    // En pantalles estretes el dibuix fa servir un llenç més curt: així la línia, els números i la fletxa surten més grans
+    let AMPLE = 1000, X0 = 50, X1 = 950;
+    const YL = 150;
+    const xDe = i => X0 + (X1 - X0) * i / (MARQUES - 1);
+    function pintarRecta(estat) {
+      if (!R) return;
+      R.estat = estat;
+      AMPLE = $('recta').clientWidth < 560 ? 540 : 1000; X0 = 50; X1 = AMPLE - 50;
+      const parts = [`<svg viewBox="0 -10 ${AMPLE} 230" role="img" aria-label="Recta numèrica">`];
+      parts.push(`<line class="r-linia" x1="20" y1="${YL}" x2="${AMPLE - 20}" y2="${YL}"/>`);
+      R.valors.forEach((val, i) => {
+        const x = xDe(i), gran = R.escrits.has(i) || i === R.t;
+        parts.push(`<line class="r-marca" x1="${x}" y1="${YL - (gran ? 22 : 16)}" x2="${x}" y2="${YL + (gran ? 22 : 16)}"/>`);
+        if (R.escrits.has(i)) parts.push(`<text class="r-num" x="${x}" y="${YL + 62}">${val}</text>`);
+      });
+      // Punts de la pista (s'il·luminen d'un en un des del número escrit fins a la fletxa)
+      if (R.pista) for (let i = R.esq + 1; i < R.t; i++) parts.push(`<circle class="r-punt" data-i="${i - R.esq}" cx="${xDe(i)}" cy="${YL}" r="13"/>`);
+      // La marca de la fletxa: caixa a dalt amb «?» (o el número quan ja es sap) i la fletxa que baixa fins a la marca.
+      // Els números escrits van a sota de la línia: així la caixa mai no els tapa.
+      const x = xDe(R.t), w = String(R.v).length > 3 ? 118 : 100;
+      parts.push(`<rect class="r-caixa ${estat || ''}" x="${x - w / 2}" y="${YL - 140}" width="${w}" height="56" rx="12"/>`);
+      parts.push(`<text class="r-interrog" x="${x}" y="${YL - 99}">${estat ? R.v : '?'}</text>`);
+      parts.push(`<path class="r-fletxa" d="M${x - 9} ${YL - 82} h18 v20 h12 l-21 34 l-21 -34 h12 z"/>`);
+      parts.push('</svg>');
+      $('recta').innerHTML = parts.join('');
+      if (R.pista) $('recta').querySelectorAll('.r-punt').forEach(p => setTimeout(() => p.classList.add('vist'), 350 * Number(p.dataset.i)));
+    }
+
+    let esperaRecta;
+    addEventListener('resize', () => { clearTimeout(esperaRecta); esperaRecta = setTimeout(() => { if (R && !$('pantalla-joc').hidden) pintarRecta(R.estat); }, 80); });
+
+    // ---------------- Ronda ----------------
+    function seguent() {
+      clearTimeout(seguentT);
+      idx++;
+      if (idx >= RONDES) return final();
+      errors = 0; ambAjuda = false; esperant = true;
+      R = crearRecta();
+      pintarRecta();
+      $('btn-pista').disabled = false;
+      if (escriure()) {
+        entrada.buidar(); entrada.activar(true); entrada.ajustar();
+        mostrar('Quin número va a la fletxa?', finestra.activa() ? 'Toca el botó per escriure\'l.' : 'Escriu-lo i prem OK.');
+        if (!finestra.activa()) setTimeout(() => entrada.enfocar && entrada.enfocar(), 50);
+      } else {
+        $('opcions-joc').innerHTML = '';
+        R.opcions.forEach(v => { const b = document.createElement('button'); b.type = 'button'; b.className = 'op opcio-resposta'; b.dataset.v = v; b.textContent = v; $('opcions-joc').appendChild(b); });
+        mostrar('Quin número va a la fletxa?', 'Toca la targeta bona.');
+      }
+      pintarDades();
+    }
+
+    const textSalt = s => s === 1 ? "d'1 en 1" : `de ${s} en ${s}`;
+    function donarPista() {
+      R.pista = true; pintarRecta();
+      mostrar('💡 Pista', `Compta ${textSalt(R.salt)} des del ${R.valors[R.esq]}.`, 'pista');
+    }
+
+    function respondre(v, boto) {
+      if (v === R.v) {
+        esperant = false;
+        resultats.push(errors === 0 && !ambAjuda ? 'be' : 'ajuda');
+        if (boto) boto.classList.add('be');
+        $('opcions-joc').querySelectorAll('.op').forEach(x => { x.disabled = true; if (x !== boto && !x.classList.contains('mal')) x.classList.add('apagada'); });
+        entrada.buidar(); entrada.activar(false); finestra.tancar();
+        R.pista = false; pintarRecta('be');
+        Celebracio.petita($('recta'));
+        mostrar(Preferencies.felicitacio(`✓ Molt bé, ${R.v}!`), `Anava ${textSalt(R.salt)}.`, 'guanyat');
+        $('btn-pista').disabled = true;
+        pintarDades();
+        seguentT = Pantalla.despres(seguent, 1400);
+        return;
+      }
+      errors++;
+      if (boto) { boto.classList.add('mal'); boto.disabled = true; sacsejar(boto); }
+      else { entrada.sacsejar(); entrada.buidar(); }
+      if (errors === 1) mostrar(`No és el ${v}`, 'Torna-ho a provar.', 'error');
+      else if (errors === 2) { ambAjuda = true; donarPista(); $('btn-pista').disabled = true; $('msg-text').textContent = `Tampoc és el ${v}`; }
+      else {
+        esperant = false; resultats.push('malament');
+        $('opcions-joc').querySelectorAll('.op').forEach(x => { x.disabled = true; if (Number(x.dataset.v) === R.v) x.classList.add('dita'); else if (!x.classList.contains('mal')) x.classList.add('apagada'); });
+        entrada.buidar(); entrada.activar(false); finestra.tancar();
+        R.pista = false; pintarRecta('dita');
+        mostrar(`Era el ${R.v}`, `Des del ${R.valors[R.esq]}, comptant ${textSalt(R.salt)}: ${R.valors.slice(R.esq, R.t + 1).join(', ')}.`, 'pista');
+        $('btn-pista').disabled = true;
+        seguentT = Pantalla.despres(seguent, 3000, true);
+      }
+      pintarDades();
+    }
+
+    // ---------------- Final ----------------
+    function final() {
+      R = null; esperant = false;
+      const nets = resultats.filter(r => r === 'be').length;
+      const mal = resultats.filter(r => r === 'malament').length;
+      let titol = nets === RONDES ? 'Tot a la primera!' : 'Partida acabada!';
+      let subtitol = `${nets} de ${RONDES} a la primera`;
+      const estrelles = nets >= 9 ? 3 : mal <= 2 ? 2 : 1;
+      if (Preferencies.errors()) {
+        const clau = `appjocs.recta-numerica.record.${config.nivell}`;
+        let record = null; try { const v = localStorage.getItem(clau); record = v === null ? null : Number(v); } catch {}
+        const nou = record === null || nets > record;
+        if (nou) { try { localStorage.setItem(clau, String(nets)); } catch {} }
+        subtitol += nou ? (record !== null ? ' · 🏅 Nou rècord!' : '') : ` · Rècord: ${record}`;
+      } else { titol = 'Partida acabada!'; subtitol = `Has fet ${RONDES} rectes.`; }
+      mostrar('🎉 ' + titol, subtitol, 'guanyat');
+      Celebracio.gran({ titol, subtitol, emoji: nets === RONDES ? '🏆' : '📏', estrelles: Preferencies.errors() ? estrelles : 0 });
+    }
+
+    // ---------------- Dades i missatges ----------------
+    function pintarDades() {
+      const comptar = Preferencies.errors();
+      const punts = Array.from({ length: RONDES }, (_, i) =>
+        `<i class="${i < resultats.length ? (comptar ? resultats[i] : 'fet') : i === resultats.length ? 'ara' : ''}"></i>`).join('');
+      let html = `<span class="dada">Recta <b>${Math.min(idx + 1, RONDES)}</b>/${RONDES} <span class="progres">${punts}</span></span>`;
+      if (comptar) html += `<span class="dada">A la primera: <b>${resultats.filter(r => r === 'be').length}</b></span>`;
+      $('dades').innerHTML = html;
+    }
+    function sacsejar(x) { x.classList.remove('sacseig'); void x.offsetWidth; x.classList.add('sacseig'); }
+    function mostrar(t, extra = '', estat = '') {
+      const m = $('missatge');
+      $('msg-text').textContent = t; $('msg-extra').textContent = extra;
+      m.classList.remove('es-pista', 'es-error', 'es-guanyat');
+      if (estat) m.classList.add('es-' + estat);
+    }
+
+    Pantalla.avisOrientacio('recta-numerica', { dins: document.getElementById('pantalla-inici') });
+  </script>
+</body>
+</html>

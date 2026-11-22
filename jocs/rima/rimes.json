@@ -1,0 +1,847 @@
+{
+ "grups": [
+  {
+   "rima": "at",
+   "dibuix": [
+    {
+     "p": "gat",
+     "e": "🐱"
+    },
+    {
+     "p": "plat",
+     "e": "🍽️"
+    },
+    {
+     "p": "gelat",
+     "e": "🍦"
+    },
+    {
+     "p": "blat",
+     "e": "🌾"
+    }
+   ],
+   "escrites": [
+    "prat",
+    "forat",
+    "costat",
+    "terrat",
+    "ciutat",
+    "amistat",
+    "veritat",
+    "salat",
+    "menjat",
+    "cantat",
+    "ballat"
+   ]
+  },
+  {
+   "rima": "et",
+   "dibuix": [
+    {
+     "p": "barret",
+     "e": "🎩"
+    },
+    {
+     "p": "coet",
+     "e": "🚀"
+    },
+    {
+     "p": "bolet",
+     "e": "🍄"
+    },
+    {
+     "p": "patinet",
+     "e": "🛴"
+    },
+    {
+     "p": "carret",
+     "e": "🛒"
+    }
+   ],
+   "escrites": [
+    "xiulet",
+    "fuet",
+    "paquet",
+    "bitllet",
+    "llibret",
+    "cotxet",
+    "gatet",
+    "set",
+    "net",
+    "banquet"
+   ]
+  },
+  {
+   "rima": "ell",
+   "dibuix": [
+    {
+     "p": "ocell",
+     "e": "🐦"
+    },
+    {
+     "p": "castell",
+     "e": "🏰"
+    },
+    {
+     "p": "anell",
+     "e": "💍"
+    },
+    {
+     "p": "vaixell",
+     "e": "🚢"
+    },
+    {
+     "p": "martell",
+     "e": "🔨"
+    },
+    {
+     "p": "pinzell",
+     "e": "🖌️"
+    }
+   ],
+   "escrites": [
+    "cervell",
+    "rovell",
+    "vell",
+    "clavell",
+    "ramell",
+    "cabell"
+   ]
+  },
+  {
+   "rima": "ella",
+   "dibuix": [
+    {
+     "p": "orella",
+     "e": "👂"
+    },
+    {
+     "p": "estrella",
+     "e": "⭐"
+    },
+    {
+     "p": "abella",
+     "e": "🐝"
+    },
+    {
+     "p": "ovella",
+     "e": "🐑"
+    },
+    {
+     "p": "paella",
+     "e": "🥘"
+    }
+   ],
+   "escrites": [
+    "graella",
+    "cella",
+    "vella",
+    "bella",
+    "poncella"
+   ]
+  },
+  {
+   "rima": "o",
+   "dibuix": [
+    {
+     "p": "lleó",
+     "e": "🦁"
+    },
+    {
+     "p": "avió",
+     "e": "✈️"
+    },
+    {
+     "p": "camió",
+     "e": "🚚"
+    },
+    {
+     "p": "meló",
+     "e": "🍈"
+    },
+    {
+     "p": "botó",
+     "e": "🔘"
+    },
+    {
+     "p": "cançó",
+     "e": "🎵"
+    },
+    {
+     "p": "acordió",
+     "e": "🪗"
+    }
+   ],
+   "escrites": [
+    "bombó",
+    "salmó",
+    "petó",
+    "racó",
+    "balcó",
+    "carbó",
+    "cinturó",
+    "xampinyó"
+   ]
+  },
+  {
+   "rima": "ol",
+   "dibuix": [
+    {
+     "p": "sol",
+     "e": "☀️"
+    },
+    {
+     "p": "cargol",
+     "e": "🐌"
+    },
+    {
+     "p": "mussol",
+     "e": "🦉"
+    },
+    {
+     "p": "gira-sol",
+     "e": "🌻"
+    },
+    {
+     "p": "col",
+     "e": "🥬"
+    },
+    {
+     "p": "esquirol",
+     "e": "🐿️"
+    }
+   ],
+   "escrites": [
+    "caragol",
+    "llençol",
+    "fesol",
+    "rossinyol",
+    "estol"
+   ]
+  },
+  {
+   "rima": "ina",
+   "dibuix": [
+    {
+     "p": "gallina",
+     "e": "🐔"
+    },
+    {
+     "p": "piscina",
+     "e": "🏊"
+    },
+    {
+     "p": "sardina",
+     "e": "🐟"
+    },
+    {
+     "p": "mandarina",
+     "e": "🍊"
+    },
+    {
+     "p": "nina",
+     "e": "🪆"
+    },
+    {
+     "p": "petxina",
+     "e": "🐚"
+    },
+    {
+     "p": "benzina",
+     "e": "⛽"
+    }
+   ],
+   "escrites": [
+    "cortina",
+    "farina",
+    "cosina",
+    "veïna",
+    "gelatina",
+    "plastilina",
+    "oficina",
+    "medicina"
+   ]
+  },
+  {
+   "rima": "ota",
+   "dibuix": [
+    {
+     "p": "granota",
+     "e": "🐸"
+    },
+    {
+     "p": "gota",
+     "e": "💧"
+    },
+    {
+     "p": "bota",
+     "e": "👢"
+    },
+    {
+     "p": "pota",
+     "e": "🐾"
+    }
+   ],
+   "escrites": [
+    "nota",
+    "mascota",
+    "marmota",
+    "flota"
+   ]
+  },
+  {
+   "rima": "ana",
+   "dibuix": [
+    {
+     "p": "campana",
+     "e": "🔔"
+    },
+    {
+     "p": "llana",
+     "e": "🧶"
+    },
+    {
+     "p": "avellana",
+     "e": "🌰"
+    },
+    {
+     "p": "setmana",
+     "e": "📅"
+    },
+    {
+     "p": "sargantana",
+     "e": "🦎"
+    },
+    {
+     "p": "cabana",
+     "e": "🛖"
+    }
+   ],
+   "escrites": [
+    "germana",
+    "tramuntana",
+    "persiana",
+    "plana",
+    "fontana"
+   ]
+  },
+  {
+   "rima": "eta",
+   "dibuix": [
+    {
+     "p": "bicicleta",
+     "e": "🚲"
+    },
+    {
+     "p": "maleta",
+     "e": "🧳"
+    },
+    {
+     "p": "galeta",
+     "e": "🍪"
+    },
+    {
+     "p": "trompeta",
+     "e": "🎺"
+    },
+    {
+     "p": "samarreta",
+     "e": "👕"
+    },
+    {
+     "p": "planeta",
+     "e": "🪐"
+    },
+    {
+     "p": "xancleta",
+     "e": "🩴"
+    },
+    {
+     "p": "carpeta",
+     "e": "📁"
+    }
+   ],
+   "escrites": [
+    "cullereta",
+    "caseta",
+    "tauleta",
+    "croqueta",
+    "gorreta",
+    "cometa"
+   ]
+  },
+  {
+   "rima": "or",
+   "dibuix": [
+    {
+     "p": "flor",
+     "e": "🌸"
+    },
+    {
+     "p": "cor",
+     "e": "❤️"
+    },
+    {
+     "p": "tambor",
+     "e": "🥁"
+    },
+    {
+     "p": "tractor",
+     "e": "🚜"
+    },
+    {
+     "p": "despertador",
+     "e": "⏰"
+    },
+    {
+     "p": "ascensor",
+     "e": "🛗"
+    }
+   ],
+   "escrites": [
+    "calor",
+    "color",
+    "olor",
+    "pintor",
+    "doctor",
+    "motor",
+    "menjador",
+    "gronxador",
+    "regador",
+    "ventilador"
+   ]
+  },
+  {
+   "rima": "a",
+   "dibuix": [
+    {
+     "p": "pa",
+     "e": "🍞"
+    },
+    {
+     "p": "mà",
+     "e": "✋"
+    },
+    {
+     "p": "sofà",
+     "e": "🛋️"
+    }
+   ],
+   "escrites": [
+    "germà",
+    "demà",
+    "capità",
+    "ja"
+   ]
+  },
+  {
+   "rima": "ent",
+   "dibuix": [
+    {
+     "p": "dent",
+     "e": "🦷"
+    },
+    {
+     "p": "vent",
+     "e": "🌬️"
+    },
+    {
+     "p": "serpent",
+     "e": "🐍"
+    },
+    {
+     "p": "cent",
+     "e": "💯"
+    }
+   ],
+   "escrites": [
+    "gent",
+    "calent",
+    "content",
+    "valent",
+    "present",
+    "diferent",
+    "torrent",
+    "moment",
+    "aliment"
+   ]
+  },
+  {
+   "rima": "oc",
+   "dibuix": [
+    {
+     "p": "foc",
+     "e": "🔥"
+    },
+    {
+     "p": "joc",
+     "e": "🎲"
+    },
+    {
+     "p": "groc",
+     "e": "🟡"
+    }
+   ],
+   "escrites": [
+    "lloc",
+    "poc",
+    "roc",
+    "xoc",
+    "moc"
+   ]
+  },
+  {
+   "rima": "ull",
+   "dibuix": [
+    {
+     "p": "ull",
+     "e": "👁️"
+    },
+    {
+     "p": "full",
+     "e": "📄"
+    }
+   ],
+   "escrites": [
+    "escull",
+    "orgull",
+    "embull"
+   ]
+  }
+ ],
+ "conegudes": [
+  "abella",
+  "abric",
+  "abril",
+  "acordió",
+  "agost",
+  "aliment",
+  "all",
+  "amistat",
+  "anell",
+  "arbre",
+  "ascensor",
+  "autobús",
+  "avellana",
+  "avió",
+  "balcó",
+  "balena",
+  "ball",
+  "ballat",
+  "banquet",
+  "barret",
+  "bella",
+  "benzina",
+  "bicicleta",
+  "bitllet",
+  "blanc",
+  "blat",
+  "blau",
+  "boca",
+  "bolet",
+  "bombeta",
+  "bombó",
+  "bota",
+  "botó",
+  "bròquil",
+  "bufanda",
+  "cabana",
+  "cabell",
+  "cadira",
+  "calent",
+  "calor",
+  "camió",
+  "campana",
+  "cantat",
+  "cançó",
+  "capità",
+  "caragol",
+  "caramel",
+  "carbó",
+  "cargol",
+  "carpeta",
+  "carret",
+  "caseta",
+  "cassola",
+  "castell",
+  "cavall",
+  "ceba",
+  "cella",
+  "cent",
+  "cercle",
+  "cervell",
+  "cinc",
+  "cinturó",
+  "cirera",
+  "ciutat",
+  "clau",
+  "clavell",
+  "coco",
+  "coet",
+  "cogombre",
+  "col",
+  "color",
+  "cometa",
+  "conill",
+  "content",
+  "cor",
+  "corbata",
+  "cortina",
+  "cosina",
+  "costat",
+  "cotxe",
+  "cotxet",
+  "croqueta",
+  "cullera",
+  "cullereta",
+  "dau",
+  "demà",
+  "dent",
+  "desembre",
+  "despertador",
+  "deu",
+  "diferent",
+  "dijous",
+  "dilluns",
+  "dimarts",
+  "dimecres",
+  "dissabte",
+  "diumenge",
+  "divendres",
+  "doctor",
+  "dofí",
+  "dos",
+  "dotze",
+  "dutxa",
+  "elefant",
+  "embull",
+  "enciam",
+  "eriçó",
+  "escala",
+  "escull",
+  "esquirol",
+  "estiu",
+  "estol",
+  "estrella",
+  "farina",
+  "febrer",
+  "fesol",
+  "finestra",
+  "flor",
+  "flota",
+  "foc",
+  "fontana",
+  "forat",
+  "formatge",
+  "forquilla",
+  "fuet",
+  "full",
+  "fulla",
+  "galeta",
+  "gall",
+  "gallina",
+  "gat",
+  "gatet",
+  "gelat",
+  "gelatina",
+  "gener",
+  "gent",
+  "germana",
+  "germà",
+  "gira-sol",
+  "girafa",
+  "globus",
+  "gorra",
+  "gorreta",
+  "gos",
+  "got",
+  "gota",
+  "graella",
+  "granota",
+  "gris",
+  "groc",
+  "gronxador",
+  "guants",
+  "guitarra",
+  "helicòpter",
+  "hivern",
+  "ja",
+  "joc",
+  "juliol",
+  "juny",
+  "lila",
+  "llana",
+  "llapis",
+  "llençol",
+  "lleó",
+  "llibre",
+  "llibret",
+  "llimona",
+  "llit",
+  "lloc",
+  "lluna",
+  "maduixa",
+  "maig",
+  "maleta",
+  "mandarina",
+  "mar",
+  "marmota",
+  "marró",
+  "martell",
+  "març",
+  "mascota",
+  "medicina",
+  "mel",
+  "meló",
+  "menjador",
+  "menjat",
+  "mico",
+  "mirall",
+  "mitjons",
+  "moc",
+  "moment",
+  "moto",
+  "motor",
+  "motxilla",
+  "muntanya",
+  "mussol",
+  "mà",
+  "nas",
+  "negre",
+  "net",
+  "neu",
+  "nina",
+  "nota",
+  "novembre",
+  "núvol",
+  "ocell",
+  "octubre",
+  "oficina",
+  "olor",
+  "onze",
+  "orella",
+  "orgull",
+  "os",
+  "ou",
+  "ovella",
+  "pa",
+  "paella",
+  "pantalons",
+  "papallona",
+  "paquet",
+  "pastanaga",
+  "pastís",
+  "patata",
+  "patinet",
+  "pebrot",
+  "peix",
+  "pera",
+  "persiana",
+  "petxina",
+  "petó",
+  "peu",
+  "piano",
+  "pilota",
+  "pingüí",
+  "pintor",
+  "pinya",
+  "pinzell",
+  "piscina",
+  "pizza",
+  "plana",
+  "planeta",
+  "plastilina",
+  "plat",
+  "plàtan",
+  "poc",
+  "poma",
+  "poncella",
+  "pop",
+  "porc",
+  "porta",
+  "pota",
+  "prat",
+  "present",
+  "primavera",
+  "préssec",
+  "quadrat",
+  "quatre",
+  "racó",
+  "ramell",
+  "rata",
+  "ratolí",
+  "raïm",
+  "rectangle",
+  "regador",
+  "regle",
+  "rellotge",
+  "roc",
+  "rosa",
+  "rossinyol",
+  "rovell",
+  "sabata",
+  "sabó",
+  "salat",
+  "salmó",
+  "samarreta",
+  "sardina",
+  "sargantana",
+  "serp",
+  "serpent",
+  "set",
+  "setembre",
+  "setmana",
+  "sis",
+  "sofà",
+  "sol",
+  "sopa",
+  "síndria",
+  "tambor",
+  "tardor",
+  "taronja",
+  "tassa",
+  "tauleta",
+  "taxi",
+  "terrat",
+  "tigre",
+  "tisores",
+  "tomata",
+  "tomàquet",
+  "torrent",
+  "tortuga",
+  "tractor",
+  "tramuntana",
+  "tren",
+  "tres",
+  "triangle",
+  "trompeta",
+  "u",
+  "ull",
+  "ulleres",
+  "unicorn",
+  "vaca",
+  "vaixell",
+  "valent",
+  "vell",
+  "vella",
+  "vent",
+  "ventall",
+  "ventilador",
+  "verd",
+  "veritat",
+  "vermell",
+  "vestit",
+  "veïna",
+  "vint",
+  "violí",
+  "volcà",
+  "vuit",
+  "xampinyó",
+  "xancleta",
+  "xiulet",
+  "xoc",
+  "xocolata",
+  "zebra",
+  "ànec"
+ ]
+}

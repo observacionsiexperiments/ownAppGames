@@ -1,0 +1,671 @@
+{
+ "temes": [
+  {
+   "id": "animals",
+   "nom": "Animals",
+   "e": "🐾"
+  },
+  {
+   "id": "escola",
+   "nom": "Escola",
+   "e": "🏫"
+  },
+  {
+   "id": "casa",
+   "nom": "Casa i família",
+   "e": "🏠"
+  },
+  {
+   "id": "menjar",
+   "nom": "Menjar",
+   "e": "🍎"
+  },
+  {
+   "id": "natura",
+   "nom": "Natura i temps",
+   "e": "🌳"
+  }
+ ],
+ "frases": {
+  "animals": {
+   "facil": [
+    {
+     "f": "El gos borda."
+    },
+    {
+     "f": "La vaca fa llet."
+    },
+    {
+     "f": "El gat dorm molt."
+    },
+    {
+     "f": "Les ovelles mengen herba."
+    },
+    {
+     "f": "L'ocell canta fort."
+    },
+    {
+     "f": "El conill salta."
+    },
+    {
+     "f": "La granota neda."
+    },
+    {
+     "f": "El cavall corre ràpid."
+    },
+    {
+     "f": "Els peixos neden."
+    },
+    {
+     "f": "La gallina pon ous."
+    },
+    {
+     "f": "El gat miola."
+    },
+    {
+     "f": "El gat es renta."
+    }
+   ],
+   "mitja": [
+    {
+     "f": "El gos dorm a la caseta."
+    },
+    {
+     "f": "La tortuga camina molt lentament."
+    },
+    {
+     "f": "Els ocells fan el niu."
+    },
+    {
+     "f": "El gat beu llet calenta."
+    },
+    {
+     "f": "La vaca menja herba verda."
+    },
+    {
+     "f": "El cavall viu a la granja."
+    },
+    {
+     "f": "Les abelles fan mel dolça."
+    },
+    {
+     "f": "El conill menja una pastanaga."
+    },
+    {
+     "f": "La granota salta al riu."
+    },
+    {
+     "f": "El lleó dorm sota l'arbre."
+    },
+    {
+     "f": "El gat dorm al sol."
+    },
+    {
+     "f": "Els gatets juguen amb un cabdell."
+    }
+   ],
+   "dificil": [
+    {
+     "f": "El meu gos sempre m'espera a la porta."
+    },
+    {
+     "f": "Les formigues porten menjar cap al formiguer."
+    },
+    {
+     "f": "El dofí salta per sobre de les onades."
+    },
+    {
+     "f": "A la granja hi ha vaques i porcs."
+    },
+    {
+     "f": "L'esquirol amaga les avellanes dins de l'arbre."
+    },
+    {
+     "f": "La papallona vola de flor en flor."
+    },
+    {
+     "f": "El mussol es desperta quan arriba la nit."
+    },
+    {
+     "f": "Els peixos de colors neden dins la peixera."
+    },
+    {
+     "f": "La gallina cuida els seus pollets petits."
+    },
+    {
+     "f": "El cargol surt quan plou a la muntanya."
+    },
+    {
+     "f": "El meu gat s'enfila a dalt de l'armari."
+    },
+    {
+     "f": "La gata cuida els seus gatets petits."
+    }
+   ]
+  },
+  "escola": {
+   "facil": [
+    {
+     "f": "Avui tinc gimnàs."
+    },
+    {
+     "f": "La mestra llegeix."
+    },
+    {
+     "f": "Pinto un dibuix."
+    },
+    {
+     "f": "Escric el meu nom."
+    },
+    {
+     "f": "La motxilla pesa molt."
+    },
+    {
+     "f": "Juguem al pati."
+    },
+    {
+     "f": "Tinc un llapis vermell."
+    },
+    {
+     "f": "El llibre és nou."
+    },
+    {
+     "f": "Compto fins a deu."
+    },
+    {
+     "f": "Ens rentem les mans."
+    }
+   ],
+   "mitja": [
+    {
+     "f": "El mestre ens llegeix un conte."
+    },
+    {
+     "f": "Al pati saltem a corda.",
+     "alt": [
+      "Saltem a corda al pati."
+     ]
+    },
+    {
+     "f": "Guardo els colors a l'estoig."
+    },
+    {
+     "f": "El meu amic seu amb mi."
+    },
+    {
+     "f": "Avui fem experiments de ciència.",
+     "alt": [
+      "Fem experiments de ciència avui."
+     ]
+    },
+    {
+     "f": "Penjo l'abric al meu penjador."
+    },
+    {
+     "f": "Llegim un llibre a la biblioteca.",
+     "alt": [
+      "A la biblioteca llegim un llibre."
+     ]
+    },
+    {
+     "f": "Els nens i les nenes canten.",
+     "alt": [
+      "Les nenes i els nens canten."
+     ]
+    },
+    {
+     "f": "Escric la data a la pissarra."
+    },
+    {
+     "f": "Demà anem d'excursió al bosc."
+    },
+    {
+     "f": "Els dimecres anem a la ludoteca.",
+     "alt": [
+      "Anem a la ludoteca els dimecres."
+     ]
+    }
+   ],
+   "dificil": [
+    {
+     "f": "Abans de dinar ens rentem bé les mans.",
+     "alt": [
+      "Ens rentem bé les mans abans de dinar."
+     ]
+    },
+    {
+     "f": "La mestra ens ensenya a sumar amb els dits."
+    },
+    {
+     "f": "A la biblioteca hem de parlar molt baixet.",
+     "alt": [
+      "Hem de parlar molt baixet a la biblioteca."
+     ]
+    },
+    {
+     "f": "Avui hem pintat un mural molt gran."
+    },
+    {
+     "f": "El meu company m'ha deixat la goma d'esborrar."
+    },
+    {
+     "f": "A l'hora del pati juguem a fet i amagar.",
+     "alt": [
+      "Juguem a fet i amagar a l'hora del pati."
+     ]
+    },
+    {
+     "f": "Cada matí canviem la data del calendari."
+    },
+    {
+     "f": "Hem plantat llavors de mongeta a l'hort."
+    },
+    {
+     "f": "Llegeixo un conte quan acabo la feina.",
+     "alt": [
+      "Quan acabo la feina llegeixo un conte."
+     ]
+    },
+    {
+     "f": "La classe de música comença després del pati."
+    },
+    {
+     "f": "A la ludoteca juguem a jocs de taula.",
+     "alt": [
+      "Juguem a jocs de taula a la ludoteca."
+     ]
+    }
+   ]
+  },
+  "casa": {
+   "facil": [
+    {
+     "f": "La padrina neda."
+    },
+    {
+     "f": "Escolto una cançó."
+    },
+    {
+     "f": "El pare dorm."
+    },
+    {
+     "f": "La mare llegeix."
+    },
+    {
+     "f": "Em rento les dents."
+    },
+    {
+     "f": "El meu germà riu."
+    },
+    {
+     "f": "Obro la finestra."
+    },
+    {
+     "f": "Fem el llit."
+    },
+    {
+     "f": "La mare canta."
+    },
+    {
+     "f": "Tanco la porta."
+    }
+   ],
+   "mitja": [
+    {
+     "f": "La meva germana toca el piano."
+    },
+    {
+     "f": "El padrí rega les plantes."
+    },
+    {
+     "f": "Cada nit em rento les dents.",
+     "alt": [
+      "Em rento les dents cada nit."
+     ]
+    },
+    {
+     "f": "El padrí m'explica un conte divertit."
+    },
+    {
+     "f": "Parem la taula per sopar."
+    },
+    {
+     "f": "La mare m'abraça molt fort."
+    },
+    {
+     "f": "El meu cosí ve a dinar."
+    },
+    {
+     "f": "Pleguem la roba neta junts."
+    },
+    {
+     "f": "Al menjador hi ha un sofà.",
+     "alt": [
+      "Hi ha un sofà al menjador."
+     ]
+    },
+    {
+     "f": "El pare renta els plats."
+    },
+    {
+     "f": "Dormo amb el meu peluix."
+    },
+    {
+     "f": "La padrina fa un pastís."
+    }
+   ],
+   "dificil": [
+    {
+     "f": "Els diumenges dinem tots junts a casa dels padrins.",
+     "alt": [
+      "Dinem tots junts a casa dels padrins els diumenges."
+     ]
+    },
+    {
+     "f": "El meu germà petit encara no sap caminar."
+    },
+    {
+     "f": "Abans d'anar a dormir llegim un conte.",
+     "alt": [
+      "Llegim un conte abans d'anar a dormir."
+     ]
+    },
+    {
+     "f": "La mare i jo anem en bicicleta al parc."
+    },
+    {
+     "f": "La meva tieta viu en un pis molt alt."
+    },
+    {
+     "f": "Quan plou ens quedem a casa jugant.",
+     "alt": [
+      "Ens quedem a casa jugant quan plou."
+     ]
+    },
+    {
+     "f": "Els meus padrins viuen a Sant Feliu de Llobregat."
+    },
+    {
+     "f": "A Sant Feliu de Llobregat celebrem les festes de tardor.",
+     "alt": [
+      "Celebrem les festes de tardor a Sant Feliu de Llobregat."
+     ]
+    },
+    {
+     "f": "El gat s'amaga sempre sota el llit."
+    },
+    {
+     "f": "Ajudo el pare a posar la rentadora."
+    },
+    {
+     "f": "Al balcó tenim testos amb flors vermelles.",
+     "alt": [
+      "Tenim testos amb flors vermelles al balcó."
+     ]
+    },
+    {
+     "f": "El meu pare cuina el millor arròs del món."
+    },
+    {
+     "f": "Les meves cosines dormen a casa per Nadal.",
+     "alt": [
+      "Per Nadal les meves cosines dormen a casa."
+     ]
+    }
+   ]
+  },
+  "menjar": {
+   "facil": [
+    {
+     "f": "M'agrada la sopa."
+    },
+    {
+     "f": "Menjo una poma."
+    },
+    {
+     "f": "La llet és blanca."
+    },
+    {
+     "f": "Bec aigua fresca."
+    },
+    {
+     "f": "El pa és calent."
+    },
+    {
+     "f": "Vull més macarrons."
+    },
+    {
+     "f": "La pera és dolça."
+    },
+    {
+     "f": "Esmorzo cereals amb llet."
+    },
+    {
+     "f": "El tomàquet és vermell."
+    },
+    {
+     "f": "Pelo una mandarina."
+    }
+   ],
+   "mitja": [
+    {
+     "f": "Per esmorzar menjo pa amb tomàquet.",
+     "alt": [
+      "Menjo pa amb tomàquet per esmorzar."
+     ]
+    },
+    {
+     "f": "La sopa està massa calenta."
+    },
+    {
+     "f": "El pare fa truita de patates."
+    },
+    {
+     "f": "Les maduixes són vermelles i dolces."
+    },
+    {
+     "f": "Bevem suc de taronja natural."
+    },
+    {
+     "f": "Al mercat comprem fruita fresca.",
+     "alt": [
+      "Comprem fruita fresca al mercat."
+     ]
+    },
+    {
+     "f": "A mi m'agraden les pastanagues."
+    },
+    {
+     "f": "El padrí fa croquetes boníssimes."
+    },
+    {
+     "f": "Els croissants del Carme són boníssims."
+    },
+    {
+     "f": "Hem de rentar la fruita."
+    },
+    {
+     "f": "El plàtan és groc i tou."
+    }
+   ],
+   "dificil": [
+    {
+     "f": "Per berenar m'agrada menjar pa amb xocolata.",
+     "alt": [
+      "M'agrada menjar pa amb xocolata per berenar."
+     ]
+    },
+    {
+     "f": "Rentem bé la fruita abans de menjar-la.",
+     "alt": [
+      "Abans de menjar-la rentem bé la fruita."
+     ]
+    },
+    {
+     "f": "Al menjador de l'escola avui hi ha arròs.",
+     "alt": [
+      "Avui al menjador de l'escola hi ha arròs."
+     ]
+    },
+    {
+     "f": "La meva amiga no pot menjar fruits secs."
+    },
+    {
+     "f": "Fem una amanida amb enciam i tomàquet."
+    },
+    {
+     "f": "La fornera fa el pa molt de matí."
+    },
+    {
+     "f": "Hem fet galetes de xocolata amb la padrina."
+    },
+    {
+     "f": "Cal beure aigua quan fa molta calor."
+    },
+    {
+     "f": "Les cireres creixen als arbres a l'estiu.",
+     "alt": [
+      "A l'estiu les cireres creixen als arbres."
+     ]
+    },
+    {
+     "f": "A la pizza hi posem formatge i olives."
+    },
+    {
+     "f": "Els diumenges esmorzem croissants del Cisne amb la mare.",
+     "alt": [
+      "Esmorzem croissants del Cisne amb la mare els diumenges."
+     ]
+    }
+   ]
+  },
+  "natura": {
+   "facil": [
+    {
+     "f": "Avui plou molt."
+    },
+    {
+     "f": "El sol brilla."
+    },
+    {
+     "f": "Fa molt fred."
+    },
+    {
+     "f": "Neva a la muntanya."
+    },
+    {
+     "f": "Les flors són boniques."
+    },
+    {
+     "f": "L'arbre és alt."
+    },
+    {
+     "f": "Bufa el vent."
+    },
+    {
+     "f": "La lluna surt."
+    },
+    {
+     "f": "El riu baixa ple."
+    },
+    {
+     "f": "Hi ha núvols."
+    }
+   ],
+   "mitja": [
+    {
+     "f": "A la tardor cauen les fulles.",
+     "alt": [
+      "Les fulles cauen a la tardor."
+     ]
+    },
+    {
+     "f": "El cel és ple d'estrelles."
+    },
+    {
+     "f": "A l'estiu anem a la platja.",
+     "alt": [
+      "Anem a la platja a l'estiu."
+     ]
+    },
+    {
+     "f": "La neu és blanca i freda."
+    },
+    {
+     "f": "El vent mou les branques."
+    },
+    {
+     "f": "Les abelles volen entre les flors."
+    },
+    {
+     "f": "Al bosc hi ha molts bolets.",
+     "alt": [
+      "Hi ha molts bolets al bosc."
+     ]
+    },
+    {
+     "f": "Les onades arriben a la sorra."
+    },
+    {
+     "f": "A la primavera neixen flors.",
+     "alt": [
+      "Neixen flors a la primavera."
+     ]
+    },
+    {
+     "f": "El sol s'amaga darrere la muntanya."
+    }
+   ],
+   "dificil": [
+    {
+     "f": "L'arc de Sant Martí té set colors."
+    },
+    {
+     "f": "A l'hivern els arbres es queden sense fulles.",
+     "alt": [
+      "Els arbres es queden sense fulles a l'hivern."
+     ]
+    },
+    {
+     "f": "Les estrelles brillen molt quan no hi ha núvols."
+    },
+    {
+     "f": "El riu baixa ple d'aigua després de la tempesta."
+    },
+    {
+     "f": "Amb la mare hem trobat pinyes i bolets.",
+     "alt": [
+      "Hem trobat pinyes i bolets amb la mare."
+     ]
+    },
+    {
+     "f": "A la muntanya hem trobat pinyes i bolets.",
+     "alt": [
+      "Hem trobat pinyes i bolets a la muntanya."
+     ]
+    },
+    {
+     "f": "Les gotes de pluja piquen a la finestra."
+    },
+    {
+     "f": "La lluna plena il·lumina tot el camp."
+    },
+    {
+     "f": "Al matí hi ha rosada sobre l'herba.",
+     "alt": [
+      "Hi ha rosada sobre l'herba al matí."
+     ]
+    },
+    {
+     "f": "Les orenetes tornen quan arriba la primavera."
+    },
+    {
+     "f": "Quan fa vent les fulles ballen pel carrer.",
+     "alt": [
+      "Les fulles ballen pel carrer quan fa vent."
+     ]
+    }
+   ]
+  }
+ }
+}
