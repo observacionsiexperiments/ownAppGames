@@ -7,6 +7,7 @@
   <title>La piràmide de números · Juguem?</title>
   <link rel="manifest" href="../../manifest.webmanifest">
   <link rel="icon" href="../../icons/icon-192.png">
+  <script>try{var t=JSON.parse(localStorage.getItem("appjocs.preferencies")||"{}").aparenca;if(t==="fosc"||t==="clar")document.documentElement.dataset.tema=t}catch(e){}</script>
   <link rel="stylesheet" href="../../css/styles.css">
   <style>
     /* Colors per rol (css/styles.css): verd = encert/omplert · rosa = error · groc = pista ·
@@ -25,9 +26,8 @@
     .opcions button { min-height: 64px; font-weight: 700; font-size: 1.15rem; padding: 6px; }
     .opcions button small { display: block; font-weight: 500; font-size: .85rem; color: var(--text-suau); }
     .opcions button[aria-pressed="true"], .modes-joc button[aria-pressed="true"] {
-      background: var(--c-info); border-color: var(--c-info-vora);
-    }
-    .opcions button[aria-pressed="true"] small { color: var(--text); }
+      background: var(--c-info); border-color: var(--c-info-vora); color: var(--tinta); }
+    .opcions button[aria-pressed="true"] small { color: var(--tinta); }
     @media (hover: hover) { .opcions button:hover, .modes-joc button:hover { border-color: var(--c-info-vora); } }
     .modes-joc { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
     .modes-joc button { text-align: left; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
@@ -69,14 +69,14 @@
     .mao.buit { background: var(--superficie); border: 2px dashed var(--vora); color: var(--vora); cursor: pointer; }
     /* Buit que ja es pot calcular: informació → blau puntejat */
     .mao.buit.disponible { border-color: var(--c-info-vora); color: var(--text-suau); }
-    .mao.seleccionat { background: var(--c-info); border: 3px solid var(--c-info-vora); color: var(--text); }
+    .mao.seleccionat { background: var(--c-info); border: 3px solid var(--c-info-vora); color: var(--tinta); }
     /* Omplert pel jugador: encert → verd */
-    .mao.omplert { background: var(--c-ok); border-color: var(--c-ok-vora); cursor: default; }
+    .mao.omplert { background: var(--c-ok); border-color: var(--c-ok-vora); cursor: default; color: var(--tinta); }
     .mao.nou { animation: pop .35s; }
     @keyframes pop { 50% { transform: scale(1.12); } }
     @keyframes sacseig { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
     .mao.sacseig { animation: sacseig .25s 2; }
-    @media (hover: hover) { .mao.buit.disponible:hover { background: color-mix(in srgb, var(--c-info) 35%, white); } }
+    @media (hover: hover) { .mao.buit.disponible:hover { background: color-mix(in srgb, var(--c-info) 35%, var(--superficie)); color: var(--text); } }
 
     .panell { display: flex; flex-direction: column; gap: 12px; }
     .missatge {
@@ -86,9 +86,9 @@
     }
     .missatge small { font-weight: 500; font-size: .95rem; }
     .missatge small:empty { display: none; }
-    .missatge.es-pista   { background: var(--c-pista);    border-color: var(--c-pista-vora); }
-    .missatge.es-error   { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
-    .missatge.es-guanyat { background: var(--c-ok);       border-color: var(--c-ok-vora); font-size: 1.15rem; }
+    .missatge.es-pista   { background: var(--c-pista);    border-color: var(--c-pista-vora); color: var(--tinta); }
+    .missatge.es-error   { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); color: var(--tinta); }
+    .missatge.es-guanyat { background: var(--c-ok);       border-color: var(--c-ok-vora); font-size: 1.15rem; color: var(--tinta); }
     .entrada-caixa { background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi); padding: 12px; }
     .entrada-caixa p { margin: 0 0 8px; text-align: center; font-weight: 700; }
     .regla { color: var(--text-suau); font-size: .92rem; text-align: center; margin: 0; }

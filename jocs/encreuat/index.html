@@ -7,6 +7,7 @@
   <title>Encreuat de números · Juguem?</title>
   <link rel="manifest" href="../../manifest.webmanifest">
   <link rel="icon" href="../../icons/icon-192.png">
+  <script>try{var t=JSON.parse(localStorage.getItem("appjocs.preferencies")||"{}").aparenca;if(t==="fosc"||t==="clar")document.documentElement.dataset.tema=t}catch(e){}</script>
   <link rel="stylesheet" href="../../css/styles.css">
   <style>
     /* Colors per rol: verd = operació correcta · rosa = operació incorrecta · groc = pista ·
@@ -24,8 +25,8 @@
       min-height: 56px; padding: 8px; font-weight: 700; font-size: 1.05rem;
     }
     .opcions button small { display: block; font-weight: 500; font-size: .82rem; color: var(--text-suau); margin-top: 2px; }
-    .opcions button[aria-pressed="true"] { background: var(--c-info); border-color: var(--c-info-vora); }
-    .opcions button[aria-pressed="true"] small { color: var(--text); }
+    .opcions button[aria-pressed="true"] { background: var(--c-info); border-color: var(--c-info-vora); color: var(--tinta); }
+    .opcions button[aria-pressed="true"] small { color: var(--tinta); }
     @media (hover: hover) { .opcions button:hover { border-color: var(--c-info-vora); } }
     #op-operacions button { font-size: 1.7rem; font-weight: 900; }
     @media (orientation: portrait) and (max-width: 600px), (orientation: landscape) and (max-height: 500px) {
@@ -64,12 +65,12 @@
     }
     .cel.tres { font-size: calc(var(--cel, 48px) * .38); }
     .cel.signe, .cel.igual { background: none; border-color: transparent; font-size: calc(var(--cel, 48px) * .55); }
-    .cel.forat { background: color-mix(in srgb, var(--c-info) 18%, white); border: 2px dashed var(--c-info-vora); cursor: pointer; }
+    .cel.forat { background: color-mix(in srgb, var(--c-info) 18%, var(--superficie)); border: 2px dashed var(--c-info-vora); cursor: pointer; color: var(--text); }
     .cel.forat.ple { background: var(--superficie); border-style: solid; border-color: var(--c-info-vora); }
-    .cel.forat.sel { background: var(--c-info); border-style: solid; border-color: var(--c-info-vora); }
-    .cel.be { background: var(--c-ok) !important; border: 2px solid var(--c-ok-vora) !important; cursor: default; }
-    .cel.mal { background: var(--c-esborrar) !important; border: 2px solid var(--c-esborrar-vora) !important; }
-    .cel.sobre { background: var(--c-info); }
+    .cel.forat.sel { background: var(--c-info); border-style: solid; border-color: var(--c-info-vora); color: var(--tinta); }
+    .cel.be { background: var(--c-ok) !important; border: 2px solid var(--c-ok-vora) !important; cursor: default; color: var(--tinta); }
+    .cel.mal { background: var(--c-esborrar) !important; border: 2px solid var(--c-esborrar-vora) !important; color: var(--tinta); }
+    .cel.sobre { background: var(--c-info); color: var(--tinta); }
     @keyframes sacseig { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
     .sacseig { animation: sacseig .25s 2; }
 
@@ -98,7 +99,7 @@
     .fe-finestra #cel-mini { display: block; margin: 0 0 8px; text-align: center; font-size: 1.8rem; font-weight: 900; }
     .fe-finestra #cel-mini b { color: var(--c-info-vora); }
     .botons { display: flex; justify-content: center; gap: 10px; }
-    .botons button { font: inherit; font-weight: 700; padding: 8px 14px; min-height: 44px; border-radius: 12px; cursor: pointer; color: var(--text); background: var(--c-esborrar); border: 2px solid var(--c-esborrar-vora); }
+    .botons button { font: inherit; font-weight: 700; padding: 8px 14px; min-height: 44px; border-radius: 12px; cursor: pointer; color: var(--tinta); background: var(--c-esborrar); border: 2px solid var(--c-esborrar-vora); }
 
     .missatge {
       min-height: 3.2rem; padding: 8px 12px; border-radius: var(--radi); text-align: center;
@@ -107,9 +108,9 @@
     }
     .missatge small { font-weight: 500; font-size: .92rem; }
     .missatge small:empty { display: none; }
-    .missatge.es-pista   { background: var(--c-pista);    border-color: var(--c-pista-vora); }
-    .missatge.es-error   { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
-    .missatge.es-guanyat { background: var(--c-ok);       border-color: var(--c-ok-vora); }
+    .missatge.es-pista   { background: var(--c-pista);    border-color: var(--c-pista-vora); color: var(--tinta); }
+    .missatge.es-error   { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); color: var(--tinta); }
+    .missatge.es-guanyat { background: var(--c-ok);       border-color: var(--c-ok-vora); color: var(--tinta); }
 
     @media (orientation: landscape) and (max-height: 820px) {
       .cap-joc { margin: 0 0 8px; }

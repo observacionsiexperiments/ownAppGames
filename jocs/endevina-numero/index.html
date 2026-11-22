@@ -7,6 +7,7 @@
   <title>Endevina el número · Juguem?</title>
   <link rel="manifest" href="../../manifest.webmanifest">
   <link rel="icon" href="../../icons/icon-192.png">
+  <script>try{var t=JSON.parse(localStorage.getItem("appjocs.preferencies")||"{}").aparenca;if(t==="fosc"||t==="clar")document.documentElement.dataset.tema=t}catch(e){}</script>
   <link rel="stylesheet" href="../../css/styles.css">
   <style>
     /* Colors per rol (definits a css/styles.css):
@@ -24,17 +25,16 @@
     }
     .pista .extra { font-size: .95rem; font-weight: 500; }
     .pista .extra:empty { display: none; }
-    .pista.es-pista   { background: var(--c-pista);     border-color: var(--c-pista-vora); }
-    .pista.es-error   { background: var(--c-esborrar);  border-color: var(--c-esborrar-vora); }
-    .pista.es-guanyat { background: var(--c-ok);        border-color: var(--c-ok-vora); font-size: 1.5rem; }
+    .pista.es-pista   { background: var(--c-pista);     border-color: var(--c-pista-vora); color: var(--tinta); }
+    .pista.es-error   { background: var(--c-esborrar);  border-color: var(--c-esborrar-vora); color: var(--tinta); }
+    .pista.es-guanyat { background: var(--c-ok);        border-color: var(--c-ok-vora); font-size: 1.5rem; color: var(--tinta); }
 
     /* Historial: informació → blau */
     .estat { display: flex; justify-content: space-between; color: var(--text-suau); font-size: .95rem; margin: 12px 4px; }
     .historial { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
     .historial li {
-      padding: 4px 10px; border-radius: 999px; background: var(--c-info); font-weight: 600; font-variant-numeric: tabular-nums;
-    }
-    .historial li.encert { background: var(--c-ok); }
+      padding: 4px 10px; border-radius: 999px; background: var(--c-info); font-weight: 600; font-variant-numeric: tabular-nums; color: var(--tinta); }
+    .historial li.encert { background: var(--c-ok); color: var(--tinta); }
     .accions { text-align: center; margin-top: 24px; }
 
     @keyframes sacseig { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
@@ -62,8 +62,8 @@
     .pista .dit { font-size: clamp(1rem, 2vw, 1.25rem); font-weight: 600; opacity: .8; }
     .pista .dit:empty { display: none; }
     #pista-text { font-size: clamp(1.7rem, 3.8vw, 2.6rem); font-weight: 800; line-height: 1.15; flex: 1; display: grid; place-items: center; }
-    .pista.es-pista   { background: var(--c-pista); border-color: var(--c-pista-vora); }
-    .pista.es-guanyat { background: var(--c-ok);    border-color: var(--c-ok-vora); }
+    .pista.es-pista   { background: var(--c-pista); border-color: var(--c-pista-vora); color: var(--tinta); }
+    .pista.es-guanyat { background: var(--c-ok);    border-color: var(--c-ok-vora); color: var(--tinta); }
     .ja-saps { text-align: left; border-top: 2px dashed var(--c-pista-vora); padding-top: 8px; }
     .ja-saps[hidden], .estat[hidden] { display: none; }
     .ja-saps b { font-size: 1rem; }
@@ -79,8 +79,8 @@
     }
     .missatge small { display: block; font-size: .8em; font-weight: 600; margin-top: 4px; }
     .missatge small:empty { display: none; }
-    .missatge.es-error   { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
-    .missatge.es-guanyat { background: var(--c-ok);       border-color: var(--c-ok-vora); }
+    .missatge.es-error   { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); color: var(--tinta); }
+    .missatge.es-guanyat { background: var(--c-ok);       border-color: var(--c-ok-vora); color: var(--tinta); }
     .estat { margin: 0 2px; font-size: 1.1rem; }
     .historial li { font-size: 1.15rem; padding: 6px 14px; }
     .historial:empty { display: none; }

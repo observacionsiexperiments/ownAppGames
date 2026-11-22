@@ -7,6 +7,7 @@
   <title>Paraules en família · Juguem?</title>
   <link rel="manifest" href="../../manifest.webmanifest">
   <link rel="icon" href="../../icons/icon-192.png">
+  <script>try{var t=JSON.parse(localStorage.getItem("appjocs.preferencies")||"{}").aparenca;if(t==="fosc"||t==="clar")document.documentElement.dataset.tema=t}catch(e){}</script>
   <link rel="stylesheet" href="../../css/styles.css">
   <style>
     /* Colors per rol (css/styles.css): verd = encert · rosa = error · groc = pista / temps que s'acaba ·
@@ -24,8 +25,8 @@
       min-height: 56px; padding: 8px; font-weight: 700; font-size: 1.05rem;
     }
     .opcions button small { display: block; font-weight: 500; font-size: .82rem; color: var(--text-suau); margin-top: 2px; }
-    .opcions button[aria-pressed="true"] { background: var(--c-info); border-color: var(--c-info-vora); }
-    .opcions button[aria-pressed="true"] small { color: var(--text); }
+    .opcions button[aria-pressed="true"] { background: var(--c-info); border-color: var(--c-info-vora); color: var(--tinta); }
+    .opcions button[aria-pressed="true"] small { color: var(--tinta); }
     @media (hover: hover) { .opcions button:hover { border-color: var(--c-info-vora); } }
     .comencar { text-align: center; margin: 20px 0 8px; }
     .comencar .btn { font-size: 1.3rem; padding: 14px 40px; }
@@ -37,20 +38,20 @@
     .dada b { font-variant-numeric: tabular-nums; }
     .progres { display: inline-flex; gap: 4px; vertical-align: middle; margin-left: 4px; }
     .progres i { width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--vora); background: var(--superficie); }
-    .progres i.be { background: var(--c-ok); border-color: var(--c-ok-vora); }
-    .progres i.ajuda { background: var(--c-pista); border-color: var(--c-pista-vora); }
-    .progres i.malament { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .progres i.be { background: var(--c-ok); border-color: var(--c-ok-vora); color: var(--tinta); }
+    .progres i.ajuda { background: var(--c-pista); border-color: var(--c-pista-vora); color: var(--tinta); }
+    .progres i.malament { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); color: var(--tinta); }
     .progres i.fet { background: var(--vora); }
-    .progres i.ara { background: var(--c-info); border-color: var(--c-info-vora); }
+    .progres i.ara { background: var(--c-info); border-color: var(--c-info-vora); color: var(--tinta); }
 
     .tauler { background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi); padding: 16px 20px;
       display: flex; flex-direction: column; gap: 12px; --pz: clamp(1rem, 1.9vw, 1.25rem); }
     .enunciat { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; text-align: center; margin: 0;
       font-size: clamp(1.05rem, 2.1vw, 1.25rem); font-weight: 700; }
     .retol { font-family: "Avenir Next", "Avenir", "Helvetica Neue", Arial, system-ui, sans-serif; font-weight: 900; font-size: 1.5em;
-      padding: .05em .45em; border-radius: 12px; background: var(--c-info); border: 3px solid var(--c-info-vora); }
+      padding: .05em .45em; border-radius: 12px; background: var(--c-info); border: 3px solid var(--c-info-vora); color: var(--tinta); }
     .temps { height: 12px; border-radius: 999px; background: var(--fons); border: 1px solid var(--vora); overflow: hidden; }
-    .temps i { display: block; height: 100%; width: 100%; background: color-mix(in srgb, var(--text-suau) 45%, white); border-radius: 999px; transform-origin: left; }
+    .temps i { display: block; height: 100%; width: 100%; background: color-mix(in srgb, var(--text-suau) 45%, var(--superficie)); border-radius: 999px; transform-origin: left; }
     .temps.poc i { background: var(--c-pista-vora); }
     #zona { display: flex; flex-direction: column; gap: 12px; }
     #zona > .contingut { display: flex; flex-direction: column; gap: 12px; }
@@ -59,12 +60,12 @@
     .fitxa { font: inherit; font-family: "Avenir Next", "Avenir", "Helvetica Neue", Arial, system-ui, sans-serif; font-weight: 800;
       font-size: var(--pz); color: var(--text); letter-spacing: .02em; cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none;
       display: inline-flex; align-items: center; gap: .35em; padding: .3em .7em; border-radius: 12px;
-      background: var(--superficie); border: 3px solid color-mix(in srgb, var(--text-suau) 45%, white); box-shadow: 0 3px 0 rgba(59, 51, 85, .1); }
+      background: var(--superficie); border: 3px solid color-mix(in srgb, var(--text-suau) 45%, var(--superficie)); box-shadow: 0 3px 0 rgba(59, 51, 85, .1); }
     .fitxa .em { font-size: 1.35em; line-height: 1; }
-    .fitxa.triada { background: var(--c-info); border-color: var(--c-info-vora); }
+    .fitxa.triada { background: var(--c-info); border-color: var(--c-info-vora); color: var(--tinta); }
     .fitxa.fantasma { position: fixed; z-index: 100; pointer-events: none; opacity: .92; transform: rotate(-3deg); margin: 0; }
     .fitxa.arrossegant { opacity: .3; }
-    .fitxa.mal { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+    .fitxa.mal { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); color: var(--tinta); }
     .fitxa:disabled { cursor: default; }
     .fitxa.estatica { cursor: default; }
     @media (hover: hover) { .fitxa:not(:disabled):not(.estatica):hover { border-color: var(--c-info-vora); } }
@@ -76,15 +77,15 @@
 
     /* Capses (camps lèxics) */
     .capses { display: grid; gap: 10px; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); }
-    .capsa { border: 3px dashed var(--c-info-vora); border-radius: 16px; background: color-mix(in srgb, var(--c-info) 18%, white);
-      padding: 6px; min-height: 5.2em; display: flex; flex-direction: column; gap: 6px; cursor: pointer; }
+    .capsa { border: 3px dashed var(--c-info-vora); border-radius: 16px; background: color-mix(in srgb, var(--c-info) 18%, var(--superficie));
+      padding: 6px; min-height: 5.2em; display: flex; flex-direction: column; gap: 6px; cursor: pointer; color: var(--text); }
     .capsa h3 { margin: 0; text-align: center; font-size: calc(var(--pz) * .82); letter-spacing: .03em; overflow-wrap: normal; word-break: keep-all; }
     .capsa .dins { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; }
     .capsa .dins .fitxa { pointer-events: none; font-size: calc(var(--pz) * .72); padding: .15em .45em; border-width: 2px; box-shadow: none; cursor: default;
-      background: var(--c-ok); border-color: var(--c-ok-vora); }
-    .capsa .dins .fitxa.dita { background: var(--c-pista); border-color: var(--c-pista-vora); }
-    .capsa.sobre { background: var(--c-info); }
-    .capsa.pista { border-style: solid; border-color: var(--c-pista-vora); background: var(--c-pista); }
+      background: var(--c-ok); border-color: var(--c-ok-vora); color: var(--tinta); }
+    .capsa .dins .fitxa.dita { background: var(--c-pista); border-color: var(--c-pista-vora); color: var(--tinta); }
+    .capsa.sobre { background: var(--c-info); color: var(--tinta); }
+    .capsa.pista { border-style: solid; border-color: var(--c-pista-vora); background: var(--c-pista); color: var(--tinta); }
     .capsa.fora { border-color: color-mix(in srgb, var(--text-suau) 50%, white); background: var(--fons); }
 
     /* Endevina el tema */
@@ -93,16 +94,16 @@
     .op-tema { font: inherit; cursor: pointer; color: var(--text); font-weight: 800; font-size: calc(var(--pz) * .95);
       background: var(--superficie); border: 3px solid var(--vora); border-radius: 14px; box-shadow: var(--ombra); padding: .6em .5em; letter-spacing: .02em; }
     .op-tema:disabled { cursor: default; }
-    .op-tema.be { background: var(--c-ok); border-color: var(--c-ok-vora); }
-    .op-tema.mal { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
-    .op-tema.dita { background: var(--c-pista); border-color: var(--c-pista-vora); }
+    .op-tema.be { background: var(--c-ok); border-color: var(--c-ok-vora); color: var(--tinta); }
+    .op-tema.mal { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); color: var(--tinta); }
+    .op-tema.dita { background: var(--c-pista); border-color: var(--c-pista-vora); color: var(--tinta); }
     @media (hover: hover) { .op-tema:not(:disabled):hover { border-color: var(--c-info-vora); } }
 
     /* Famílies: núvol de paraules */
     .nuvol { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 12px; padding: 4px; }
     .nuvol .fitxa { cursor: pointer; }
-    .nuvol .fitxa.be { background: var(--c-ok); border-color: var(--c-ok-vora); }
-    .nuvol .fitxa.dita { background: var(--c-pista); border-color: var(--c-pista-vora); }
+    .nuvol .fitxa.be { background: var(--c-ok); border-color: var(--c-ok-vora); color: var(--tinta); }
+    .nuvol .fitxa.dita { background: var(--c-pista); border-color: var(--c-pista-vora); color: var(--tinta); }
     .nuvol .fitxa.indicada { border-color: var(--c-pista-vora); border-style: dashed; }
     .nuvol .fitxa.apagada { opacity: .45; }
 
@@ -111,12 +112,12 @@
       border: 2px solid var(--vora); font-weight: 700; font-size: 1.08rem; display: flex; flex-direction: column; justify-content: center; gap: 2px; }
     .missatge small { font-weight: 500; font-size: .95rem; }
     .missatge small:empty { display: none; }
-    .missatge.es-pista { background: var(--c-pista); border-color: var(--c-pista-vora); }
-    .missatge.es-error { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
-    .missatge.es-guanyat { background: var(--c-ok); border-color: var(--c-ok-vora); }
+    .missatge.es-pista { background: var(--c-pista); border-color: var(--c-pista-vora); color: var(--tinta); }
+    .missatge.es-error { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); color: var(--tinta); }
+    .missatge.es-guanyat { background: var(--c-ok); border-color: var(--c-ok-vora); color: var(--tinta); }
     .botons-peu { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
-    .btn-pista { background: var(--c-pista); border-color: var(--c-pista-vora); }
-    .btn-ok { background: var(--c-ok); border-color: var(--c-ok-vora); }
+    .btn-pista { background: var(--c-pista); border-color: var(--c-pista-vora); color: var(--tinta); }
+    .btn-ok { background: var(--c-ok); border-color: var(--c-ok-vora); color: var(--tinta); }
     @keyframes sacseig { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
     .sacseig { animation: sacseig .25s 2; }
 

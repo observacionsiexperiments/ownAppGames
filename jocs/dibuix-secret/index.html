@@ -7,6 +7,7 @@
   <title>Dibuix secret · Juguem?</title>
   <link rel="manifest" href="../../manifest.webmanifest">
   <link rel="icon" href="../../icons/icon-192.png">
+  <script>try{var t=JSON.parse(localStorage.getItem("appjocs.preferencies")||"{}").aparenca;if(t==="fosc"||t==="clar")document.documentElement.dataset.tema=t}catch(e){}</script>
   <link rel="stylesheet" href="../../css/styles.css">
   <style>
     /* Colors per rol: rosa = casella equivocada · groc = pista · blau = opció triada · verd = acabat.
@@ -24,8 +25,8 @@
       min-height: 60px; padding: 8px; font-weight: 700; font-size: 1.1rem;
     }
     .opcions button small { display: block; font-weight: 500; font-size: .85rem; color: var(--text-suau); margin-top: 2px; }
-    .opcions button[aria-pressed="true"] { background: var(--c-info); border-color: var(--c-info-vora); }
-    .opcions button[aria-pressed="true"] small { color: var(--text); }
+    .opcions button[aria-pressed="true"] { background: var(--c-info); border-color: var(--c-info-vora); color: var(--tinta); }
+    .opcions button[aria-pressed="true"] small { color: var(--tinta); }
     @media (hover: hover) { .opcions button:hover { border-color: var(--c-info-vora); } }
     @media (orientation: landscape) and (max-height: 500px) { main .inici .explica { display: none; } }
     .explica { color: var(--text-suau); text-align: center; margin: 14px 0 0; }
@@ -57,8 +58,8 @@
     }
     .q.pintat { color: rgba(255, 255, 255, .9); border-color: transparent; }
     .q.fosc { color: rgba(59, 51, 85, .75); }
-    .q.mal { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
-    .q.ensenya { background: var(--c-pista); border: 2px solid var(--c-pista-vora); animation: avisa .6s 3; }
+    .q.mal { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); color: var(--tinta); }
+    .q.ensenya { background: var(--c-pista); border: 2px solid var(--c-pista-vora); animation: avisa .6s 3; color: var(--tinta); }
     @keyframes avisa { 50% { transform: scale(1.2); } }
     .acabat .q { cursor: default; }
     .acabat .q:not(.pintat) { color: transparent; border-color: transparent; background: transparent; }
@@ -86,9 +87,9 @@
     }
     .missatge small { font-weight: 500; font-size: .92rem; }
     .missatge small:empty { display: none; }
-    .missatge.es-pista   { background: var(--c-pista);    border-color: var(--c-pista-vora); }
-    .missatge.es-error   { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
-    .missatge.es-guanyat { background: var(--c-ok);       border-color: var(--c-ok-vora); }
+    .missatge.es-pista   { background: var(--c-pista);    border-color: var(--c-pista-vora); color: var(--tinta); }
+    .missatge.es-error   { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); color: var(--tinta); }
+    .missatge.es-guanyat { background: var(--c-ok);       border-color: var(--c-ok-vora); color: var(--tinta); }
 
     /* Lupa (caselles petites, mòbil): mentre el dit és a sobre, es veuen les caselles del voltant en gran */
     .lupa {

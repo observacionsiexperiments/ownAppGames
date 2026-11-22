@@ -45,6 +45,14 @@ Les guarda `js/preferencies.js` al dispositiu (`localStorage`, clau `appjocs.pre
 - **Nom:** surt en algunes felicitacions («Molt bé, Anna!») i a la celebració final.
 - **Temporitzador Sí/No:** amb «No», els jocs amaguen l'opció de temps i es juga sense temps.
 - **Comptar errors i intents Sí/No:** amb «No», no hi ha comptadors, rècords ni estrelles; els errors continuen sortint en rosa.
+- **Aparença Automàtic/Clar/Fosc (v0.42.0):** `Preferencies.aparenca()` i `Preferencies.aplicarAparenca()`. «Clar» i «Fosc» es posen a `<html data-tema="…">`; «Automàtic» no posa res i mana el dispositiu (`prefers-color-scheme`). Cada pàgina té, al `<head>` abans del CSS, un script d'una línia que llegeix la preferència i posa `data-tema` de seguida (perquè no parpellegi en clar).
+
+### Mode fosc: com està fet
+
+- Les variables de `css/styles.css` canvien en fosc: `--fons`, `--superficie`, `--vora`, `--text`, `--text-suau`, `--ombra`. Els cinc colors de la paleta **no** canvien.
+- **`--tinta`** és el text que va sobre els colors pastel: sempre fosc (#3B3355). Tota regla que pinta un fons amb un color de la paleta (o un `color-mix` de més del 45 %) ha de dur `color: var(--tinta)`; si no, en fosc el text sortiria clar sobre el pastel.
+- Els tints suaus (`color-mix(in srgb, var(--c-…) 25%, var(--superficie))`) es barregen amb la superfície, no amb `white`: en clar queden igual i en fosc queden foscos (text normal, `var(--text)`).
+- No escriure colors a mà (`white`, `#fff`…) als jocs: fer servir sempre les variables.
 
 ## Coses comunes a tots els jocs
 

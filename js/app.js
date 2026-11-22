@@ -1,5 +1,5 @@
 // Llançadora: llegeix jocs/jocs.json i pinta una targeta per joc.
-const VERSIO_APP = '0.41.0';
+const VERSIO_APP = '0.42.0';
 
 // Categories dels jocs (camp "categories" de jocs.json)
 const CATEGORIES = { xifres: '🔢 Xifres', lletres: '🔤 Lletres' };
@@ -174,12 +174,13 @@ function pintarSalutacio() {
   document.getElementById('subtitol').textContent = nom ? `Hola, ${nom}! Tria un minijoc per començar` : 'Tria un minijoc per començar';
 }
 function pintarSiNo() {
-  finestraOp.querySelectorAll('.op-sino').forEach(g => g.querySelectorAll('button').forEach(b =>
+  finestraOp.querySelectorAll('.op-sino[data-clau]').forEach(g => g.querySelectorAll('button').forEach(b =>
     b.setAttribute('aria-pressed', (b.dataset.v === 'si') === triaOp[g.dataset.clau])));
+  document.querySelectorAll('#op-aparenca button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === triaOp.aparenca));
 }
 function obrirOpcions() {
   const p = Preferencies.llegir();
-  triaOp = { temps: p.temps !== false, errors: p.errors !== false };
+  triaOp = { temps: p.temps !== false, errors: p.errors !== false, aparenca: Preferencies.aparenca() };
   document.getElementById('op-nom').value = p.nom || '';
   pintarSiNo();
   finestraOp.hidden = false;
@@ -187,6 +188,7 @@ function obrirOpcions() {
   setTimeout(() => document.getElementById('op-nom').focus(), 50);
 }
 function tancarOpcions() {
+  Preferencies.aplicarAparenca();   // si s'ha cancel·lat, torna a l'aparença desada
   finestraOp.hidden = true;
   document.documentElement.classList.remove('fe-oberta');
   document.getElementById('btn-opcions').focus();
@@ -195,10 +197,15 @@ document.getElementById('btn-opcions').addEventListener('click', obrirOpcions);
 document.getElementById('op-cancela').addEventListener('click', tancarOpcions);
 finestraOp.addEventListener('click', e => { if (e.target === finestraOp) tancarOpcions(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !finestraOp.hidden) tancarOpcions(); });
-finestraOp.querySelectorAll('.op-sino').forEach(g => g.addEventListener('click', e => {
+finestraOp.querySelectorAll('.op-sino[data-clau]').forEach(g => g.addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
   triaOp[g.dataset.clau] = b.dataset.v === 'si'; pintarSiNo();
 }));
+// Aparença: es veu de seguida (si es cancel·la, es desfà)
+document.getElementById('op-aparenca').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  triaOp.aparenca = b.dataset.v; pintarSiNo(); Preferencies.aplicarAparenca(triaOp.aparenca);
+});
 document.getElementById('form-opcions').addEventListener('submit', e => {
   e.preventDefault();
   Preferencies.desar({ nom: document.getElementById('op-nom').value, ...triaOp });
