@@ -213,6 +213,17 @@
       /* Mitjà amb 3 o 4 paraules: les files en dues columnes, perquè hi càpiguen sense lliscar */
       .files:has(.fila:nth-child(3)) { display: grid; grid-template-columns: repeat(2, auto); justify-content: center; column-gap: clamp(24px, 4vw, 60px); }
     }
+    /* Tauleta en vertical: la lletra i les peces es calculen també per l'alçada (n'hi ha molta) */
+    @media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) {
+      .tauler { --pz: clamp(1.2rem, min(4.4vw, 3.3vh), 2.3rem); }
+    }
+    /* Mòbil vertical (criteri «ple»): la zona de joc omple l'alçada i les peces creixen amb la pantalla */
+    @media (orientation: portrait) and (max-width: 600px) {
+      .tauler { --pz: clamp(.95rem, min(5.2vw, 2.8vh), 1.5rem); }
+      #zona { flex: 1 1 auto; min-height: 0; justify-content: center; gap: clamp(10px, 2.6vh, 26px); }
+      .vis-img { max-height: clamp(70px, 24vh, 220px); }
+      .vis-op { min-height: clamp(44px, 7vh, 70px); }
+    }
   </style>
 </head>
 <body>
@@ -271,7 +282,7 @@
         <div id="zona"></div>
         <div class="peu franja">
           <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
-          <div class="botons-peu"><button class="btn btn-pista" id="btn-pista" type="button">💡 Vull una pista</button></div>
+          <div class="botons-peu"><button class="btn btn-pista" id="btn-pista" type="button">💡 <span class="txt-llarg">Vull una pista</span><span class="txt-curt">Pista</span></button></div>
         </div>
       </div>
     </section>

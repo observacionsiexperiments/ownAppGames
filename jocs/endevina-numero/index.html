@@ -127,6 +127,19 @@
     @media (orientation: portrait) and (min-width: 601px) {
       .joc { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); grid-template-areas: "missatges form" "pista form"; column-gap: 16px; max-width: 900px; }
     }
+    /* Tauleta en vertical (criteri comú de pantalla): omple l'alçada, teclat i lletra més grans */
+    @media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) {
+      .joc { align-content: stretch; align-items: stretch; max-width: 1000px; grid-template-rows: auto minmax(0, 1fr); row-gap: 16px; }
+      .pista { justify-content: center; }
+      #pista-text { font-size: clamp(1.8rem, 5vw, 3.2rem); }
+      .pista .dit { font-size: clamp(1.05rem, 2.6vw, 1.4rem); }
+      .ja-saps ul { font-size: clamp(1rem, 2.4vw, 1.3rem); }
+      .missatge { font-size: clamp(1.15rem, 2.8vw, 1.5rem); }
+      .historial li { font-size: clamp(1rem, 2.4vw, 1.3rem); }
+      .zona-entrada { align-self: center; }
+      .en-gran .en-caixa { font-size: clamp(3rem, 7vh, 5.5rem); }
+      .en-gran .en-teclat button { min-height: clamp(60px, 8vh, 100px); font-size: clamp(1.6rem, 3.6vh, 2.6rem); }
+    }
     /* Tauleta i portàtil en horitzontal (criteri comú de pantalla): el joc omple la pantalla i tot creix amb l'espai */
     @media (orientation: landscape) and (min-width: 601px) and (min-height: 501px) {
       .joc { max-width: 1400px; align-content: stretch; align-items: stretch; column-gap: clamp(20px, 3vw, 40px);
@@ -141,6 +154,12 @@
       .zona-entrada { align-self: center; }
       .en-gran .en-caixa { font-size: clamp(3rem, 9vh, 6rem); }
       .en-gran .en-teclat button { min-height: clamp(54px, 9vh, 96px); font-size: clamp(1.6rem, 4vh, 2.6rem); }
+    }
+    /* Mòbil vertical (criteri «ple»): el joc omple l'alçada i les peces creixen amb la pantalla */
+    @media (orientation: portrait) and (max-width: 600px) {
+      .joc { align-content: stretch; grid-template-rows: auto minmax(0, 1fr) auto; }
+      .pista { justify-content: center; }
+      #pista-text { font-size: clamp(1.4rem, 7vw, 2.2rem); }
     }
   </style>
 </head>

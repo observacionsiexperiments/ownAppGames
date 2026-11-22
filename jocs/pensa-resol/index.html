@@ -278,6 +278,17 @@
       .piramide { --mao: clamp(56px, 13vw, 120px); }
       .monedes { --m: clamp(44px, 9vw, 90px); }
     }
+    /* Tauleta en vertical: la lletra i les peces es calculen també per l'alçada (n'hi ha molta) */
+    @media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) {
+      .enunciat .text { font-size: clamp(1.3rem, 3.6vw, 2.2rem); }
+      .opcio { font-size: clamp(1.8rem, 5.6vw, 3.2rem); }
+    }
+    /* Mòbil vertical (criteri «ple»): la zona de joc omple l'alçada i les peces creixen amb la pantalla */
+    @media (orientation: portrait) and (max-width: 600px) {
+      .tauler { align-content: space-between; }
+      .enunciat .text { font-size: clamp(1.05rem, 5vw, 1.4rem); }
+      .opcio { font-size: clamp(1.5rem, 8vw, 2.4rem); min-height: clamp(56px, 9vh, 100px); }
+    }
   </style>
 </head>
 <body>
@@ -352,7 +363,7 @@
         <div class="peu franja">
           <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
           <div class="botons-peu">
-            <button class="btn btn-pista" id="btn-pista" type="button">💡 Vull una pista</button>
+            <button class="btn btn-pista" id="btn-pista" type="button">💡 <span class="txt-llarg">Vull una pista</span><span class="txt-curt">Pista</span></button>
             <button class="btn" id="btn-seguent" type="button" hidden>Següent ▶</button>
           </div>
         </div>

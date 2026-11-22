@@ -173,6 +173,17 @@
       .cartes { --carta: clamp(70px, 19vw, 190px); }
       .escriure .cartes { --carta: clamp(60px, 15vw, 150px); }
     }
+    /* Tauleta en vertical: la lletra i les peces es calculen també per l'alçada (n'hi ha molta) */
+    @media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) {
+      .opcio { font-size: clamp(2rem, 7vw, 3.6rem); min-height: clamp(80px, 11vh, 140px); }
+    }
+    /* Mòbil vertical (criteri «ple»): el joc omple l'alçada i les peces creixen amb la pantalla */
+    @media (orientation: portrait) and (max-width: 600px) {
+      .tauler { grid-template-rows: minmax(0, 1fr) auto auto; align-content: stretch; }
+      .tauler.escriure { grid-template-rows: minmax(0, 1fr) auto auto; }
+      .cartes { --carta: clamp(52px, 19vw, 92px); align-self: center; }
+      .opcio { font-size: clamp(1.5rem, 8vw, 2.4rem); min-height: clamp(56px, 10vh, 96px); }
+    }
   </style>
 </head>
 <body>

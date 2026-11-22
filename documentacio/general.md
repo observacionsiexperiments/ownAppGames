@@ -75,6 +75,9 @@ Des de la v0.40.0 **tots els jocs** segueixen el criteri. Detalls que cal saber 
 - Jocs amb tauler (L'arbre, La piràmide, El quadre numèric, Dibuix secret, Encreuat de números, Endevina el número): el teclat o les fitxes van al costat en horitzontal, perquè el tauler és més alt que ample o quadrat.
 - Pantalla d'opcions: els grups (`.grup`) es reparteixen l'alçada i els botons creixen fins a un límit (regles comunes `main.joc.ple .inici …`).
 - Missatges: ja no repeteixen el comptador («Frase 3 de 10», «Paraula 1 de 10», «Pregunta 1 de 10», «Número 1 de 5»…).
+- **Mòbil vertical (v0.41.0):** també segueix el criteri. El joc comença sota la capçalera i omple l'alçada; a la franja de sota, el missatge a l'esquerra i els botons a la dreta, en una sola línia. El botó de pista té dos textos (`<span class="txt-llarg">Vull una pista</span><span class="txt-curt">Pista</span>`): al mòbil vertical només es veu el curt. Cada joc té al final un bloc `@media (orientation: portrait) and (max-width: 600px)` amb les mides. El mòbil apaïsat continua amb el panell al costat.
+- **Tauleta vertical:** cada joc pot tenir un bloc `@media (orientation: portrait) and (min-width: 601px) and (min-height: 501px)` on la lletra es calcula també per l'alçada.
+- **Mesures de JS:** mentre `Pantalla.dalt/sota` mesuren, la classe `sense-centrar` desactiva el creixement (`flex-grow: 0`) dins de `main.joc.ple`; si no, el tauler estirat fa que el càlcul de «què hi ha a sota» sigui circular i surti diminut.
 
 ## Afegir un joc nou
 

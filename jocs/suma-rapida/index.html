@@ -205,6 +205,13 @@
       .objectiu { font-size: clamp(3.5rem, 9vh, 7rem); margin: 0; }
       .fitxa { font-size: clamp(2rem, 8vw, 4rem); }
     }
+    /* Mòbil vertical (criteri «ple»): el joc omple l'alçada i les peces creixen amb la pantalla */
+    @media (orientation: portrait) and (max-width: 600px) {
+      .disposicio { flex: 1 1 auto; min-height: 0; grid-template-rows: auto minmax(0, 1fr) auto; align-items: stretch; }
+      .zona-fitxes { display: flex; }
+      .fitxes { flex: 1 1 auto; grid-auto-rows: 1fr; }
+      .fitxa { min-height: 0; font-size: clamp(1.6rem, min(9vw, 5vh), 2.6rem); }
+    }
   </style>
 </head>
 <body>

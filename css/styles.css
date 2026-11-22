@@ -434,6 +434,9 @@ main.inici-app { display: flex; flex-direction: column; max-width: 1300px; paddi
    :where() → especificitat 0, perquè cada joc pugui fer servir la seva pròpia disposició (p. ex. graella). */
 :where(body > main.joc) { flex: 1 0 auto; display: flex; flex-direction: column; justify-content: center; padding-bottom: 8px; }
 :where(html.sense-centrar body > main.joc) { justify-content: flex-start; }
+/* Mentre es mesura (Pantalla.dalt/sota), res no s'estira: si no, en el criteri «ple» el tauler ocupa tot l'espai
+   i el càlcul de «què hi ha a sota» es torna circular (el tauler surt diminut) */
+html.sense-centrar main.joc.ple * { flex-grow: 0 !important; }
 :where(body > main.joc > *) { width: 100%; }   /* amb margin:auto, en flex no s'estirarien */
 
 /* ─── Criteri comú de pantalla (v0.39.0) ───
@@ -464,6 +467,32 @@ main.inici-app { display: flex; flex-direction: column; max-width: 1300px; paddi
   main.joc.ple .inici .explica { font-size: clamp(.95rem, 2.2vh, 1.2rem); }
   main.joc.ple .inici .comencar { margin: clamp(14px, 3vh, 32px) 0 8px; }
   main.joc.ple .inici .comencar .btn { font-size: clamp(1.25rem, 3vh, 1.6rem); }
+}
+/* Mòbil vertical (v0.41.0): el mateix criteri «ple». El joc comença sota la capçalera i omple l'alçada;
+   a la franja de sota, el missatge a l'esquerra i els botons (curts: «💡 Pista») a la dreta, en una sola línia.
+   El mòbil apaïsat es queda amb el panell al costat. */
+.btn-pista .txt-curt { display: none; }
+@media (orientation: portrait) and (max-width: 600px) {
+  body > main.joc.ple { justify-content: flex-start; padding-bottom: 8px; }
+  main.joc.ple > section:not([hidden]):not(.inici) { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; }
+  main.joc.ple .tauler { flex: 1 1 auto; min-height: 0; }
+  main.joc.ple .franja { display: flex; flex-direction: row; align-items: stretch; gap: 8px; }
+  main.joc.ple .franja > .missatge { flex: 1 1 auto; min-width: 0; }
+  main.joc.ple .franja > .botons-peu { flex: none; flex-direction: column; flex-wrap: nowrap; justify-content: center; align-items: stretch; gap: 6px; }
+  main.joc.ple .franja .btn { white-space: nowrap; padding: 8px 12px; }
+  main.joc.ple .btn-pista .txt-llarg { display: none; }
+  main.joc.ple .btn-pista .txt-curt { display: inline; }
+}
+/* Pantalla d'opcions en mòbils alts: els grups es reparteixen l'alçada (en els baixos no hi ha lloc de sobres) */
+@media (orientation: portrait) and (max-width: 600px) and (min-height: 700px) {
+  main.joc.ple > .inici:not([hidden]) { flex: 1 1 auto; display: flex; flex-direction: column; }
+  main.joc.ple .inici > .grup { flex: 1 1 0; display: flex; flex-direction: column; min-height: min-content; max-height: 120px; }
+  main.joc.ple .inici > .grup > .opcions { flex: 1 1 auto; }
+}
+/* Tauleta en vertical: hi ha molta alçada, els grups d'opcions poden créixer més */
+@media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) {
+  main.joc.ple .inici > .grup { max-height: 230px; }
+  main.joc.ple .inici .opcions button { font-size: clamp(1.1rem, 3.2vw, 1.6rem); }
 }
 
 /* ─── Criteri comú: pregunta i respostes (v0.39.1) ───

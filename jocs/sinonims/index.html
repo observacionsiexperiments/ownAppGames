@@ -202,6 +202,19 @@
       .opcio { font-size: clamp(1.2rem, min(2.6vw, 4.2vh), 2.2rem); min-height: clamp(64px, 15vh, 140px); }
       .relaciona { max-width: 1150px; }
     }
+    /* Tauleta en vertical: la lletra i les peces es calculen també per l'alçada (n'hi ha molta) */
+    @media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) {
+      .paraula-gran span { font-size: clamp(2.6rem, 10vw, 6rem); }
+      .opcio { font-size: clamp(1.3rem, 4.4vw, 2.2rem); min-height: clamp(70px, 11vh, 140px); }
+      .opcions-joc { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    /* Mòbil vertical (criteri «ple»): la zona de joc omple l'alçada i les peces creixen amb la pantalla */
+    @media (orientation: portrait) and (max-width: 600px) {
+      #zona { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; justify-content: center; }
+      .paraula-gran { margin: 0 0 clamp(12px, 3vh, 30px); }
+      .paraula-gran span { font-size: clamp(2rem, 11vw, 3.4rem); }
+      .opcio { font-size: clamp(1.05rem, 5vw, 1.5rem); min-height: clamp(52px, 9vh, 90px); }
+    }
   </style>
 </head>
 <body>
@@ -275,7 +288,7 @@
         <div class="peu franja">
           <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
           <div class="botons-peu">
-            <button class="btn btn-pista" id="btn-pista" type="button">💡 Vull una pista</button>
+            <button class="btn btn-pista" id="btn-pista" type="button">💡 <span class="txt-llarg">Vull una pista</span><span class="txt-curt">Pista</span></button>
             <button class="btn btn-ok" id="btn-comprova" type="button" hidden>Comprova ✓</button>
           </div>
         </div>

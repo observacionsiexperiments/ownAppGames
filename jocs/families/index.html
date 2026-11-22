@@ -206,6 +206,21 @@
       .capsa { min-height: 2.8em; }
       .retol { font-size: 1.25em; }
     }
+    /* Tauleta en vertical: la lletra i les peces es calculen també per l'alçada (n'hi ha molta) */
+    @media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) {
+      .tauler { --pz: clamp(1.1rem, min(4.4vw, 3.3vh), 2.1rem); }
+      .op-tema { font-size: calc(var(--pz) * .8); padding: .8em .3em; }
+    }
+    /* Mòbil vertical (criteri «ple»): la zona de joc omple l'alçada i les peces creixen amb la pantalla */
+    @media (orientation: portrait) and (max-width: 600px) {
+      .tauler { --pz: clamp(.95rem, min(4.6vw, 2.6vh), 1.4rem); }
+      #zona { flex: 1 1 auto; min-height: 0; }
+      #zona > .contingut { flex: 1 1 auto; justify-content: center; gap: clamp(10px, 2.6vh, 26px); }
+      #zona > .contingut:has(.capses) { justify-content: flex-start; }
+      .capses { flex: 1 1 auto; }
+      .op-tema { padding: .9em .4em; }
+      .mostra .fitxa, .nuvol .fitxa { font-size: calc(var(--pz) * 1.1); }
+    }
   </style>
 </head>
 <body>
@@ -266,7 +281,7 @@
           <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
           <div class="botons-peu">
             <button class="btn btn-ok" id="btn-comprova" type="button" hidden>Comprova ✓</button>
-            <button class="btn btn-pista" id="btn-pista" type="button">💡 Vull una pista</button>
+            <button class="btn btn-pista" id="btn-pista" type="button">💡 <span class="txt-llarg">Vull una pista</span><span class="txt-curt">Pista</span></button>
             <button class="btn" id="btn-seguent" type="button" hidden>Següent ▶</button>
           </div>
         </div>

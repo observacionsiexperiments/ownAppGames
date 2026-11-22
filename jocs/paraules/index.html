@@ -137,6 +137,11 @@
       .imatge { height: min(24vh, 42vw); }
       .missatge { margin-top: 10px; min-height: 0; padding: 6px 10px; font-size: 1rem; }
     }
+    /* Mòbil vertical (criteri «ple»): el joc omple l'alçada i les peces creixen amb la pantalla */
+    @media (orientation: portrait) and (max-width: 600px) {
+      .imatges { flex: 1 1 auto; min-height: 0; grid-auto-rows: minmax(0, 1fr); }
+      .imatge { height: auto; min-height: 0; aspect-ratio: auto; font-size: clamp(3rem, min(18vw, 11vh), 6rem); }
+    }
   </style>
 </head>
 <body>

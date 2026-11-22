@@ -135,6 +135,11 @@
     @media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) {
       .fitxes.n4 { --n: 2; }
     }
+    /* Tauleta en vertical: la lletra i les peces es calculen també per l'alçada (n'hi ha molta) */
+    @media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) {
+      .pregunta { font-size: clamp(1.6rem, 5vw, 2.8rem); }
+      .fitxa { font-size: clamp(3rem, 13vw, 9rem); }
+    }
   </style>
 </head>
 <body>

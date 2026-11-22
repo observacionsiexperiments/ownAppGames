@@ -200,6 +200,11 @@
       .tauler { align-content: center; }
       .imatge { --img: clamp(140px, min(30vh, 50vw), 380px); }
     }
+    /* Mòbil vertical (criteri «ple»): el joc omple l'alçada i les peces creixen amb la pantalla */
+    @media (orientation: portrait) and (max-width: 600px) {
+      .tauler { align-content: center; }
+      .costat { gap: clamp(12px, 3vh, 30px); }
+    }
   </style>
 </head>
 <body>
@@ -431,7 +436,7 @@
       const gap = parseFloat(getComputedStyle($('caselles')).columnGap) || 6;
       const mobil = matchMedia('(orientation: portrait) and (max-width: 600px), (orientation: landscape) and (max-height: 500px)').matches;
       // Tauleta i portàtil: les lletres creixen amb l'alçada de la pantalla (criteri «ple»)
-      const maxim = mobil ? 52 : Math.round(Math.min(120, Math.max(72, innerHeight * .13)));
+      const maxim = mobil ? (innerHeight > innerWidth ? Math.min(66, innerWidth * .17) : 52) : Math.round(Math.min(120, Math.max(72, innerHeight * .13)));
       const c = Math.max(24, Math.min(maxim, Math.floor((w - gap * (n - 1)) / n)));
       const f = Math.max(Math.min(c, maxim), mobil ? 40 : 48);
       $('tauler').style.setProperty('--casella', c + 'px');

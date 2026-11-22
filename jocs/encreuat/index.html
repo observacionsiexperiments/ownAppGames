@@ -462,7 +462,7 @@
       const gran = matchMedia('(min-width: 601px) and (min-height: 501px)').matches;   // criteri «ple»: caselles i fitxes més grans
       // En tauleta vertical el tauler s'estira fins a baix: el que hi ha a sota és el panell (no tot l'espai fins al final)
       const sota = vertical ? (gran ? $('tauler').querySelector('.panell').offsetHeight + 40 : Pantalla.sota(z)) : 0;
-      const h = Math.min(innerHeight, document.documentElement.clientHeight) - dalt - sota - 52;
+      const h = Math.min(innerHeight, document.documentElement.clientHeight) - dalt - sota - (gran ? 62 : 52);
       const cel = Math.floor(Math.max(24, Math.min(gran ? 110 : 64, (w - gap * (cols - 1)) / cols, (h - gap * (rows - 1)) / rows)));
       $('graella').style.setProperty('--cel', cel + 'px');
       $('tauler').style.setProperty('--fitxa', Math.max(40, Math.min(gran ? 84 : 56, cel)) + 'px');

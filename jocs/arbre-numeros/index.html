@@ -171,6 +171,11 @@
       .missatge { font-size: clamp(1rem, 2.4vh, 1.25rem); }
       .sumes { font-size: clamp(1rem, 2.4vh, 1.3rem); }
     }
+    /* Tauleta vertical: l'arbre s'estira cap avall i el panell queda a sota amb la seva mida */
+    @media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) {
+      .disposicio { grid-template-rows: minmax(0, 1fr) auto; }
+      .panell { align-self: end; }
+    }
     @media (orientation: landscape) and (min-width: 900px) and (min-height: 501px) {
       .disposicio { grid-template-columns: 1fr clamp(340px, 28vw, 420px); grid-template-rows: minmax(0, 1fr) auto; }
       .panell { align-self: start; }
