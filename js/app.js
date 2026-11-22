@@ -1,5 +1,5 @@
 // Llançadora: llegeix jocs/jocs.json i pinta una targeta per joc.
-const VERSIO_APP = '0.45.0';
+const VERSIO_APP = '0.47.0';
 
 // Categories dels jocs (camp "categories" de jocs.json)
 const CATEGORIES = { xifres: '🔢 Xifres', lletres: '🔤 Lletres' };
@@ -111,6 +111,24 @@ function crearTargeta(joc) {
   li.appendChild(a);
   return li;
 }
+
+// ---------------- Ou de Pasqua ----------------
+// Tocar 5 cops seguits el títol «🧩 Juguem?» posa (o treu) un degradat lila → rosa als números de les targetes. Es recorda.
+const CLAU_OU = 'appjocs.ou-pasqua';
+try { if (localStorage.getItem(CLAU_OU) === '1') document.documentElement.classList.add('ou-pasqua'); } catch {}
+let tocsOu = 0, ultimTocOu = 0;
+document.querySelector('.capcalera h1').addEventListener('click', () => {
+  const ara = Date.now();
+  tocsOu = ara - ultimTocOu < 1200 ? tocsOu + 1 : 1;
+  ultimTocOu = ara;
+  if (tocsOu < 5) return;
+  tocsOu = 0;
+  const html = document.documentElement;
+  const posat = html.classList.toggle('ou-pasqua');
+  try { localStorage.setItem(CLAU_OU, posat ? '1' : '0'); } catch {}
+  html.classList.remove('ou-pasqua-ara'); void html.offsetWidth; html.classList.add('ou-pasqua-ara');
+  setTimeout(() => html.classList.remove('ou-pasqua-ara'), 700);
+});
 
 window.addEventListener('pageshow', e => { if (e.persisted && jocs.length) pintarRecents(); });
 
@@ -242,4 +260,21 @@ document.getElementById('form-opcions').addEventListener('submit', e => {
 pintarSalutacio();
 
 document.getElementById('versio').textContent = `v${VERSIO_APP}`;
+
+// Un altre ou de Pasqua: dos tocs seguits a la versió → ❤️ (3 s) i després un gat negre 🐈‍⬛ (1 s)
+(() => {
+  const v = document.getElementById('versio');
+  let ultim = 0, enMarxa = false;
+  v.addEventListener('click', () => {
+    const ara = Date.now();
+    const doble = ara - ultim < 450;
+    ultim = doble ? 0 : ara;
+    if (!doble || enMarxa) return;
+    enMarxa = true;
+    v.classList.add('versio-sorpresa');
+    v.textContent = '❤️';
+    setTimeout(() => { v.textContent = '🐈‍⬛'; }, 3000);
+    setTimeout(() => { v.textContent = `v${VERSIO_APP}`; v.classList.remove('versio-sorpresa'); enMarxa = false; }, 4000);
+  });
+})();
 carregarJocs();

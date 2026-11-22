@@ -43,6 +43,8 @@ La pantalla d'inici és pensada per a tauleta: 3 targetes per fila en horitzonta
 - **🕘 Hi vas jugar fa poc:** sota el buscador, els 3 últims jocs on s'ha començat una partida. `js/pantalla.js` desa l'`id` del joc a `appjocs.recents` (llista JSON, el més recent primer, màxim 3) cada vegada que es prem `#btn-comencar`; `pintarRecents()` d'`app.js` la llegeix. La fila no surt si no hi ha historial, ni mentre es busca o hi ha un filtre. Al mòbil, cada joc és una targeta petita amb la icona i el nom en dues línies.
 - **⚙️ Opcions:** a la tauleta i a l'ordinador el botó diu «⚙️ Opcions»; al mòbil només hi ha la icona.
 - **📖 Manual d'ús:** botó al peu, sobre el número de versió.
+- **Ou de Pasqua (v0.46.0):** tocant 5 cops seguits el títol «🧩 Juguem?» (menys de 1,2 s entre tocs), els números grans de les targetes fan un degradat de lila fluix a rosa fluix (`html.ou-pasqua`, amb una petita animació). 5 tocs més el treuen. Es recorda a `appjocs.ou-pasqua`. No surt al manual: és una sorpresa.
+- **Ou de Pasqua de la versió (v0.47.0):** dos tocs seguits (menys de 0,45 s) al número de versió del peu: surt ❤️ durant 3 s, després un gat negre 🐈‍⬛ durant 1 s, i torna la versió. Mentre dura no es pot tornar a engegar; l'alçada del peu no canvia. Tampoc surt al manual.
 
 ## Opcions generals (⚙️)
 

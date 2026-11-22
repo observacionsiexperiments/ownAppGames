@@ -768,3 +768,20 @@ footer.peu { display: flex; flex-direction: column; align-items: center; gap: 8p
 .peu-manual { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 4px 16px; border-radius: 999px;
   border: 2px solid var(--c-info-vora); background: var(--superficie); color: var(--text); font-weight: 700; text-decoration: none; touch-action: manipulation; }
 .peu-manual:hover { background: var(--c-info); color: var(--tinta); }
+
+/* ─── Ou de Pasqua (v0.46.0): tocant 5 cops seguits «🧩 Juguem?», els números de les targetes fan un degradat lila → rosa ─── */
+.capcalera h1 { -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+html.ou-pasqua .targeta .num {
+  background: linear-gradient(135deg, #CDB6FA 0%, #E3B8F0 50%, #FFB8D2 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 1px 0 rgba(59, 51, 85, .18));
+}
+html.ou-pasqua-ara .targeta .num { animation: ou-pasqua .6s ease-out; }
+@keyframes ou-pasqua { 0% { transform: scale(.6) rotate(-8deg); opacity: .3; } 70% { transform: scale(1.12) rotate(2deg); } 100% { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { html.ou-pasqua-ara .targeta .num { animation: none; } }
+
+/* Ou de Pasqua de la versió (v0.47.0): dos tocs → ❤️ 3 s i 🐈‍⬛ 1 s */
+#versio { -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation; cursor: default;
+  display: inline-block; min-width: 4em; height: 2rem; line-height: 2rem; }
+#versio.versio-sorpresa { font-size: 1.6rem; animation: ou-pasqua .5s ease-out; }
+@media (prefers-reduced-motion: reduce) { #versio.versio-sorpresa { animation: none; } }
