@@ -216,6 +216,30 @@
     "estat": "actiu"
   },
   {
+    "id": "intrus",
+    "num": 19,
+    "nom": "Busca l'intrús",
+    "icona": "🕵️",
+    "descripcio": "Quatre dibuixos o paraules: n'hi ha una que no va amb les altres.",
+    "objectiu": "Trobar l'intrús fixant-se en la lletra, el grup, la rima, les síl·labes… i, al nivell difícil, dir per què.",
+    "categories": [
+      "lletres"
+    ],
+    "estat": "actiu"
+  },
+  {
+    "id": "families",
+    "num": 20,
+    "nom": "Paraules en família",
+    "icona": "🗂️",
+    "descripcio": "Endevina el tema, classifica les paraules en capses i troba les famílies de paraules.",
+    "objectiu": "Treballar camps semàntics, camps lèxics i famílies de paraules.",
+    "categories": [
+      "lletres"
+    ],
+    "estat": "actiu"
+  },
+  {
     "id": "_plantilla",
     "nom": "Joc de prova",
     "icona": "🧪",

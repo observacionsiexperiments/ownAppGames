@@ -1,6 +1,8 @@
-# AppJocs
+# Juguem? (AppJocs)
 
 PWA amb una pàgina principal que fa de llançadora de minijocs. Es publica a GitHub Pages amb GitHub Actions.
+
+📚 **Documentació de cada joc:** [documentacio/README.md](documentacio/README.md)
 
 ## Estructura
 
@@ -13,6 +15,7 @@ js/app.js               Lògica de la llançadora
 icons/                  Icones de l'app
 jocs/jocs.json          Registre de minijocs
 jocs/<id>/index.html    Cada minijoc a la seva carpeta
+documentacio/           Com funciona cada joc i els seus JSON (no es publica)
 .github/workflows/      Desplegament automàtic
 ```
 
@@ -21,10 +24,11 @@ jocs/<id>/index.html    Cada minijoc a la seva carpeta
 1. Copia `jocs/_plantilla/` a `jocs/<id-nou>/`.
 2. Afegeix una entrada a `jocs/jocs.json`:
    ```json
-   { "id": "id-nou", "nom": "Nom", "icona": "🎯",
+   { "id": "id-nou", "num": 20, "nom": "Nom", "icona": "🎯",
      "descripcio": "Què és", "objectiu": "Què s'ha d'aconseguir",
-     "estat": "actiu" }
+     "categories": ["lletres"], "estat": "actiu" }
    ```
+   `num` és el número següent (surt gran a la targeta) i `categories` pot ser `xifres` o `lletres`.
    `estat` pot ser `actiu`, `properament` (targeta visible però desactivada) o `ocult`.
 3. Puja `VERSIO` a `sw.js` perquè els clients rebin l'actualització.
 

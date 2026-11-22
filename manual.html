@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#FFFBF3">
-  <title>Manual d'ús · AppJocs</title>
+  <title>Manual d'ús · Juguem?</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon-192.png">
   <link rel="stylesheet" href="css/styles.css">
@@ -17,8 +17,8 @@
     .manual summary { cursor: pointer; list-style: none; padding: 14px 18px; font-weight: 800; font-size: 1.12rem; display: flex; align-items: center; gap: 10px; touch-action: manipulation; }
     .manual summary::-webkit-details-marker { display: none; }
     .manual summary::after { content: '＋'; margin-left: auto; font-weight: 900; color: var(--c-info-vora); }
-    .manual details[open] summary::after { content: '－'; }
-    .manual details[open] summary { border-bottom: 2px dashed var(--vora); background: color-mix(in srgb, var(--c-info) 25%, white); border-radius: var(--radi) var(--radi) 0 0; }
+    .manual details[open] > summary::after { content: '－'; }
+    .manual details[open] > summary { border-bottom: 2px dashed var(--vora); background: color-mix(in srgb, var(--c-info) 25%, white); border-radius: var(--radi) var(--radi) 0 0; }
     .manual .cos { padding: 12px 20px 16px; line-height: 1.55; }
     .manual .cos p { margin: 0 0 10px; }
     .manual .cos ul, .manual .cos ol { margin: 0 0 10px; padding-left: 1.3em; }
@@ -28,11 +28,22 @@
     .manual th { background: var(--fons); font-weight: 800; }
     .manual .color { display: inline-block; width: 1em; height: 1em; border-radius: 4px; vertical-align: -2px; margin-right: 6px; border: 1px solid rgba(0,0,0,.15); }
     .manual .versio { text-align: center; color: var(--text-suau); font-size: .9rem; margin-top: 16px; }
+    /* Com es juga a cada joc: desplegables dins l'apartat */
+    .manual details.joc { box-shadow: none; margin: 0 0 6px; border-width: 2px; }
+    .manual details.joc > summary { padding: 9px 14px; font-size: 1rem; }
+    .manual details.joc[open] > summary { background: color-mix(in srgb, var(--c-pista) 45%, white); }
+    .manual details.joc[open] { border-color: var(--c-pista-vora); }
+    .manual .cos-joc { padding: 8px 16px 10px; }
+    .manual .cos-joc h4 { margin: 10px 0 4px; font-size: .95rem; color: var(--text-suau); text-transform: uppercase; letter-spacing: .04em; }
+    .manual .cos-joc .obj { font-weight: 700; margin: 2px 0 6px; }
+    .manual .cos-joc ol, .manual .cos-joc ul { margin: 0 0 6px; }
+    .manual table a { color: inherit; font-weight: 700; }
+    .manual td.num { font-weight: 900; font-size: 1.1em; text-align: center; width: 2.4em; }
     /* Horitzontal: els títols en dues columnes; l'apartat obert ocupa tota l'amplada */
     @media (orientation: landscape) {
       .manual { max-width: 1000px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-content: start; grid-auto-flow: row dense; }
-      .manual > .intro, .manual > .versio, .manual details[open] { grid-column: 1 / -1; }
-      .manual details { margin: 0; }
+      .manual > .intro, .manual > .versio, .manual > details[open] { grid-column: 1 / -1; }
+      .manual > details { margin: 0; }
     }
     @media (orientation: landscape) and (max-height: 820px) {
       .manual summary { padding: 10px 14px; font-size: 1rem; }
@@ -45,7 +56,7 @@
       .manual .intro { font-size: .85rem; }
       .manual .versio { font-size: .8rem; margin-top: 0; }
     }
-    @media (orientation: portrait) and (max-height: 700px) {
+    @media (orientation: portrait) and (max-height: 780px) {
       .manual details > summary { padding: 7px 12px; font-size: .95rem; }
       .manual details { margin-bottom: 6px; }
       .manual .intro { margin: 0 0 8px; font-size: .9rem; }
@@ -69,9 +80,9 @@
     <p class="intro">Guia per a famílies i mestres. Toca un apartat per obrir-lo.</p>
 
     <details name="manual" open>
-      <summary>🎮 Què és AppJocs</summary>
+      <summary>🧩 Què és «Juguem?»</summary>
       <div class="cos">
-        <p>AppJocs és un recull de 18 minijocs de números i de lletres per a nens i nenes de primer cicle de primària. Tot està en català. Funciona al navegador de la tauleta, del mòbil o de l'ordinador, i es pot instal·lar com una app.</p>
+        <p>«Juguem?» és un recull de 20 minijocs de números i de lletres per a nens i nenes de primer cicle de primària. Tot està en català. Funciona al navegador de la tauleta, del mòbil o de l'ordinador, i es pot instal·lar com una app.</p>
         <p>Cap joc no demana registre ni recull dades. El que es guarda (el nom, les opcions i els rècords) queda només en aquell dispositiu.</p>
         <p>Els jocs volen fer pensar: quan l'infant s'equivoca, no li donen la resposta de seguida. Primer li diuen que no és això, després li donen una pista i, si cal, al final li ensenyen la solució.</p>
       </div>
@@ -162,7 +173,7 @@
     <details name="manual">
       <summary>📲 Instal·lar-la com una app</summary>
       <div class="cos">
-        <p>Instal·lada, AppJocs té una icona a la pantalla d'inici, s'obre a pantalla completa i funciona sense connexió. Quan encara no està instal·lada, la pantalla d'inici mostra l'avís «📲 Instal·la AppJocs com una app» amb els passos per a aquell dispositiu. «Entesos» amaga l'avís.</p>
+        <p>Instal·lada, «Juguem?» té una icona a la pantalla d'inici, s'obre a pantalla completa i funciona sense connexió. Quan encara no està instal·lada, la pantalla d'inici mostra l'avís «📲 Instal·la “Juguem?” com una app» amb els passos per a aquell dispositiu. «Entesos» amaga l'avís.</p>
         <table>
           <tr><th>Dispositiu</th><th>Com s'instal·la</th></tr>
           <tr><td>iPad o iPhone (Safari)</td><td>Toca el botó Compartir, tria «Afegeix a la pantalla d'inici» i després «Afegeix».</td></tr>
@@ -177,29 +188,236 @@
       <summary>🧩 Els jocs</summary>
       <div class="cos">
         <table>
-          <tr><th>Joc</th><th>Què treballa</th><th>Tipus</th></tr>
-          <tr><td>🔢 Endevina el número</td><td>Ordre dels números de l'1 al 100; fer servir pistes (més gran, més petit, parell, desena)</td><td>Xifres</td></tr>
-          <tr><td>🌳 L'arbre dels números</td><td>Descompondre un número en sumes fins a arribar als uns</td><td>Xifres</td></tr>
-          <tr><td>🔺 La piràmide de números</td><td>Sumar (i restar) maons: cada maó és la suma dels dos de sota</td><td>Xifres</td></tr>
-          <tr><td>🧩 El quadre numèric</td><td>La taula del 100: desenes (amunt i avall) i unitats (als costats)</td><td>Xifres</td></tr>
-          <tr><td>📖 Llegeix i tria</td><td>Lectura de paraules separades en síl·labes</td><td>Lletres</td></tr>
-          <tr><td>⚡ Suma ràpida</td><td>Trobar els números que sumen un objectiu, amb rapidesa</td><td>Xifres</td></tr>
-          <tr><td>🔎 Gran o petit?</td><td>Comparar números d'1, 2 o 3 xifres</td><td>Xifres</td></tr>
-          <tr><td>✅ Veritat o mentida?</td><td>Comprensió lectora de frases curtes; a Difícil, corregir-les</td><td>Lletres</td></tr>
-          <tr><td>👏 Pica paraules</td><td>Comptar les síl·labes de les paraules (d'1 a 6)</td><td>Lletres</td></tr>
-          <tr><td>🔁 Sinònims i antònims</td><td>Paraules que volen dir el mateix o el contrari; unir parelles amb línies (amb el ratolí o el dit)</td><td>Lletres</td></tr>
-          <tr><td>🐭 Petit o gros?</td><td>Diminutius (-et, -eta, -ol, -ola) i augmentatius (-às, -assa), amb les regles d'ortografia (gosset, boqueta, botigueta)</td><td>Lletres</td></tr>
-          <tr><td>🧩 Paraules compostes</td><td>Unir les peces que formen una paraula composta (renta + plats), escriure la part que falta o, en el mode visual, mirar un dibuix i triar la paraula</td><td>Lletres</td></tr>
-          <tr><td>🔀 Anagrames</td><td>Ordenar lletres per formar paraules; ortografia</td><td>Lletres</td></tr>
-          <tr><td>🧮 Quin número falta?</td><td>Sumes, restes, multiplicacions i divisions amb un número amagat</td><td>Xifres</td></tr>
-          <tr><td>#️⃣ Encreuat de números</td><td>Operacions encadenades en files i columnes</td><td>Xifres</td></tr>
-          <tr><td>🔍 Paraula amagada</td><td>So inicial de les paraules i abecedari</td><td>Lletres</td></tr>
-          <tr><td>🎨 Dibuix secret</td><td>Trobar números a la quadrícula, números en lletres i operacions</td><td>Xifres</td></tr>
-          <tr><td>🤔 Pensa i resol</td><td>Problemes: llegir, triar l'operació i resoldre; monedes; raonar</td><td>Xifres</td></tr>
+          <tr><th>Núm.</th><th>Joc</th><th>Què treballa</th><th>Tipus</th></tr>
+          <tr><td class="num">1</td><td><a href="#joc-endevina-numero">🔢 Endevina el número</a></td><td>Ordre dels números de l'1 al 100; fer servir pistes (més gran, més petit, parell, desena)</td><td>Xifres</td></tr>
+          <tr><td class="num">2</td><td><a href="#joc-arbre-numeros">🌳 L'arbre dels números</a></td><td>Descompondre un número en sumes fins a arribar als uns</td><td>Xifres</td></tr>
+          <tr><td class="num">3</td><td><a href="#joc-piramide">🔺 La piràmide de números</a></td><td>Sumar (i restar) maons: cada maó és la suma dels dos de sota</td><td>Xifres</td></tr>
+          <tr><td class="num">4</td><td><a href="#joc-quadre-numeric">🧩 El quadre numèric</a></td><td>La taula del 100: desenes (amunt i avall) i unitats (als costats)</td><td>Xifres</td></tr>
+          <tr><td class="num">5</td><td><a href="#joc-paraules">📖 Llegeix i tria</a></td><td>Lectura de paraules separades en síl·labes</td><td>Lletres</td></tr>
+          <tr><td class="num">6</td><td><a href="#joc-suma-rapida">⚡ Suma ràpida</a></td><td>Trobar els números que sumen un objectiu, amb rapidesa</td><td>Xifres</td></tr>
+          <tr><td class="num">7</td><td><a href="#joc-gran-petit">🔎 Gran o petit?</a></td><td>Comparar números d'1, 2 o 3 xifres</td><td>Xifres</td></tr>
+          <tr><td class="num">8</td><td><a href="#joc-veritat-mentida">✅ Veritat o mentida?</a></td><td>Comprensió lectora de frases curtes; a Difícil, corregir-les</td><td>Lletres</td></tr>
+          <tr><td class="num">9</td><td><a href="#joc-anagrames">🔀 Anagrames</a></td><td>Ordenar lletres per formar paraules; ortografia</td><td>Lletres</td></tr>
+          <tr><td class="num">10</td><td><a href="#joc-quin-numero">🧮 Quin número falta?</a></td><td>Sumes, restes, multiplicacions i divisions amb un número amagat</td><td>Xifres</td></tr>
+          <tr><td class="num">11</td><td><a href="#joc-encreuat">#️⃣ Encreuat de números</a></td><td>Operacions encadenades en files i columnes</td><td>Xifres</td></tr>
+          <tr><td class="num">12</td><td><a href="#joc-paraula-amagada">🔍 Paraula amagada</a></td><td>So inicial de les paraules i abecedari</td><td>Lletres</td></tr>
+          <tr><td class="num">13</td><td><a href="#joc-dibuix-secret">🎨 Dibuix secret</a></td><td>Trobar números a la quadrícula, números en lletres i operacions</td><td>Xifres</td></tr>
+          <tr><td class="num">14</td><td><a href="#joc-pensa-resol">🤔 Pensa i resol</a></td><td>Problemes: llegir, triar l'operació i resoldre; monedes; raonar</td><td>Xifres</td></tr>
+          <tr><td class="num">15</td><td><a href="#joc-pica-paraules">👏 Pica paraules</a></td><td>Comptar les síl·labes de les paraules (d'1 a 6)</td><td>Lletres</td></tr>
+          <tr><td class="num">16</td><td><a href="#joc-sinonims">🔁 Sinònims i antònims</a></td><td>Paraules que volen dir el mateix o el contrari; unir parelles amb línies (amb el ratolí o el dit)</td><td>Lletres</td></tr>
+          <tr><td class="num">17</td><td><a href="#joc-petit-gros">🐭 Petit o gros?</a></td><td>Diminutius (-et, -eta, -ol, -ola) i augmentatius (-às, -assa), amb les regles d'ortografia (gosset, boqueta, botigueta)</td><td>Lletres</td></tr>
+          <tr><td class="num">18</td><td><a href="#joc-compostes">🧩 Paraules compostes</a></td><td>Unir les peces que formen una paraula composta (renta + plats), escriure la part que falta o, en el mode visual, mirar un dibuix i triar la paraula</td><td>Lletres</td></tr>
+          <tr><td class="num">19</td><td><a href="#joc-intrus">🕵️ Busca l'intrús</a></td><td>Trobar el dibuix o la paraula que no va amb les altres (lletra, grup, rima, síl·labes…) i, al nivell difícil, triar per què</td><td>Lletres</td></tr>
+          <tr><td class="num">20</td><td><a href="#joc-families">🗂️ Paraules en família</a></td><td>Endevinar el tema d'unes paraules, classificar-les en capses (objectes, persones, accions…) i trobar les paraules de la mateixa família</td><td>Lletres</td></tr>
         </table>
       </div>
     </details>
 
+    <details name="manual" id="com-es-juga">
+      <summary>📘 Com es juga a cada joc</summary>
+      <div class="cos">
+        <p>Toca un joc per veure com es juga, pas a pas.</p>
+        <details class="joc" name="joc" id="joc-endevina-numero">
+          <summary>🔢 1. Endevina el número</summary>
+          <div class="cos-joc">
+            <p class="obj">🎯 L&#x27;app pensa un número de l&#x27;1 al 100. L&#x27;has d&#x27;endevinar fent servir les pistes, amb els mínims intents possibles.</p>
+            <h4>Com es juga</h4><ol><li>Escriu un número amb el teclat de la pantalla i prem OK.</li><li>A la caixa 💡 Pista veuràs si t&#x27;has quedat lluny o a prop, i pistes especials (el doble, la meitat, les xifres girades…).</li><li>La llista «Ja saps que…» recull tot el que has descobert. Fes-la servir per triar el número següent.</li><li>Torna-ho a provar fins que l&#x27;encertis.</li></ol>
+            <h4>Si t'encalles</h4><p>A l&#x27;intent 4 et diu si és parell o senar; al 7, la desena; al 10, quant sumen les xifres.</p>
+            <h4>Quan s'acaba</h4><p>Quan l&#x27;encertes. Amb 5 intents o menys, 3 estrelles.</p>
+          </div>
+        </details>
+        <details class="joc" name="joc" id="joc-arbre-numeros">
+          <summary>🌳 2. L&#x27;arbre dels números</summary>
+          <div class="cos-joc">
+            <p class="obj">🎯 Parteix un número en dues parts que sumin el mateix, i cada part en dues més, fins que totes les fulles siguin 1.</p>
+            <h4>Abans de començar</h4><ul><li>Tria el número (del 2 al 20, o Sorpresa).</li><li>Tria el mode: 🌱 Lliure, 🏔️ L&#x27;arbre més baixet (amb els mínims pisos) o ✏️ Completa l&#x27;arbre (hi falten números).</li></ul>
+            <h4>Com es juga</h4><ol><li>Toca un dels dos cercles buits que hi ha sota un número.</li><li>Escriu les dues parts (per exemple, 3 + 2 per al 5) i prem OK.</li><li>Continua partint cada número fins a arribar als uns.</li><li>Si t&#x27;equivoques de tall, toca el número partit per tornar-lo a ajuntar, o fes servir ↶ Desfer.</li></ol>
+            <h4>Si t'encalles</h4><p>Si t&#x27;equivoques dues vegades, et recorda: «Si una part és a, quant falta per arribar al número?».</p>
+            <h4>Quan s'acaba</h4><p>Quan totes les fulles són 1.</p>
+          </div>
+        </details>
+        <details class="joc" name="joc" id="joc-piramide">
+          <summary>🔺 3. La piràmide de números</summary>
+          <div class="cos-joc">
+            <p class="obj">🎯 Cada maó és la suma dels dos maons que té a sota. Omple tota la piràmide.</p>
+            <h4>Abans de començar</h4><ul><li>Tria quants pisos (de 3 a 6) i la dificultat (números petits o grans).</li><li>Tria el mode: ⬆️ Suma cap amunt, o 🔍 Troba els que falten (de vegades caldrà restar).</li></ul>
+            <h4>Com es juga</h4><ol><li>Toca un maó buit amb la vora blava: són els que ja pots calcular.</li><li>Escriu el número i prem OK.</li><li>Ves pujant (o baixant) fins a omplir-la.</li></ol>
+            <h4>Si t'encalles</h4><p>La pista et diu «suma els dos de sota» o «el de dalt menys el del costat».</p>
+            <h4>Quan s'acaba</h4><p>Quan tots els maons són plens i bé.</p>
+          </div>
+        </details>
+        <details class="joc" name="joc" id="joc-quadre-numeric">
+          <summary>🧩 4. El quadre numèric</summary>
+          <div class="cos-joc">
+            <p class="obj">🎯 Surt un tros de la taula de l&#x27;1 al 100. A partir d&#x27;un número, troba els que té al voltant.</p>
+            <h4>Abans de començar</h4><ul><li>Tria la forma: ✚ Creu, ⬛ Quadrat o 🎲 Sorpresa.</li></ul>
+            <h4>Com es juga</h4><ol><li>Recorda: amunt és 10 menys, avall 10 més, a l&#x27;esquerra 1 menys i a la dreta 1 més.</li><li>Toca una casella buida i escriu el número.</li><li>Les caselles ratllades no existeixen (quedarien fora de la taula).</li><li>Es fan 5 números per partida.</li></ol>
+            <h4>Si t'encalles</h4><p>Si t&#x27;equivoques dues vegades, apareixen fletxes que t&#x27;ajuden des del número que ja tens.</p>
+            <h4>Quan s'acaba</h4><p>Quan omples totes les caselles dels 5 números.</p>
+          </div>
+        </details>
+        <details class="joc" name="joc" id="joc-paraules">
+          <summary>📖 5. Llegeix i tria</summary>
+          <div class="cos-joc">
+            <p class="obj">🎯 Llegeix una paraula separada en síl·labes i toca el dibuix que hi correspon.</p>
+            <h4>Abans de començar</h4><ul><li>Tria les síl·labes (1, 2 o totes), la lletra (MAJÚSCULA o minúscula) i la dificultat.</li><li>Si el dispositiu té veu en català, pots activar la veu.</li></ul>
+            <h4>Com es juga</h4><ol><li>Llegeix la paraula a poc a poc, síl·laba a síl·laba.</li><li>Toca el dibuix que hi correspon.</li><li>Si t&#x27;equivoques, la paraula es queda i pots tornar-ho a provar.</li></ol>
+            <h4>Si t'encalles</h4><p>Amb la veu activada, el botó 🔊 llegeix la paraula síl·laba a síl·laba.</p>
+            <h4>Quan s'acaba</h4><p>Després de 10 paraules. Sense errors, 3 estrelles.</p>
+          </div>
+        </details>
+        <details class="joc" name="joc" id="joc-suma-rapida">
+          <summary>⚡ 6. Suma ràpida</summary>
+          <div class="cos-joc">
+            <p class="obj">🎯 Hi ha un número objectiu i unes quantes fitxes. Toca les fitxes que, sumades, fan l&#x27;objectiu.</p>
+            <h4>Abans de començar</h4><ul><li>Tria el nivell (fins a 20, 50 o 100), amb quants números has de sumar, quantes fitxes surten, quantes sumes seguides i si vols números rodons.</li></ul>
+            <h4>Com es juga</h4><ol><li>Toca les fitxes que vols sumar: es posen blaves i a dalt veus la suma.</li><li>Si te n&#x27;equivoques, torna a tocar la fitxa per treure-la.</li><li>Quan creguis que està bé, prem OK.</li></ol>
+            <h4>Si t'encalles</h4><p>Si no està bé, et diu quant et falta o quant t&#x27;has passat.</p>
+            <h4>Quan s'acaba</h4><p>Quan acabes totes les sumes. Com més ràpid, millor rècord.</p>
+          </div>
+        </details>
+        <details class="joc" name="joc" id="joc-gran-petit">
+          <summary>🔎 7. Gran o petit?</summary>
+          <div class="cos-joc">
+            <p class="obj">🎯 Surten uns quants números i una pregunta: quin és el més gran, o el més petit?</p>
+            <h4>Abans de començar</h4><ul><li>Tria si són números d&#x27;1, 2 o 3 xifres, quants números surten, què has de buscar i el temps.</li></ul>
+            <h4>Com es juga</h4><ol><li>Llegeix bé la pregunta: més gran o més petit?</li><li>Mira primer les xifres de l&#x27;esquerra (centenes, desenes) i després les altres.</li><li>Toca el número abans que s&#x27;acabi el temps. Només hi ha un intent.</li></ol>
+            <h4>Si t'encalles</h4><p>Si t&#x27;equivoques, t&#x27;explica per què i et mostra el bo.</p>
+            <h4>Quan s'acaba</h4><p>Després de 10 preguntes.</p>
+          </div>
+        </details>
+        <details class="joc" name="joc" id="joc-veritat-mentida">
+          <summary>✅ 8. Veritat o mentida?</summary>
+          <div class="cos-joc">
+            <p class="obj">🎯 Surt un dibuix i una frase. Llegeix-la i digues si és veritat o mentida.</p>
+            <h4>Abans de començar</h4><ul><li>Tria el tema (animals, fruites, menjars, transports, natura, banderes, emocions o barreja), la dificultat, la lletra i el temps.</li></ul>
+            <h4>Com es juga</h4><ol><li>Llegeix la frase i mira el dibuix.</li><li>Prem Sí o No (Fàcil) o Veritat o Mentida (Mitjà i Difícil).</li><li>Al Difícil, si és mentida, després has de triar la paraula que la fa certa.</li></ol>
+            <h4>Si t'encalles</h4><p>Si t&#x27;equivoques, et mostra la frase certa.</p>
+            <h4>Quan s'acaba</h4><p>Després de 10 frases.</p>
+          </div>
+        </details>
+        <details class="joc" name="joc" id="joc-anagrames">
+          <summary>🔀 9. Anagrames</summary>
+          <div class="cos-joc">
+            <p class="obj">🎯 Les lletres d&#x27;una paraula estan desordenades. Posa-les en ordre.</p>
+            <h4>Abans de començar</h4><ul><li>Tria el tema i la dificultat (paraules de 3–4, 5–6 o 7–10 lletres).</li></ul>
+            <h4>Com es juga</h4><ol><li>Toca una lletra i anirà a la primera casella buida, o arrossega-la a la casella que vulguis.</li><li>També pots escriure amb el teclat de l&#x27;ordinador.</li><li>Per treure una lletra, toca-la a la casella o prem ⌫.</li><li>Quan les caselles són plenes, es comprova sola.</li></ol>
+            <h4>Si t'encalles</h4><p>📝 Pista et dona una frase (i el dibuix); 🔤 Destapa una lletra en posa una al seu lloc. Al tercer error surt 🙈 Mostra-la.</p>
+            <h4>Quan s'acaba</h4><p>Després de 10 paraules.</p>
+          </div>
+        </details>
+        <details class="joc" name="joc" id="joc-quin-numero">
+          <summary>🧮 10. Quin número falta?</summary>
+          <div class="cos-joc">
+            <p class="obj">🎯 Prem ✨ Gira i surt una operació amb un número amagat. Troba&#x27;l.</p>
+            <h4>Abans de començar</h4><ul><li>Tria el mode (10 operacions, contrarellotge d&#x27;1 minut o lliure), la dificultat, les operacions (+ − × ÷) i què s&#x27;amaga (el resultat o qualsevol número).</li></ul>
+            <h4>Com es juga</h4><ol><li>Prem ✨ Gira.</li><li>Pensa quin número falta.</li><li>Al Fàcil i al Mitjà, toca la resposta entre les opcions; al Difícil, escriu-la.</li></ol>
+            <h4>Si t'encalles</h4><p>Al segon error surt una pista segons l&#x27;operació (per exemple, «7 × 3 és 7 + 7 + 7»).</p>
+            <h4>Quan s'acaba</h4><p>Quan acabes les operacions, o el temps al contrarellotge.</p>
+          </div>
+        </details>
+        <details class="joc" name="joc" id="joc-encreuat">
+          <summary>#️⃣ 11. Encreuat de números</summary>
+          <div class="cos-joc">
+            <p class="obj">🎯 Operacions que es creuen en files i columnes. Omple els buits perquè totes estiguin bé.</p>
+            <h4>Abans de començar</h4><ul><li>Tria la forma, la dificultat, les operacions, què has d&#x27;omplir (números, o també signes) i com (amb fitxes o escrivint).</li></ul>
+            <h4>Com es juga</h4><ol><li>Comença per una operació que només tingui un buit.</li><li>Posa-hi la fitxa (tocant o arrossegant) o escriu el número.</li><li>Recorda que el número d&#x27;on es creuen dues operacions serveix per a les dues.</li></ol>
+            <h4>Si t'encalles</h4><p>Si una operació no està bé, es posa rosa; al segon error en surt una pista. ↺ treu el que no està bé.</p>
+            <h4>Quan s'acaba</h4><p>Quan totes les operacions són verdes.</p>
+          </div>
+        </details>
+        <details class="joc" name="joc" id="joc-paraula-amagada">
+          <summary>🔍 12. Paraula amagada</summary>
+          <div class="cos-joc">
+            <p class="obj">🎯 La paraula surt amb dibuixos: cada dibuix amaga la lletra per la qual comença el seu nom.</p>
+            <h4>Abans de començar</h4><ul><li>Tria la dificultat (paraules curtes, mitjanes o llargues) i la lletra.</li></ul>
+            <h4>Com es juga</h4><ol><li>Mira el primer dibuix i digues el seu nom: per quina lletra comença?</li><li>Busca aquella lletra a la taula de l&#x27;abecedari i toca-la (o escriu-la amb el teclat).</li><li>Fes el mateix amb cada dibuix fins a omplir la paraula.</li></ol>
+            <h4>Si t'encalles</h4><p>💡 Quina lletra? t&#x27;ajuda amb la lletra i 🖼️ Què és? et mostra el dibuix de la paraula.</p>
+            <h4>Quan s'acaba</h4><p>Després de 10 paraules.</p>
+          </div>
+        </details>
+        <details class="joc" name="joc" id="joc-dibuix-secret">
+          <summary>🎨 13. Dibuix secret</summary>
+          <div class="cos-joc">
+            <p class="obj">🎯 Pinta les caselles que et diuen i descobriràs un dibuix amagat.</p>
+            <h4>Abans de començar</h4><ul><li>Tria la mida de la quadrícula, si el número surt escrit en lletres o amb una operació, i la lletra.</li></ul>
+            <h4>Com es juga</h4><ol><li>Llegeix l&#x27;ordre: «Pinta de vermell el trenta-dos» (o el resultat d&#x27;una operació).</li><li>Busca el número a la quadrícula i toca&#x27;l.</li><li>Continua fins al final: llavors els números desapareixen i queda el dibuix.</li></ol>
+            <h4>Si t'encalles</h4><p>Si t&#x27;equivoques, et diu on és la casella; al tercer error, s&#x27;il·lumina.</p>
+            <h4>Quan s'acaba</h4><p>Quan el dibuix és complet.</p>
+          </div>
+        </details>
+        <details class="joc" name="joc" id="joc-pensa-resol">
+          <summary>🤔 14. Pensa i resol</summary>
+          <div class="cos-joc">
+            <p class="obj">🎯 Problemes petits de cada dia: comptar, pagar, triar cartes, trobar el que no encaixa…</p>
+            <h4>Abans de començar</h4><ul><li>Tria el nivell, si vols triar primer l&#x27;operació, la lletra i la veu.</li></ul>
+            <h4>Com es juga</h4><ol><li>Llegeix bé el problema (o escolta&#x27;l amb la veu).</li><li>Si has triat «Tria l&#x27;operació», digues primer si cal sumar, restar…</li><li>Respon: tria entre opcions o escriu el número; a les monedes, toca les que necessites.</li><li>Prem «Següent ▶» per passar al problema següent.</li></ol>
+            <h4>Si t'encalles</h4><p>«💡 Vull una pista» t&#x27;ajuda a pensar (de vegades amb dibuixos).</p>
+            <h4>Quan s'acaba</h4><p>Després de 10 problemes.</p>
+          </div>
+        </details>
+        <details class="joc" name="joc" id="joc-pica-paraules">
+          <summary>👏 15. Pica paraules</summary>
+          <div class="cos-joc">
+            <p class="obj">🎯 Quantes síl·labes té la paraula? Pica de mans i compta-les.</p>
+            <h4>Abans de començar</h4><ul><li>Tria el nivell (fins a 2, 4 o 6 síl·labes), el temps, la lletra i la veu.</li></ul>
+            <h4>Com es juga</h4><ol><li>Digues la paraula en veu alta picant de mans a cada tros.</li><li>Toca el número de síl·labes.</li></ol>
+            <h4>Si t'encalles</h4><p>Si t&#x27;equivoques, primer et recorda que piquis de mans, després et separa el primer tros.</p>
+            <h4>Quan s'acaba</h4><p>Després de 10 paraules.</p>
+          </div>
+        </details>
+        <details class="joc" name="joc" id="joc-sinonims">
+          <summary>🔁 16. Sinònims i antònims</summary>
+          <div class="cos-joc">
+            <p class="obj">🎯 Troba paraules que volen dir el mateix (sinònims) o el contrari (antònims).</p>
+            <h4>Abans de començar</h4><ul><li>Tria el nivell, què busques (sinònims, antònims o barrejat), si una paraula pot tenir més d&#x27;una parella, el temps, la lletra i la veu.</li></ul>
+            <h4>Com es juga</h4><ol><li>Al Fàcil, toca la paraula que hi correspon entre les 4.</li><li>Al Mitjà i al Difícil, uneix les paraules amb una línia: arrossega d&#x27;una paraula a l&#x27;altra, o toca una i després l&#x27;altra.</li><li>Al Difícil, prem «Comprova ✓» quan vulguis.</li></ol>
+            <h4>Si t'encalles</h4><p>Al segon error amb una paraula surt una pista; al tercer, es mostra la parella.</p>
+            <h4>Quan s'acaba</h4><p>Quan totes les parelles estan bé.</p>
+          </div>
+        </details>
+        <details class="joc" name="joc" id="joc-petit-gros">
+          <summary>🐭 17. Petit o gros?</summary>
+          <div class="cos-joc">
+            <p class="obj">🎯 Fes les paraules petites (diminutius: gatet) o grosses (augmentatius: gatàs).</p>
+            <h4>Abans de començar</h4><ul><li>Tria el nivell, què vols fer (diminutiu, augmentatiu o els dos), el temps i la lletra.</li></ul>
+            <h4>Com es juga</h4><ol><li>A l&#x27;esquerra va el més petit 🐭 i a la dreta el més gros 🐘.</li><li>Al Fàcil, tria entre 2 opcions; al Mitjà, uneix amb línies; al Difícil, escriu la paraula i prem OK.</li></ol>
+            <h4>Si t'encalles</h4><p>La pista t&#x27;explica la regla (per exemple, «treu la vocal final i afegeix -eta»).</p>
+            <h4>Quan s'acaba</h4><p>Després de les 10 paraules (o els 5 taulers del Mitjà).</p>
+          </div>
+        </details>
+        <details class="joc" name="joc" id="joc-compostes">
+          <summary>🧩 18. Paraules compostes</summary>
+          <div class="cos-joc">
+            <p class="obj">🎯 Ajunta dues paraules per fer-ne una de nova: renta + plats = rentaplats.</p>
+            <h4>Abans de començar</h4><ul><li>Tria la dificultat (Fàcil, Mitjà, Difícil o 🖼️ Visual), quantes paraules alhora (Mitjà), el temps i la lletra.</li></ul>
+            <h4>Com es juga</h4><ol><li>Fàcil i Mitjà: arrossega les peces als forats, o toca la peça i després el forat. Llegeix la definició!</li><li>Difícil: escriu la part que falta i prem OK.</li><li>Visual: mira el dibuix (cosa + cosa = paraula) i toca la paraula bona.</li></ol>
+            <h4>Si t'encalles</h4><p>La pista et diu per quina lletra comença cada peça. Al tercer error es mostra la paraula.</p>
+            <h4>Quan s'acaba</h4><p>Quan totes les paraules estan fetes.</p>
+          </div>
+        </details>
+        <details class="joc" name="joc" id="joc-intrus">
+          <summary>🕵️ 19. Busca l&#x27;intrús</summary>
+          <div class="cos-joc">
+            <p class="obj">🎯 De 4 dibuixos o paraules, n&#x27;hi ha un que no va amb els altres. Troba&#x27;l!</p>
+            <h4>Abans de començar</h4><ul><li>Tria la dificultat, el temps per fitxa (per defecte, 15 s) i la lletra.</li></ul>
+            <h4>Com es juga</h4><ol><li>Mira-les bé: comencen igual? Són del mateix grup? Rimen? Tenen les mateixes síl·labes?</li><li>Toca la que no hi encaixa.</li><li>Al Difícil, després tria per què no hi encaixa entre 3 motius.</li><li>Llegeix l&#x27;explicació i prem «Següent ▶».</li></ol>
+            <h4>Si t'encalles</h4><p>Al segon error, la pista et diu en què t&#x27;has de fixar.</p>
+            <h4>Quan s'acaba</h4><p>Després de 10 fitxes.</p>
+          </div>
+        </details>
+        <details class="joc" name="joc" id="joc-families">
+          <summary>🗂️ 20. Paraules en família</summary>
+          <div class="cos-joc">
+            <p class="obj">🎯 Descobreix de quin tema són les paraules, classifica-les i troba les famílies de paraules.</p>
+            <h4>Abans de començar</h4><ul><li>Tria què vols fer (Camps, Famílies o Barrejat), la dificultat, el temps per tauler i la lletra.</li></ul>
+            <h4>Com es juga</h4><ol><li>Camps: primer endevina el tema entre 3. Després arrossega cada paraula a la seva capsa (objectes, persones, accions…), o toca la paraula i després la capsa. Al Difícil, algunes paraules no són del tema: van a «No hi pertany».</li><li>Famílies: surt una paraula (per exemple, FLOR). Toca les paraules de la seva família (florista, floristeria…) i prem «Comprova». Compte amb les trampes: marró no és de la família de mar!</li></ol>
+            <h4>Si t'encalles</h4><p>La pista il·lumina la capsa bona o marca una paraula de la família amb la vora groga.</p>
+            <h4>Quan s'acaba</h4><p>Després de 5 taulers.</p>
+          </div>
+        </details>
+      </div>
+    </details>
     <details name="manual">
       <summary>🛠️ Problemes freqüents</summary>
       <div class="cos">
@@ -220,14 +438,30 @@
 
   <script>
     // Només un apartat obert alhora (per als navegadors que no entenen <details name>)
-    const apartats = [...document.querySelectorAll('.manual details')];
+    const apartats = [...document.querySelectorAll('.manual > details')];
     apartats.forEach(d => d.addEventListener('toggle', () => {
       if (!d.open) return;
       apartats.forEach(x => { if (x !== d) x.open = false; });
       d.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     }));
+    // Jocs de «Com es juga»: només un d'obert alhora
+    const jocs = [...document.querySelectorAll('.manual details.joc')];
+    jocs.forEach(d => d.addEventListener('toggle', () => {
+      if (!d.open) return;
+      jocs.forEach(x => { if (x !== d) x.open = false; });
+      d.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }));
+    // manual.html#joc-<id> obre directament aquell joc
+    function obrirJoc() {
+      const d = location.hash.startsWith('#joc-') && document.querySelector(location.hash);
+      if (!d) return;
+      document.getElementById('com-es-juga').open = true;
+      d.open = true;
+      setTimeout(() => d.scrollIntoView({ block: 'start', behavior: 'smooth' }), 60);
+    }
+    addEventListener('hashchange', obrirJoc); obrirJoc();
     // Versió: la mateixa que el service worker
-    fetch('sw.js').then(r => r.text()).then(t => { const m = t.match(/VERSIO = '([^']+)'/); if (m) document.getElementById('versio').textContent = 'AppJocs ' + m[1]; }).catch(() => {});
+    fetch('sw.js').then(r => r.text()).then(t => { const m = t.match(/VERSIO = '([^']+)'/); if (m) document.getElementById('versio').textContent = 'Juguem? ' + m[1]; }).catch(() => {});
   </script>
 </body>
 </html>

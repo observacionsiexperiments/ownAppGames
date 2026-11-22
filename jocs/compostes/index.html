@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#FFFBF3">
-  <title>Paraules compostes · AppJocs</title>
+  <title>Paraules compostes · Juguem?</title>
   <link rel="manifest" href="../../manifest.webmanifest">
   <link rel="icon" href="../../icons/icon-192.png">
   <link rel="stylesheet" href="../../css/styles.css">
@@ -110,8 +110,6 @@
       font-size: var(--pz); letter-spacing: .02em; color: var(--text); cursor: pointer; touch-action: manipulation;
       display: flex; align-items: center; gap: .6em; text-align: left; padding: .4em .7em;
       background: var(--superficie); border: 3px solid var(--vora); border-radius: 14px; box-shadow: var(--ombra); }
-    .vis-op .num { flex: none; width: 1.6em; height: 1.6em; border-radius: 50%; display: grid; place-items: center; font-size: .7em;
-      background: var(--fons); border: 2px solid var(--vora); color: var(--text-suau); }
     .vis-op .txt { flex: 1; text-align: center; overflow-wrap: anywhere; }
     .vis-op:disabled { cursor: default; }
     .vis-op.descartada { opacity: .35; text-decoration: line-through; }
@@ -646,14 +644,13 @@
           const op = el('div', 'vis-opcions');
           botons = opcions.map((o, i) => {
             const b = el('button', 'vis-op'); b.type = 'button'; b.dataset.i = i;
-            b.append(el('span', 'num', String(i + 1)), el('span', 'txt', format(o.paraula)));
+            b.append(el('span', 'txt', format(o.paraula)));
             b.addEventListener('click', () => triarOp(i));
             op.appendChild(b); return b;
           });
           z.appendChild(op);
-          mostrar('Mira els dos dibuixos del principi', 'Fes clic a la paraula bona, o prem 1, 2 o 3.');
+          mostrar('Mira els dos dibuixos del principi', 'Fes clic a la paraula bona.');
         },
-        tecla(k) { const i = Number(k) - 1; if (i >= 0 && i < botons.length && !botons[i].disabled) { botons[i].focus({ preventScroll: true }); triarOp(i); } },
         pista(manual) {
           // Treu una opció falsa (si en queden dues) i diu quina part cal mirar
           const vives = botons.filter((b, i) => !b.disabled && opcions[i] !== p);
@@ -696,10 +693,6 @@
       pr.temps0 = () => { if (!bloquejat) mostrarResp(); };
       return pr;
     }
-    document.addEventListener('keydown', ev => {
-      if ($('pantalla-joc').hidden || !P || !P.tecla || ev.ctrlKey || ev.altKey || ev.metaKey) return;
-      if (/^[1-3]$/.test(ev.key)) { ev.preventDefault(); P.tecla(ev.key); }
-    });
 
     // Quan una paraula està feta, les dues peces s'ajunten en una de sola
     function ajuntar(fila, paraula, cls) {

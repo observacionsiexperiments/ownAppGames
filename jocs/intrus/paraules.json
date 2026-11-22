@@ -1,0 +1,1597 @@
+{
+ "elements": [
+  {
+   "p": "gos",
+   "s": "gos",
+   "e": "🐶",
+   "g": "animals"
+  },
+  {
+   "p": "gat",
+   "s": "gat",
+   "e": "🐱",
+   "g": "animals"
+  },
+  {
+   "p": "cavall",
+   "s": "ca-vall",
+   "e": "🐴",
+   "g": "animals"
+  },
+  {
+   "p": "vaca",
+   "s": "va-ca",
+   "e": "🐮",
+   "g": "animals"
+  },
+  {
+   "p": "porc",
+   "s": "porc",
+   "e": "🐷",
+   "g": "animals"
+  },
+  {
+   "p": "ovella",
+   "s": "o-ve-lla",
+   "e": "🐑",
+   "g": "animals"
+  },
+  {
+   "p": "conill",
+   "s": "co-nill",
+   "e": "🐰",
+   "g": "animals"
+  },
+  {
+   "p": "ànec",
+   "s": "à-nec",
+   "e": "🦆",
+   "g": "animals"
+  },
+  {
+   "p": "gallina",
+   "s": "ga-lli-na",
+   "e": "🐔",
+   "g": "animals"
+  },
+  {
+   "p": "gall",
+   "s": "gall",
+   "e": "🐓",
+   "g": "animals"
+  },
+  {
+   "p": "peix",
+   "s": "peix",
+   "e": "🐟",
+   "g": "animals"
+  },
+  {
+   "p": "ocell",
+   "s": "o-cell",
+   "e": "🐦",
+   "g": "animals"
+  },
+  {
+   "p": "granota",
+   "s": "gra-no-ta",
+   "e": "🐸",
+   "g": "animals"
+  },
+  {
+   "p": "serp",
+   "s": "serp",
+   "e": "🐍",
+   "g": "animals"
+  },
+  {
+   "p": "tortuga",
+   "s": "tor-tu-ga",
+   "e": "🐢",
+   "g": "animals"
+  },
+  {
+   "p": "lleó",
+   "s": "lle-ó",
+   "e": "🦁",
+   "g": "animals"
+  },
+  {
+   "p": "tigre",
+   "s": "ti-gre",
+   "e": "🐯",
+   "g": "animals"
+  },
+  {
+   "p": "elefant",
+   "s": "e-le-fant",
+   "e": "🐘",
+   "g": "animals"
+  },
+  {
+   "p": "mico",
+   "s": "mi-co",
+   "e": "🐒",
+   "g": "animals"
+  },
+  {
+   "p": "girafa",
+   "s": "gi-ra-fa",
+   "e": "🦒",
+   "g": "animals",
+   "x": 1
+  },
+  {
+   "p": "cargol",
+   "s": "car-gol",
+   "e": "🐌",
+   "g": "animals"
+  },
+  {
+   "p": "abella",
+   "s": "a-be-lla",
+   "e": "🐝",
+   "g": "animals"
+  },
+  {
+   "p": "papallona",
+   "s": "pa-pa-llo-na",
+   "e": "🦋",
+   "g": "animals"
+  },
+  {
+   "p": "pop",
+   "s": "pop",
+   "e": "🐙",
+   "g": "animals"
+  },
+  {
+   "p": "balena",
+   "s": "ba-le-na",
+   "e": "🐳",
+   "g": "animals"
+  },
+  {
+   "p": "dofí",
+   "s": "do-fí",
+   "e": "🐬",
+   "g": "animals"
+  },
+  {
+   "p": "os",
+   "s": "os",
+   "e": "🐻",
+   "g": "animals"
+  },
+  {
+   "p": "ratolí",
+   "s": "ra-to-lí",
+   "e": "🐭",
+   "g": "animals"
+  },
+  {
+   "p": "pingüí",
+   "s": "pin-güí",
+   "e": "🐧",
+   "g": "animals"
+  },
+  {
+   "p": "zebra",
+   "s": "ze-bra",
+   "e": "🦓",
+   "g": "animals"
+  },
+  {
+   "p": "eriçó",
+   "s": "e-ri-çó",
+   "e": "🦔",
+   "g": "animals"
+  },
+  {
+   "p": "rata",
+   "s": "ra-ta",
+   "e": "🐀",
+   "g": "animals"
+  },
+  {
+   "p": "poma",
+   "s": "po-ma",
+   "e": "🍎",
+   "g": "fruites"
+  },
+  {
+   "p": "pera",
+   "s": "pe-ra",
+   "e": "🍐",
+   "g": "fruites"
+  },
+  {
+   "p": "plàtan",
+   "s": "plà-tan",
+   "e": "🍌",
+   "g": "fruites"
+  },
+  {
+   "p": "maduixa",
+   "s": "ma-dui-xa",
+   "e": "🍓",
+   "g": "fruites"
+  },
+  {
+   "p": "raïm",
+   "s": "ra-ïm",
+   "e": "🍇",
+   "g": "fruites"
+  },
+  {
+   "p": "taronja",
+   "s": "ta-ron-ja",
+   "e": "🍊",
+   "g": "fruites",
+   "d": "colors"
+  },
+  {
+   "p": "llimona",
+   "s": "lli-mo-na",
+   "e": "🍋",
+   "g": "fruites"
+  },
+  {
+   "p": "síndria",
+   "s": "sín-dri-a",
+   "e": "🍉",
+   "g": "fruites"
+  },
+  {
+   "p": "cirera",
+   "s": "ci-re-ra",
+   "e": "🍒",
+   "g": "fruites",
+   "x": 1
+  },
+  {
+   "p": "préssec",
+   "s": "prés-sec",
+   "e": "🍑",
+   "g": "fruites"
+  },
+  {
+   "p": "pinya",
+   "s": "pi-nya",
+   "e": "🍍",
+   "g": "fruites"
+  },
+  {
+   "p": "meló",
+   "s": "me-ló",
+   "e": "🍈",
+   "g": "fruites"
+  },
+  {
+   "p": "coco",
+   "s": "co-co",
+   "e": "🥥",
+   "g": "fruites"
+  },
+  {
+   "p": "pastanaga",
+   "s": "pas-ta-na-ga",
+   "e": "🥕",
+   "g": "verdures"
+  },
+  {
+   "p": "tomàquet",
+   "s": "to-mà-quet",
+   "e": "🍅",
+   "g": "verdures"
+  },
+  {
+   "p": "patata",
+   "s": "pa-ta-ta",
+   "e": "🥔",
+   "g": "verdures"
+  },
+  {
+   "p": "enciam",
+   "s": "en-ciam",
+   "e": "🥬",
+   "g": "verdures"
+  },
+  {
+   "p": "pebrot",
+   "s": "pe-brot",
+   "e": "🫑",
+   "g": "verdures"
+  },
+  {
+   "p": "cogombre",
+   "s": "co-gom-bre",
+   "e": "🥒",
+   "g": "verdures"
+  },
+  {
+   "p": "ceba",
+   "s": "ce-ba",
+   "e": "🧅",
+   "g": "verdures",
+   "x": 1
+  },
+  {
+   "p": "all",
+   "s": "all",
+   "e": "🧄",
+   "g": "verdures"
+  },
+  {
+   "p": "bròquil",
+   "s": "brò-quil",
+   "e": "🥦",
+   "g": "verdures"
+  },
+  {
+   "p": "pa",
+   "s": "pa",
+   "e": "🍞",
+   "g": "menjar"
+  },
+  {
+   "p": "formatge",
+   "s": "for-mat-ge",
+   "e": "🧀",
+   "g": "menjar"
+  },
+  {
+   "p": "ou",
+   "s": "ou",
+   "e": "🥚",
+   "g": "menjar"
+  },
+  {
+   "p": "pastís",
+   "s": "pas-tís",
+   "e": "🎂",
+   "g": "menjar"
+  },
+  {
+   "p": "galeta",
+   "s": "ga-le-ta",
+   "e": "🍪",
+   "g": "menjar"
+  },
+  {
+   "p": "pizza",
+   "s": "piz-za",
+   "e": "🍕",
+   "g": "menjar"
+  },
+  {
+   "p": "gelat",
+   "s": "ge-lat",
+   "e": "🍦",
+   "g": "menjar",
+   "x": 1
+  },
+  {
+   "p": "sopa",
+   "s": "so-pa",
+   "e": "🍲",
+   "g": "menjar"
+  },
+  {
+   "p": "caramel",
+   "s": "ca-ra-mel",
+   "e": "🍬",
+   "g": "menjar"
+  },
+  {
+   "p": "xocolata",
+   "s": "xo-co-la-ta",
+   "e": "🍫",
+   "g": "menjar"
+  },
+  {
+   "p": "mel",
+   "s": "mel",
+   "e": "🍯",
+   "g": "menjar"
+  },
+  {
+   "p": "samarreta",
+   "s": "sa-mar-re-ta",
+   "e": "👕",
+   "g": "roba"
+  },
+  {
+   "p": "pantalons",
+   "s": "pan-ta-lons",
+   "e": "👖",
+   "g": "roba",
+   "pl": 1
+  },
+  {
+   "p": "mitjons",
+   "s": "mit-jons",
+   "e": "🧦",
+   "g": "roba",
+   "pl": 1
+  },
+  {
+   "p": "vestit",
+   "s": "ves-tit",
+   "e": "👗",
+   "g": "roba"
+  },
+  {
+   "p": "sabata",
+   "s": "sa-ba-ta",
+   "e": "👞",
+   "g": "roba"
+  },
+  {
+   "p": "bota",
+   "s": "bo-ta",
+   "e": "👢",
+   "g": "roba"
+  },
+  {
+   "p": "barret",
+   "s": "bar-ret",
+   "e": "🎩",
+   "g": "roba"
+  },
+  {
+   "p": "gorra",
+   "s": "gor-ra",
+   "e": "🧢",
+   "g": "roba"
+  },
+  {
+   "p": "bufanda",
+   "s": "bu-fan-da",
+   "e": "🧣",
+   "g": "roba"
+  },
+  {
+   "p": "guants",
+   "s": "guants",
+   "e": "🧤",
+   "g": "roba",
+   "pl": 1
+  },
+  {
+   "p": "abric",
+   "s": "a-bric",
+   "e": "🧥",
+   "g": "roba"
+  },
+  {
+   "p": "cotxe",
+   "s": "cot-xe",
+   "e": "🚗",
+   "g": "transports"
+  },
+  {
+   "p": "autobús",
+   "s": "au-to-bús",
+   "e": "🚌",
+   "g": "transports"
+  },
+  {
+   "p": "tren",
+   "s": "tren",
+   "e": "🚆",
+   "g": "transports"
+  },
+  {
+   "p": "avió",
+   "s": "a-vi-ó",
+   "e": "✈️",
+   "g": "transports"
+  },
+  {
+   "p": "vaixell",
+   "s": "vai-xell",
+   "e": "🚢",
+   "g": "transports"
+  },
+  {
+   "p": "bicicleta",
+   "s": "bi-ci-cle-ta",
+   "e": "🚲",
+   "g": "transports"
+  },
+  {
+   "p": "moto",
+   "s": "mo-to",
+   "e": "🏍️",
+   "g": "transports"
+  },
+  {
+   "p": "camió",
+   "s": "ca-mi-ó",
+   "e": "🚚",
+   "g": "transports"
+  },
+  {
+   "p": "helicòpter",
+   "s": "he-li-còp-ter",
+   "e": "🚁",
+   "g": "transports",
+   "x": 1
+  },
+  {
+   "p": "tractor",
+   "s": "trac-tor",
+   "e": "🚜",
+   "g": "transports"
+  },
+  {
+   "p": "coet",
+   "s": "co-et",
+   "e": "🚀",
+   "g": "transports"
+  },
+  {
+   "p": "taxi",
+   "s": "ta-xi",
+   "e": "🚕",
+   "g": "transports"
+  },
+  {
+   "p": "patinet",
+   "s": "pa-ti-net",
+   "e": "🛴",
+   "g": "transports"
+  },
+  {
+   "p": "cadira",
+   "s": "ca-di-ra",
+   "e": "🪑",
+   "g": "casa"
+  },
+  {
+   "p": "llit",
+   "s": "llit",
+   "e": "🛏️",
+   "g": "casa"
+  },
+  {
+   "p": "porta",
+   "s": "por-ta",
+   "e": "🚪",
+   "g": "casa"
+  },
+  {
+   "p": "finestra",
+   "s": "fi-nes-tra",
+   "e": "🪟",
+   "g": "casa"
+  },
+  {
+   "p": "rellotge",
+   "s": "re-llot-ge",
+   "e": "⏰",
+   "g": "casa"
+  },
+  {
+   "p": "sofà",
+   "s": "so-fà",
+   "e": "🛋️",
+   "g": "casa"
+  },
+  {
+   "p": "dutxa",
+   "s": "dut-xa",
+   "e": "🚿",
+   "g": "casa"
+  },
+  {
+   "p": "clau",
+   "s": "clau",
+   "e": "🔑",
+   "g": "casa"
+  },
+  {
+   "p": "bombeta",
+   "s": "bom-be-ta",
+   "e": "💡",
+   "g": "casa"
+  },
+  {
+   "p": "escala",
+   "s": "es-ca-la",
+   "e": "🪜",
+   "g": "casa"
+  },
+  {
+   "p": "llibre",
+   "s": "lli-bre",
+   "e": "📕",
+   "g": "escola"
+  },
+  {
+   "p": "llapis",
+   "s": "lla-pis",
+   "e": "✏️",
+   "g": "escola"
+  },
+  {
+   "p": "motxilla",
+   "s": "mot-xi-lla",
+   "e": "🎒",
+   "g": "escola"
+  },
+  {
+   "p": "regle",
+   "s": "re-gle",
+   "e": "📏",
+   "g": "escola"
+  },
+  {
+   "p": "tisores",
+   "s": "ti-so-res",
+   "e": "✂️",
+   "g": "escola",
+   "pl": 1
+  },
+  {
+   "p": "pinzell",
+   "s": "pin-zell",
+   "e": "🖌️",
+   "g": "escola"
+  },
+  {
+   "p": "sol",
+   "s": "sol",
+   "e": "☀️",
+   "g": "natura"
+  },
+  {
+   "p": "lluna",
+   "s": "llu-na",
+   "e": "🌙",
+   "g": "natura"
+  },
+  {
+   "p": "estrella",
+   "s": "es-tre-lla",
+   "e": "⭐",
+   "g": "natura",
+   "d": "formes"
+  },
+  {
+   "p": "núvol",
+   "s": "nú-vol",
+   "e": "☁️",
+   "g": "natura"
+  },
+  {
+   "p": "arbre",
+   "s": "ar-bre",
+   "e": "🌳",
+   "g": "natura"
+  },
+  {
+   "p": "flor",
+   "s": "flor",
+   "e": "🌸",
+   "g": "natura"
+  },
+  {
+   "p": "fulla",
+   "s": "fu-lla",
+   "e": "🍃",
+   "g": "natura"
+  },
+  {
+   "p": "muntanya",
+   "s": "mun-ta-nya",
+   "e": "⛰️",
+   "g": "natura"
+  },
+  {
+   "p": "mar",
+   "s": "mar",
+   "e": "🌊",
+   "g": "natura"
+  },
+  {
+   "p": "neu",
+   "s": "neu",
+   "e": "❄️",
+   "g": "natura"
+  },
+  {
+   "p": "foc",
+   "s": "foc",
+   "e": "🔥",
+   "g": "natura"
+  },
+  {
+   "p": "volcà",
+   "s": "vol-cà",
+   "e": "🌋",
+   "g": "natura"
+  },
+  {
+   "p": "guitarra",
+   "s": "gui-tar-ra",
+   "e": "🎸",
+   "g": "musica"
+  },
+  {
+   "p": "piano",
+   "s": "pi-a-no",
+   "e": "🎹",
+   "g": "musica"
+  },
+  {
+   "p": "tambor",
+   "s": "tam-bor",
+   "e": "🥁",
+   "g": "musica"
+  },
+  {
+   "p": "trompeta",
+   "s": "trom-pe-ta",
+   "e": "🎺",
+   "g": "musica"
+  },
+  {
+   "p": "violí",
+   "s": "vi-o-lí",
+   "e": "🎻",
+   "g": "musica"
+  },
+  {
+   "p": "mà",
+   "s": "mà",
+   "e": "✋",
+   "g": "cos"
+  },
+  {
+   "p": "peu",
+   "s": "peu",
+   "e": "🦶",
+   "g": "cos"
+  },
+  {
+   "p": "ull",
+   "s": "ull",
+   "e": "👁️",
+   "g": "cos"
+  },
+  {
+   "p": "nas",
+   "s": "nas",
+   "e": "👃",
+   "g": "cos"
+  },
+  {
+   "p": "orella",
+   "s": "o-re-lla",
+   "e": "👂",
+   "g": "cos"
+  },
+  {
+   "p": "boca",
+   "s": "bo-ca",
+   "e": "👄",
+   "g": "cos"
+  },
+  {
+   "p": "dent",
+   "s": "dent",
+   "e": "🦷",
+   "g": "cos"
+  },
+  {
+   "p": "pilota",
+   "s": "pi-lo-ta",
+   "e": "⚽",
+   "g": "jocs"
+  },
+  {
+   "p": "globus",
+   "s": "glo-bus",
+   "e": "🎈",
+   "g": "jocs"
+  },
+  {
+   "p": "dau",
+   "s": "dau",
+   "e": "🎲",
+   "g": "jocs"
+  },
+  {
+   "p": "unicorn",
+   "s": "u-ni-corn",
+   "e": "🦄"
+  },
+  {
+   "p": "ulleres",
+   "s": "u-lle-res",
+   "e": "👓",
+   "pl": 1
+  },
+  {
+   "p": "dilluns",
+   "s": "di-lluns",
+   "g": "dies"
+  },
+  {
+   "p": "dimarts",
+   "s": "di-marts",
+   "g": "dies"
+  },
+  {
+   "p": "dimecres",
+   "s": "di-me-cres",
+   "g": "dies"
+  },
+  {
+   "p": "dijous",
+   "s": "di-jous",
+   "g": "dies"
+  },
+  {
+   "p": "divendres",
+   "s": "di-ven-dres",
+   "g": "dies"
+  },
+  {
+   "p": "dissabte",
+   "s": "dis-sab-te",
+   "g": "dies"
+  },
+  {
+   "p": "diumenge",
+   "s": "diu-men-ge",
+   "g": "dies"
+  },
+  {
+   "p": "gener",
+   "s": "ge-ner",
+   "g": "mesos"
+  },
+  {
+   "p": "febrer",
+   "s": "fe-brer",
+   "g": "mesos"
+  },
+  {
+   "p": "març",
+   "s": "març",
+   "g": "mesos"
+  },
+  {
+   "p": "abril",
+   "s": "a-bril",
+   "g": "mesos"
+  },
+  {
+   "p": "maig",
+   "s": "maig",
+   "g": "mesos"
+  },
+  {
+   "p": "juny",
+   "s": "juny",
+   "g": "mesos"
+  },
+  {
+   "p": "juliol",
+   "s": "ju-li-ol",
+   "g": "mesos"
+  },
+  {
+   "p": "agost",
+   "s": "a-gost",
+   "g": "mesos"
+  },
+  {
+   "p": "setembre",
+   "s": "se-tem-bre",
+   "g": "mesos"
+  },
+  {
+   "p": "octubre",
+   "s": "oc-tu-bre",
+   "g": "mesos"
+  },
+  {
+   "p": "novembre",
+   "s": "no-vem-bre",
+   "g": "mesos"
+  },
+  {
+   "p": "desembre",
+   "s": "de-sem-bre",
+   "g": "mesos"
+  },
+  {
+   "p": "u",
+   "s": "u",
+   "g": "nombres"
+  },
+  {
+   "p": "dos",
+   "s": "dos",
+   "g": "nombres"
+  },
+  {
+   "p": "tres",
+   "s": "tres",
+   "g": "nombres"
+  },
+  {
+   "p": "quatre",
+   "s": "qua-tre",
+   "g": "nombres"
+  },
+  {
+   "p": "cinc",
+   "s": "cinc",
+   "g": "nombres"
+  },
+  {
+   "p": "sis",
+   "s": "sis",
+   "g": "nombres"
+  },
+  {
+   "p": "vuit",
+   "s": "vuit",
+   "g": "nombres"
+  },
+  {
+   "p": "deu",
+   "s": "deu",
+   "g": "nombres"
+  },
+  {
+   "p": "onze",
+   "s": "on-ze",
+   "g": "nombres"
+  },
+  {
+   "p": "dotze",
+   "s": "dot-ze",
+   "g": "nombres"
+  },
+  {
+   "p": "vint",
+   "s": "vint",
+   "g": "nombres"
+  },
+  {
+   "p": "cent",
+   "s": "cent",
+   "g": "nombres"
+  },
+  {
+   "p": "vermell",
+   "s": "ver-mell",
+   "g": "colors"
+  },
+  {
+   "p": "blau",
+   "s": "blau",
+   "g": "colors"
+  },
+  {
+   "p": "verd",
+   "s": "verd",
+   "g": "colors"
+  },
+  {
+   "p": "groc",
+   "s": "groc",
+   "g": "colors"
+  },
+  {
+   "p": "negre",
+   "s": "ne-gre",
+   "g": "colors"
+  },
+  {
+   "p": "blanc",
+   "s": "blanc",
+   "g": "colors"
+  },
+  {
+   "p": "rosa",
+   "s": "ro-sa",
+   "g": "colors",
+   "d": "natura"
+  },
+  {
+   "p": "lila",
+   "s": "li-la",
+   "g": "colors"
+  },
+  {
+   "p": "marró",
+   "s": "mar-ró",
+   "g": "colors"
+  },
+  {
+   "p": "gris",
+   "s": "gris",
+   "g": "colors"
+  },
+  {
+   "p": "primavera",
+   "s": "pri-ma-ve-ra",
+   "g": "estacions"
+  },
+  {
+   "p": "estiu",
+   "s": "es-tiu",
+   "g": "estacions"
+  },
+  {
+   "p": "tardor",
+   "s": "tar-dor",
+   "g": "estacions"
+  },
+  {
+   "p": "hivern",
+   "s": "hi-vern",
+   "g": "estacions"
+  },
+  {
+   "p": "cercle",
+   "s": "cer-cle",
+   "g": "formes"
+  },
+  {
+   "p": "quadrat",
+   "s": "qua-drat",
+   "g": "formes"
+  },
+  {
+   "p": "triangle",
+   "s": "tri-an-gle",
+   "g": "formes"
+  },
+  {
+   "p": "rectangle",
+   "s": "rec-tan-gle",
+   "g": "formes"
+  },
+  {
+   "p": "forquilla",
+   "s": "for-qui-lla",
+   "g": "cuina"
+  },
+  {
+   "p": "cullera",
+   "s": "cu-lle-ra",
+   "g": "cuina"
+  },
+  {
+   "p": "plat",
+   "s": "plat",
+   "g": "cuina"
+  },
+  {
+   "p": "got",
+   "s": "got",
+   "g": "cuina"
+  },
+  {
+   "p": "tassa",
+   "s": "tas-sa",
+   "g": "cuina"
+  },
+  {
+   "p": "cassola",
+   "s": "cas-so-la",
+   "g": "cuina"
+  },
+  {
+   "p": "paella",
+   "s": "pa-e-lla",
+   "g": "cuina"
+  },
+  {
+   "p": "corbata",
+   "s": "cor-ba-ta"
+  },
+  {
+   "p": "tomata",
+   "s": "to-ma-ta"
+  },
+  {
+   "p": "maleta",
+   "s": "ma-le-ta"
+  },
+  {
+   "p": "anell",
+   "s": "a-nell"
+  },
+  {
+   "p": "castell",
+   "s": "cas-tell"
+  },
+  {
+   "p": "martell",
+   "s": "mar-tell"
+  },
+  {
+   "p": "mirall",
+   "s": "mi-rall"
+  },
+  {
+   "p": "ventall",
+   "s": "ven-tall"
+  },
+  {
+   "p": "ball",
+   "s": "ball"
+  },
+  {
+   "p": "botó",
+   "s": "bo-tó"
+  },
+  {
+   "p": "sabó",
+   "s": "sa-bó"
+  },
+  {
+   "p": "color",
+   "s": "co-lor"
+  },
+  {
+   "p": "calor",
+   "s": "ca-lor"
+  }
+ ],
+ "grups": {
+  "animals": {
+   "u": "un animal",
+   "pl": "animals",
+   "f": "animals"
+  },
+  "fruites": {
+   "u": "una fruita",
+   "pl": "fruites",
+   "f": "menjar"
+  },
+  "verdures": {
+   "u": "una verdura",
+   "pl": "verdures",
+   "f": "menjar"
+  },
+  "menjar": {
+   "u": "un menjar",
+   "pl": "menjars",
+   "f": "menjar"
+  },
+  "roba": {
+   "u": "una peça de roba",
+   "pl": "peces de roba",
+   "f": "roba"
+  },
+  "transports": {
+   "u": "un transport",
+   "pl": "transports",
+   "f": "transports"
+  },
+  "casa": {
+   "u": "una cosa de casa",
+   "pl": "coses de casa",
+   "f": "casa"
+  },
+  "escola": {
+   "u": "una cosa de l'escola",
+   "pl": "coses de l'escola",
+   "f": "escola"
+  },
+  "natura": {
+   "u": "una cosa de la natura",
+   "pl": "coses de la natura",
+   "f": "natura"
+  },
+  "musica": {
+   "u": "un instrument",
+   "pl": "instruments",
+   "f": "musica"
+  },
+  "cos": {
+   "u": "una part del cos",
+   "pl": "parts del cos",
+   "f": "cos"
+  },
+  "jocs": {
+   "u": "una joguina",
+   "pl": "joguines",
+   "f": "jocs"
+  },
+  "dies": {
+   "u": "un dia de la setmana",
+   "pl": "dies de la setmana",
+   "f": "temps"
+  },
+  "mesos": {
+   "u": "un mes",
+   "pl": "mesos",
+   "f": "temps"
+  },
+  "estacions": {
+   "u": "una estació de l'any",
+   "pl": "estacions de l'any",
+   "f": "temps"
+  },
+  "nombres": {
+   "u": "un nombre",
+   "pl": "nombres",
+   "f": "nombres"
+  },
+  "colors": {
+   "u": "un color",
+   "pl": "colors",
+   "f": "colors"
+  },
+  "formes": {
+   "u": "una forma",
+   "pl": "formes",
+   "f": "formes"
+  },
+  "cuina": {
+   "u": "un estri de cuina",
+   "pl": "estris de cuina",
+   "f": "casa"
+  }
+ },
+ "rimes": [
+  "ata",
+  "eta",
+  "ell",
+  "all",
+  "ó",
+  "or"
+ ],
+ "plurals": [
+  [
+   "gat",
+   "gats"
+  ],
+  [
+   "casa",
+   "cases"
+  ],
+  [
+   "flor",
+   "flors"
+  ],
+  [
+   "poma",
+   "pomes"
+  ],
+  [
+   "llibre",
+   "llibres"
+  ],
+  [
+   "cotxe",
+   "cotxes"
+  ],
+  [
+   "arbre",
+   "arbres"
+  ],
+  [
+   "taula",
+   "taules"
+  ],
+  [
+   "pilota",
+   "pilotes"
+  ],
+  [
+   "ocell",
+   "ocells"
+  ],
+  [
+   "peix",
+   "peixos"
+  ],
+  [
+   "porta",
+   "portes"
+  ],
+  [
+   "cadira",
+   "cadires"
+  ],
+  [
+   "gos",
+   "gossos"
+  ],
+  [
+   "sabata",
+   "sabates"
+  ],
+  [
+   "ou",
+   "ous"
+  ],
+  [
+   "lluna",
+   "llunes"
+  ],
+  [
+   "estrella",
+   "estrelles"
+  ],
+  [
+   "núvol",
+   "núvols"
+  ],
+  [
+   "tren",
+   "trens"
+  ],
+  [
+   "galeta",
+   "galetes"
+  ],
+  [
+   "mà",
+   "mans"
+  ],
+  [
+   "peu",
+   "peus"
+  ],
+  [
+   "vaca",
+   "vaques"
+  ],
+  [
+   "nas",
+   "nassos"
+  ]
+ ],
+ "gram": {
+  "verb": [
+   "córrer",
+   "saltar",
+   "dormir",
+   "cantar",
+   "ballar",
+   "llegir",
+   "escriure",
+   "nedar",
+   "jugar",
+   "pintar",
+   "caminar",
+   "xiular"
+  ],
+  "adjectiu": [
+   "petit",
+   "alt",
+   "baix",
+   "content",
+   "trist",
+   "ràpid",
+   "lent",
+   "bonic",
+   "fort",
+   "suau",
+   "brut",
+   "valent"
+  ]
+ },
+ "sinonims": [
+  {
+   "iguals": [
+    "gran",
+    "enorme",
+    "gegant"
+   ],
+   "contraris": [
+    "petit",
+    "menut"
+   ]
+  },
+  {
+   "iguals": [
+    "petit",
+    "menut",
+    "xic"
+   ],
+   "contraris": [
+    "gran",
+    "enorme"
+   ]
+  },
+  {
+   "iguals": [
+    "content",
+    "alegre",
+    "feliç"
+   ],
+   "contraris": [
+    "trist"
+   ]
+  },
+  {
+   "iguals": [
+    "trist",
+    "apenat",
+    "desanimat"
+   ],
+   "contraris": [
+    "content",
+    "alegre"
+   ]
+  },
+  {
+   "iguals": [
+    "bonic",
+    "maco",
+    "preciós"
+   ],
+   "contraris": [
+    "lleig"
+   ]
+  },
+  {
+   "iguals": [
+    "parlar",
+    "xerrar",
+    "conversar"
+   ],
+   "contraris": [
+    "callar"
+   ]
+  }
+ ],
+ "partTot": [
+  {
+   "tot": "del cotxe",
+   "parts": [
+    "roda",
+    "volant",
+    "motor",
+    "porta",
+    "seient"
+   ],
+   "fora": [
+    "semàfor",
+    "carretera",
+    "gasolinera"
+   ]
+  },
+  {
+   "tot": "de la bicicleta",
+   "parts": [
+    "pedal",
+    "cadena",
+    "manillar",
+    "roda",
+    "sellí"
+   ],
+   "fora": [
+    "casc",
+    "carril",
+    "semàfor"
+   ]
+  },
+  {
+   "tot": "de la casa",
+   "parts": [
+    "porta",
+    "finestra",
+    "teulada",
+    "xemeneia",
+    "escala"
+   ],
+   "fora": [
+    "jardí",
+    "carrer",
+    "arbre"
+   ]
+  },
+  {
+   "tot": "de l'arbre",
+   "parts": [
+    "arrel",
+    "tronc",
+    "branca",
+    "fulla"
+   ],
+   "fora": [
+    "niu",
+    "ocell",
+    "bosc"
+   ]
+  },
+  {
+   "tot": "del cos",
+   "parts": [
+    "braç",
+    "cama",
+    "cap",
+    "mà",
+    "peu"
+   ],
+   "fora": [
+    "guant",
+    "barret",
+    "sabata"
+   ]
+  },
+  {
+   "tot": "del llibre",
+   "parts": [
+    "pàgina",
+    "portada",
+    "títol"
+   ],
+   "fora": [
+    "prestatge",
+    "biblioteca",
+    "motxilla"
+   ]
+  }
+ ],
+ "intensitat": [
+  {
+   "a": [
+    "gelat",
+    "fred",
+    "fresc"
+   ],
+   "da": "del costat del fred",
+   "b": [
+    "calent",
+    "bullent"
+   ],
+   "db": "del costat de la calor"
+  },
+  {
+   "a": [
+    "diminut",
+    "petit",
+    "petitet"
+   ],
+   "da": "del costat del petit",
+   "b": [
+    "gran",
+    "gegant",
+    "enorme"
+   ],
+   "db": "del costat del gran"
+  },
+  {
+   "a": [
+    "lent",
+    "tranquil",
+    "pausat"
+   ],
+   "da": "del costat del lent",
+   "b": [
+    "ràpid",
+    "veloç"
+   ],
+   "db": "del costat del ràpid"
+  },
+  {
+   "a": [
+    "silenciós",
+    "fluix",
+    "baixet"
+   ],
+   "da": "del costat del silenci",
+   "b": [
+    "fort",
+    "sorollós"
+   ],
+   "db": "del costat del soroll"
+  }
+ ]
+}

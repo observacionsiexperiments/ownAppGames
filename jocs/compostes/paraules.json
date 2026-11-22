@@ -83,14 +83,6 @@
    "definicio": "Quan el sol es pon."
   },
   {
-   "paraula": "llevataps",
-   "parts": [
-    "lleva",
-    "taps"
-   ],
-   "definicio": "Eina per treure el tap de les ampolles."
-  },
-  {
    "paraula": "obrellaunes",
    "parts": [
     "obre",
@@ -137,22 +129,6 @@
     "roba"
    ],
    "definicio": "Armari on guardem la roba."
-  },
-  {
-   "paraula": "guardabosc",
-   "parts": [
-    "guarda",
-    "bosc"
-   ],
-   "definicio": "Persona que vigila el bosc."
-  },
-  {
-   "paraula": "guardapols",
-   "parts": [
-    "guarda",
-    "pols"
-   ],
-   "definicio": "Bata per no embrutar-se la roba."
   },
   {
    "paraula": "passamuntanyes",
@@ -203,14 +179,6 @@
    "definicio": "Figura de festa amb un cap molt gros."
   },
   {
-   "paraula": "rodamón",
-   "parts": [
-    "roda",
-    "món"
-   ],
-   "definicio": "Persona que viatja per tot el món."
-  },
-  {
    "paraula": "tallaungles",
    "parts": [
     "talla",
@@ -241,14 +209,6 @@
     "mans"
    ],
    "definicio": "Aparell per eixugar-se les mans."
-  },
-  {
-   "paraula": "picaporta",
-   "parts": [
-    "pica",
-    "porta"
-   ],
-   "definicio": "Peça per trucar a la porta."
   },
   {
    "paraula": "matamosques",
@@ -321,170 +281,482 @@
     "xemeneies"
    ],
    "definicio": "Persona que neteja les xemeneies."
+  },
+  {
+   "paraula": "para-sol",
+   "parts": [
+    "para",
+    "sol"
+   ],
+   "definicio": "Ens fa ombra a la platja."
+  },
+  {
+   "paraula": "paravent",
+   "parts": [
+    "para",
+    "vent"
+   ],
+   "definicio": "Atura el vent a la platja."
+  },
+  {
+   "paraula": "penja-robes",
+   "parts": [
+    "penja",
+    "robes"
+   ],
+   "definicio": "Hi pengem els abrics i les jaquetes."
+  },
+  {
+   "paraula": "pit-roig",
+   "parts": [
+    "pit",
+    "roig"
+   ],
+   "definicio": "Ocell petit amb el pit vermell."
+  },
+  {
+   "paraula": "pèl-roig",
+   "parts": [
+    "pèl",
+    "roig"
+   ],
+   "definicio": "Que té els cabells de color vermellós."
+  },
+  {
+   "paraula": "centpeus",
+   "parts": [
+    "cent",
+    "peus"
+   ],
+   "definicio": "Bestiola llarga amb moltíssimes potes."
+  },
+  {
+   "paraula": "cobrellit",
+   "parts": [
+    "cobre",
+    "llit"
+   ],
+   "definicio": "Roba que tapa el llit."
+  },
+  {
+   "paraula": "caçapapallones",
+   "parts": [
+    "caça",
+    "papallones"
+   ],
+   "definicio": "Xarxa amb un pal per agafar papallones."
+  },
+  {
+   "paraula": "filferro",
+   "parts": [
+    "fil",
+    "ferro"
+   ],
+   "definicio": "Fil de metall."
+  },
+  {
+   "paraula": "portaequipatges",
+   "parts": [
+    "porta",
+    "equipatges"
+   ],
+   "definicio": "On es posen les maletes al cotxe o al tren."
+  },
+  {
+   "paraula": "tallafocs",
+   "parts": [
+    "talla",
+    "focs"
+   ],
+   "definicio": "Franja del bosc sense arbres perquè el foc no hi passi."
+  },
+  {
+   "paraula": "bocabadat",
+   "parts": [
+    "boca",
+    "badat"
+   ],
+   "definicio": "Que es queda amb la boca oberta de sorpresa."
+  },
+  {
+   "paraula": "agredolç",
+   "parts": [
+    "agre",
+    "dolç"
+   ],
+   "definicio": "Que és agre i dolç alhora."
+  },
+  {
+   "paraula": "automòbil",
+   "parts": [
+    "auto",
+    "mòbil"
+   ],
+   "definicio": "Vehicle amb motor per anar per la carretera: el cotxe."
+  },
+  {
+   "paraula": "autoretrat",
+   "parts": [
+    "auto",
+    "retrat"
+   ],
+   "definicio": "Retrat que una persona fa de si mateixa."
+  },
+  {
+   "paraula": "videojoc",
+   "parts": [
+    "vídeo",
+    "joc"
+   ],
+   "definicio": "Joc que es juga en una pantalla.",
+   "nota": "Vídeo perd l'accent: vídeo + joc = videojoc."
+  },
+  {
+   "paraula": "motoserra",
+   "parts": [
+    "moto",
+    "serra"
+   ],
+   "definicio": "Serra amb motor per tallar troncs."
+  },
+  {
+   "paraula": "ventafocs",
+   "parts": [
+    "venta",
+    "focs"
+   ],
+   "definicio": "La noia del conte que perd una sabata al ball."
+  },
+  {
+   "paraula": "penya-segat",
+   "parts": [
+    "penya",
+    "segat"
+   ],
+   "definicio": "Roca molt alta i dreta, sovint vora el mar."
+  },
+  {
+   "paraula": "sobretaula",
+   "parts": [
+    "sobre",
+    "taula"
+   ],
+   "definicio": "Estona de xerrar a taula després de dinar o sopar."
+  },
+  {
+   "paraula": "saltamartí",
+   "parts": [
+    "salta",
+    "martí"
+   ],
+   "definicio": "Insecte verd que fa salts molt llargs."
+  },
+  {
+   "paraula": "malson",
+   "parts": [
+    "mal",
+    "son"
+   ],
+   "definicio": "Somni que fa por."
+  },
+  {
+   "paraula": "trespeus",
+   "parts": [
+    "tres",
+    "peus"
+   ],
+   "definicio": "Suport de tres potes, per exemple per a una càmera."
+  },
+  {
+   "paraula": "tirallonga",
+   "parts": [
+    "tira",
+    "llonga"
+   ],
+   "definicio": "Fila molt llarga de coses o de persones."
+  },
+  {
+   "paraula": "trencacaps",
+   "parts": [
+    "trenca",
+    "caps"
+   ],
+   "definicio": "Problema o endevinalla difícil de resoldre."
+  },
+  {
+   "paraula": "capgirar",
+   "parts": [
+    "cap",
+    "girar"
+   ],
+   "definicio": "Girar una cosa de dalt a baix."
+  },
+  {
+   "paraula": "teletreball",
+   "parts": [
+    "tele",
+    "treball"
+   ],
+   "definicio": "Treballar des de casa amb l'ordinador."
+  },
+  {
+   "paraula": "curtcircuit",
+   "parts": [
+    "curt",
+    "circuit"
+   ],
+   "definicio": "Quan l'electricitat fa una espurna i s'apaguen els llums."
+  },
+  {
+   "paraula": "lletraferit",
+   "parts": [
+    "lletra",
+    "ferit"
+   ],
+   "definicio": "Persona a qui agrada molt llegir i escriure."
+  },
+  {
+   "paraula": "guardabosc",
+   "parts": [
+    "guarda",
+    "bosc"
+   ],
+   "definicio": "Persona que vigila i cuida el bosc."
+  },
+  {
+   "paraula": "pelapatates",
+   "parts": [
+    "pela",
+    "patates"
+   ],
+   "definicio": "Estri per treure la pell a les patates."
+  },
+  {
+   "paraula": "rodamón",
+   "parts": [
+    "roda",
+    "món"
+   ],
+   "definicio": "Persona que viatja per tot el món."
   }
  ],
  "evitar": [
-  "para-sol",
   "passaport",
   "portaveu",
   "capicua"
  ],
  "visual": [
   {
-   "paraula": "aiguamoll",
-   "imatge": "imatges/aiguamoll.webp?v=2"
-  },
-  {
-   "paraula": "aiguaneu",
-   "imatge": "imatges/aiguaneu.webp?v=2"
-  },
-  {
-   "paraula": "altaveu",
-   "imatge": "imatges/altaveu.webp?v=2"
-  },
-  {
-   "paraula": "capgròs",
-   "imatge": "imatges/capgros.webp?v=2"
-  },
-  {
-   "paraula": "capvespre",
-   "imatge": "imatges/capvespre.webp?v=2"
-  },
-  {
-   "paraula": "comptaquilòmetres",
-   "imatge": "imatges/comptaquilometres.webp?v=2"
-  },
-  {
-   "paraula": "eixugamans",
-   "imatge": "imatges/eixugamans.webp?v=2"
-  },
-  {
-   "paraula": "escura-xemeneies",
-   "imatge": "imatges/escura-xemeneies.webp?v=2"
-  },
-  {
-   "paraula": "escuradents",
-   "imatge": "imatges/escuradents.webp?v=2"
-  },
-  {
-   "paraula": "espantaocells",
-   "imatge": "imatges/espantaocells.webp?v=2"
-  },
-  {
-   "paraula": "gira-sol",
-   "imatge": "imatges/gira-sol.webp?v=2"
+   "paraula": "rentaplats",
+   "imatge": "imatges/rentaplats.webp?v=3"
   },
   {
    "paraula": "gratacel",
-   "imatge": "imatges/gratacel.webp?v=2"
+   "imatge": "imatges/gratacel.webp?v=3"
   },
   {
-   "paraula": "guardabosc",
-   "imatge": "imatges/guardabosc.webp?v=2"
-  },
-  {
-   "paraula": "guardapols",
-   "imatge": "imatges/guardapols.webp?v=2"
-  },
-  {
-   "paraula": "guardaroba",
-   "imatge": "imatges/guardaroba.webp?v=2"
-  },
-  {
-   "paraula": "llevataps",
-   "imatge": "imatges/llevataps.webp?v=2"
-  },
-  {
-   "paraula": "matamosques",
-   "imatge": "imatges/matamosques.webp?v=2"
-  },
-  {
-   "paraula": "migdia",
-   "imatge": "imatges/migdia.webp?v=2"
-  },
-  {
-   "paraula": "mitjanit",
-   "imatge": "imatges/mitjanit.webp?v=2"
-  },
-  {
-   "paraula": "obrellaunes",
-   "imatge": "imatges/obrellaunes.webp?v=2"
-  },
-  {
-   "paraula": "para-xocs",
-   "imatge": "imatges/para-xocs.webp?v=2"
-  },
-  {
-   "paraula": "parabrisa",
-   "imatge": "imatges/parabrisa.webp?v=2"
-  },
-  {
-   "paraula": "paracaigudes",
-   "imatge": "imatges/paracaigudes.webp?v=2"
-  },
-  {
-   "paraula": "parafang",
-   "imatge": "imatges/parafang.webp?v=2"
+   "paraula": "gira-sol",
+   "imatge": "imatges/gira-sol.webp?v=3"
   },
   {
    "paraula": "paraigua",
-   "imatge": "imatges/paraigua.webp?v=2"
+   "imatge": "imatges/paraigua.webp?v=3"
   },
   {
    "paraula": "parallamps",
-   "imatge": "imatges/parallamps.webp?v=2"
+   "imatge": "imatges/parallamps.webp?v=3"
   },
   {
-   "paraula": "passamuntanyes",
-   "imatge": "imatges/passamuntanyes.webp?v=2"
+   "paraula": "paracaigudes",
+   "imatge": "imatges/paracaigudes.webp?v=3"
   },
   {
-   "paraula": "passamà",
-   "imatge": "imatges/passama.webp?v=2"
+   "paraula": "parabrisa",
+   "imatge": "imatges/parabrisa.webp?v=3"
   },
   {
-   "paraula": "passatemps",
-   "imatge": "imatges/passatemps.webp?v=2"
+   "paraula": "migdia",
+   "imatge": "imatges/migdia.webp?v=3"
   },
   {
-   "paraula": "picaporta",
-   "imatge": "imatges/picaporta.webp?v=2"
+   "paraula": "mitjanit",
+   "imatge": "imatges/mitjanit.webp?v=3"
   },
   {
-   "paraula": "portamonedes",
-   "imatge": "imatges/portamonedes.webp?v=2"
+   "paraula": "capvespre",
+   "imatge": "imatges/capvespre.webp?v=3"
   },
   {
-   "paraula": "portaretrats",
-   "imatge": "imatges/portaretrats.webp?v=2"
+   "paraula": "obrellaunes",
+   "imatge": "imatges/obrellaunes.webp?v=3"
   },
   {
-   "paraula": "ratpenat",
-   "imatge": "imatges/ratpenat.webp?v=2"
-  },
-  {
-   "paraula": "rentaplats",
-   "imatge": "imatges/rentaplats.webp?v=2"
-  },
-  {
-   "paraula": "rodamón",
-   "imatge": "imatges/rodamon.webp?v=2"
-  },
-  {
-   "paraula": "salvavides",
-   "imatge": "imatges/salvavides.webp?v=2"
-  },
-  {
-   "paraula": "tallaungles",
-   "imatge": "imatges/tallaungles.webp?v=2"
-  },
-  {
-   "paraula": "terratrèmol",
-   "imatge": "imatges/terratremol.webp?v=2"
+   "paraula": "escuradents",
+   "imatge": "imatges/escuradents.webp?v=3"
   },
   {
    "paraula": "trencaclosques",
-   "imatge": "imatges/trencaclosques.webp?v=2"
+   "imatge": "imatges/trencaclosques.webp?v=3"
+  },
+  {
+   "paraula": "portamonedes",
+   "imatge": "imatges/portamonedes.webp?v=3"
+  },
+  {
+   "paraula": "salvavides",
+   "imatge": "imatges/salvavides.webp?v=3"
+  },
+  {
+   "paraula": "guardaroba",
+   "imatge": "imatges/guardaroba.webp?v=3"
+  },
+  {
+   "paraula": "passamuntanyes",
+   "imatge": "imatges/passamuntanyes.webp?v=3"
+  },
+  {
+   "paraula": "passatemps",
+   "imatge": "imatges/passatemps.webp?v=3"
+  },
+  {
+   "paraula": "terratrèmol",
+   "imatge": "imatges/terratremol.webp?v=3"
+  },
+  {
+   "paraula": "aiguamoll",
+   "imatge": "imatges/aiguamoll.webp?v=3"
+  },
+  {
+   "paraula": "aiguaneu",
+   "imatge": "imatges/aiguaneu.webp?v=3"
+  },
+  {
+   "paraula": "capgròs",
+   "imatge": "imatges/capgros.webp?v=3"
+  },
+  {
+   "paraula": "tallaungles",
+   "imatge": "imatges/tallaungles.webp?v=3"
+  },
+  {
+   "paraula": "trencanous",
+   "imatge": "imatges/trencanous.webp?v=3"
+  },
+  {
+   "paraula": "espantaocells",
+   "imatge": "imatges/espantaocells.webp?v=3"
+  },
+  {
+   "paraula": "eixugamans",
+   "imatge": "imatges/eixugamans.webp?v=3"
+  },
+  {
+   "paraula": "matamosques",
+   "imatge": "imatges/matamosques.webp?v=3"
+  },
+  {
+   "paraula": "altaveu",
+   "imatge": "imatges/altaveu.webp?v=3"
+  },
+  {
+   "paraula": "ratpenat",
+   "imatge": "imatges/ratpenat.webp?v=3"
+  },
+  {
+   "paraula": "para-xocs",
+   "imatge": "imatges/para-xocs.webp?v=3"
+  },
+  {
+   "paraula": "comptaquilòmetres",
+   "imatge": "imatges/comptaquilometres.webp?v=3"
+  },
+  {
+   "paraula": "parafang",
+   "imatge": "imatges/parafang.webp?v=3"
+  },
+  {
+   "paraula": "portaretrats",
+   "imatge": "imatges/portaretrats.webp?v=3"
+  },
+  {
+   "paraula": "passamà",
+   "imatge": "imatges/passama.webp?v=3"
+  },
+  {
+   "paraula": "escura-xemeneies",
+   "imatge": "imatges/escura-xemeneies.webp?v=3"
+  },
+  {
+   "paraula": "para-sol",
+   "imatge": "imatges/para-sol.webp?v=3"
+  },
+  {
+   "paraula": "paravent",
+   "imatge": "imatges/paravent.webp?v=3"
+  },
+  {
+   "paraula": "penja-robes",
+   "imatge": "imatges/penja-robes.webp?v=3"
+  },
+  {
+   "paraula": "pit-roig",
+   "imatge": "imatges/pit-roig.webp?v=3"
+  },
+  {
+   "paraula": "pèl-roig",
+   "imatge": "imatges/pel-roig.webp?v=3"
+  },
+  {
+   "paraula": "centpeus",
+   "imatge": "imatges/centpeus.webp?v=3"
+  },
+  {
+   "paraula": "cobrellit",
+   "imatge": "imatges/cobrellit.webp?v=3"
+  },
+  {
+   "paraula": "caçapapallones",
+   "imatge": "imatges/cacapapallones.webp?v=3"
+  },
+  {
+   "paraula": "filferro",
+   "imatge": "imatges/filferro.webp?v=3"
+  },
+  {
+   "paraula": "portaequipatges",
+   "imatge": "imatges/portaequipatges.webp?v=3"
+  },
+  {
+   "paraula": "tallafocs",
+   "imatge": "imatges/tallafocs.webp?v=3"
+  },
+  {
+   "paraula": "bocabadat",
+   "imatge": "imatges/bocabadat.webp?v=3"
+  },
+  {
+   "paraula": "agredolç",
+   "imatge": "imatges/agredolc.webp?v=3"
+  },
+  {
+   "paraula": "curtcircuit",
+   "imatge": "imatges/curtcircuit.webp?v=3"
+  },
+  {
+   "paraula": "lletraferit",
+   "imatge": "imatges/lletraferit.webp?v=3"
+  },
+  {
+   "paraula": "guardabosc",
+   "imatge": "imatges/guardabosc.webp?v=3"
+  },
+  {
+   "paraula": "pelapatates",
+   "imatge": "imatges/pelapatates.webp?v=3"
+  },
+  {
+   "paraula": "rodamón",
+   "imatge": "imatges/rodamon.webp?v=3"
   }
  ]
 }

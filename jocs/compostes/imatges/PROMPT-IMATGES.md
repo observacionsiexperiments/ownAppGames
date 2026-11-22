@@ -1,67 +1,146 @@
-# PROMPT MESTRE: GENERADOR D'IMATGES EDUCATIVES DE PARAULES COMPOSTES EN CATALÀ
+# PROMPT MESTRE — GENERADOR D'IMATGES EDUCATIVES DE PARAULES COMPOSTES EN CATALÀ
 
 ## 1. ROL I OBJECTIU
 
-Actua com un generador d'imatges educatives especialitzat en paraules compostes en català, adreçat a infants.
+Actua com un generador especialitzat d'imatges educatives per treballar les paraules compostes en català amb infants de 8 a 10 anys.
 
-L'usuari proporcionarà una llista de paraules compostes, preferiblement amb:
-- Paraula.
-- Components.
-- Definició.
+L'objectiu és crear una col·lecció d'imatges per utilitzar en un joc educatiu de vocabulari.
 
-Per a cada paraula, hauràs de:
-1. Identificar-ne els dos components.
-2. Representar visualment cada component per separat.
-3. Representar el significat global de la paraula.
-4. Generar una imatge educativa única.
-5. Desar-la en format PNG.
-6. Assignar-li el nom ortogràficament correcte.
-7. Incloure totes les imatges en un únic ZIP.
+Cada paraula s'ha de representar mitjançant una seqüència visual:
 
-No agrupis paraules diferents en una mateixa imatge.
+**COMPONENT 1 + COMPONENT 2 = RESULTAT**
 
-## 2. ESTRUCTURA VISUAL OBLIGATÒRIA
+Per a cada paraula:
+1. Identifica els dos components.
+2. Interpreta el significat de cadascun.
+3. Representa visualment cada component per separat.
+4. Representa el significat global de la paraula.
+5. Genera una imatge PNG independent.
+6. Verifica'n la qualitat visual i lingüística.
+7. Desa-la amb el nom ortogràficament correcte.
 
-Cada imatge ha de mostrar aquesta seqüència horitzontal:
+No donis per acabada cap imatge que no compleixi tots els requisits.
 
-**CONCEPTE 1 + CONCEPTE 2 = PARAULA COMPOSTA**
+---
 
-D'esquerra a dreta:
-- Primer dibuix: significat del primer component.
-- Signe matemàtic +.
-- Segon dibuix: significat del segon component.
-- Signe matemàtic =.
-- Tercer dibuix: significat global de la paraula composta.
+## 2. GENERACIÓ INDIVIDUAL OBLIGATÒRIA
 
-Cada concepte ha de tenir una representació visual pròpia, diferenciada i fàcilment recognoscible.
+Aquesta és una de les normes més importants.
 
-Els signes + i = han de ser grans i visibles.
+- Genera una imatge independent per a cada paraula.
+- Cada operació de generació ha de produir UNA SOLA imatge.
+- No generis làmines amb diverses paraules.
+- No generis quadrícules.
+- No generis collages.
+- No generis mosaics.
+- No agrupis diverses il·lustracions en una mateixa imatge.
+- No retallis imatges d'una làmina general.
 
-No confonguis el signe de suma amb el guionet ortogràfic.
+Cada PNG ha de ser una il·lustració completa, original i independent.
 
-No incorporis cap paraula, lletra, títol, etiqueta ni explicació escrita dins la imatge.
+No utilitzis mai una imatge col·lectiva per obtenir posteriorment les imatges individuals.
 
-Només es permeten els signes matemàtics + i =.
+---
 
-## 3. ESTIL VISUAL OBLIGATORI
+## 3. COMPOSICIÓ VISUAL
 
-TOTES les imatges han de mantenir exactament el mateix estil:
+Cada imatge ha de tenir una composició horitzontal amb aquesta estructura:
+
+**DIBUIX 1 + DIBUIX 2 = DIBUIX 3**
+
+Distribució d'esquerra a dreta:
+
+1. Primer component.
+2. Signe matemàtic +.
+3. Segon component.
+4. Signe matemàtic =.
+5. Resultat final.
+
+Els tres dibuixos han de tenir una mida visual equilibrada.
+
+Els signes + i = han de ser grans, visibles i fàcilment identificables.
+
+El resultat final ha de ser visualment diferent dels dos components.
+
+No repeteixis simplement el primer o el segon dibuix al resultat.
+
+Cada component ha de tenir una representació pròpia.
+
+---
+
+## 4. FORMAT I DIMENSIONS OBLIGATÒRIES
+
+Totes les imatges han de tenir exactament:
+
+- Amplada: 900 píxels.
+- Alçada: 300 píxels.
+- Proporció: 3:1.
+- Format: PNG.
+- Fons: blanc pur.
+- Composició: horitzontal.
+
+**És imprescindible aprofitar tota la superfície de la imatge.**
+
+La il·lustració completa ha d'ocupar aproximadament:
+- Entre el 90% i el 94% de l'amplada.
+- Entre el 82% i el 87% de l'alçada.
+
+Deixa marges blancs petits, equilibrats i uniformes.
+
+No col·loquis un dibuix petit al centre d'un llenç de 900 × 300 píxels.
+
+No deixis grans zones blanques sobrants.
+
+No facis servir una composició quadrada adaptada artificialment a un format horitzontal.
+
+Els dibuixos han de ser grans i fàcilment recognoscibles quan es mostrin en una pantalla de joc.
+
+---
+
+## 5. MARGES I HOMOGENEÏTAT ENTRE IMATGES
+
+Totes les imatges han de tenir una aparença coherent, com si formessin part d'una mateixa col·lecció.
+
+Mantén constants:
+- La mida del llenç.
+- La proporció 3:1.
+- Els marges superior i inferior.
+- Els marges laterals.
+- La mida relativa dels tres dibuixos.
+- La mida dels signes matemàtics.
+- La distribució horitzontal.
+- La intensitat dels colors.
+- L'estil dels traços.
+
+Els elements principals han d'estar centrats verticalment.
+
+No tallis cap part dels dibuixos.
+
+No facis que una imatge tingui dibuixos molt petits i una altra dibuixos exageradament grans.
+
+La coherència visual és prioritària.
+
+---
+
+## 6. ESTIL VISUAL OBLIGATORI
+
+Totes les imatges han de seguir exactament aquest estil:
 
 - Dibuix fet amb ceres de colors (crayons).
 - Aparença de dibuix realitzat per un infant de 10 anys.
 - Traços irregulars i espontanis.
-- Textura visible de cera, tant als contorns com als farciments.
+- Textura visible de cera.
 - Colors alegres i suaus.
 - Estil tendre, juganer i innocent.
 - Fons completament blanc.
-- Il·lustracions senzilles i fàcilment recognoscibles.
+- Il·lustracions senzilles i recognoscibles.
 - Elements principals grans i ben diferenciats.
-- Acabat artesanal, mai vectorial ni fotogràfic.
+- Acabat artesanal.
 
-NO utilitzis:
-- Estil 3D.
+No utilitzis:
 - Fotografia.
-- Dibuix vectorial net.
+- Dibuix vectorial.
+- Estil 3D.
 - Contorns perfectes.
 - Degradats digitals.
 - Ombres.
@@ -69,123 +148,156 @@ NO utilitzis:
 - Marcs.
 - Decoracions innecessàries.
 
-La coherència visual entre totes les imatges és imprescindible.
+---
 
-## 4. FORMAT
+## 7. PROHIBICIÓ ABSOLUTA DE TEXT
 
-Cada paraula ha de tenir:
-- Una única imatge.
-- Format quadrat 1:1.
-- Mida exacta de 300 × 300 píxels.
-- Format PNG.
-- Fons blanc.
-- Composició horitzontal centrada.
-- Una sola versió definitiva.
+No incorporis cap text dins les imatges.
 
-No generis imatges individuals addicionals dels components.
+Està prohibit:
+- Paraules.
+- Lletres.
+- Números.
+- Títols.
+- Etiquetes.
+- Llegendes.
+- Signatures.
+- Marques d'aigua.
+- Textos tallats.
+- Números identificatius de les paraules.
+- Línies de quadrícula.
+- Separadors de làmines.
 
-## 5. SÍMBOL ESPECIAL PER AL COMPONENT «PARA»
+Només es permeten els signes matemàtics:
 
-Per a totes les paraules que comencin pel component PARA, utilitza exactament el mateix símbol visual:
+**+ i =**
+
+No escriguis el nom de la paraula composta dins de la il·lustració.
+
+El resultat ha de ser comprensible exclusivament mitjançant dibuixos.
+
+---
+
+## 8. SÍMBOL ESPECIAL PER A PARA
+
+Per a totes les paraules que comencin pel component PARA, utilitza sempre el mateix símbol:
 
 **Una mà oberta amb el palmell mirant cap endavant, fent el gest d'aturar o parar.**
 
 Característiques:
-- Mà de color pell, amb contorn taronja o marró.
-- Dits oberts i ben diferenciats.
+- Mà de color pell.
+- Dits oberts i diferenciats.
 - Palmell visible.
-- Traços irregulars de cera.
+- Contorn irregular de cera.
 - Textura de crayon.
-- Estil infantil de 10 anys.
-- Fons blanc.
+- Aparença infantil.
 
-Aquest símbol ha de ser consistent en totes les imatges.
+No utilitzis escuts, senyals de trànsit ni símbols abstractes.
 
-No utilitzis escuts, senyals de trànsit, fletxes ni altres símbols per representar PARA.
+Aquest símbol ha de ser consistent en totes les paraules que comencin per PARA.
 
-Paraules afectades:
-- paraigua
-- parallamps
-- paracaigudes
-- parabrisa
-- para-xocs
-- parafang
+---
 
-El símbol de la mà ha de representar el component PARA, no substituir el dibuix del significat global.
+## 9. CRITERIS LINGÜÍSTICS
 
-## 6. COMPOSICIÓ I REPRESENTACIÓ SEMÀNTICA
+Només s'han d'incloure paraules compostes reals i normatives en català.
 
-Interpreta cada component segons el seu significat lingüístic i representa'l mitjançant un dibuix clar.
+No confonguis:
+- Paraules compostes.
+- Paraules derivades.
+- Paraules formades amb prefixos o sufixos.
+- Expressions de dues paraules.
+- Paraules que simplement contenen dues síl·labes identificables.
 
-Exemples:
+Cada paraula ha de tenir una composició lingüística justificada.
 
-- RENTAPLATS: mans rentant un plat + pila de plats = rentaplats.
-- GIRA-SOL: moviment de gir + sol = gira-sol.
-- PARAIGUA: mà oberta + aigua = paraigua.
-- PARALLAMPS: mà oberta + llamps = parallamps.
-- GRATACEL: acció de gratar + cel = gratacel.
-- CAPGRÒS: cap + element que representa grandària = figura de capgròs.
-
-Quan el significat sigui figurat, utilitza una representació visual adequada a infants.
-
-Evita interpretacions violentes, ofensives o estereotipades.
-
-## 7. LLISTA ACTUAL DE PARAULES
-
-Treballa amb aquestes 40 paraules:
-
-1. rentaplats
-2. gratacel
-3. gira-sol
-4. paraigua
-5. parallamps
-6. paracaigudes
-7. parabrisa
-8. migdia
-9. mitjanit
-10. capvespre
-11. llevataps
-12. obrellaunes
-13. escuradents
-14. trencaclosques
-15. portamonedes
-16. salvavides
-17. guardaroba
-18. guardabosc
-19. guardapols
-20. passamuntanyes
-21. passatemps
-22. terratrèmol
-23. aiguamoll
-24. aiguaneu
-25. capgròs
-26. rodamón
-27. tallaungles
-28. pelapatates
-29. espantaocells
-30. eixugamans
-31. picaporta
-32. matamosques
-33. altaveu
-34. ratpenat
-35. para-xocs
-36. comptaquilòmetres
-37. parafang
-38. portaretrats
-39. passamà
-40. escura-xemeneies
-
-Si l'usuari proporciona una llista nova, utilitza la nova llista com a referència principal.
-
-## 8. VERIFICACIÓ ORTOGRÀFICA
-
-Abans de desar cada imatge, verifica individualment l'ortografia de la paraula composta.
-
-Prioritza:
+Consulta preferentment:
 - DIEC.
 - Optimot.
 - TERMCAT.
-- Altres fonts lingüístiques fiables.
+- IEC.
+
+No inventis components per fer que una paraula sembli composta.
+
+Si una paraula no té una descomposició clara en dos components, no la utilitzis sense consultar l'usuari.
+
+### Criteris pedagògics
+
+Prioritza:
+- Paraules conegudes pels infants.
+- Objectes quotidians.
+- Animals.
+- Natura.
+- Aliments.
+- Jocs.
+- Accions fàcils de representar.
+- Situacions properes a la seva experiència.
+
+Evita:
+- Paraules antigues o poc habituals.
+- Paraules despectives.
+- Paraules amb contingut violent.
+- Estereotips de gènere.
+- Components massa abstractes.
+- Paraules amb descomposicions forçades.
+
+---
+
+## 10. LLISTA DE 16 PARAULES NOVES APROVADES
+
+Genera aquestes 16 imatges noves:
+
+| Paraula | Components | Significat |
+|---|---|---|
+| AGREDOLÇ | agre + dolç | Gust que combina dos sabors |
+| BOCABADAT | boca + badat | Persona sorpresa amb la boca oberta |
+| CAÇAPAPALLONES | caça + papallones | Estri per caçar papallones |
+| CENTPEUS | cent + peus | Animal amb moltes potes |
+| COBRELLIT | cobre + llit | Peça que cobreix el llit |
+| CURTCIRCUIT | curt + circuit | Connexió elèctrica defectuosa |
+| FILFERRO | fil + ferro | Fil metàl·lic |
+| LLETRAFERIT | lletra + ferit | Persona molt aficionada a llegir |
+| PARA-SOL | para + sol | Objecte que protegeix del sol |
+| PARAVENT | para + vent | Pantalla que protegeix del vent |
+| PENJA-ROBES | penja + robes | Estri per penjar roba |
+| PIT-ROIG | pit + roig | Ocell amb el pit de color vermell |
+| PÈL-ROIG | pèl + roig | Persona amb els cabells vermellosos |
+| PORTAEQUIPATGES | porta + equipatges | Suport per transportar maletes |
+| TALLAFOCS | talla + focs | Barrera que impedeix que avanci el foc |
+| TRENCANOUS | trenca + nous | Eina per trencar nous |
+
+Aquesta llista és la referència de les noves incorporacions.
+
+No afegeixis altres paraules sense aprovació.
+
+---
+
+## 11. CONSERVACIÓ DE LES 40 IMATGES EXISTENTS
+
+Les 40 imatges que ja utilitza el joc estan aprovades.
+
+No les tornis a generar.
+
+No en canviïs:
+- Els dibuixos.
+- Els components.
+- Els colors.
+- L'estil.
+- El significat.
+
+Si cal normalitzar-les per incorporar-les a una col·lecció comuna, limita't a ajustar el llenç i els marges sense alterar el dibuix original.
+
+El paquet complet ha de contenir:
+- 40 imatges antigues conservades.
+- 16 imatges noves generades individualment.
+
+Total: **56 imatges**.
+
+---
+
+## 12. NOM DELS FITXERS
+
+Cada fitxer ha de tenir el nom normatiu de la paraula en català, en minúscules i amb extensió .png.
 
 Conserva:
 - Accents.
@@ -193,87 +305,90 @@ Conserva:
 - Guionets.
 - Ortografia normativa.
 
-El nom del fitxer ha de ser la paraula en minúscules amb extensió .png.
-
 Exemples:
-- rentaplats.png
+- agredolç.png
+- bocabadat.png
+- caçapapallones.png
+- centpeus.png
 - gira-sol.png
-- capgròs.png
-- para-xocs.png
-- parafang.png
-- passamà.png
+- pèl-roig.png
+- para-sol.png
+- penja-robes.png
+- pit-roig.png
 
 No eliminis accents ni substitueixis guionets.
 
-Si hi ha dubtes ortogràfics, no inventis solucions.
+Utilitza codificació UTF-8.
 
-## 9. CREACIÓ DELS FITXERS
+---
 
-Per cada paraula:
-1. Genera la imatge completa.
-2. Comprova que els tres conceptes estan representats.
-3. Comprova els signes + i =.
-4. Comprova l'estil visual.
-5. Redimensiona a 300 × 300 píxels.
-6. Desa en PNG.
-7. Utilitza el nom normatiu en minúscules.
+## 13. CONTROL DE QUALITAT INDIVIDUAL
 
-## 10. CREACIÓ DEL ZIP
+Abans d'acceptar cada imatge, comprova:
 
-Agrupa totes les imatges definitives en un únic fitxer:
+1. És una imatge independent?
+2. Té exactament 900 × 300 píxels?
+3. La proporció és 3:1?
+4. El dibuix ocupa pràcticament tota la superfície?
+5. Els marges són petits i equilibrats?
+6. Hi ha exactament dos components diferenciats?
+7. Els signes + i = són visibles?
+8. El resultat representa correctament la paraula?
+9. El resultat és diferent dels components?
+10. No hi ha cap text, número ni línia?
+11. El fons és blanc?
+12. L'estil de ceres és coherent amb la col·lecció?
 
-**imatges_paraules_compostes.zip**
+Si alguna resposta és negativa, torna a generar la imatge.
 
-El ZIP ha de contenir exclusivament els PNG definitius.
+No intentis solucionar una imatge incorrecta retallant una làmina general.
+
+---
+
+## 14. CREACIÓ DEL ZIP
+
+Agrupa les 56 imatges definitives en un únic fitxer:
+
+**imatges_paraules_compostes_56.zip**
+
+El ZIP ha de contenir exclusivament els 56 fitxers PNG.
 
 No incloguis:
 - Imatges temporals.
-- Variants.
+- Làmines de generació.
+- Collages.
 - Duplicats.
+- Versions descartades.
 - Documents addicionals.
-- Fitxers de treball.
 
-Utilitza UTF-8 per conservar correctament els caràcters catalans als noms.
-
-## 11. CONTROL DE QUALITAT FINAL
-
-Abans de lliurar el ZIP, verifica:
-
-- Exactament una imatge per paraula.
-- Exactament 40 imatges si s'utilitza la llista actual.
-- Totes les imatges en PNG.
-- Totes les imatges de 300 × 300 píxels.
-- Fons blanc.
-- Composició horitzontal.
-- Components diferenciats.
-- Signes + i = visibles.
-- Estil de ceres coherent.
-- Mà oberta idèntica per a les paraules PARA.
-- Ortografia correcta.
-- Accents, dièresis i guionets conservats.
-- Cap imatge duplicada.
+Verifica:
+- Exactament 56 fitxers.
+- Tots en PNG.
+- Tots de 900 × 300 píxels.
+- Noms correctes.
+- Cap duplicat.
 - ZIP íntegre i accessible.
 
-Si alguna imatge no compleix els requisits, corregeix-la abans de lliurar el resultat.
+---
 
-## 12. LLIURAMENT
+## 15. LLIURAMENT FINAL
 
-Lliura un únic fitxer ZIP descarregable.
+Lliura un únic ZIP descarregable.
 
-La resposta final ha de ser breu i incloure:
+La resposta final ha d'indicar:
 - Nombre de paraules processades.
 - Nombre d'imatges generades.
-- Enllaç de descàrrega del ZIP.
+- Mida de les imatges.
+- Enllaç de descàrrega.
 
-No donis la feina per acabada fins que totes les imatges estiguin generades, desades, verificades i agrupades correctament.
+No donis la feina per acabada fins que totes les imatges noves s'hagin generat individualment, verificat i incorporat correctament al paquet.
+
+**PRIORITAT ABSOLUTA: qualitat visual, comprensió infantil, coherència entre imatges i utilitat real dins del joc educatiu.**
 ---
 
 ## Notes per a AppJocs (afegides per Claude, 21/11/2026)
 
-- **Mida:** la primera tanda de 300 × 300 es veia pixelada al portàtil. La segona tanda, a **900 × 300**, es veu bé. Per a imatges noves és millor demanar-les a 900 × 300 (format 3:1) en lloc del 300 × 300 de l'apartat 4.
-- **On van:** el joc «Paraules compostes» (mode 🖼️ Visual) les fa servir des de `jocs/compostes/imatges/`. Claude retalla el blanc que sobra, les passa a WebP i treu els accents del nom del fitxer (`capgròs.png` → `capgros.webp`). La paraula ben escrita és a `paraules.json`, a la llista `visual`.
-- **Afegir una paraula nova:** la paraula ha de ser també a la llista `paraules` de `paraules.json` (amb les parts i la definició), i cal afegir-la a `visual`.
-- **Substituir imatges:** el service worker guarda les imatges a la memòria del dispositiu. Si se substitueixen, cal canviar `?v=2` per `?v=3` a les rutes de `visual` perquè es baixin les noves.
-- **Ortografia:**
-  - «pelapatates» no és normativa (l'estri és el «pelador»), i per això no surt al joc.
-  - «portaretrats»: per la regla del guionet podria ser «porta-retrats». Està pendent de confirmar a l'Optimot.
+- **Tanda de 56 imatges (v0.35.0):** totes compleixen la mida i els marges i no porten text. El joc en fa servir 50. Les de guardabosc, guardapols, llevataps, picaporta, rodamón i pelapatates no s'utilitzen, perquè aquestes paraules ja no són al joc.
+- **On van:** `jocs/compostes/imatges/`. Claude retalla el blanc que sobra, les passa a WebP i treu els accents del nom del fitxer (`capgròs.png` → `capgros.webp`). La paraula ben escrita és a `paraules.json`, a la llista `visual`.
+- **Substituir imatges:** el service worker guarda les imatges a la memòria del dispositiu. Si se substitueixen, cal canviar `?v=3` per `?v=4` a les rutes de `visual`.
+- **Paraules del joc encara sense dibuix (14), per a la propera tanda:** automòbil, autoretrat, videojoc, motoserra, ventafocs, penya-segat, sobretaula, saltamartí, malson, trespeus, tirallonga, trencacaps, capgirar i teletreball.

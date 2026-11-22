@@ -1,0 +1,2612 @@
+{
+ "_ajuda": "Paraules en família. 'temes': cada tema té nom (sense article: «Casa»), 'de' (com es diu darrere de 'de': «de la casa»), bloc (quotidiana, natura, persones, tradicions) i camps lèxics amb les seves paraules ('p' i, si en té, emoji 'e'). Les tradicions surten poc. 'families': l'arrel, les paraules de la família (la primera és la base) i les trampes (s'assemblen però no són de la família) amb una explicació curta; 'canvia' = l'arrel canvia una mica (no surt al Fàcil).",
+ "temes": [
+  {
+   "id": "escola",
+   "nom": "Escola",
+   "de": "de l'escola",
+   "bloc": "quotidiana",
+   "camps": [
+    {
+     "nom": "Objectes",
+     "paraules": [
+      {
+       "p": "llapis",
+       "e": "✏️"
+      },
+      {
+       "p": "llibreta",
+       "e": "📒"
+      },
+      {
+       "p": "motxilla",
+       "e": "🎒"
+      },
+      {
+       "p": "regle",
+       "e": "📏"
+      },
+      {
+       "p": "tisores",
+       "e": "✂️"
+      },
+      {
+       "p": "llibre",
+       "e": "📕"
+      },
+      {
+       "p": "goma"
+      },
+      {
+       "p": "estoig"
+      },
+      {
+       "p": "pissarra"
+      }
+     ]
+    },
+    {
+     "nom": "Persones",
+     "paraules": [
+      {
+       "p": "mestre"
+      },
+      {
+       "p": "mestra"
+      },
+      {
+       "p": "alumne"
+      },
+      {
+       "p": "alumna"
+      },
+      {
+       "p": "conserge"
+      },
+      {
+       "p": "director"
+      },
+      {
+       "p": "directora"
+      }
+     ]
+    },
+    {
+     "nom": "Accions",
+     "paraules": [
+      {
+       "p": "llegir"
+      },
+      {
+       "p": "escriure"
+      },
+      {
+       "p": "dibuixar"
+      },
+      {
+       "p": "comptar"
+      },
+      {
+       "p": "estudiar"
+      },
+      {
+       "p": "pintar"
+      }
+     ]
+    },
+    {
+     "nom": "Llocs",
+     "paraules": [
+      {
+       "p": "aula"
+      },
+      {
+       "p": "pati"
+      },
+      {
+       "p": "biblioteca"
+      },
+      {
+       "p": "menjador"
+      },
+      {
+       "p": "gimnàs"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "casa",
+   "nom": "Casa",
+   "de": "de la casa",
+   "bloc": "quotidiana",
+   "camps": [
+    {
+     "nom": "Parts de la casa",
+     "paraules": [
+      {
+       "p": "porta",
+       "e": "🚪"
+      },
+      {
+       "p": "finestra",
+       "e": "🪟"
+      },
+      {
+       "p": "escala",
+       "e": "🪜"
+      },
+      {
+       "p": "teulada"
+      },
+      {
+       "p": "balcó"
+      },
+      {
+       "p": "paret"
+      }
+     ]
+    },
+    {
+     "nom": "Mobles",
+     "paraules": [
+      {
+       "p": "llit",
+       "e": "🛏️"
+      },
+      {
+       "p": "cadira",
+       "e": "🪑"
+      },
+      {
+       "p": "sofà",
+       "e": "🛋️"
+      },
+      {
+       "p": "taula"
+      },
+      {
+       "p": "armari"
+      },
+      {
+       "p": "prestatge"
+      }
+     ]
+    },
+    {
+     "nom": "Electrodomèstics",
+     "paraules": [
+      {
+       "p": "televisió",
+       "e": "📺"
+      },
+      {
+       "p": "rentadora"
+      },
+      {
+       "p": "nevera"
+      },
+      {
+       "p": "forn"
+      },
+      {
+       "p": "microones"
+      },
+      {
+       "p": "aspiradora"
+      }
+     ]
+    },
+    {
+     "nom": "Tasques de casa",
+     "paraules": [
+      {
+       "p": "escombrar"
+      },
+      {
+       "p": "rentar"
+      },
+      {
+       "p": "planxar"
+      },
+      {
+       "p": "endreçar"
+      },
+      {
+       "p": "cuinar"
+      },
+      {
+       "p": "parar taula"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "aliments",
+   "nom": "Aliments",
+   "de": "dels aliments",
+   "bloc": "quotidiana",
+   "camps": [
+    {
+     "nom": "Fruites",
+     "paraules": [
+      {
+       "p": "poma",
+       "e": "🍎"
+      },
+      {
+       "p": "pera",
+       "e": "🍐"
+      },
+      {
+       "p": "plàtan",
+       "e": "🍌"
+      },
+      {
+       "p": "maduixa",
+       "e": "🍓"
+      },
+      {
+       "p": "raïm",
+       "e": "🍇"
+      },
+      {
+       "p": "taronja",
+       "e": "🍊"
+      }
+     ]
+    },
+    {
+     "nom": "Verdures",
+     "paraules": [
+      {
+       "p": "pastanaga",
+       "e": "🥕"
+      },
+      {
+       "p": "enciam",
+       "e": "🥬"
+      },
+      {
+       "p": "tomàquet",
+       "e": "🍅"
+      },
+      {
+       "p": "bròquil",
+       "e": "🥦"
+      },
+      {
+       "p": "carbassa"
+      },
+      {
+       "p": "espinacs"
+      }
+     ]
+    },
+    {
+     "nom": "Làctics",
+     "paraules": [
+      {
+       "p": "llet",
+       "e": "🥛"
+      },
+      {
+       "p": "formatge",
+       "e": "🧀"
+      },
+      {
+       "p": "iogurt"
+      },
+      {
+       "p": "mantega"
+      }
+     ]
+    },
+    {
+     "nom": "Accions",
+     "paraules": [
+      {
+       "p": "menjar"
+      },
+      {
+       "p": "beure"
+      },
+      {
+       "p": "tastar"
+      },
+      {
+       "p": "mastegar"
+      },
+      {
+       "p": "pelar"
+      },
+      {
+       "p": "tallar"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "roba",
+   "nom": "Roba",
+   "de": "de la roba",
+   "bloc": "quotidiana",
+   "camps": [
+    {
+     "nom": "Peces de roba",
+     "paraules": [
+      {
+       "p": "samarreta",
+       "e": "👕"
+      },
+      {
+       "p": "pantalons",
+       "e": "👖"
+      },
+      {
+       "p": "vestit",
+       "e": "👗"
+      },
+      {
+       "p": "jaqueta",
+       "e": "🧥"
+      },
+      {
+       "p": "jersei"
+      },
+      {
+       "p": "faldilla"
+      }
+     ]
+    },
+    {
+     "nom": "Calçat",
+     "paraules": [
+      {
+       "p": "sabata",
+       "e": "👞"
+      },
+      {
+       "p": "bota",
+       "e": "👢"
+      },
+      {
+       "p": "sabatilla",
+       "e": "👟"
+      },
+      {
+       "p": "sandàlia",
+       "e": "👡"
+      },
+      {
+       "p": "xancleta"
+      }
+     ]
+    },
+    {
+     "nom": "Complements",
+     "paraules": [
+      {
+       "p": "barret",
+       "e": "🎩"
+      },
+      {
+       "p": "gorra",
+       "e": "🧢"
+      },
+      {
+       "p": "bufanda",
+       "e": "🧣"
+      },
+      {
+       "p": "guants",
+       "e": "🧤"
+      },
+      {
+       "p": "ulleres",
+       "e": "👓"
+      },
+      {
+       "p": "cinturó"
+      }
+     ]
+    },
+    {
+     "nom": "Accions",
+     "paraules": [
+      {
+       "p": "vestir-se"
+      },
+      {
+       "p": "cordar"
+      },
+      {
+       "p": "descordar"
+      },
+      {
+       "p": "penjar"
+      },
+      {
+       "p": "plegar"
+      },
+      {
+       "p": "rentar"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "joguines",
+   "nom": "Joguines",
+   "de": "de les joguines",
+   "bloc": "quotidiana",
+   "camps": [
+    {
+     "nom": "Joguines",
+     "paraules": [
+      {
+       "p": "pilota",
+       "e": "⚽"
+      },
+      {
+       "p": "trencaclosques",
+       "e": "🧩"
+      },
+      {
+       "p": "dau",
+       "e": "🎲"
+      },
+      {
+       "p": "cometa",
+       "e": "🪁"
+      },
+      {
+       "p": "peluix",
+       "e": "🧸"
+      },
+      {
+       "p": "robot",
+       "e": "🤖"
+      },
+      {
+       "p": "nina"
+      },
+      {
+       "p": "baldufa"
+      }
+     ]
+    },
+    {
+     "nom": "Jocs de taula",
+     "paraules": [
+      {
+       "p": "escacs",
+       "e": "♟️"
+      },
+      {
+       "p": "cartes",
+       "e": "🃏"
+      },
+      {
+       "p": "dòmino"
+      },
+      {
+       "p": "parxís"
+      },
+      {
+       "p": "oca"
+      }
+     ]
+    },
+    {
+     "nom": "Jocs del pati",
+     "paraules": [
+      {
+       "p": "corda"
+      },
+      {
+       "p": "xarranca"
+      },
+      {
+       "p": "fet i amagar"
+      },
+      {
+       "p": "pilota presonera"
+      },
+      {
+       "p": "conillets amagats"
+      }
+     ]
+    },
+    {
+     "nom": "Accions",
+     "paraules": [
+      {
+       "p": "jugar"
+      },
+      {
+       "p": "llançar"
+      },
+      {
+       "p": "saltar"
+      },
+      {
+       "p": "construir"
+      },
+      {
+       "p": "guanyar"
+      },
+      {
+       "p": "perdre"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "botigues",
+   "nom": "Botigues i mercat",
+   "de": "de les botigues i el mercat",
+   "bloc": "quotidiana",
+   "camps": [
+    {
+     "nom": "Botigues",
+     "paraules": [
+      {
+       "p": "fleca"
+      },
+      {
+       "p": "peixateria"
+      },
+      {
+       "p": "carnisseria"
+      },
+      {
+       "p": "fruiteria"
+      },
+      {
+       "p": "llibreria"
+      },
+      {
+       "p": "farmàcia"
+      }
+     ]
+    },
+    {
+     "nom": "Persones",
+     "paraules": [
+      {
+       "p": "forner"
+      },
+      {
+       "p": "fornera"
+      },
+      {
+       "p": "peixater"
+      },
+      {
+       "p": "peixatera"
+      },
+      {
+       "p": "botiguer"
+      },
+      {
+       "p": "botiguera"
+      },
+      {
+       "p": "client"
+      },
+      {
+       "p": "clienta"
+      }
+     ]
+    },
+    {
+     "nom": "Objectes",
+     "paraules": [
+      {
+       "p": "cistella",
+       "e": "🧺"
+      },
+      {
+       "p": "bossa",
+       "e": "🛍️"
+      },
+      {
+       "p": "moneda",
+       "e": "🪙"
+      },
+      {
+       "p": "bitllet",
+       "e": "💶"
+      },
+      {
+       "p": "balança",
+       "e": "⚖️"
+      },
+      {
+       "p": "carro"
+      },
+      {
+       "p": "tiquet"
+      }
+     ]
+    },
+    {
+     "nom": "Accions",
+     "paraules": [
+      {
+       "p": "comprar"
+      },
+      {
+       "p": "vendre"
+      },
+      {
+       "p": "pagar"
+      },
+      {
+       "p": "pesar"
+      },
+      {
+       "p": "triar"
+      },
+      {
+       "p": "tornar el canvi"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "animals",
+   "nom": "Animals",
+   "de": "dels animals",
+   "bloc": "natura",
+   "camps": [
+    {
+     "nom": "De granja",
+     "paraules": [
+      {
+       "p": "vaca",
+       "e": "🐮"
+      },
+      {
+       "p": "porc",
+       "e": "🐷"
+      },
+      {
+       "p": "gallina",
+       "e": "🐔"
+      },
+      {
+       "p": "ovella",
+       "e": "🐑"
+      },
+      {
+       "p": "cavall",
+       "e": "🐴"
+      },
+      {
+       "p": "conill",
+       "e": "🐰"
+      },
+      {
+       "p": "ànec",
+       "e": "🦆"
+      }
+     ]
+    },
+    {
+     "nom": "Salvatges",
+     "paraules": [
+      {
+       "p": "lleó",
+       "e": "🦁"
+      },
+      {
+       "p": "tigre",
+       "e": "🐯"
+      },
+      {
+       "p": "elefant",
+       "e": "🐘"
+      },
+      {
+       "p": "girafa",
+       "e": "🦒"
+      },
+      {
+       "p": "zebra",
+       "e": "🦓"
+      },
+      {
+       "p": "mico",
+       "e": "🐒"
+      },
+      {
+       "p": "os",
+       "e": "🐻"
+      }
+     ]
+    },
+    {
+     "nom": "Marins",
+     "paraules": [
+      {
+       "p": "peix",
+       "e": "🐟"
+      },
+      {
+       "p": "pop",
+       "e": "🐙"
+      },
+      {
+       "p": "balena",
+       "e": "🐳"
+      },
+      {
+       "p": "dofí",
+       "e": "🐬"
+      },
+      {
+       "p": "tauró",
+       "e": "🦈"
+      },
+      {
+       "p": "cranc",
+       "e": "🦀"
+      },
+      {
+       "p": "medusa",
+       "e": "🪼"
+      }
+     ]
+    },
+    {
+     "nom": "Insectes",
+     "paraules": [
+      {
+       "p": "abella",
+       "e": "🐝"
+      },
+      {
+       "p": "papallona",
+       "e": "🦋"
+      },
+      {
+       "p": "formiga",
+       "e": "🐜"
+      },
+      {
+       "p": "marieta",
+       "e": "🐞"
+      },
+      {
+       "p": "mosca",
+       "e": "🪰"
+      },
+      {
+       "p": "grill",
+       "e": "🦗"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bosc",
+   "nom": "Bosc",
+   "de": "del bosc",
+   "bloc": "natura",
+   "camps": [
+    {
+     "nom": "Arbres",
+     "paraules": [
+      {
+       "p": "pi",
+       "e": "🌲"
+      },
+      {
+       "p": "alzina"
+      },
+      {
+       "p": "roure"
+      },
+      {
+       "p": "castanyer"
+      },
+      {
+       "p": "faig"
+      },
+      {
+       "p": "avet"
+      }
+     ]
+    },
+    {
+     "nom": "Animals del bosc",
+     "paraules": [
+      {
+       "p": "esquirol",
+       "e": "🐿️"
+      },
+      {
+       "p": "guineu",
+       "e": "🦊"
+      },
+      {
+       "p": "senglar",
+       "e": "🐗"
+      },
+      {
+       "p": "mussol",
+       "e": "🦉"
+      },
+      {
+       "p": "eriçó",
+       "e": "🦔"
+      },
+      {
+       "p": "cérvol",
+       "e": "🦌"
+      }
+     ]
+    },
+    {
+     "nom": "Coses del bosc",
+     "paraules": [
+      {
+       "p": "bolet",
+       "e": "🍄"
+      },
+      {
+       "p": "fulla",
+       "e": "🍃"
+      },
+      {
+       "p": "roca",
+       "e": "🪨"
+      },
+      {
+       "p": "tronc",
+       "e": "🪵"
+      },
+      {
+       "p": "pinya"
+      },
+      {
+       "p": "branca"
+      },
+      {
+       "p": "molsa"
+      }
+     ]
+    },
+    {
+     "nom": "Accions",
+     "paraules": [
+      {
+       "p": "caminar"
+      },
+      {
+       "p": "collir"
+      },
+      {
+       "p": "observar"
+      },
+      {
+       "p": "escoltar"
+      },
+      {
+       "p": "respirar"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "plantes",
+   "nom": "Plantes i flors",
+   "de": "de les plantes i les flors",
+   "bloc": "natura",
+   "camps": [
+    {
+     "nom": "Flors",
+     "paraules": [
+      {
+       "p": "rosa",
+       "e": "🌹"
+      },
+      {
+       "p": "gira-sol",
+       "e": "🌻"
+      },
+      {
+       "p": "tulipa",
+       "e": "🌷"
+      },
+      {
+       "p": "margarida",
+       "e": "🌼"
+      },
+      {
+       "p": "rosella"
+      },
+      {
+       "p": "clavell"
+      }
+     ]
+    },
+    {
+     "nom": "Parts de la planta",
+     "paraules": [
+      {
+       "p": "arrel"
+      },
+      {
+       "p": "tija"
+      },
+      {
+       "p": "fulla"
+      },
+      {
+       "p": "flor"
+      },
+      {
+       "p": "fruit"
+      },
+      {
+       "p": "llavor"
+      }
+     ]
+    },
+    {
+     "nom": "Eines del jardí",
+     "paraules": [
+      {
+       "p": "regadora"
+      },
+      {
+       "p": "pala"
+      },
+      {
+       "p": "rasclet"
+      },
+      {
+       "p": "test"
+      },
+      {
+       "p": "tisores de podar"
+      }
+     ]
+    },
+    {
+     "nom": "Accions",
+     "paraules": [
+      {
+       "p": "sembrar"
+      },
+      {
+       "p": "regar"
+      },
+      {
+       "p": "créixer"
+      },
+      {
+       "p": "florir"
+      },
+      {
+       "p": "collir"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "temps",
+   "nom": "Temps atmosfèric",
+   "de": "del temps atmosfèric",
+   "bloc": "natura",
+   "camps": [
+    {
+     "nom": "Fenòmens",
+     "paraules": [
+      {
+       "p": "sol",
+       "e": "☀️"
+      },
+      {
+       "p": "pluja",
+       "e": "🌧️"
+      },
+      {
+       "p": "neu",
+       "e": "❄️"
+      },
+      {
+       "p": "vent",
+       "e": "🌬️"
+      },
+      {
+       "p": "núvol",
+       "e": "☁️"
+      },
+      {
+       "p": "llamp",
+       "e": "⚡"
+      },
+      {
+       "p": "arc de Sant Martí",
+       "e": "🌈"
+      },
+      {
+       "p": "boira",
+       "e": "🌫️"
+      }
+     ]
+    },
+    {
+     "nom": "Roba per al temps",
+     "paraules": [
+      {
+       "p": "paraigua",
+       "e": "☂️"
+      },
+      {
+       "p": "bufanda",
+       "e": "🧣"
+      },
+      {
+       "p": "barret de sol",
+       "e": "👒"
+      },
+      {
+       "p": "impermeable"
+      },
+      {
+       "p": "botes d'aigua"
+      }
+     ]
+    },
+    {
+     "nom": "Verbs",
+     "paraules": [
+      {
+       "p": "ploure"
+      },
+      {
+       "p": "nevar"
+      },
+      {
+       "p": "tronar"
+      },
+      {
+       "p": "llampegar"
+      },
+      {
+       "p": "bufar"
+      }
+     ]
+    },
+    {
+     "nom": "Com fa",
+     "paraules": [
+      {
+       "p": "assolellat"
+      },
+      {
+       "p": "ennuvolat"
+      },
+      {
+       "p": "plujós"
+      },
+      {
+       "p": "ventós"
+      },
+      {
+       "p": "fred"
+      },
+      {
+       "p": "calorós"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "professions",
+   "nom": "Professions",
+   "de": "de les professions",
+   "bloc": "persones",
+   "camps": [
+    {
+     "nom": "Persones",
+     "paraules": [
+      {
+       "p": "bombera",
+       "e": "👩‍🚒"
+      },
+      {
+       "p": "metge",
+       "e": "🧑‍⚕️"
+      },
+      {
+       "p": "mestra",
+       "e": "👩‍🏫"
+      },
+      {
+       "p": "cuiner",
+       "e": "🧑‍🍳"
+      },
+      {
+       "p": "pagesa",
+       "e": "🧑‍🌾"
+      },
+      {
+       "p": "policia",
+       "e": "👮"
+      },
+      {
+       "p": "fuster"
+      },
+      {
+       "p": "perruquera"
+      }
+     ]
+    },
+    {
+     "nom": "Eines",
+     "paraules": [
+      {
+       "p": "estetoscopi",
+       "e": "🩺"
+      },
+      {
+       "p": "tractor",
+       "e": "🚜"
+      },
+      {
+       "p": "tisores",
+       "e": "✂️"
+      },
+      {
+       "p": "manguera"
+      },
+      {
+       "p": "cassola"
+      },
+      {
+       "p": "serra"
+      },
+      {
+       "p": "xiulet"
+      }
+     ]
+    },
+    {
+     "nom": "Llocs de treball",
+     "paraules": [
+      {
+       "p": "hospital",
+       "e": "🏥"
+      },
+      {
+       "p": "escola",
+       "e": "🏫"
+      },
+      {
+       "p": "restaurant"
+      },
+      {
+       "p": "camp"
+      },
+      {
+       "p": "parc de bombers"
+      },
+      {
+       "p": "fusteria"
+      },
+      {
+       "p": "perruqueria"
+      }
+     ]
+    },
+    {
+     "nom": "Accions",
+     "paraules": [
+      {
+       "p": "apagar"
+      },
+      {
+       "p": "curar"
+      },
+      {
+       "p": "ensenyar"
+      },
+      {
+       "p": "cuinar"
+      },
+      {
+       "p": "conrear"
+      },
+      {
+       "p": "tallar"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "emocions",
+   "nom": "Emocions",
+   "de": "de les emocions",
+   "bloc": "persones",
+   "camps": [
+    {
+     "nom": "Com estem",
+     "paraules": [
+      {
+       "p": "content",
+       "e": "😀"
+      },
+      {
+       "p": "trist",
+       "e": "😢"
+      },
+      {
+       "p": "enfadat",
+       "e": "😠"
+      },
+      {
+       "p": "espantat",
+       "e": "😨"
+      },
+      {
+       "p": "sorprès",
+       "e": "😮"
+      },
+      {
+       "p": "tranquil",
+       "e": "😌"
+      }
+     ]
+    },
+    {
+     "nom": "Emocions agradables",
+     "paraules": [
+      {
+       "p": "alegria"
+      },
+      {
+       "p": "il·lusió"
+      },
+      {
+       "p": "calma"
+      },
+      {
+       "p": "orgull"
+      },
+      {
+       "p": "amor"
+      }
+     ]
+    },
+    {
+     "nom": "Emocions desagradables",
+     "paraules": [
+      {
+       "p": "tristesa"
+      },
+      {
+       "p": "ràbia"
+      },
+      {
+       "p": "por"
+      },
+      {
+       "p": "vergonya"
+      },
+      {
+       "p": "enveja"
+      }
+     ]
+    },
+    {
+     "nom": "Accions",
+     "paraules": [
+      {
+       "p": "riure",
+       "e": "😂"
+      },
+      {
+       "p": "plorar",
+       "e": "😭"
+      },
+      {
+       "p": "abraçar",
+       "e": "🫂"
+      },
+      {
+       "p": "somriure"
+      },
+      {
+       "p": "cridar"
+      },
+      {
+       "p": "tremolar"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "esports",
+   "nom": "Esports",
+   "de": "dels esports",
+   "bloc": "persones",
+   "camps": [
+    {
+     "nom": "Esports",
+     "paraules": [
+      {
+       "p": "futbol",
+       "e": "⚽"
+      },
+      {
+       "p": "bàsquet",
+       "e": "🏀"
+      },
+      {
+       "p": "natació",
+       "e": "🏊"
+      },
+      {
+       "p": "tennis",
+       "e": "🎾"
+      },
+      {
+       "p": "ciclisme",
+       "e": "🚴"
+      },
+      {
+       "p": "atletisme"
+      }
+     ]
+    },
+    {
+     "nom": "Objectes",
+     "paraules": [
+      {
+       "p": "pilota"
+      },
+      {
+       "p": "raqueta"
+      },
+      {
+       "p": "xarxa"
+      },
+      {
+       "p": "porteria"
+      },
+      {
+       "p": "casc"
+      },
+      {
+       "p": "xiulet"
+      }
+     ]
+    },
+    {
+     "nom": "Persones",
+     "paraules": [
+      {
+       "p": "jugador"
+      },
+      {
+       "p": "jugadora"
+      },
+      {
+       "p": "àrbitre"
+      },
+      {
+       "p": "àrbitra"
+      },
+      {
+       "p": "entrenador"
+      },
+      {
+       "p": "entrenadora"
+      }
+     ]
+    },
+    {
+     "nom": "Llocs",
+     "paraules": [
+      {
+       "p": "camp"
+      },
+      {
+       "p": "pista"
+      },
+      {
+       "p": "piscina"
+      },
+      {
+       "p": "pavelló"
+      },
+      {
+       "p": "estadi"
+      }
+     ]
+    },
+    {
+     "nom": "Accions",
+     "paraules": [
+      {
+       "p": "xutar"
+      },
+      {
+       "p": "nedar"
+      },
+      {
+       "p": "córrer"
+      },
+      {
+       "p": "saltar"
+      },
+      {
+       "p": "llançar"
+      },
+      {
+       "p": "marcar"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "transports",
+   "nom": "Transports",
+   "de": "dels transports",
+   "bloc": "persones",
+   "camps": [
+    {
+     "nom": "Per terra",
+     "paraules": [
+      {
+       "p": "cotxe",
+       "e": "🚗"
+      },
+      {
+       "p": "autobús",
+       "e": "🚌"
+      },
+      {
+       "p": "tren",
+       "e": "🚆"
+      },
+      {
+       "p": "bicicleta",
+       "e": "🚲"
+      },
+      {
+       "p": "moto",
+       "e": "🏍️"
+      },
+      {
+       "p": "camió",
+       "e": "🚚"
+      }
+     ]
+    },
+    {
+     "nom": "Per mar",
+     "paraules": [
+      {
+       "p": "vaixell",
+       "e": "🚢"
+      },
+      {
+       "p": "barca",
+       "e": "🛶"
+      },
+      {
+       "p": "veler",
+       "e": "⛵"
+      },
+      {
+       "p": "submarí"
+      }
+     ]
+    },
+    {
+     "nom": "Per aire",
+     "paraules": [
+      {
+       "p": "avió",
+       "e": "✈️"
+      },
+      {
+       "p": "helicòpter",
+       "e": "🚁"
+      },
+      {
+       "p": "coet",
+       "e": "🚀"
+      },
+      {
+       "p": "globus aerostàtic"
+      }
+     ]
+    },
+    {
+     "nom": "Persones",
+     "paraules": [
+      {
+       "p": "conductor"
+      },
+      {
+       "p": "conductora"
+      },
+      {
+       "p": "pilot"
+      },
+      {
+       "p": "maquinista"
+      },
+      {
+       "p": "capità"
+      },
+      {
+       "p": "capitana"
+      }
+     ]
+    },
+    {
+     "nom": "Llocs",
+     "paraules": [
+      {
+       "p": "estació"
+      },
+      {
+       "p": "aeroport"
+      },
+      {
+       "p": "port"
+      },
+      {
+       "p": "parada"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "santjordi",
+   "nom": "Sant Jordi",
+   "de": "de Sant Jordi",
+   "bloc": "tradicions",
+   "camps": [
+    {
+     "nom": "Personatges",
+     "paraules": [
+      {
+       "p": "el drac",
+       "e": "🐉"
+      },
+      {
+       "p": "el rei",
+       "e": "🤴"
+      },
+      {
+       "p": "la princesa",
+       "e": "👸"
+      },
+      {
+       "p": "Sant Jordi"
+      }
+     ]
+    },
+    {
+     "nom": "Objectes",
+     "paraules": [
+      {
+       "p": "rosa",
+       "e": "🌹"
+      },
+      {
+       "p": "llibre",
+       "e": "📕"
+      },
+      {
+       "p": "punt de llibre",
+       "e": "🔖"
+      },
+      {
+       "p": "espiga"
+      },
+      {
+       "p": "senyera"
+      }
+     ]
+    },
+    {
+     "nom": "Llocs",
+     "paraules": [
+      {
+       "p": "parada"
+      },
+      {
+       "p": "llibreria"
+      },
+      {
+       "p": "floristeria"
+      },
+      {
+       "p": "carrer"
+      }
+     ]
+    },
+    {
+     "nom": "Accions",
+     "paraules": [
+      {
+       "p": "regalar"
+      },
+      {
+       "p": "llegir"
+      },
+      {
+       "p": "comprar"
+      },
+      {
+       "p": "passejar"
+      },
+      {
+       "p": "signar"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "castanyada",
+   "nom": "Castanyada",
+   "de": "de la Castanyada",
+   "bloc": "tradicions",
+   "camps": [
+    {
+     "nom": "Menjar",
+     "paraules": [
+      {
+       "p": "castanyes",
+       "e": "🌰"
+      },
+      {
+       "p": "moniatos",
+       "e": "🍠"
+      },
+      {
+       "p": "panellets"
+      },
+      {
+       "p": "pinyons"
+      }
+     ]
+    },
+    {
+     "nom": "Persones",
+     "paraules": [
+      {
+       "p": "castanyer"
+      },
+      {
+       "p": "castanyera"
+      }
+     ]
+    },
+    {
+     "nom": "Objectes",
+     "paraules": [
+      {
+       "p": "foc",
+       "e": "🔥"
+      },
+      {
+       "p": "cistell",
+       "e": "🧺"
+      },
+      {
+       "p": "paperina"
+      },
+      {
+       "p": "torradora"
+      }
+     ]
+    },
+    {
+     "nom": "Accions",
+     "paraules": [
+      {
+       "p": "torrar"
+      },
+      {
+       "p": "pelar"
+      },
+      {
+       "p": "menjar"
+      },
+      {
+       "p": "fer panellets"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "tio",
+   "nom": "Tió de Nadal",
+   "de": "del Tió de Nadal",
+   "bloc": "tradicions",
+   "camps": [
+    {
+     "nom": "Objectes",
+     "paraules": [
+      {
+       "p": "tió"
+      },
+      {
+       "p": "manta"
+      },
+      {
+       "p": "barretina"
+      },
+      {
+       "p": "bastó"
+      }
+     ]
+    },
+    {
+     "nom": "Què ens porta",
+     "paraules": [
+      {
+       "p": "regals",
+       "e": "🎁"
+      },
+      {
+       "p": "torrons"
+      },
+      {
+       "p": "neules"
+      },
+      {
+       "p": "llaminadures"
+      }
+     ]
+    },
+    {
+     "nom": "Accions",
+     "paraules": [
+      {
+       "p": "alimentar"
+      },
+      {
+       "p": "tapar"
+      },
+      {
+       "p": "cantar"
+      },
+      {
+       "p": "picar"
+      },
+      {
+       "p": "fer cagar el tió"
+      }
+     ]
+    },
+    {
+     "nom": "Quan",
+     "paraules": [
+      {
+       "p": "Nadal"
+      },
+      {
+       "p": "la nit de Nadal"
+      },
+      {
+       "p": "desembre"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "castellers",
+   "nom": "Castellers",
+   "de": "dels castellers",
+   "bloc": "tradicions",
+   "camps": [
+    {
+     "nom": "Persones",
+     "paraules": [
+      {
+       "p": "casteller"
+      },
+      {
+       "p": "castellera"
+      },
+      {
+       "p": "enxaneta"
+      },
+      {
+       "p": "cap de colla"
+      },
+      {
+       "p": "grallera"
+      }
+     ]
+    },
+    {
+     "nom": "Parts del castell",
+     "paraules": [
+      {
+       "p": "pinya"
+      },
+      {
+       "p": "tronc"
+      },
+      {
+       "p": "pom de dalt"
+      }
+     ]
+    },
+    {
+     "nom": "Roba",
+     "paraules": [
+      {
+       "p": "faixa"
+      },
+      {
+       "p": "camisa"
+      },
+      {
+       "p": "mocador"
+      }
+     ]
+    },
+    {
+     "nom": "Accions",
+     "paraules": [
+      {
+       "p": "pujar"
+      },
+      {
+       "p": "carregar"
+      },
+      {
+       "p": "descarregar"
+      },
+      {
+       "p": "fer pinya"
+      },
+      {
+       "p": "fer l'aleta"
+      }
+     ]
+    },
+    {
+     "nom": "Música",
+     "paraules": [
+      {
+       "p": "gralla"
+      },
+      {
+       "p": "timbal"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sardana",
+   "nom": "Sardana",
+   "de": "de la sardana",
+   "bloc": "tradicions",
+   "camps": [
+    {
+     "nom": "Instruments de la cobla",
+     "paraules": [
+      {
+       "p": "flabiol"
+      },
+      {
+       "p": "tamborí"
+      },
+      {
+       "p": "tenora"
+      },
+      {
+       "p": "tible"
+      },
+      {
+       "p": "contrabaix"
+      },
+      {
+       "p": "fiscorn"
+      }
+     ]
+    },
+    {
+     "nom": "Persones",
+     "paraules": [
+      {
+       "p": "sardanista"
+      },
+      {
+       "p": "músic"
+      },
+      {
+       "p": "música"
+      }
+     ]
+    },
+    {
+     "nom": "Accions",
+     "paraules": [
+      {
+       "p": "ballar"
+      },
+      {
+       "p": "comptar"
+      },
+      {
+       "p": "repartir"
+      },
+      {
+       "p": "saltar"
+      },
+      {
+       "p": "donar-se les mans"
+      }
+     ]
+    },
+    {
+     "nom": "Llocs i coses",
+     "paraules": [
+      {
+       "p": "plaça"
+      },
+      {
+       "p": "rotllana"
+      },
+      {
+       "p": "espardenyes"
+      },
+      {
+       "p": "cobla"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "caragol",
+   "nom": "Aplec del Caragol",
+   "de": "de l'Aplec del Caragol",
+   "bloc": "tradicions",
+   "camps": [
+    {
+     "nom": "Menjar",
+     "paraules": [
+      {
+       "p": "caragols"
+      },
+      {
+       "p": "allioli"
+      },
+      {
+       "p": "pa"
+      },
+      {
+       "p": "botifarra"
+      }
+     ]
+    },
+    {
+     "nom": "Objectes",
+     "paraules": [
+      {
+       "p": "llauna"
+      },
+      {
+       "p": "brasa"
+      },
+      {
+       "p": "envelat"
+      }
+     ]
+    },
+    {
+     "nom": "Persones i grups",
+     "paraules": [
+      {
+       "p": "penya"
+      },
+      {
+       "p": "colla"
+      },
+      {
+       "p": "cuiner"
+      },
+      {
+       "p": "cuinera"
+      }
+     ]
+    },
+    {
+     "nom": "Accions",
+     "paraules": [
+      {
+       "p": "cuinar"
+      },
+      {
+       "p": "torrar"
+      },
+      {
+       "p": "menjar"
+      },
+      {
+       "p": "cantar"
+      }
+     ]
+    },
+    {
+     "nom": "Llocs",
+     "paraules": [
+      {
+       "p": "Lleida"
+      },
+      {
+       "p": "els Camps Elísis"
+      },
+      {
+       "p": "el riu Segre"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "families": [
+  {
+   "arrel": "flor",
+   "paraules": [
+    "flor",
+    "floreta",
+    "florista",
+    "floristeria",
+    "florir",
+    "florit"
+   ],
+   "trampes": [
+    {
+     "p": "floc",
+     "per": "és un tros petit de neu o de cotó"
+    },
+    {
+     "p": "flotador",
+     "per": "serveix per flotar a l'aigua"
+    },
+    {
+     "p": "flauta",
+     "per": "és un instrument"
+    }
+   ]
+  },
+  {
+   "arrel": "mar",
+   "paraules": [
+    "mar",
+    "mariner",
+    "marinera",
+    "marina",
+    "marítim",
+    "maror",
+    "marejar"
+   ],
+   "trampes": [
+    {
+     "p": "marró",
+     "per": "és un color"
+    },
+    {
+     "p": "març",
+     "per": "és un mes"
+    },
+    {
+     "p": "mare",
+     "per": "és una persona de la família"
+    },
+    {
+     "p": "marbre",
+     "per": "és una pedra"
+    }
+   ]
+  },
+  {
+   "arrel": "paper",
+   "paraules": [
+    "paper",
+    "paperet",
+    "paperera",
+    "papereria",
+    "paperina"
+   ],
+   "trampes": [
+    {
+     "p": "papallona",
+     "per": "és un insecte"
+    },
+    {
+     "p": "pare",
+     "per": "és una persona de la família"
+    },
+    {
+     "p": "pa",
+     "per": "és un aliment"
+    }
+   ]
+  },
+  {
+   "arrel": "sabata",
+   "paraules": [
+    "sabata",
+    "sabateta",
+    "sabater",
+    "sabatera",
+    "sabateria",
+    "sabatilla"
+   ],
+   "trampes": [
+    {
+     "p": "sabó",
+     "per": "serveix per rentar-se"
+    },
+    {
+     "p": "sabor",
+     "per": "és el gust del menjar"
+    },
+    {
+     "p": "saber",
+     "per": "vol dir conèixer"
+    }
+   ]
+  },
+  {
+   "arrel": "peix",
+   "paraules": [
+    "peix",
+    "peixet",
+    "peixater",
+    "peixatera",
+    "peixateria"
+   ],
+   "trampes": [
+    {
+     "p": "pell",
+     "per": "cobreix el cos"
+    },
+    {
+     "p": "pera",
+     "per": "és una fruita"
+    },
+    {
+     "p": "pebre",
+     "per": "és una espècia"
+    }
+   ]
+  },
+  {
+   "arrel": "llibre",
+   "paraules": [
+    "llibre",
+    "llibret",
+    "llibreta",
+    "llibreter",
+    "llibretera",
+    "llibreria"
+   ],
+   "trampes": [
+    {
+     "p": "lliure",
+     "per": "vol dir que pot fer el que vol"
+    },
+    {
+     "p": "llimona",
+     "per": "és una fruita"
+    },
+    {
+     "p": "llit",
+     "per": "és un moble per dormir"
+    }
+   ]
+  },
+  {
+   "arrel": "fruita",
+   "paraules": [
+    "fruita",
+    "fruiter",
+    "fruitera",
+    "fruiteria"
+   ],
+   "trampes": [
+    {
+     "p": "fred",
+     "per": "és el contrari de calor"
+    },
+    {
+     "p": "fregar",
+     "per": "vol dir netejar refregant"
+    },
+    {
+     "p": "front",
+     "per": "és una part de la cara"
+    }
+   ]
+  },
+  {
+   "arrel": "carn",
+   "paraules": [
+    "carn",
+    "carnisser",
+    "carnissera",
+    "carnisseria"
+   ],
+   "trampes": [
+    {
+     "p": "carro",
+     "per": "és un vehicle"
+    },
+    {
+     "p": "cartró",
+     "per": "és un material"
+    },
+    {
+     "p": "carta",
+     "per": "s'envia per correu"
+    }
+   ]
+  },
+  {
+   "arrel": "forn",
+   "paraules": [
+    "forn",
+    "forner",
+    "fornera",
+    "fornada",
+    "enfornar"
+   ],
+   "trampes": [
+    {
+     "p": "formiga",
+     "per": "és un insecte"
+    },
+    {
+     "p": "formatge",
+     "per": "és un aliment fet de llet"
+    },
+    {
+     "p": "forquilla",
+     "per": "és un cobert"
+    }
+   ]
+  },
+  {
+   "arrel": "jardí",
+   "paraules": [
+    "jardí",
+    "jardinet",
+    "jardiner",
+    "jardinera",
+    "jardineria"
+   ],
+   "trampes": [
+    {
+     "p": "jaqueta",
+     "per": "és una peça de roba"
+    },
+    {
+     "p": "gerra",
+     "per": "és un recipient per a l'aigua"
+    }
+   ]
+  },
+  {
+   "arrel": "terra",
+   "paraules": [
+    "terra",
+    "terrestre",
+    "enterrar",
+    "terròs",
+    "terratrèmol"
+   ],
+   "trampes": [
+    {
+     "p": "termòmetre",
+     "per": "serveix per mesurar la temperatura"
+    },
+    {
+     "p": "tercer",
+     "per": "és un número d'ordre"
+    },
+    {
+     "p": "teranyina",
+     "per": "la fa l'aranya"
+    }
+   ]
+  },
+  {
+   "arrel": "neu",
+   "paraules": [
+    "neu",
+    "nevar",
+    "nevada",
+    "nevat",
+    "nevera"
+   ],
+   "trampes": [
+    {
+     "p": "net",
+     "per": "vol dir que no està brut"
+    },
+    {
+     "p": "neula",
+     "per": "és una galeta de Nadal"
+    },
+    {
+     "p": "nena",
+     "per": "és una persona"
+    }
+   ],
+   "canvia": true
+  },
+  {
+   "arrel": "pluja",
+   "paraules": [
+    "pluja",
+    "plujós",
+    "plugim",
+    "ploure"
+   ],
+   "trampes": [
+    {
+     "p": "ploma",
+     "per": "la tenen els ocells"
+    },
+    {
+     "p": "plat",
+     "per": "serveix per menjar"
+    },
+    {
+     "p": "plaça",
+     "per": "és un lloc del poble o la ciutat"
+    }
+   ],
+   "canvia": true
+  },
+  {
+   "arrel": "esport",
+   "paraules": [
+    "esport",
+    "esportista",
+    "esportiu",
+    "esportiva"
+   ],
+   "trampes": [
+    {
+     "p": "espurna",
+     "per": "surt del foc"
+    },
+    {
+     "p": "esponja",
+     "per": "serveix per rentar-se"
+    },
+    {
+     "p": "espàrrec",
+     "per": "és una verdura"
+    }
+   ]
+  },
+  {
+   "arrel": "dent",
+   "paraules": [
+    "dent",
+    "dentista",
+    "dentadura"
+   ],
+   "trampes": [
+    {
+     "p": "dit",
+     "per": "és una part de la mà"
+    },
+    {
+     "p": "dau",
+     "per": "serveix per jugar"
+    },
+    {
+     "p": "dinar",
+     "per": "és un àpat"
+    }
+   ]
+  },
+  {
+   "arrel": "cuina",
+   "paraules": [
+    "cuina",
+    "cuinar",
+    "cuiner",
+    "cuinera"
+   ],
+   "trampes": [
+    {
+     "p": "cuixa",
+     "per": "és una part de la cama"
+    },
+    {
+     "p": "cullera",
+     "per": "és un cobert"
+    },
+    {
+     "p": "cua",
+     "per": "la tenen molts animals"
+    }
+   ]
+  },
+  {
+   "arrel": "feliç",
+   "paraules": [
+    "feliç",
+    "felicitat",
+    "felicitar",
+    "felicitació",
+    "infeliç"
+   ],
+   "trampes": [
+    {
+     "p": "ferro",
+     "per": "és un metall"
+    },
+    {
+     "p": "festa",
+     "per": "és una celebració"
+    },
+    {
+     "p": "fel",
+     "per": "és un líquid del cos"
+    }
+   ],
+   "canvia": true
+  },
+  {
+   "arrel": "castanya",
+   "paraules": [
+    "castanya",
+    "castanyer",
+    "castanyera",
+    "castanyada"
+   ],
+   "trampes": [
+    {
+     "p": "castell",
+     "per": "és un edifici antic"
+    },
+    {
+     "p": "castor",
+     "per": "és un animal"
+    },
+    {
+     "p": "cassola",
+     "per": "és un estri de cuina"
+    }
+   ]
+  },
+  {
+   "arrel": "rosa",
+   "paraules": [
+    "rosa",
+    "roser",
+    "rosat",
+    "roseta"
+   ],
+   "trampes": [
+    {
+     "p": "rossa",
+     "per": "vol dir que té els cabells clars"
+    },
+    {
+     "p": "rosegar",
+     "per": "vol dir mossegar a poc a poc"
+    },
+    {
+     "p": "roda",
+     "per": "la tenen els cotxes"
+    }
+   ]
+  },
+  {
+   "arrel": "ball",
+   "paraules": [
+    "ball",
+    "ballar",
+    "ballador",
+    "balladora",
+    "ballarí",
+    "ballarina"
+   ],
+   "trampes": [
+    {
+     "p": "balena",
+     "per": "és un animal marí"
+    },
+    {
+     "p": "balcó",
+     "per": "és una part de la casa"
+    },
+    {
+     "p": "baldufa",
+     "per": "és una joguina"
+    }
+   ]
+  },
+  {
+   "arrel": "caragol",
+   "paraules": [
+    "caragol",
+    "caragolet",
+    "caragolada"
+   ],
+   "trampes": [
+    {
+     "p": "cara",
+     "per": "és una part del cap"
+    },
+    {
+     "p": "caramel",
+     "per": "és una llaminadura"
+    },
+    {
+     "p": "caravana",
+     "per": "és una casa amb rodes"
+    }
+   ]
+  },
+  {
+   "arrel": "gat",
+   "paraules": [
+    "gat",
+    "gata",
+    "gatet",
+    "gateta",
+    "gatejar"
+   ],
+   "trampes": [
+    {
+     "p": "gall",
+     "per": "és un ocell de granja"
+    },
+    {
+     "p": "galeta",
+     "per": "és una llaminadura"
+    },
+    {
+     "p": "gas",
+     "per": "és com l'aire"
+    }
+   ]
+  }
+ ]
+}

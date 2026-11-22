@@ -1,5 +1,5 @@
 // Llançadora: llegeix jocs/jocs.json i pinta una targeta per joc.
-const VERSIO_APP = '0.33.0';
+const VERSIO_APP = '0.38.2';
 
 // Categories dels jocs (camp "categories" de jocs.json)
 const CATEGORIES = { xifres: '🔢 Xifres', lletres: '🔤 Lletres' };
@@ -117,14 +117,14 @@ function passos() {
       : esIPad ? 'a dalt a la dreta, o dins del menú ···' : 'a la barra de baix, o dins del menú ···';
     return [`Toca el botó <b>Compartir</b> ${COMPARTIR} <span class="on-es">(${on})</span>`,
       "Tria <b>«Afegeix a la pantalla d'inici»</b> (desplaça't cap avall si no el veus).",
-      "Toca <b>Afegeix</b>. La icona d'AppJocs apareixerà a l'última pàgina de la pantalla d'inici."];
+      "Toca <b>Afegeix</b>. La icona de «Juguem?» apareixerà a l'última pàgina de la pantalla d'inici."];
   }
   if (esAndroid) {
     const esSamsung = /SamsungBrowser/.test(ua), esFirefox = /Firefox/.test(ua);
     return [esSamsung ? 'Toca el menú <b>☰</b> (a baix a la dreta).' : 'Toca el menú <b>⋮</b> (a dalt a la dreta).',
       esFirefox ? "Tria <b>«Instal·la»</b> o <b>«Afegeix a la pantalla d'inici»</b>."
         : "Tria <b>«Instal·la l'aplicació»</b> o <b>«Afegeix a la pantalla d'inici»</b>.",
-      'Confirma amb <b>Instal·la</b>. La icona d\'AppJocs apareixerà amb les altres apps.'];
+      'Confirma amb <b>Instal·la</b>. La icona de «Juguem?» apareixerà amb les altres apps.'];
   }
   return null;   // PC: només el botó directe, si el navegador el dona
 }
