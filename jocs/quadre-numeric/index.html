@@ -132,6 +132,25 @@
       .panell .missatge { grid-column: 1; grid-row: 1; }
       .panell .entrada-caixa { grid-column: 2; grid-row: 1 / span 3; }
     }
+    /* Tauleta i portàtil (criteri comú «ple», css/styles.css): el joc omple la pantalla i tot creix amb l'espai */
+    @media (min-width: 601px) and (min-height: 501px) {
+      .disposicio { flex: 1 1 auto; min-height: 0; }
+      .cap-joc h2 { font-size: clamp(1.1rem, 2.6vh, 1.5rem); }
+      .regla { font-size: clamp(.95rem, 2.2vh, 1.2rem); }
+      .missatge { font-size: clamp(1rem, 2.4vh, 1.25rem); }
+      /* Pantalla d'opcions: les formes més grans */
+      main.joc.ple .inici > .grup { max-height: 440px; }
+      .formes { gap: clamp(12px, 1.6vw, 22px); flex: 1 1 auto; }
+      .formes button { justify-content: center; }
+      .formes button { padding: clamp(14px, 3vh, 32px) 16px; gap: clamp(8px, 1.6vh, 16px); --mi: clamp(20px, 5.6vh, 54px); }
+      .formes .mini { grid-template-columns: repeat(3, var(--mi)) !important; gap: 4px; }
+      .formes .mini i { width: var(--mi); height: var(--mi); border-radius: 6px; }
+      .formes b { font-size: clamp(1.15rem, 3vh, 1.6rem); }
+      .formes span { font-size: clamp(.92rem, 2.2vh, 1.15rem); }
+    }
+    @media (orientation: landscape) and (min-width: 900px) and (min-height: 501px) {
+      .disposicio { grid-template-columns: 1fr clamp(340px, 28vw, 420px); }
+    }
   </style>
 </head>
 <body>
@@ -140,7 +159,7 @@
     <h1>🧩 El quadre numèric</h1>
   </nav>
 
-  <main class="joc">
+  <main class="joc ple">
     <!-- ================= INICI ================= -->
     <section class="inici" id="pantalla-inici">
       <div class="grup">
@@ -250,7 +269,7 @@
       sel = caselles.find(c => c.valor !== null && !c.donat) || null;
       entrada.buidar(); entrada.activar(true);
       const donat = caselles.find(c => c.donat).valor;
-      mostrar(`Número ${ronda} de ${NUMEROS_PER_RONDA}: el ${donat}`, 'Omple les caselles del voltant.');
+      mostrar(`El número és el ${donat}`, 'Omple les caselles del voltant.');
       dibuixar();
     }
 
@@ -281,7 +300,8 @@
       const q = $('quadre'), zona = $('zona-quadre');
       // Mida de casella: que la figura càpiga en amplada i, en horitzontal, també en alçada
       const ample = zona.clientWidth - 32;
-      let mida = Math.min(120, (ample - (cols - 1) * 8) / cols);
+      const gran = matchMedia('(min-width: 601px) and (min-height: 501px)').matches;   // criteri «ple»: caselles més grans
+      let mida = Math.min(gran ? 200 : 120, (ample - (cols - 1) * 8) / cols);
       const aSota = matchMedia('(orientation: portrait)').matches;   // vertical: explicació i panell a sota
       if (aSota || matchMedia('(orientation: landscape)').matches) {
         const dalt = Pantalla.dalt(zona);

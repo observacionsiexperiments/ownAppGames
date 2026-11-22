@@ -120,8 +120,31 @@
     @keyframes sacseig { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
     .sacseig { animation: sacseig .25s 2; }
 
-    /* Horitzontal amb poca alçada: el missatge i els botons a la dreta */
-    @media (orientation: landscape) and (max-height: 820px) {
+    /* Tauleta i portàtil (criteri comú «ple», css/styles.css): el tauler omple la pantalla i tot creix amb l'espai */
+    @media (min-width: 601px) and (min-height: 501px) {
+      .tauler { --pz: clamp(1.05rem, min(3vw, 4.1vh), 2.1rem); padding: 16px 22px; gap: 14px; }
+      /* Endevina el tema i núvol de famílies: hi ha poques peces, es poden fer més grans */
+      .mostra .fitxa, .nuvol .fitxa { font-size: calc(var(--pz) * 1.15); }
+      .op-tema { font-size: calc(var(--pz) * 1.05); }
+      .enunciat { font-size: calc(var(--pz) * .95); }
+      #zona { flex: 1 1 auto; min-height: 0; }
+      #zona > .contingut { flex: 1 1 auto; justify-content: center; gap: clamp(12px, 3vh, 32px); }
+      #zona > .contingut:has(.capses) { justify-content: flex-start; gap: clamp(10px, 2vh, 20px); }
+      .mostra, .nuvol { gap: clamp(8px, 1.6vh, 16px) clamp(10px, 1.4vw, 18px); }
+      .temes { width: min(100%, 1100px); gap: clamp(10px, 1.4vw, 18px); }
+      .op-tema { padding: .8em .5em; }
+      .capses { flex: 1 1 auto; gap: clamp(10px, 1.2vw, 16px); }
+      .capsa { padding: 8px; }
+      .capsa .dins { gap: 6px; }
+      .safata { min-height: 2.4em; padding: 10px; }
+    }
+    /* Tauleta en vertical: 4 capses en 2 + 2 i 5 capses en 3 + 2 (més amples per als títols i les paraules) */
+    @media (orientation: portrait) and (min-width: 601px) {
+      .capses[data-n="4"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .capses[data-n="5"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    /* Mòbil apaïsat: el missatge i els botons a la dreta (a sota no hi cabrien) */
+    @media (orientation: landscape) and (max-height: 500px) {
       .tauler { display: grid; grid-template-columns: minmax(0, 1fr) minmax(180px, 240px); column-gap: 16px; row-gap: 8px;
         grid-template-areas: "enun peu" "temps peu" "zona peu"; align-items: start; padding: 12px 18px; }
       .tauler .enunciat { grid-area: enun; }
@@ -191,7 +214,7 @@
     <h1>🗂️ Paraules en família</h1>
   </nav>
 
-  <main class="joc">
+  <main class="joc ple">
     <!-- ================= INICI ================= -->
     <section class="inici" id="pantalla-inici">
       <div class="grup">
@@ -239,7 +262,7 @@
         <p class="enunciat" id="enunciat"></p>
         <div class="temps" id="temps" aria-hidden="true" hidden><i id="temps-barra"></i></div>
         <div id="zona"></div>
-        <div class="peu">
+        <div class="peu franja">
           <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
           <div class="botons-peu">
             <button class="btn btn-ok" id="btn-comprova" type="button" hidden>Comprova ✓</button>
@@ -380,9 +403,9 @@
         iniciar() {
           $('enunciat').textContent = facil() ? 'De quin tema són aquests dibuixos?' : 'De quin tema són aquestes paraules?';
           const z = el('div', 'contingut'); $('zona').appendChild(z);
-          const m = el('div', 'mostra'); mostra.forEach(p => m.appendChild(fitxa(p, true))); z.appendChild(m);
+          const m = el('div', 'mostra safata-pregunta'); mostra.forEach(p => m.appendChild(fitxa(p, true))); z.appendChild(m);
           const g = el('div', 'temes');
-          opcions.forEach(t => { const b = el('button', 'op-tema', t.nom); b.type = 'button'; b.addEventListener('click', () => triarTema_(b, t)); g.appendChild(b); });
+          opcions.forEach(t => { const b = el('button', 'op-tema opcio-resposta', t.nom); b.type = 'button'; b.addEventListener('click', () => triarTema_(b, t)); g.appendChild(b); });
           z.appendChild(g);
           mostrar('Mira les paraules i pensa què tenen en comú', 'Tria el tema.');
         },

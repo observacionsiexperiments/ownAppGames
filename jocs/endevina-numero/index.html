@@ -127,6 +127,21 @@
     @media (orientation: portrait) and (min-width: 601px) {
       .joc { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); grid-template-areas: "missatges form" "pista form"; column-gap: 16px; max-width: 900px; }
     }
+    /* Tauleta i portàtil en horitzontal (criteri comú de pantalla): el joc omple la pantalla i tot creix amb l'espai */
+    @media (orientation: landscape) and (min-width: 601px) and (min-height: 501px) {
+      .joc { max-width: 1400px; align-content: stretch; align-items: stretch; column-gap: clamp(20px, 3vw, 40px);
+        grid-template-columns: minmax(360px, 34vw) 1fr; grid-template-rows: minmax(0, 1fr) auto; }
+      .pista { padding: clamp(12px, 2.4vh, 24px) clamp(14px, 2vw, 26px); }
+      .pista .dit { font-size: clamp(1.05rem, 2.6vh, 1.5rem); }
+      #pista-text { font-size: clamp(1.8rem, min(4vw, 7vh), 4rem); }
+      .ja-saps ul { font-size: clamp(1rem, 2.4vh, 1.4rem); }
+      .missatge { font-size: clamp(1.15rem, 2.8vh, 1.6rem); }
+      .estat { font-size: clamp(1rem, 2.4vh, 1.3rem); }
+      .historial li { font-size: clamp(1rem, 2.4vh, 1.35rem); }
+      .zona-entrada { align-self: center; }
+      .en-gran .en-caixa { font-size: clamp(3rem, 9vh, 6rem); }
+      .en-gran .en-teclat button { min-height: clamp(54px, 9vh, 96px); font-size: clamp(1.6rem, 4vh, 2.6rem); }
+    }
   </style>
 </head>
 <body>

@@ -102,8 +102,8 @@
     .sacseig { animation: sacseig .25s 2; }
     .maj .nom { text-transform: uppercase; }
 
-    /* Horitzontal amb poca alçada: el missatge i els botons a la dreta */
-    @media (orientation: landscape) and (max-height: 820px) {
+    /* Mòbil apaïsat: el missatge i els botons a la dreta (a sota no hi cabrien) */
+    @media (orientation: landscape) and (max-height: 500px) {
       .tauler { display: grid; grid-template-columns: minmax(0, 1fr) minmax(190px, 250px); column-gap: 18px; row-gap: 10px;
         grid-template-areas: "enun peu" "temps peu" "zona peu"; align-items: start; padding: 12px 20px; }
       .tauler .enunciat { grid-area: enun; }
@@ -169,6 +169,19 @@
       .motiu { padding: .2em .5em; font-size: .85rem; }
       .retol { font-size: 1.6em; }
     }
+    /* Tauleta i portàtil (criteri comú «ple», css/styles.css): el joc omple la pantalla i tot creix amb l'espai */
+    @media (min-width: 601px) and (min-height: 501px) {
+      .tauler { --op: clamp(1.3rem, min(3.4vw, 4.4vh), 2.5rem); padding: 16px 22px; gap: 14px; }
+      .enunciat { font-size: clamp(1.1rem, 2.8vh, 1.6rem); }
+      #zona { flex: 1 1 auto; min-height: 0; }
+      #zona > .contingut { flex: 1 1 auto; justify-content: center; gap: clamp(12px, 2.4vh, 26px); }
+      .opcions-joc { width: min(100%, 1000px); gap: clamp(12px, 1.6vw, 22px); }
+      .op { min-height: 0; padding: clamp(10px, 2.6vh, 28px) 10px; }
+      .motius { width: min(100%, 900px); gap: clamp(8px, 1.4vh, 14px); }
+      .motius > p { font-size: clamp(1.05rem, 2.5vh, 1.35rem); }
+      .motiu { font-size: clamp(1.05rem, 2.4vh, 1.3rem); }
+      .pas-motiu .op { padding: 6px 10px; }
+    }
   </style>
 </head>
 <body>
@@ -177,7 +190,7 @@
     <h1>🕵️ Busca l'intrús</h1>
   </nav>
 
-  <main class="joc">
+  <main class="joc ple">
     <!-- ================= INICI ================= -->
     <section class="inici" id="pantalla-inici">
       <div class="grup">
@@ -217,7 +230,7 @@
         <p class="enunciat" id="enunciat"></p>
         <div class="temps" id="temps" aria-hidden="true" hidden><i id="temps-barra"></i></div>
         <div id="zona"></div>
-        <div class="peu">
+        <div class="peu franja">
           <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
           <div class="botons-peu">
             <button class="btn btn-pista" id="btn-pista" type="button">💡 Vull una pista</button>
@@ -528,7 +541,7 @@
       const z = el('div', 'contingut'); $('zona').appendChild(z);
       const g = el('div', 'opcions-joc' + (facil() ? ' amb-dibuix' : ''));
       P.botons = P.mots.map((p, i) => {
-        const b = el('button', 'op'); b.type = 'button';
+        const b = el('button', 'op opcio-resposta'); b.type = 'button';
         if (facil()) b.appendChild(el('span', 'emoji', MOTS.get(p).e));
         const nom = el('span', 'nom', format(p));
         if (p.length >= 15) nom.classList.add('molt-llarga'); else if (p.length >= 11) nom.classList.add('llarga');   // paraules llargues: lletra més petita, sense partir-les
@@ -584,7 +597,7 @@
       const box = el('div', 'motius');
       box.appendChild(el('p', '', `Per què ${cometes(P.mots[P.t])} no hi encaixa?`));
       P.btnMotius = P.motius.map((m, i) => {
-        const b = el('button', 'motiu'); b.type = 'button';
+        const b = el('button', 'motiu opcio-resposta'); b.type = 'button';
         b.append(el('span', 'motiu-text', m.t));
         b.addEventListener('click', () => triarMotiu(i));
         box.appendChild(b); return b;

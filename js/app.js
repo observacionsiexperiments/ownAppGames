@@ -1,5 +1,5 @@
 // Llançadora: llegeix jocs/jocs.json i pinta una targeta per joc.
-const VERSIO_APP = '0.38.2';
+const VERSIO_APP = '0.40.0';
 
 // Categories dels jocs (camp "categories" de jocs.json)
 const CATEGORIES = { xifres: '🔢 Xifres', lletres: '🔤 Lletres' };

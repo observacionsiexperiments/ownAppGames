@@ -133,8 +133,8 @@
     @keyframes sacseig { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
     .sacseig { animation: sacseig .25s 2; }
 
-    /* Horitzontal amb poca alçada: el missatge i els botons a la dreta */
-    @media (orientation: landscape) and (max-height: 820px) {
+    /* Mòbil apaïsat: el missatge i els botons a la dreta (a sota no hi cabrien) */
+    @media (orientation: landscape) and (max-height: 500px) {
       .tauler { display: grid; grid-template-columns: minmax(0, 1fr) minmax(180px, 240px); column-gap: 18px; row-gap: 10px;
         grid-template-areas: "enun peu" "temps peu" "zona peu"; align-items: start; padding: 12px 20px; }
       .tauler .enunciat { grid-area: enun; }
@@ -196,6 +196,23 @@
       .vis-opcions { gap: 5px; }
       .vis-op { padding: .25em .6em; border-width: 2px; }
     }
+    /* Tauleta i portàtil (criteri comú «ple», css/styles.css): el joc omple la pantalla i tot creix amb l'espai */
+    @media (min-width: 601px) and (min-height: 501px) {
+      .tauler { --pz: clamp(1.2rem, min(2.8vw, 4.4vh), 2.3rem); padding: clamp(14px, 2.4vh, 24px) clamp(16px, 2vw, 28px); gap: clamp(10px, 2vh, 20px); }
+      .enunciat { font-size: clamp(1.1rem, 2.8vh, 1.6rem); }
+      .definicio { font-size: clamp(1.1rem, 3vh, 1.7rem); }
+      #zona { flex: 1 1 auto; min-height: 0; justify-content: center; gap: clamp(12px, 3vh, 30px); }
+      .files { --gap-fila: clamp(10px, 2.2vh, 22px); }
+      .vis-img { max-height: clamp(80px, 34vh, 320px); }
+      .vis-opcions { width: min(100%, 680px); gap: clamp(10px, 1.8vh, 18px); }
+    }
+    /* Portàtil i tauleta en horitzontal: les tres opcions en una fila sota el dibuix */
+    @media (orientation: landscape) and (min-width: 601px) and (min-height: 501px) {
+      .vis-opcions { flex-direction: row; width: min(100%, 1150px); }
+      .vis-op { flex: 1 1 0; justify-content: center; min-height: clamp(56px, 11vh, 110px); }
+      /* Mitjà amb 3 o 4 paraules: les files en dues columnes, perquè hi càpiguen sense lliscar */
+      .files:has(.fila:nth-child(3)) { display: grid; grid-template-columns: repeat(2, auto); justify-content: center; column-gap: clamp(24px, 4vw, 60px); }
+    }
   </style>
 </head>
 <body>
@@ -204,7 +221,7 @@
     <h1>🧩 Paraules compostes</h1>
   </nav>
 
-  <main class="joc">
+  <main class="joc ple">
     <!-- ================= INICI ================= -->
     <section class="inici" id="pantalla-inici">
       <div class="grup">
@@ -252,7 +269,7 @@
         <p class="enunciat" id="enunciat"></p>
         <div class="temps" id="temps" aria-hidden="true" hidden><i id="temps-barra"></i></div>
         <div id="zona"></div>
-        <div class="peu">
+        <div class="peu franja">
           <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
           <div class="botons-peu"><button class="btn btn-pista" id="btn-pista" type="button">💡 Vull una pista</button></div>
         </div>
@@ -643,7 +660,7 @@
           marc.appendChild(img); z.appendChild(marc);
           const op = el('div', 'vis-opcions');
           botons = opcions.map((o, i) => {
-            const b = el('button', 'vis-op'); b.type = 'button'; b.dataset.i = i;
+            const b = el('button', 'vis-op opcio-resposta'); b.type = 'button'; b.dataset.i = i;
             b.append(el('span', 'txt', format(o.paraula)));
             b.addEventListener('click', () => triarOp(i));
             op.appendChild(b); return b;

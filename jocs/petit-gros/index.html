@@ -54,7 +54,7 @@
     .fila-paraula { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: clamp(8px, 2vw, 20px); margin: 4px 0 10px; }
     .fila-paraula.un { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
     .lletra-gran { font-family: "Avenir Next", "Avenir", "Helvetica Neue", Arial, system-ui, sans-serif; font-weight: 800; letter-spacing: .03em; line-height: 1; }
-    .paraula { font-size: clamp(2rem, 6vw, 3.6rem); padding: .18em .4em .22em; border-radius: .25em; background: var(--fons); border: 3px solid var(--vora); white-space: nowrap; }
+    .paraula { font-size: clamp(2rem, 6vw, 3.6rem); padding: .18em .4em .22em; border-radius: .25em; background: var(--superficie); border: 3px solid var(--vora); white-space: nowrap; }
     .costat { display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 0; }
     .fletxa { font-weight: 800; color: var(--text-suau); font-size: .95rem; white-space: nowrap; }
     .fletxa .petit { font-size: .9em; } .fletxa .gros { font-size: 1.6em; vertical-align: -3px; }
@@ -185,6 +185,24 @@
       .escriu input { padding: 4px 12px; font-size: 1.15rem; }
       .tauler.amb-linies { padding: 6px 10px; row-gap: 4px; }
     }
+    /* Tauleta i portàtil (criteri comú «ple», css/styles.css): el joc omple la pantalla i tot creix amb l'espai */
+    @media (min-width: 601px) and (min-height: 501px) {
+      .tauler, .tauler.amb-linies { display: flex; flex-direction: column; align-items: stretch; padding: clamp(14px, 2.4vh, 24px) clamp(16px, 2vw, 28px); gap: clamp(10px, 2vh, 20px); }
+      .enunciat { font-size: clamp(1.15rem, 2.8vh, 1.6rem); }
+      .tauler.amb-linies .peu { align-self: stretch; }
+      .tauler.amb-linies .botons-peu { flex-direction: row; align-items: center; }
+      #zona { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; justify-content: center; }
+      .fila-paraula { margin: 0 0 clamp(14px, 4vh, 40px); }
+      .paraula { font-size: clamp(2.2rem, min(6vw, 11vh), 6rem); }
+      .fletxa { font-size: clamp(.95rem, 2.2vh, 1.2rem); }
+      .casella { font-size: clamp(1.3rem, min(3.4vw, 5.4vh), 3rem); }
+      .opcions-joc { max-width: 1000px; gap: clamp(12px, 1.8vw, 22px); }
+      .opcio { font-size: clamp(1.3rem, min(3vw, 5vh), 2.6rem); min-height: clamp(64px, 15vh, 140px); }
+      .escriu input { font-size: clamp(1.4rem, 4vh, 2.4rem); width: min(100%, 520px); }
+      .escriu .btn { font-size: clamp(1.1rem, 2.8vh, 1.5rem); padding: .4em 1.3em; }
+      .relaciona { max-width: 1150px; }
+      .cap-col { font-size: clamp(.85rem, 2vh, 1.1rem); }
+    }
   </style>
 </head>
 <body>
@@ -193,7 +211,7 @@
     <h1>🐭🐘 Petit o gros?</h1>
   </nav>
 
-  <main class="joc">
+  <main class="joc ple">
     <!-- ================= INICI ================= -->
     <section class="inici" id="pantalla-inici">
       <div class="grup">
@@ -240,7 +258,7 @@
         <p class="enunciat" id="enunciat"></p>
         <div class="temps" id="temps" aria-hidden="true" hidden><i id="temps-barra"></i></div>
         <div id="zona"></div>
-        <div class="peu">
+        <div class="peu franja">
           <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
           <div class="botons-peu"><button class="btn btn-pista" id="btn-pista" type="button">💡 Vull una pista</button></div>
         </div>
@@ -400,7 +418,7 @@
           const altra = t === 'dim' ? p.aug : p.dim;
           const dolenta = altra && Math.random() < .5 ? altra : formaDolenta(p, t);
           const g = el('div', 'opcions-joc');
-          barrejar([bona, dolenta]).forEach(o => { const b = el('button', 'opcio', format(o)); b.type = 'button'; b.dataset.v = o; g.appendChild(b); });
+          barrejar([bona, dolenta]).forEach(o => { const b = el('button', 'opcio opcio-resposta', format(o)); b.type = 'button'; b.dataset.v = o; g.appendChild(b); });
           g.addEventListener('click', ev => { const b = ev.target.closest('.opcio'); if (b && !b.disabled && !bloquejat) respondre(b.dataset.v, b); });
           z.appendChild(g);
           mostrar('Fes clic a la bona', t === 'dim' ? 'Busca la paraula més petita.' : 'Busca la paraula més grossa.');
@@ -664,10 +682,11 @@
       const lliure = Math.max(120, innerHeight - (r.getBoundingClientRect().top + window.scrollY) - reserva);
       const baix = innerHeight < 520 || innerWidth < 600;
       const sep = Math.max(baix ? 4 : 6, Math.min(16, lliure * .04));
-      const alt = Math.max(baix ? 26 : 34, Math.min(64, (lliure - sep * files) / files));
+      const gran = matchMedia('(min-width: 601px) and (min-height: 501px)').matches;   // criteri «ple»: paraules més grans
+      const alt = Math.max(baix ? 26 : 34, Math.min(gran ? 92 : 64, (lliure - sep * files) / files));
       r.style.setProperty('--alt', alt + 'px');
       r.style.setProperty('--sep', sep + 'px');
-      r.style.setProperty('--lletra', Math.max(baix ? .78 : .9, Math.min(1.35, alt / 40)) + 'rem');
+      r.style.setProperty('--lletra', Math.max(baix ? .78 : .9, Math.min(gran ? 1.8 : 1.35, alt / 40)) + 'rem');
     }
     addEventListener('resize', () => { if (P && P.redibuixar && !$('pantalla-joc').hidden) P.redibuixar(); });
 

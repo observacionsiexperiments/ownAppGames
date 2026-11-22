@@ -163,6 +163,18 @@
       #bloc-suma, .completar { grid-column: 2; grid-row: 2 / span 3; background: var(--superficie); border: 2px solid var(--vora); border-radius: var(--radi); padding: 12px; }
       #bloc-suma p { margin: 0 0 8px; text-align: center; }
     }
+    /* Tauleta i portàtil (criteri comú «ple», css/styles.css): el joc omple la pantalla i tot creix amb l'espai */
+    @media (min-width: 601px) and (min-height: 501px) {
+      .disposicio { flex: 1 1 auto; min-height: 0; align-items: stretch; }
+      .zona-arbre { display: flex; align-items: center; justify-content: center; }
+      .cap-joc h2 { font-size: clamp(1.1rem, 2.6vh, 1.5rem); }
+      .missatge { font-size: clamp(1rem, 2.4vh, 1.25rem); }
+      .sumes { font-size: clamp(1rem, 2.4vh, 1.3rem); }
+    }
+    @media (orientation: landscape) and (min-width: 900px) and (min-height: 501px) {
+      .disposicio { grid-template-columns: 1fr clamp(340px, 28vw, 420px); grid-template-rows: minmax(0, 1fr) auto; }
+      .panell { align-self: start; }
+    }
   </style>
 </head>
 <body>
@@ -171,7 +183,7 @@
     <h1>🌳 L'arbre dels números</h1>
   </nav>
 
-  <main class="joc">
+  <main class="joc ple">
     <!-- ================= INICI ================= -->
     <section class="inici" id="pantalla-inici">
       <div class="grup">
@@ -358,8 +370,10 @@
       const amplada = zona.clientWidth - 4;
       // Quan l'arbre està acabat es veu sencer (s'encongeix); mentre es juga, els nodes mantenen una mida tocable
       const complet = acabat || (modeTriat === 'completa' && !nodes().some(n => n.buit));
-      const S = complet ? Math.min(96, amplada / places) : Math.max(44, Math.min(96, amplada / places));
-      let R = Math.max(9, Math.min(28, S * 0.4));
+      const gran = matchMedia('(min-width: 601px) and (min-height: 501px)').matches;   // criteri «ple»: nodes més grans
+      const SM = gran ? 150 : 96;
+      const S = complet ? Math.min(SM, amplada / places) : Math.max(44, Math.min(SM, amplada / places));
+      let R = Math.max(9, Math.min(gran ? 44 : 28, S * 0.4));
       let FILA = Math.max(64, R * 2 + 30);
       const P = Math.max(0, ...fs.map(f => profunditat(f) + (ambFantasmes(f) ? 1 : 0)));
       // L'arbre ha de cabre en l'alçada de la pantalla amb la resta (sumes i, si és a sota, el panell

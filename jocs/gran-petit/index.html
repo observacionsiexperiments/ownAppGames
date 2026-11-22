@@ -122,6 +122,19 @@
       .fitxa { min-height: clamp(70px, 26vh, 110px); font-size: 2.2rem; }
       .pregunta { font-size: 1.2rem; }
     }
+    /* Tauleta i portàtil (criteri comú «ple», css/styles.css): el joc omple la pantalla i tot creix amb l'espai */
+    @media (min-width: 601px) and (min-height: 501px) {
+      .tauler { padding: clamp(14px, 2.4vh, 24px); gap: clamp(12px, 2.4vh, 24px); }
+      .pregunta { font-size: clamp(1.5rem, min(3.4vw, 5vh), 2.8rem); }
+      .fitxes { flex: 1 1 auto; min-height: 0; gap: clamp(12px, 1.8vw, 24px); }
+      .fitxes.n2, .fitxes.n3 { max-width: 1100px; }
+      .fitxa { min-height: 0; font-size: clamp(2.8rem, min(9vw, 16vh), 9rem); }
+      .missatge { margin-top: 12px; min-height: 0; font-size: clamp(1rem, 2.4vh, 1.25rem); }
+      .missatge small { font-size: .88em; }
+    }
+    @media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) {
+      .fitxes.n4 { --n: 2; }
+    }
   </style>
 </head>
 <body>
@@ -130,7 +143,7 @@
     <h1>🔎 Gran o petit?</h1>
   </nav>
 
-  <main class="joc">
+  <main class="joc ple">
     <!-- ================= INICI ================= -->
     <section class="inici" id="pantalla-inici">
       <div class="grup">
@@ -278,11 +291,11 @@
       cont.className = 'fitxes n' + config.quants;
       numeros.forEach(v => {
         const b = document.createElement('button');
-        b.type = 'button'; b.className = 'fitxa'; b.textContent = v; b.dataset.v = v;
+        b.type = 'button'; b.className = 'fitxa opcio-resposta'; b.textContent = v; b.dataset.v = v;
         b.addEventListener('click', () => respondre(v, b));
         cont.appendChild(b);
       });
-      mostrar(`Pregunta ${num} de ${PREGUNTES}`, config.temps ? `Tens ${config.temps} segons.` : 'Pensa-t\'ho bé.');
+      mostrar(config.temps ? `Tens ${config.temps} segons` : 'Pensa-t\'ho bé');
       pintarDades();
       iniciarTemps();
     }

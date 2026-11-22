@@ -176,6 +176,35 @@
       main .inici h2.titol { font-size: .92rem; margin-bottom: 4px; }
       main .inici .opcions button { min-height: 38px; }
     }
+    /* Tauleta i portàtil (criteri comú «ple», css/styles.css): el joc omple la pantalla i tot creix amb l'espai */
+    @media (min-width: 601px) and (min-height: 501px) {
+      .disposicio { flex: 1 1 auto; min-height: 0; gap: 12px; align-items: stretch;
+        grid-template-columns: minmax(0, 1fr) clamp(240px, 26vw, 380px); grid-template-rows: minmax(0, 1fr) auto;
+        grid-template-areas: "fitxes objectiu" "panell panell"; }
+      .zona-fitxes { display: flex; padding: clamp(10px, 1.6vh, 18px); }
+      .fitxes { flex: 1 1 auto; grid-auto-rows: 1fr; gap: clamp(10px, 1.4vw, 18px); }
+      .fitxa { min-height: 0; font-size: clamp(1.8rem, min(5vw, 7.5vh), 4.2rem); }
+      .zona-objectiu { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px; }
+      .zona-objectiu .rotul { font-size: clamp(.9rem, 2vh, 1.15rem); }
+      .objectiu { font-size: clamp(4rem, min(9vw, 17vh), 9rem); }
+      .zona-objectiu .quants { font-size: clamp(1rem, 2.3vh, 1.3rem); }
+      /* Franja de sota: operació · missatge · ⌫ i OK */
+      .panell { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) clamp(220px, 24vw, 340px);
+        grid-template-areas: "op msg bot"; gap: 12px; align-items: stretch; }
+      .operacio { grid-area: op; min-height: 0; font-size: clamp(1.2rem, 3vh, 1.8rem); }
+      .operacio .buit { font-size: clamp(.95rem, 2.2vh, 1.15rem); }
+      .botons { grid-area: bot; }
+      .boto { min-height: clamp(50px, 8vh, 72px); font-size: clamp(1.2rem, 2.8vh, 1.6rem); }
+      .missatge { grid-area: msg; min-height: 0; font-size: clamp(1rem, 2.4vh, 1.25rem); }
+      .missatge small { font-size: .88em; }
+    }
+    /* Tauleta en vertical: l'objectiu a dalt (en una fila), les fitxes al mig i la franja a sota */
+    @media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) {
+      .disposicio { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto; grid-template-areas: "objectiu" "fitxes" "panell"; }
+      .zona-objectiu { flex-direction: row; gap: 20px; }
+      .objectiu { font-size: clamp(3.5rem, 9vh, 7rem); margin: 0; }
+      .fitxa { font-size: clamp(2rem, 8vw, 4rem); }
+    }
   </style>
 </head>
 <body>
@@ -184,7 +213,7 @@
     <h1>⚡ Suma ràpida</h1>
   </nav>
 
-  <main class="joc">
+  <main class="joc ple">
     <!-- ================= INICI ================= -->
     <section class="inici" id="pantalla-inici">
       <div class="grup">

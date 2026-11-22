@@ -141,6 +141,20 @@
       .panell { gap: 6px; }
       .signes button { min-height: 38px; }
     }
+    /* Tauleta i portàtil (criteri comú «ple», css/styles.css): el joc omple la pantalla i tot creix amb l'espai */
+    @media (min-width: 601px) and (min-height: 501px) {
+      .tauler { grid-template-columns: minmax(0, 1fr) clamp(280px, 28vw, 420px); padding: clamp(12px, 2vh, 20px); }
+      .panell { gap: clamp(12px, 2.4vh, 24px); }
+      .fitxes { gap: clamp(8px, 1.2vw, 14px); }
+      .signes button { font-size: clamp(1.7rem, 4vh, 2.4rem); min-height: clamp(52px, 8vh, 80px); }
+      .botons button { font-size: clamp(1rem, 2.4vh, 1.25rem); min-height: clamp(44px, 6.5vh, 60px); padding: .4em 1.1em; }
+      .missatge { min-height: 0; font-size: clamp(1rem, 2.4vh, 1.25rem); }
+      .missatge small { font-size: .88em; }
+    }
+    @media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) {
+      .tauler { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; }
+      .panell { max-width: 640px; }
+    }
   </style>
 </head>
 <body>
@@ -149,7 +163,7 @@
     <h1>#️⃣ Encreuat de números</h1>
   </nav>
 
-  <main class="joc">
+  <main class="joc ple">
     <section class="inici" id="pantalla-inici">
       <div class="grup">
         <h2 class="titol">1. Forma</h2>
@@ -445,11 +459,13 @@
       const vertical = matchMedia('(orientation: portrait)').matches;
       const w = z.clientWidth;
       const dalt = Pantalla.dalt(z);
-      const sota = vertical ? Pantalla.sota(z) : 0;
+      const gran = matchMedia('(min-width: 601px) and (min-height: 501px)').matches;   // criteri «ple»: caselles i fitxes més grans
+      // En tauleta vertical el tauler s'estira fins a baix: el que hi ha a sota és el panell (no tot l'espai fins al final)
+      const sota = vertical ? (gran ? $('tauler').querySelector('.panell').offsetHeight + 40 : Pantalla.sota(z)) : 0;
       const h = Math.min(innerHeight, document.documentElement.clientHeight) - dalt - sota - 52;
-      const cel = Math.floor(Math.max(24, Math.min(64, (w - gap * (cols - 1)) / cols, (h - gap * (rows - 1)) / rows)));
+      const cel = Math.floor(Math.max(24, Math.min(gran ? 110 : 64, (w - gap * (cols - 1)) / cols, (h - gap * (rows - 1)) / rows)));
       $('graella').style.setProperty('--cel', cel + 'px');
-      $('tauler').style.setProperty('--fitxa', Math.max(40, Math.min(56, cel)) + 'px');
+      $('tauler').style.setProperty('--fitxa', Math.max(40, Math.min(gran ? 84 : 56, cel)) + 'px');
     }
     addEventListener('resize', () => { mides(); requestAnimationFrame(mides); });
 

@@ -134,6 +134,21 @@
     @media (orientation: landscape) and (max-height: 500px) {
       .tauler { grid-template-columns: auto minmax(200px, 1fr); }
     }
+    /* Tauleta i portàtil (criteri comú «ple», css/styles.css): el joc omple la pantalla i tot creix amb l'espai */
+    @media (min-width: 601px) and (min-height: 501px) {
+      .tauler { align-content: center; grid-template-columns: auto clamp(260px, 28vw, 420px); padding: clamp(10px, 1.8vh, 18px); }
+      .ordre { padding: clamp(12px, 2.4vh, 24px); gap: clamp(8px, 1.6vh, 16px); }
+      .ordre .pinta { font-size: clamp(1rem, 2.4vh, 1.3rem); }
+      .llapis { font-size: clamp(1rem, 2.4vh, 1.3rem); }
+      .llapis i { width: clamp(26px, 3.6vh, 36px); height: clamp(26px, 3.6vh, 36px); }
+      .numero { font-size: clamp(1.6rem, min(2.6vw, 5vh), 3rem); }
+      .missatge { min-height: 0; font-size: clamp(1rem, 2.4vh, 1.25rem); }
+      .missatge small { font-size: .88em; }
+    }
+    @media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) {
+      .tauler { grid-template-columns: minmax(0, 1fr); }
+      .panell { max-width: 640px; }
+    }
   </style>
 </head>
 <body>
@@ -142,7 +157,7 @@
     <h1>🎨 Dibuix secret</h1>
   </nav>
 
-  <main class="joc">
+  <main class="joc ple">
     <section class="inici" id="pantalla-inici">
       <div class="grup">
         <h2 class="titol">1. Dificultat</h2>
@@ -288,11 +303,12 @@
       const vertical = matchMedia('(orientation: portrait)').matches;
       const mobil = matchMedia('(orientation: portrait) and (max-width: 600px), (orientation: landscape) and (max-height: 500px)').matches;
       const gap = mobil ? 1 : 2;
-      const amp = $('tauler').clientWidth - (mobil ? 18 : 26) - (vertical ? 0 : (mobil ? 212 : 262));
+      const gran = !mobil;   // tauleta i portàtil (criteri «ple»): caselles més grans i panell més ample
+      const amp = $('tauler').clientWidth - (mobil ? 18 : 26) - (vertical ? 0 : (mobil ? 212 : $('tauler').querySelector('.panell').offsetWidth + 24));
       const g = $('graella');
       const dalt = Pantalla.dalt(g);
       const alt = Math.min(innerHeight, document.documentElement.clientHeight) - dalt - (mobil ? 22 : 30);
-      const q = Math.floor(Math.max(18, Math.min(64, (amp - gap * (N - 1)) / N, (alt - gap * (N - 1)) / N)));
+      const q = Math.floor(Math.max(18, Math.min(gran ? 96 : 64, (amp - gap * (N - 1)) / N, (alt - gap * (N - 1)) / N)));
       g.style.setProperty('--q', q + 'px');
       lupaActiva = q < 34;
     }

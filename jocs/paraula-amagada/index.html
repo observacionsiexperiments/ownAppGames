@@ -140,6 +140,14 @@
       .missatge small { font-size: .82rem; }
     }
     @media (orientation: portrait) and (max-width: 600px) { .progres { display: none; } }
+    /* Tauleta i portàtil (criteri comú «ple», css/styles.css): el joc omple la pantalla i tot creix amb l'espai */
+    @media (min-width: 601px) and (min-height: 501px) {
+      .tauler { padding: clamp(12px, 2vh, 22px) clamp(14px, 2vw, 26px); }
+      .esquerra { gap: clamp(12px, 3vh, 30px); }
+      .ajudes button { font-size: clamp(1rem, 2.4vh, 1.3rem); min-height: clamp(48px, 7vh, 64px); padding: .45em 1em; }
+      .missatge { margin-top: 12px; min-height: 0; font-size: clamp(1rem, 2.4vh, 1.25rem); }
+      .missatge small { font-size: .88em; }
+    }
   </style>
 </head>
 <body>
@@ -148,7 +156,7 @@
     <h1>🔍 Paraula amagada</h1>
   </nav>
 
-  <main class="joc">
+  <main class="joc ple">
     <section class="inici" id="pantalla-inici">
       <div class="grup">
         <h2 class="titol">1. Dificultat</h2>
@@ -253,9 +261,8 @@
       pintarTaula();
       pintarParaula();
       mides();
-      mostrar(`Paraula ${num} de ${ronda.length}`, config.nivell === 'dificil'
-        ? 'Amb quin so comença cada dibuix? Toca\'l a l\'abecedari.'
-        : 'Busca cada dibuix a l\'abecedari i toca\'l.');
+      mostrar(config.nivell === 'dificil' ? 'Amb quin so comença cada dibuix?' : 'Busca cada dibuix a l\'abecedari',
+        'Toca\'l per posar-ne la lletra.');
       pintarDades();
     }
 
@@ -295,16 +302,17 @@
       const n = Object.keys(ABC).length;                       // 24
       const tc = vertical ? 6 : (mobil ? 8 : 6);
       const files = Math.ceil(n / tc);
+      const gran = !mobil;   // tauleta i portàtil (criteri «ple»): tot pot ser més gran
       const gap = mobil ? 4 : 6;
       const amp = $('tauler').clientWidth - (mobil ? 20 : 30);
       const alt = Math.min(innerHeight, document.documentElement.clientHeight);
       let c;
       if (vertical) {
         const disp = alt - Pantalla.dalt($('tauler')) - (mobil ? 250 : 330);   // espai per a la paraula, botons i missatge
-        c = Math.min((amp - gap * (tc - 1)) / tc, (disp - gap * (files - 1)) / files / .95, 96);
+        c = Math.min((amp - gap * (tc - 1)) / tc, (disp - gap * (files - 1)) / files / .95, gran ? 120 : 96);
       } else {
         const disp = alt - Pantalla.dalt($('tauler')) - (mobil ? 70 : 90);
-        c = Math.min((amp * (mobil ? .55 : .5) - gap * (tc - 1)) / tc, (disp - gap * (files - 1)) / files / .95, 96);
+        c = Math.min((amp * (mobil ? .55 : .5) - gap * (tc - 1)) / tc, (disp - gap * (files - 1)) / files / .95, gran ? 130 : 96);
       }
       c = Math.max(36, Math.floor(c));
       $('taula').style.setProperty('--tc', tc);
@@ -312,7 +320,7 @@
       // Paraula: ample disponible a l'esquerra (o a dalt en vertical)
       const ampP = vertical ? amp : amp - (c * tc + gap * (tc - 1)) - 22;
       const g = mobil ? 3 : 6;
-      const l = Math.max(26, Math.min(mobil ? 50 : 64, Math.floor((ampP - g * (lletres.length - 1)) / lletres.length)));
+      const l = Math.max(26, Math.min(mobil ? 50 : 96, Math.floor((ampP - g * (lletres.length - 1)) / lletres.length)));
       $('paraula').style.setProperty('--l', l + 'px');
     }
     addEventListener('resize', () => { mides(); });

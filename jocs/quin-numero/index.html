@@ -153,6 +153,26 @@
       .cartes, .escriure .cartes { --carta: clamp(44px, 15vh, 70px); }
       .opcio { min-height: 48px; font-size: 1.4rem; }
     }
+    /* Tauleta i portàtil (criteri comú «ple», css/styles.css): el joc omple la pantalla i tot creix amb l'espai */
+    @media (min-width: 601px) and (min-height: 501px) {
+      .tauler { grid-template-rows: minmax(0, 1fr) auto auto; align-content: stretch; padding: clamp(14px, 2.4vh, 24px); gap: clamp(12px, 2.4vh, 26px) 24px; }
+      .tauler.escriure { grid-template-rows: minmax(0, 1fr) auto; }
+      .cartes { --carta: clamp(70px, min(14vw, 30vh), 220px); align-self: center; }
+      .escriure .cartes { --carta: clamp(60px, min(10vw, 24vh), 170px); }
+      .opcions-resposta { max-width: 1000px; }
+      .opcio { font-size: clamp(1.8rem, min(5vw, 7vh), 3.6rem); min-height: clamp(70px, 14vh, 140px); }
+      /* Franja de sota: missatge a l'esquerra i «Comencem?» / «Següent» a la dreta */
+      .costat { flex-direction: row; align-items: stretch; gap: 12px; }
+      .costat .missatge { flex: 1 1 auto; min-height: 0; font-size: clamp(1rem, 2.4vh, 1.25rem); }
+      .costat .missatge small { font-size: .88em; }
+      .gira { display: flex; align-items: center; }
+      .gira .btn { font-size: clamp(1.15rem, 2.8vh, 1.5rem); padding: .55em 1.4em; white-space: nowrap; }
+    }
+    @media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) {
+      .tauler.escriure { grid-template-rows: minmax(0, 1fr) auto auto; }
+      .cartes { --carta: clamp(70px, 19vw, 190px); }
+      .escriure .cartes { --carta: clamp(60px, 15vw, 150px); }
+    }
   </style>
 </head>
 <body>
@@ -161,7 +181,7 @@
     <h1>🧮 Quin número falta?</h1>
   </nav>
 
-  <main class="joc">
+  <main class="joc ple">
     <!-- ================= INICI ================= -->
     <section class="inici" id="pantalla-inici">
       <div class="grup">
@@ -396,7 +416,7 @@
       cont.style.setProperty('--n', vals.length);
       vals.forEach(v => {
         const b = document.createElement('button');
-        b.type = 'button'; b.className = 'opcio'; b.textContent = v; b.dataset.v = v;
+        b.type = 'button'; b.className = 'opcio opcio-resposta'; b.textContent = v; b.dataset.v = v;
         cont.appendChild(b);
       });
     }

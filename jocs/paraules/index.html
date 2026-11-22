@@ -52,7 +52,7 @@
       font-family: "Avenir Next", "Avenir", "Helvetica Neue", Arial, system-ui, sans-serif;
       font-weight: 800; font-size: clamp(3rem, 9vw, 6rem); line-height: 1; letter-spacing: .06em;
       padding: 10px 18px 12px; border-radius: 18px; color: var(--text);
-      background: var(--fons); border: 3px solid var(--vora);
+      background: var(--superficie); border: 3px solid var(--vora);
     }
     .sillaba.llegint { background: var(--c-pista); border-color: var(--c-pista-vora); }
     .punt { font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 800; color: var(--text-suau); }
@@ -113,6 +113,30 @@
       .opcions button { min-height: 52px; }
       .comencar { margin: 14px 0 4px; }
     }
+    /* Tauleta i portàtil (criteri comú «ple», css/styles.css): el joc omple la pantalla i tot creix amb l'espai */
+    @media (min-width: 601px) and (min-height: 501px) {
+      .zona-paraula { padding: clamp(8px, 1.6vh, 16px); }
+      .sillaba { font-size: clamp(3rem, min(8vw, 14vh), 7.5rem); }
+      .imatges { flex: 1 1 auto; min-height: 0; margin-top: clamp(10px, 2vh, 20px); gap: clamp(12px, 1.6vw, 22px); grid-auto-rows: minmax(0, 1fr); }
+      .imatge { aspect-ratio: auto; height: auto; min-height: 0; font-size: clamp(4rem, min(10vw, 24vh), 12rem); }
+      .missatge { margin-top: clamp(10px, 2vh, 18px); min-height: 0; font-size: clamp(1rem, 2.4vh, 1.25rem); }
+      .missatge small { font-size: .88em; }
+    }
+    @media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) {
+      .imatge { font-size: clamp(4.5rem, min(16vw, 14vh), 10rem); }
+    }
+    /* Mòbil vertical: capçalera del joc en una sola línia, perquè tot hi càpiga sense lliscar */
+    @media (orientation: portrait) and (max-width: 600px) {
+      .cap-joc { margin: 0 0 8px; gap: 6px; flex-wrap: nowrap; }
+      .dada { font-size: .8rem; padding: 2px 8px; }
+      .progres { display: none; }
+      .cap-joc .btn { padding: 5px 10px; font-size: .85rem; white-space: nowrap; }
+      .zona-paraula { padding: 8px; }
+      .sillaba { font-size: clamp(2.4rem, 11vw, 3.6rem); padding: 6px 12px 8px; }
+      .imatges { margin-top: 10px; gap: 10px; }
+      .imatge { height: min(24vh, 42vw); }
+      .missatge { margin-top: 10px; min-height: 0; padding: 6px 10px; font-size: 1rem; }
+    }
   </style>
 </head>
 <body>
@@ -121,7 +145,7 @@
     <h1>📖 Llegeix i tria</h1>
   </nav>
 
-  <main class="joc">
+  <main class="joc ple">
     <!-- ================= INICI ================= -->
     <section class="inici" id="pantalla-inici">
       <div class="grup">
@@ -168,7 +192,7 @@
         <button class="btn" id="btn-nova" type="button">Nova ronda</button>
       </div>
 
-      <div class="zona-paraula">
+      <div class="zona-paraula safata-pregunta">
         <div class="paraula" id="paraula" aria-live="polite"></div>
         <button type="button" class="escolta" id="btn-escolta" aria-label="Escolta la paraula" hidden>🔊</button>
       </div>
@@ -266,7 +290,7 @@
       const graella = $('imatges'); graella.innerHTML = '';
       opcions.forEach(o => {
         const b = document.createElement('button');
-        b.type = 'button'; b.className = 'imatge'; b.textContent = o.emoji;
+        b.type = 'button'; b.className = 'imatge opcio-resposta'; b.textContent = o.emoji;
         b.setAttribute('aria-label', `Dibuix ${opcions.indexOf(o) + 1}`);
         b.addEventListener('click', () => triar(b, o));
         graella.appendChild(b);

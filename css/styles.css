@@ -436,6 +436,47 @@ main.inici-app { display: flex; flex-direction: column; max-width: 1300px; paddi
 :where(html.sense-centrar body > main.joc) { justify-content: flex-start; }
 :where(body > main.joc > *) { width: 100%; }   /* amb margin:auto, en flex no s'estirarien */
 
+/* ─── Criteri comú de pantalla (v0.39.0) ───
+   Cada joc s'hi apunta amb <main class="joc ple">. En tauleta i portàtil (no en mòbil):
+   · el joc comença just sota la capçalera (no queda centrat amb buits a dalt i a baix);
+   · fa fins a 1400 px d'ample (Laptop L) i la pantalla que es veu omple tota l'alçada que queda;
+   · el missatge i els botons d'acció van en una franja a sota (.franja): missatge a l'esquerra, botons a la dreta.
+   Mides de tall (preajustos de l'eina d'inspecció de Chrome): mòbil ≤ 425 · tauleta 768 · portàtil ≥ 1024 · Laptop L 1440. */
+@media (min-width: 601px) and (min-height: 501px) {
+  body > main.joc.ple { max-width: 1400px; justify-content: flex-start; padding-bottom: 12px; }
+  main.joc.ple > section:not([hidden]) { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; }
+  main.joc.ple .tauler { flex: 1 1 auto; min-height: 0; }
+  main.joc.ple .franja { display: flex; flex-direction: row; align-items: stretch; gap: 12px; }
+  main.joc.ple .franja > .missatge { flex: 1 1 auto; min-width: 0; }
+  main.joc.ple .franja > .botons-peu { flex: none; flex-wrap: nowrap; align-items: center; }
+  main.joc.ple .franja .missatge { min-height: 0; font-size: clamp(1rem, 2.4vh, 1.25rem); }
+  main.joc.ple .franja .missatge small { font-size: .88em; }
+  main.joc.ple .franja .btn { font-size: clamp(1rem, 2.4vh, 1.25rem); padding: .55em 1.2em; white-space: nowrap; }
+  /* Pantalla d'opcions: més ampla i amb botons i lletra que creixen amb la pantalla */
+  main.joc.ple .inici { max-width: 1100px; }
+  /* Els grups de la pantalla d'opcions es reparteixen l'alçada: els botons creixen fins a omplir-la (amb un límit) */
+  main.joc.ple .inici > .grup { flex: 1 1 0; display: flex; flex-direction: column; min-height: min-content; max-height: 150px; }
+  main.joc.ple .inici > .grup > .opcions { flex: 1 1 auto; }
+  main.joc.ple .inici h2.titol { font-size: clamp(1.05rem, 2.6vh, 1.5rem); margin: clamp(4px, 1.4vh, 20px) 0 clamp(4px, .8vh, 12px); }
+  main.joc.ple .inici .opcions { gap: clamp(10px, 1.2vw, 16px); }
+  main.joc.ple .inici .opcions button { min-height: 50px; padding: 5px 8px; font-size: clamp(1rem, 2.8vh, 1.55rem); line-height: 1.2; }
+  main.joc.ple .inici .opcions button small { font-size: .78em; }
+  main.joc.ple .inici .explica { font-size: clamp(.95rem, 2.2vh, 1.2rem); }
+  main.joc.ple .inici .comencar { margin: clamp(14px, 3vh, 32px) 0 8px; }
+  main.joc.ple .inici .comencar .btn { font-size: clamp(1.25rem, 3vh, 1.6rem); }
+}
+
+/* ─── Criteri comú: pregunta i respostes (v0.39.1) ───
+   · .safata-pregunta: el que s'ha de mirar (paraules d'exemple, dibuix…) va dins una safata crema discontínua: no es clica.
+   · .opcio-resposta: el que es clica per respondre té fons préssec suau (color d'acció) i vora préssec; en passar-hi
+     el ratolí, vora blava. Quan ja s'ha respost, manen els colors de cada joc (verd encert, rosa error, groc pista). */
+main .safata-pregunta { background: var(--fons); border: 2px dashed var(--vora); border-radius: 16px; }
+.safata-pregunta { padding: 10px 12px; }   /* cada joc pot posar el seu padding */
+.opcio-resposta:not(.be):not(.mal):not(.dita):not(:disabled) {
+  background: color-mix(in srgb, var(--c-accio) 55%, white); border-color: var(--c-accio-vora);
+}
+@media (hover: hover) { .opcio-resposta:not(.be):not(.mal):not(.dita):not(:disabled):hover { border-color: var(--c-info-vora); } }
+
 /* ─── Avís d'orientació (js/pantalla.js): informació → blau ─── */
 .avis-orientacio {
   display: flex; align-items: center; gap: 10px; margin: 8px auto; max-width: 720px; width: 100%;

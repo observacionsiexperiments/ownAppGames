@@ -249,6 +249,35 @@
       .dibuix { --em: 1.05rem; }
       .dibuix.petit { --em: .9rem; }
     }
+    /* Tauleta i portàtil (criteri comú «ple», css/styles.css): el joc omple la pantalla i tot creix amb l'espai */
+    @media (min-width: 601px) and (min-height: 501px) {
+      .tauler { padding: clamp(16px, 2.6vh, 28px) clamp(18px, 2.2vw, 32px); }
+      .enunciat .text { font-size: clamp(1.25rem, min(2.4vw, 4vh), 2.2rem); }
+      .opcions-resp { max-width: 900px; }
+      .opcio { font-size: clamp(1.6rem, min(3.6vw, 6vh), 3.2rem); min-height: clamp(60px, 13vh, 130px); }
+      .opcio.text { font-size: clamp(1rem, 2.6vh, 1.4rem); }
+      .piramide { --mao: clamp(56px, min(8vw, 12vh), 120px); }
+      .fitxes { --f: clamp(58px, min(8vw, 13vh), 130px); }
+      .monedes { --m: clamp(44px, min(6vw, 9vh), 90px); }
+      .dibuix { --em: clamp(1.9rem, 4.4vh, 2.8rem); }
+      .missatge { min-height: 0; font-size: clamp(1rem, 2.4vh, 1.25rem); }
+      .missatge small { font-size: .88em; }
+      .zona, .resp { justify-content: center; }
+      .peu { justify-self: stretch; width: 100%; }
+    }
+    /* Portàtil i tauleta en horitzontal: el dibuix o les dades omplen la part de dalt; les respostes, a baix al costat del missatge */
+    @media (orientation: landscape) and (min-width: 601px) and (min-height: 501px) {
+      .tauler { grid-template-rows: minmax(0, 1fr) auto; }
+      .zona { align-self: stretch; }
+      .tauler.sense-zona .resp, .tauler.escriure .resp { align-self: center; }
+      .tauler:not(.sense-zona):not(.escriure) .resp { align-self: end; }
+    }
+    @media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) {
+      .tauler { align-content: space-between; }
+      .fitxes { --f: clamp(64px, min(14vw, 10vh), 130px); }
+      .piramide { --mao: clamp(56px, 13vw, 120px); }
+      .monedes { --m: clamp(44px, 9vw, 90px); }
+    }
   </style>
 </head>
 <body>
@@ -257,7 +286,7 @@
     <h1>🤔 Pensa i resol</h1>
   </nav>
 
-  <main class="joc">
+  <main class="joc ple">
     <!-- ================= INICI ================= -->
     <section class="inici" id="pantalla-inici">
       <div class="grup">
@@ -320,7 +349,7 @@
             <div id="entrada"></div>
           </div>
         </div>
-        <div class="peu">
+        <div class="peu franja">
           <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
           <div class="botons-peu">
             <button class="btn btn-pista" id="btn-pista" type="button">💡 Vull una pista</button>
@@ -566,7 +595,7 @@
         const ops = nv === 'dificil' ? ['+', '−', '×', '÷'] : ['+', '−', '×'];
         if (q.op === '÷' && !ops.includes('÷')) ops.push('÷');
         const g = el('div', 'opcions-resp'); g.style.setProperty('--n', ops.length);
-        ops.forEach(o => { const b = el('button', 'opcio', o); b.type = 'button'; b.dataset.op = o; g.appendChild(b); });
+        ops.forEach(o => { const b = el('button', 'opcio opcio-resposta', o); b.type = 'button'; b.dataset.op = o; g.appendChild(b); });
         g.addEventListener('click', e => { const b = e.target.closest('.opcio'); if (b && !b.disabled) respondreOp(b); });
         cont.appendChild(g);
         mostrar('Pensa quina operació és', 'Llegeix bé el problema.');
@@ -583,7 +612,7 @@
         const g = el('div', 'opcions-resp');
         const vals = opcionsNum(q.valor, q.trampes || [], nv === 'facil' ? 3 : 4, MAX[nv]);
         g.style.setProperty('--n', vals.length);
-        vals.forEach(v => { const b = el('button', 'opcio', String(v)); b.type = 'button'; b.dataset.v = v; g.appendChild(b); });
+        vals.forEach(v => { const b = el('button', 'opcio opcio-resposta', String(v)); b.type = 'button'; b.dataset.v = v; g.appendChild(b); });
         g.addEventListener('click', e => { const b = e.target.closest('.opcio'); if (b && !b.disabled) respondreNum(Number(b.dataset.v), b); });
         cont.appendChild(g);
         mostrar('Quina és la resposta?', 'Tria-la entre les opcions.');
@@ -903,7 +932,7 @@
           const cont = $('resp'); cont.innerHTML = '';
           cont.appendChild(el('p', 'etiqueta', `Per què el ${s.fitxes[i].text}?`));
           const g = el('div', 'opcions-resp una-col');
-          raons.forEach(r => { const x = el('button', 'opcio text rao', r); x.type = 'button'; x.dataset.bona = r === bona ? '1' : ''; g.appendChild(x); });
+          raons.forEach(r => { const x = el('button', 'opcio opcio-resposta text rao', r); x.type = 'button'; x.dataset.bona = r === bona ? '1' : ''; g.appendChild(x); });
           g.addEventListener('click', e => {
             const x = e.target.closest('.opcio'); if (!x || x.disabled) return;
             if (x.dataset.bona) {
@@ -945,7 +974,7 @@
             posarEnunciat([dades, { text: 'Amb aquestes dades, quina pregunta NO es pot respondre?', cls: 'preg-clau' }]);
             $('tauler').classList.add('sense-zona');
             const g = el('div', 'opcions-resp una-col preg-llista');
-            preguntes.forEach((q, i) => { const x = el('button', 'opcio text preg', q.p); x.type = 'button'; x.dataset.i = i; g.appendChild(x); });
+            preguntes.forEach((q, i) => { const x = el('button', 'opcio opcio-resposta text preg', q.p); x.type = 'button'; x.dataset.i = i; g.appendChild(x); });
             g.addEventListener('click', e => {
               const x = e.target.closest('.opcio'); if (!x || x.disabled) return;
               const q = preguntes[Number(x.dataset.i)];

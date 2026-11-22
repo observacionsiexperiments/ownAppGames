@@ -31,7 +31,7 @@ Aquesta carpeta no es publica amb l'app: només és al repositori.
 | 17   | [🐭 Petit o gros?](jocs/17-petit-gros.md)           | Lletres | `paraules.json`                         |
 | 18   | [🧩 Paraules compostes](jocs/18-compostes.md)       | Lletres | `paraules.json` + `imatges/`            |
 | 19   | [🕵️ Busca l'intrús](jocs/19-intrus.md)              | Lletres | `paraules.json` (+ dades d'altres jocs) |
-| 20   | [🗂️ Paraules en família](jocs/20-families.md)          | Lletres | `paraules.json`                         |
+| 20   | [🗂️ Paraules en família](jocs/20-families.md)       | Lletres | `paraules.json`                         |
 
 ## Normes de contingut (per a tots els jocs)
 

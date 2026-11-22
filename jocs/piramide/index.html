@@ -119,6 +119,16 @@
       main .inici .grup { grid-column: 1; }
       main .inici .grup:has(.modes-joc) { grid-column: 2; grid-row: span 2; }
     }
+    /* Tauleta i portàtil (criteri comú «ple», css/styles.css): el joc omple la pantalla i tot creix amb l'espai */
+    @media (min-width: 601px) and (min-height: 501px) {
+      .disposicio { flex: 1 1 auto; min-height: 0; }
+      .cap-joc h2 { font-size: clamp(1.1rem, 2.6vh, 1.5rem); }
+      .regla { font-size: clamp(.95rem, 2.2vh, 1.2rem); }
+      .missatge { font-size: clamp(1rem, 2.4vh, 1.25rem); }
+    }
+    @media (orientation: landscape) and (min-width: 900px) and (min-height: 501px) {
+      .disposicio { grid-template-columns: 1fr clamp(340px, 28vw, 420px); }
+    }
   </style>
 </head>
 <body>
@@ -127,7 +137,7 @@
     <h1>🔺 La piràmide de números</h1>
   </nav>
 
-  <main class="joc">
+  <main class="joc ple">
     <!-- ================= INICI ================= -->
     <section class="inici" id="pantalla-inici">
       <div class="grup">
@@ -294,14 +304,15 @@
     function dibuixar() {
       const pir = $('piramide'); pir.innerHTML = '';
       const ample = pir.clientWidth - 16;
-      let mida = Math.max(48, Math.min(110, (ample - (N - 1) * 8) / N));
-      // La piràmide ha de cabre en l'alçada: en mòbil apaisat, i en vertical quan el panell (teclat) és a sota
+      const gran = matchMedia('(min-width: 601px) and (min-height: 501px)').matches;   // criteri «ple»: maons més grans
+      let mida = Math.max(48, Math.min(gran ? 170 : 110, (ample - (N - 1) * 8) / N));
+      // La piràmide ha de cabre en l'alçada: en mòbil apaisat, en tauleta/portàtil i en vertical quan el panell (teclat) és a sota
       const aSota = matchMedia('(orientation: portrait)').matches;   // vertical: regla i panell a sota
-      if (aSota || matchMedia('(orientation: landscape) and (max-height: 500px)').matches) {
+      if (aSota || gran || matchMedia('(orientation: landscape) and (max-height: 500px)').matches) {
         const dalt = Pantalla.dalt(pir);
         const cs = getComputedStyle(pir);
         const vora = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom) + parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
-        const disponible = innerHeight - dalt - (aSota ? Pantalla.sota(pir) + vora + 12 : 76);   // farciment, regla i marges
+        const disponible = innerHeight - dalt - (aSota ? Pantalla.sota(pir) + vora + 12 : gran ? vora + 56 : 76);   // farciment, regla i marges
         mida = Math.max(38, Math.min(mida, (disponible - (N - 1) * 8) / (N * .72)));
       }
       pir.style.setProperty('--maó', mida + 'px');

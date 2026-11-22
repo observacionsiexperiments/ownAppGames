@@ -185,6 +185,21 @@
       .ajudes button { min-height: 40px; }
       .pista-text { font-size: .85rem; max-width: 220px; }
     }
+    /* Tauleta i portàtil (criteri comú «ple», css/styles.css): el joc omple la pantalla i tot creix amb l'espai */
+    @media (min-width: 601px) and (min-height: 501px) {
+      .tauler { padding: clamp(14px, 2.4vh, 24px) clamp(16px, 2vw, 28px); gap: 16px clamp(20px, 3vw, 40px); }
+      .imatge { --img: clamp(140px, min(54vh, 34vw), 460px); }
+      .costat { gap: clamp(16px, 4vh, 40px); }
+      .ajudes button { font-size: clamp(1rem, 2.4vh, 1.3rem); min-height: clamp(48px, 7vh, 64px); padding: .5em 1.1em; }
+      .pista-text { font-size: clamp(1rem, 2.4vh, 1.25rem); }
+      main.joc .inici #op-tema button { font-size: clamp(1rem, 2.3vh, 1.2rem); min-height: clamp(50px, 7vh, 64px); }
+      .missatge { margin-top: 12px; min-height: 0; font-size: clamp(1rem, 2.4vh, 1.25rem); }
+      .missatge small { font-size: .88em; }
+    }
+    @media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) {
+      .tauler { align-content: center; }
+      .imatge { --img: clamp(140px, min(30vh, 50vw), 380px); }
+    }
   </style>
 </head>
 <body>
@@ -193,7 +208,7 @@
     <h1>🔀 Anagrames</h1>
   </nav>
 
-  <main class="joc">
+  <main class="joc ple">
     <!-- ================= INICI ================= -->
     <section class="inici" id="pantalla-inici">
       <div class="grup">
@@ -366,7 +381,7 @@
       pintarImatge(config.nivell === 'facil');
       pintar();
       mides();
-      mostrar(`Paraula ${num} de ${ronda.length}`, num === 1 ? 'Ordena les lletres: toca-les, arrossega-les o escriu-les.' : 'Ordena les lletres per trobar la paraula.');
+      mostrar('Ordena les lletres per trobar la paraula', num === 1 ? 'Toca-les, arrossega-les o escriu-les.' : '');
       pintarDades();
     }
 
@@ -415,7 +430,8 @@
       const w = $('caselles').clientWidth || 300;
       const gap = parseFloat(getComputedStyle($('caselles')).columnGap) || 6;
       const mobil = matchMedia('(orientation: portrait) and (max-width: 600px), (orientation: landscape) and (max-height: 500px)').matches;
-      const maxim = mobil ? 52 : 72;
+      // Tauleta i portàtil: les lletres creixen amb l'alçada de la pantalla (criteri «ple»)
+      const maxim = mobil ? 52 : Math.round(Math.min(120, Math.max(72, innerHeight * .13)));
       const c = Math.max(24, Math.min(maxim, Math.floor((w - gap * (n - 1)) / n)));
       const f = Math.max(Math.min(c, maxim), mobil ? 40 : 48);
       $('tauler').style.setProperty('--casella', c + 'px');

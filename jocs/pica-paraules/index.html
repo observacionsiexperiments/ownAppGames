@@ -135,6 +135,15 @@
       .numero { min-height: 44px; font-size: 1.5rem; }
       .zona-paraula { min-height: calc(var(--mida, 40px) * 1.45); }
     }
+    /* Tauleta i portàtil (criteri comú «ple», css/styles.css): el joc omple la pantalla i tot creix amb l'espai */
+    @media (min-width: 601px) and (min-height: 501px) {
+      .tauler { padding: clamp(14px, 2.4vh, 24px) clamp(16px, 2vw, 28px); gap: clamp(12px, 2.6vh, 28px); }
+      .pregunta { font-size: clamp(1.15rem, 2.8vh, 1.6rem); }
+      .zona-paraula { flex: 1 1 auto; min-height: calc(var(--mida, 64px) * 1.6); }
+      .tros { background: var(--superficie); }
+      .numeros { max-width: calc(var(--n, 2) * clamp(130px, 16vw, 220px)); }
+      .numero { font-size: clamp(2rem, min(5vw, 7.5vh), 4rem); min-height: clamp(64px, 15vh, 150px); }
+    }
   </style>
 </head>
 <body>
@@ -143,7 +152,7 @@
     <h1>👏 Pica paraules</h1>
   </nav>
 
-  <main class="joc">
+  <main class="joc ple">
     <!-- ================= INICI ================= -->
     <section class="inici" id="pantalla-inici">
       <div class="grup">
@@ -189,13 +198,13 @@
       </div>
       <div class="tauler" id="tauler">
         <p class="pregunta">Quantes síl·labes té?</p>
-        <div class="zona-paraula" id="zona-paraula">
+        <div class="zona-paraula safata-pregunta" id="zona-paraula">
           <div class="paraula" id="paraula" aria-live="polite"></div>
           <button type="button" class="btn-veu" id="btn-veu" aria-label="Escolta la paraula" hidden>🔊</button>
         </div>
         <div class="temps" id="temps" aria-hidden="true" hidden><i id="temps-barra"></i></div>
         <div class="numeros" id="numeros"></div>
-        <div class="peu">
+        <div class="peu franja">
           <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
           <div class="botons-peu"><button class="btn btn-pista" id="btn-pista" type="button">💡 Vull una pista</button></div>
         </div>
@@ -266,7 +275,7 @@
       g.style.setProperty('--n', config.nivell);
       g.classList.toggle('sis', config.nivell === 6);
       for (let i = 1; i <= config.nivell; i++) {
-        const b = document.createElement('button'); b.type = 'button'; b.className = 'numero'; b.textContent = i; b.dataset.v = i;
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'numero opcio-resposta'; b.textContent = i; b.dataset.v = i;
         b.setAttribute('aria-label', `${i} ${i === 1 ? 'síl·laba' : 'síl·labes'}`);
         g.appendChild(b);
       }
@@ -279,10 +288,10 @@
       if (idx >= RONDA) return final();
       actual = ronda[idx];
       errors = 0; ambAjuda = false; nivellPista = 0; bloquejat = false;
-      $('numeros').querySelectorAll('.numero').forEach(b => { b.disabled = false; b.className = 'numero'; });
+      $('numeros').querySelectorAll('.numero').forEach(b => { b.disabled = false; b.className = 'numero opcio-resposta'; });
       $('btn-pista').disabled = false;
       pintarParaula(0);
-      mostrar('Quantes síl·labes té?', config.temps ? `Tens ${config.temps} segons.` : 'Pica de mans a cada tros i toca el número.');
+      mostrar('Pica de mans a cada tros i toca el número', config.temps ? `Tens ${config.temps} segons.` : '');
       pintarDades();
       $('btn-veu').hidden = !veuDisponible();
       iniciarTemps();
@@ -308,7 +317,8 @@
       const p = $('paraula'), zona = $('zona-paraula');
       const ample = zona.clientWidth - ($('btn-veu').hidden ? 0 : 64) - 8;
       const mob = matchMedia('(orientation: landscape) and (max-height: 500px)').matches;
-      const maxMida = mob ? Math.min(56, innerHeight * .13) : Math.min(110, innerHeight * .13, innerWidth * .12);
+      const gran = matchMedia('(min-width: 601px) and (min-height: 501px)').matches;   // criteri «ple»
+      const maxMida = mob ? Math.min(56, innerHeight * .13) : gran ? Math.min(180, innerHeight * .19, innerWidth * .13) : Math.min(110, innerHeight * .13, innerWidth * .12);
       let mida = maxMida;
       p.classList.remove('embolica');
       zona.style.setProperty('--mida', mida + 'px');
