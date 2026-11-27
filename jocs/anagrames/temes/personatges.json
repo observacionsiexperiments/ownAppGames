@@ -12,14 +12,6 @@
    "font": "Llibres de Violeta Denou"
   },
   {
-   "id": "alba",
-   "paraula": "Alba",
-   "emoji": "🌅",
-   "imatge": "recursos/personatges/alba.webp",
-   "pista": "Noia que sobreviu a la fi del món amb en Dídac.",
-   "font": "Mecanoscrit del segon origen"
-  },
-  {
    "id": "anna",
    "paraula": "Anna",
    "emoji": "👧",
@@ -44,14 +36,6 @@
    "font": "El zoo d'en Pitus"
   },
   {
-   "id": "didac",
-   "paraula": "Dídac",
-   "emoji": "👦",
-   "imatge": "recursos/personatges/didac.webp",
-   "pista": "Nen que sobreviu a la fi del món amb l'Alba.",
-   "font": "Mecanoscrit del segon origen"
-  },
-  {
    "id": "tirant",
    "paraula": "Tirant",
    "emoji": "🛡️",
@@ -74,14 +58,6 @@
    "imatge": "recursos/personatges/helena.webp",
    "pista": "Una de les Tres Bessones; les altres són l'Anna i la Teresa.",
    "font": "Les Tres Bessones"
-  },
-  {
-   "id": "merli",
-   "paraula": "Merlí",
-   "emoji": "🧑‍🏫",
-   "imatge": "recursos/personatges/merli.webp",
-   "pista": "Professor de filosofia d'una sèrie de TV3 que fa pensar els alumnes.",
-   "font": "Merlí (TV3)"
   },
   {
    "id": "nobita",

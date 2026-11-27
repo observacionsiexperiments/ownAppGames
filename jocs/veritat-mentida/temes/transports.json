@@ -141,7 +141,7 @@
         "mentida": "L'helicòpter té veles."
       },
       "dificil": {
-        "veritat": "L'helicòpter té hèlices a dalt.",
+        "veritat": "L'helicòpter té hèlixs a dalt.",
         "mentida": "L'helicòpter va per sota terra.",
         "correccio": "L'helicòpter va ___.",
         "opcions": [

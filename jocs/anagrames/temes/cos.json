@@ -8,14 +8,14 @@
    "paraula": "ull",
    "emoji": "👁️",
    "imatge": "recursos/cos/ull.webp",
-   "pista": "Amb ell hi veus."
+   "pista": "Amb ell veus."
   },
   {
    "id": "nas",
    "paraula": "nas",
    "emoji": "👃",
    "imatge": "recursos/cos/nas.webp",
-   "pista": "Amb ell fas olor i esternudes."
+   "pista": "Amb ell olores i esternudes."
   },
   {
    "id": "boca",
@@ -85,7 +85,7 @@
    "paraula": "orella",
    "emoji": "👂",
    "imatge": "recursos/cos/orella.webp",
-   "pista": "Amb ella hi sents."
+   "pista": "Amb ella sents."
   },
   {
    "id": "cabell",
@@ -197,7 +197,7 @@
    "paraula": "estómac",
    "emoji": "🧍",
    "imatge": "recursos/cos/estomac.webp",
-   "pista": "On va a parar el menjar que empassem."
+   "pista": "On va a parar el menjar que ens empassem."
   },
   {
    "id": "esquelet",

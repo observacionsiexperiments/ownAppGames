@@ -4,6 +4,13 @@
  "icona": "🎒",
  "paraules": [
   {
+   "id": "joc",
+   "paraula": "joc",
+   "emoji": "🎲",
+   "imatge": "recursos/escola/joc.webp",
+   "pista": "A l'esbarjo en fem amb els amics: fet i amagar, bàsquet…"
+  },
+  {
    "id": "mapa",
    "paraula": "mapa",
    "emoji": "🗺️",
@@ -46,13 +53,6 @@
    "pista": "El que et posen en un examen."
   },
   {
-   "id": "joc",
-   "paraula": "joc",
-   "emoji": "🎲",
-   "imatge": "recursos/escola/joc.webp",
-   "pista": "A l'esbarjo en fem amb els amics: fet i amagar, bàsquet…"
-  },
-  {
    "id": "suma",
    "paraula": "suma",
    "emoji": "➕",
@@ -69,16 +69,9 @@
   {
    "id": "amic",
    "paraula": "amic",
-   "emoji": "🧑‍🤝‍🧑",
+   "emoji": "👬",
    "imatge": "recursos/escola/amic.webp",
    "pista": "Company amb qui t'agrada jugar."
-  },
-  {
-   "id": "llibre",
-   "paraula": "llibre",
-   "emoji": "📕",
-   "imatge": "recursos/escola/llibre.webp",
-   "pista": "Té moltes pàgines per llegir."
   },
   {
    "id": "resta",
@@ -88,32 +81,11 @@
    "pista": "Cinc menys dos és una…"
   },
   {
-   "id": "examen",
-   "paraula": "examen",
-   "emoji": "📝",
-   "imatge": "recursos/escola/examen.webp",
-   "pista": "Prova per veure què has après."
-  },
-  {
-   "id": "deures",
-   "paraula": "deures",
-   "emoji": "📚",
-   "imatge": "recursos/escola/deures.webp",
-   "pista": "Feina de l'escola que fas a casa."
-  },
-  {
    "id": "regle",
    "paraula": "regle",
    "emoji": "📏",
    "imatge": "recursos/escola/regle.webp",
    "pista": "Serveix per fer ratlles rectes i mesurar."
-  },
-  {
-   "id": "estoig",
-   "paraula": "estoig",
-   "emoji": "👝",
-   "imatge": "recursos/escola/estoig.webp",
-   "pista": "On guardes els llapis i la goma."
   },
   {
    "id": "ceres",
@@ -130,18 +102,53 @@
    "pista": "Full blanc on escrius i dibuixes."
   },
   {
+   "id": "amiga",
+   "paraula": "amiga",
+   "emoji": "👭",
+   "imatge": "recursos/escola/amiga.webp",
+   "pista": "Companya amb qui t'agrada jugar."
+  },
+  {
+   "id": "llibre",
+   "paraula": "llibre",
+   "emoji": "📕",
+   "imatge": "recursos/escola/llibre.webp",
+   "pista": "Té moltes pàgines per llegir."
+  },
+  {
+   "id": "examen",
+   "paraula": "examen",
+   "emoji": "📝",
+   "imatge": "recursos/escola/examen.webp",
+   "pista": "Prova per veure què has après."
+  },
+  {
+   "id": "deures",
+   "paraula": "deures",
+   "emoji": "📚",
+   "imatge": "recursos/escola/deures.webp",
+   "pista": "Feina de l'escola que fas a casa."
+  },
+  {
+   "id": "estoig",
+   "paraula": "estoig",
+   "emoji": "👝",
+   "imatge": "recursos/escola/estoig.webp",
+   "pista": "On guardes els llapis i la goma."
+  },
+  {
    "id": "mestra",
    "paraula": "mestra",
    "emoji": "👩‍🏫",
    "imatge": "recursos/escola/mestra.webp",
-   "pista": "Ens ensenya a llegir i a comptar."
+   "pista": "Dona que ens ensenya a llegir i a comptar."
   },
   {
    "id": "alumne",
    "paraula": "alumne",
-   "emoji": "🧒",
+   "emoji": "👦",
    "imatge": "recursos/escola/alumne.webp",
-   "pista": "El nen o la nena que va a classe i aprèn."
+   "pista": "Nen que va a classe i aprèn."
   },
   {
    "id": "pilota",
@@ -186,18 +193,18 @@
    "pista": "Escriu i es pot esborrar amb la goma."
   },
   {
-   "id": "pissarra",
-   "paraula": "pissarra",
-   "emoji": "⬛",
-   "imatge": "recursos/escola/pissarra.webp",
-   "pista": "La mestra hi escriu amb guix davant de tota la classe."
+   "id": "alumna",
+   "paraula": "alumna",
+   "emoji": "👧",
+   "imatge": "recursos/escola/alumna.webp",
+   "pista": "Nena que va a classe i aprèn."
   },
   {
-   "id": "motxilla",
-   "paraula": "motxilla",
-   "emoji": "🎒",
-   "imatge": "recursos/escola/motxilla.webp",
-   "pista": "La portes a l'esquena amb els llibres."
+   "id": "mestre",
+   "paraula": "mestre",
+   "emoji": "👨‍🏫",
+   "imatge": "recursos/escola/mestre.webp",
+   "pista": "Home que ens ensenya a llegir i a comptar."
   },
   {
    "id": "quadern",
@@ -228,32 +235,11 @@
    "pista": "Estona de llegir un conte en silenci."
   },
   {
-   "id": "excursio",
-   "paraula": "excursió",
-   "emoji": "🚌",
-   "imatge": "recursos/escola/excursio.webp",
-   "pista": "Sortida de tota la classe fora de l'escola."
-  },
-  {
    "id": "pupitre",
    "paraula": "pupitre",
    "emoji": "🪑",
    "imatge": "recursos/escola/pupitre.webp",
    "pista": "Taula on seu cada alumne."
-  },
-  {
-   "id": "diccionari",
-   "paraula": "diccionari",
-   "emoji": "📘",
-   "imatge": "recursos/escola/diccionari.webp",
-   "pista": "Llibre on busques què vol dir una paraula."
-  },
-  {
-   "id": "retolador",
-   "paraula": "retolador",
-   "emoji": "🖍️",
-   "imatge": "recursos/escola/retolador.webp",
-   "pista": "Pinta amb colors molt vius i té tap."
   },
   {
    "id": "company",
@@ -263,11 +249,53 @@
    "pista": "Nen o nena de la teva classe."
   },
   {
+   "id": "pissarra",
+   "paraula": "pissarra",
+   "emoji": "⬛",
+   "imatge": "recursos/escola/pissarra.webp",
+   "pista": "La mestra hi escriu amb guix davant de tota la classe."
+  },
+  {
+   "id": "motxilla",
+   "paraula": "motxilla",
+   "emoji": "🎒",
+   "imatge": "recursos/escola/motxilla.webp",
+   "pista": "La portes a l'esquena amb els llibres."
+  },
+  {
+   "id": "excursio",
+   "paraula": "excursió",
+   "emoji": "🚌",
+   "imatge": "recursos/escola/excursio.webp",
+   "pista": "Sortida de tota la classe fora de l'escola."
+  },
+  {
+   "id": "director",
+   "paraula": "director",
+   "emoji": "👨‍💼",
+   "imatge": "recursos/escola/director.webp",
+   "pista": "L'home que dirigeix tota l'escola."
+  },
+  {
+   "id": "retolador",
+   "paraula": "retolador",
+   "emoji": "🖍️",
+   "imatge": "recursos/escola/retolador.webp",
+   "pista": "Pinta amb colors molt vius i té tap."
+  },
+  {
    "id": "directora",
    "paraula": "directora",
    "emoji": "👩‍💼",
    "imatge": "recursos/escola/directora.webp",
-   "pista": "La persona que dirigeix tota l'escola."
+   "pista": "La dona que dirigeix tota l'escola."
+  },
+  {
+   "id": "diccionari",
+   "paraula": "diccionari",
+   "emoji": "📘",
+   "imatge": "recursos/escola/diccionari.webp",
+   "pista": "Llibre on busques què vol dir una paraula."
   }
  ]
 }

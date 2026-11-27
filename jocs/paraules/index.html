@@ -143,6 +143,19 @@
       .imatges { flex: 1 1 auto; min-height: 0; grid-auto-rows: minmax(0, 1fr); }
       .imatge { height: auto; min-height: 0; aspect-ratio: auto; font-size: clamp(3rem, min(18vw, 11vh), 6rem); }
     }
+  
+    /* Paraules llargues: el JS posa --escala (< 1) quan no hi caben en una línia */
+    .paraula { flex-wrap: nowrap; --escala: 1; }
+    .paraula.dues-linies { flex-direction: column; row-gap: 8px; }
+    .paraula .linia { display: flex; align-items: center; gap: inherit; column-gap: 6px; }
+    .paraula .sillaba, .paraula .punt { zoom: var(--escala); }
+    @media (max-width: 600px) { .paraula { gap: 6px; } .sillaba { letter-spacing: .03em; } }
+      #op-sillabes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    @media (orientation: landscape) and (max-height: 500px) {
+      #op-sillabes { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+      #op-sillabes button { font-size: .85rem; padding: 4px 2px; }
+      #op-sillabes button small { font-size: .7rem; }
+    }
   </style>
 </head>
 <body>
@@ -159,7 +172,10 @@
         <div class="opcions" id="op-sillabes">
           <button type="button" data-v="1" aria-pressed="false">GAT<small>1 síl·laba</small></button>
           <button type="button" data-v="2" aria-pressed="false">CA · SA<small>2 síl·labes</small></button>
-          <button type="button" data-v="tot" aria-pressed="true">Totes<small>1 i 2 síl·labes</small></button>
+          <button type="button" data-v="3" aria-pressed="false">PA · TA · TA<small>3 síl·labes</small></button>
+          <button type="button" data-v="4" aria-pressed="false">4 o més<small>de 4 a 6 síl·labes</small></button>
+          <button type="button" data-v="curtes" aria-pressed="true">Curtes<small>1 i 2 síl·labes</small></button>
+          <button type="button" data-v="tot" aria-pressed="false">Totes<small>d'1 a 6 síl·labes</small></button>
         </div>
       </div>
 
@@ -216,7 +232,7 @@
     const $ = id => document.getElementById(id);
     const PARAULES_PER_RONDA = 10;
 
-    // Paraules d'1 i 2 síl·labes (el punt volat · separa les síl·labes) amb un dibuix clar per a nens de 5 anys
+    // Paraules d'1 a 6 síl·labes (el punt volat · separa les síl·labes) amb un dibuix clar i únic per a cada una
     const PARAULES = [
       // 1 síl·laba
       ['SOL', '☀️'], ['PA', '🍞'], ['MAR', '🌊'], ['PEIX', '🐟'], ['GAT', '🐱'], ['GOS', '🐶'], ['TREN', '🚆'],
@@ -232,9 +248,27 @@
       ['ME·LÓ', '🍈'], ['PLÀ·TAN', '🍌'], ['RA·ÏM', '🍇'], ['BI·CI', '🚲'], ['CAS·TELL', '🏰'], ['RE·GAL', '🎁'],
       ['FA·DA', '🧚'], ['SO·PA', '🍲'], ['PIZ·ZA', '🍕'], ['CA·VALL', '🐴'], ['CO·NILL', '🐰'], ['À·NEC', '🦆'],
       ['CAR·GOL', '🐌'], ['DO·FÍ', '🐬'], ['TAU·RÓ', '🦈'], ['PIN·GÜÍ', '🐧'], ['GUI·LLA', '🦊'], ['SA·BÓ', '🧼'],
+      // 3 síl·labes
+      ['GA·LLI·NA', '🐔'], ['SA·BA·TA', '👞'], ['TO·MÀ·QUET', '🍅'], ['MA·DUI·XA', '🍓'], ['TA·RON·JA', '🍊'], ['GI·RA·FA', '🦒'],
+      ['BA·LE·NA', '🐋'], ['CA·RA·MEL', '🍬'], ['ES·TRE·LLA', '⭐'], ['E·LE·FANT', '🐘'], ['TOR·TU·GA', '🐢'], ['GRA·NO·TA', '🐸'],
+      ['CU·LLE·RA', '🥄'], ['PA·TA·TA', '🥔'], ['CI·RE·RA', '🍒'], ['PAL·ME·RA', '🌴'], ['CA·MI·Ó', '🚚'], ['A·VI·Ó', '✈️'],
+      ['CA·DI·RA', '🪑'], ['GA·LE·TA', '🍪'], ['CO·RO·NA', '👑'], ['MUN·TA·NYA', '⛰️'], ['PA·RAI·GUA', '☂️'], ['O·RE·LLA', '👂'],
+      ['ES·QUI·ROL', '🐿️'], ['CO·CO·DRIL', '🐊'], ['FAN·TAS·MA', '👻'], ['GUI·TAR·RA', '🎸'], ['TROM·PE·TA', '🎺'], ['A·BE·LLA', '🐝'],
+      ['A·RA·NYA', '🕷️'], ['FOR·MI·GA', '🐜'], ['PA·PA·GAI', '🦜'], ['LLI·MO·NA', '🍋'], ['AL·VO·CAT', '🥑'], ['FOR·MAT·GE', '🧀'],
+      ['AU·TO·BÚS', '🚌'], ['PA·TI·NET', '🛴'], ['RA·TO·LÍ', '🐭'], ['SE·MÀ·FOR', '🚦'], ['PI·RU·LÍ', '🍭'], ['CAS·TA·NYA', '🌰'],
+      // 4 síl·labes
+      ['PA·PA·LLO·NA', '🦋'], ['XO·CO·LA·TA', '🍫'], ['HI·PO·PÒ·TAM', '🦛'], ['RI·NO·CE·RONT', '🦏'], ['DI·NO·SAU·RE', '🦕'], ['PAS·TA·NA·GA', '🥕'],
+      ['SAR·GAN·TA·NA', '🦎'], ['HE·LI·CÒP·TER', '🚁'], ['MAG·DA·LE·NA', '🧁'], ['ES·PA·GUE·TIS', '🍝'], ['FUR·GO·NE·TA', '🚐'], ['CA·RA·BAS·SA', '🎃'],
+      ['ES·CA·RA·BAT', '🪲'], ['MA·RI·E·TA', '🐞'], ['O·RAN·GU·TAN', '🦧'], ['TER·MÒ·ME·TRE', '🌡️'], ['TE·LES·CO·PI', '🔭'], ['MI·CROS·CO·PI', '🔬'],
+      ['A·COR·DI·Ó', '🪗'], ['TE·LE·FÈ·RIC', '🚡'], ['A·E·RO·PORT', '🛫'], ['TREN·CA·CLOS·QUES', '🧩'],
+      // 5 síl·labes
+      ['AM·BU·LÀN·CI·A', '🚑'], ['A·VI·O·NE·TA', '🛩️'], ['PA·RA·CAI·GU·DES', '🪂'], ['EX·TRA·TER·RES·TRE', '👽'], ['PA·TI·NA·DO·RA', '⛸️'],
+      ['TI·RA·NO·SAU·RE', '🦖'], ['U·NI·VER·SI·TAT', '🎓'], ['CE·LE·BRA·CI·Ó', '🎉'],
+      // 6 síl·labes
+      ['SU·PER·HE·RO·Ï·NA', '🦸‍♀️'], ['EN·CI·CLO·PÈ·DI·A', '📚'],
     ].map(([p, e]) => ({ sillabes: p.split('·'), text: p.replace(/·/g, ''), emoji: e }));
 
-    const config = { sillabes: 'tot', lletra: 'maj', nivell: 'facil', veu: 'no' };   // veu desactivada per defecte
+    const config = { sillabes: 'curtes', lletra: 'maj', nivell: 'facil', veu: 'no' };   // veu desactivada per defecte
     let llista, index, actual, errorsRonda, errorsParaula, bloquejat;
 
     // ---------------- Inici ----------------
@@ -249,7 +283,13 @@
     $('op-veu').addEventListener('click', () => { $('avis-veu').hidden = !(config.veu === 'si' && !veuCa); });
 
     const barrejar = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
-    const candidates = () => PARAULES.filter(p => config.sillabes === 'tot' || p.sillabes.length === Number(config.sillabes));
+    const candidates = () => PARAULES.filter(p => {
+      const n = p.sillabes.length;
+      if (config.sillabes === 'tot') return true;
+      if (config.sillabes === 'curtes') return n <= 2;
+      if (config.sillabes === '4') return n >= 4;
+      return n === Number(config.sillabes);
+    });
 
     $('btn-comencar').addEventListener('click', () => {
       llista = barrejar(candidates()).slice(0, PARAULES_PER_RONDA);
@@ -260,6 +300,33 @@
       window.scrollTo({ top: 0 });
     });
     $('btn-nova').addEventListener('click', () => { Celebracio.tancar(); aturarVeu(); $('pantalla-joc').hidden = true; $('pantalla-inici').hidden = false; });
+
+    // Les paraules llargues (fins a 6 síl·labes) han de cabre en una sola línia: es redueix la lletra fins que hi caben
+    // Si en una línia quedaria massa petita (mòbil, 5 o 6 síl·labes), es parteix en dues línies
+    function ajustarParaula() {
+      const cont = $('paraula'), zona = cont.parentElement;
+      const cs = getComputedStyle(zona), btn = zona.querySelector('#btn-escolta:not([hidden])');
+      const lliure = () => zona.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)
+        - (btn && !cont.classList.contains('dues-linies') ? btn.offsetWidth + 16 : 0);
+      const encongir = (min) => {
+        let e = 1; cont.style.removeProperty('--escala');
+        for (let k = 0; k < 16 && cont.scrollWidth > lliure() && e > min; k++) { e -= .05; cont.style.setProperty('--escala', e.toFixed(2)); }
+        return cont.scrollWidth <= lliure();
+      };
+      // Desfà les dues línies si n'hi havia
+      cont.querySelectorAll('.linia').forEach(l => l.replaceWith(...l.childNodes));
+      cont.classList.remove('dues-linies');
+      if (encongir(.72)) return;
+      // Dues línies: la primera meitat de síl·labes (amb el seu punt al final) i la resta
+      const fills = [...cont.children], mig = fills.indexOf(cont.querySelectorAll('.sillaba')[Math.ceil(cont.querySelectorAll('.sillaba').length / 2) - 1]) + 2;
+      const l1 = document.createElement('span'), l2 = document.createElement('span');
+      l1.className = l2.className = 'linia';
+      l1.append(...fills.slice(0, mig)); l2.append(...fills.slice(mig));
+      cont.append(l1, l2);
+      cont.classList.add('dues-linies');
+      encongir(.3);
+    }
+    addEventListener('resize', () => { if (!$('pantalla-joc').hidden && actual) ajustarParaula(); });
 
     // ---------------- Distractors ----------------
     // Fàcil: a l'atzar. Difícil: paraules que s'assemblen (mateixa primera síl·laba, primera lletra, última síl·laba…)
@@ -290,6 +357,7 @@
         if (i) { const d = document.createElement('span'); d.className = 'punt'; d.textContent = '·'; d.setAttribute('aria-hidden', 'true'); cont.appendChild(d); }
         const el = document.createElement('span'); el.className = 'sillaba'; el.textContent = format(s); cont.appendChild(el);
       });
+      ajustarParaula();
       $('btn-escolta').classList.remove('suggerit');
       // 4 imatges: la correcta + 3 distractors, barrejades
       const opcions = barrejar([actual, ...distractors(actual)]);

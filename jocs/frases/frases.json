@@ -30,7 +30,10 @@
   "animals": {
    "facil": [
     {
-     "f": "El gos borda."
+     "f": "El gos borda.",
+     "alt": [
+      "Borda el gos."
+     ]
     },
     {
      "f": "La vaca fa llet."
@@ -45,30 +48,48 @@
      "f": "L'ocell canta fort."
     },
     {
-     "f": "El conill salta."
+     "f": "El conill salta.",
+     "alt": [
+      "Salta el conill."
+     ]
     },
     {
-     "f": "La granota neda."
+     "f": "La granota neda.",
+     "alt": [
+      "Neda la granota."
+     ]
     },
     {
      "f": "El cavall corre ràpid."
     },
     {
-     "f": "Els peixos neden."
+     "f": "Els peixos neden.",
+     "alt": [
+      "Neden els peixos."
+     ]
     },
     {
      "f": "La gallina pon ous."
     },
     {
-     "f": "El gat miola."
+     "f": "El gat miola.",
+     "alt": [
+      "Miola el gat."
+     ]
     },
     {
-     "f": "El gat es renta."
+     "f": "El gat es renta.",
+     "alt": [
+      "Es renta el gat."
+     ]
     }
    ],
    "mitja": [
     {
-     "f": "El gos dorm a la caseta."
+     "f": "El gos dorm a la caseta.",
+     "alt": [
+      "A la caseta dorm el gos."
+     ]
     },
     {
      "f": "La tortuga camina molt lentament."
@@ -83,7 +104,10 @@
      "f": "La vaca menja herba verda."
     },
     {
-     "f": "El cavall viu a la granja."
+     "f": "El cavall viu a la granja.",
+     "alt": [
+      "A la granja viu el cavall."
+     ]
     },
     {
      "f": "Les abelles fan mel dolça."
@@ -95,10 +119,16 @@
      "f": "La granota salta al riu."
     },
     {
-     "f": "El lleó dorm sota l'arbre."
+     "f": "El lleó dorm sota l'arbre.",
+     "alt": [
+      "Sota l'arbre dorm el lleó."
+     ]
     },
     {
-     "f": "El gat dorm al sol."
+     "f": "El gat dorm al sol.",
+     "alt": [
+      "Al sol dorm el gat."
+     ]
     },
     {
      "f": "Els gatets juguen amb un cabdell."
@@ -106,34 +136,62 @@
    ],
    "dificil": [
     {
-     "f": "El meu gos sempre m'espera a la porta."
+     "f": "El meu gos sempre m'espera a la porta.",
+     "alt": [
+      "El meu gos m'espera sempre a la porta."
+     ]
     },
     {
      "f": "Les formigues porten menjar cap al formiguer."
     },
     {
-     "f": "El dofí salta per sobre de les onades."
+     "f": "El dofí salta per sobre de les onades.",
+     "alt": [
+      "Per sobre de les onades salta el dofí."
+     ]
     },
     {
-     "f": "A la granja hi ha vaques i porcs."
+     "f": "A la granja hi ha vaques i porcs.",
+     "alt": [
+      "Hi ha vaques i porcs a la granja.",
+      "A la granja hi ha porcs i vaques.",
+      "Hi ha porcs i vaques a la granja."
+     ]
     },
     {
-     "f": "L'esquirol amaga les avellanes dins de l'arbre."
+     "f": "L'esquirol amaga les avellanes dins de l'arbre.",
+     "alt": [
+      "Dins de l'arbre l'esquirol amaga les avellanes."
+     ]
     },
     {
-     "f": "La papallona vola de flor en flor."
+     "f": "La papallona vola de flor en flor.",
+     "alt": [
+      "De flor en flor vola la papallona."
+     ]
     },
     {
-     "f": "El mussol es desperta quan arriba la nit."
+     "f": "El mussol es desperta quan arriba la nit.",
+     "alt": [
+      "Quan arriba la nit el mussol es desperta.",
+      "Quan arriba la nit es desperta el mussol."
+     ]
     },
     {
-     "f": "Els peixos de colors neden dins la peixera."
+     "f": "Els peixos de colors neden dins la peixera.",
+     "alt": [
+      "Dins la peixera neden els peixos de colors."
+     ]
     },
     {
      "f": "La gallina cuida els seus pollets petits."
     },
     {
-     "f": "El cargol surt quan plou a la muntanya."
+     "f": "El cargol surt quan plou a la muntanya.",
+     "alt": [
+      "Quan plou a la muntanya el cargol surt.",
+      "Quan plou a la muntanya surt el cargol."
+     ]
     },
     {
      "f": "El meu gat s'enfila a dalt de l'armari."
@@ -146,10 +204,16 @@
   "escola": {
    "facil": [
     {
-     "f": "Avui tinc gimnàs."
+     "f": "Avui tinc gimnàs.",
+     "alt": [
+      "Tinc gimnàs avui."
+     ]
     },
     {
-     "f": "La mestra llegeix."
+     "f": "La mestra llegeix.",
+     "alt": [
+      "Llegeix la mestra."
+     ]
     },
     {
      "f": "Pinto un dibuix."
@@ -161,7 +225,10 @@
      "f": "La motxilla pesa molt."
     },
     {
-     "f": "Juguem al pati."
+     "f": "Juguem al pati.",
+     "alt": [
+      "Al pati juguem."
+     ]
     },
     {
      "f": "Tinc un llapis vermell."
@@ -187,7 +254,10 @@
      ]
     },
     {
-     "f": "Guardo els colors a l'estoig."
+     "f": "Guardo els colors a l'estoig.",
+     "alt": [
+      "A l'estoig guardo els colors."
+     ]
     },
     {
      "f": "El meu amic seu amb mi."
@@ -199,7 +269,10 @@
      ]
     },
     {
-     "f": "Penjo l'abric al meu penjador."
+     "f": "Penjo l'abric al meu penjador.",
+     "alt": [
+      "Al meu penjador penjo l'abric."
+     ]
     },
     {
      "f": "Llegim un llibre a la biblioteca.",
@@ -214,10 +287,17 @@
      ]
     },
     {
-     "f": "Escric la data a la pissarra."
+     "f": "Escric la data a la pissarra.",
+     "alt": [
+      "A la pissarra escric la data."
+     ]
     },
     {
-     "f": "Demà anem d'excursió al bosc."
+     "f": "Demà anem d'excursió al bosc.",
+     "alt": [
+      "Demà anem al bosc d'excursió.",
+      "Anem d'excursió al bosc demà."
+     ]
     },
     {
      "f": "Els dimecres anem a la ludoteca.",
@@ -243,7 +323,10 @@
      ]
     },
     {
-     "f": "Avui hem pintat un mural molt gran."
+     "f": "Avui hem pintat un mural molt gran.",
+     "alt": [
+      "Hem pintat un mural molt gran avui."
+     ]
     },
     {
      "f": "El meu company m'ha deixat la goma d'esborrar."
@@ -255,10 +338,16 @@
      ]
     },
     {
-     "f": "Cada matí canviem la data del calendari."
+     "f": "Cada matí canviem la data del calendari.",
+     "alt": [
+      "Canviem la data del calendari cada matí."
+     ]
     },
     {
-     "f": "Hem plantat llavors de mongeta a l'hort."
+     "f": "Hem plantat llavors de mongeta a l'hort.",
+     "alt": [
+      "A l'hort hem plantat llavors de mongeta."
+     ]
     },
     {
      "f": "Llegeixo un conte quan acabo la feina.",
@@ -267,7 +356,10 @@
      ]
     },
     {
-     "f": "La classe de música comença després del pati."
+     "f": "La classe de música comença després del pati.",
+     "alt": [
+      "Després del pati comença la classe de música."
+     ]
     },
     {
      "f": "A la ludoteca juguem a jocs de taula.",
@@ -280,22 +372,34 @@
   "casa": {
    "facil": [
     {
-     "f": "La padrina neda."
+     "f": "La padrina neda.",
+     "alt": [
+      "Neda la padrina."
+     ]
     },
     {
      "f": "Escolto una cançó."
     },
     {
-     "f": "El pare dorm."
+     "f": "El pare dorm.",
+     "alt": [
+      "Dorm el pare."
+     ]
     },
     {
-     "f": "La mare llegeix."
+     "f": "La mare llegeix.",
+     "alt": [
+      "Llegeix la mare."
+     ]
     },
     {
      "f": "Em rento les dents."
     },
     {
-     "f": "El meu germà riu."
+     "f": "El meu germà riu.",
+     "alt": [
+      "Riu el meu germà."
+     ]
     },
     {
      "f": "Obro la finestra."
@@ -304,7 +408,10 @@
      "f": "Fem el llit."
     },
     {
-     "f": "La mare canta."
+     "f": "La mare canta.",
+     "alt": [
+      "Canta la mare."
+     ]
     },
     {
      "f": "Tanco la porta."
@@ -327,7 +434,10 @@
      "f": "El padrí m'explica un conte divertit."
     },
     {
-     "f": "Parem la taula per sopar."
+     "f": "Parem la taula per sopar.",
+     "alt": [
+      "Per sopar parem la taula."
+     ]
     },
     {
      "f": "La mare m'abraça molt fort."
@@ -336,7 +446,10 @@
      "f": "El meu cosí ve a dinar."
     },
     {
-     "f": "Pleguem la roba neta junts."
+     "f": "Pleguem la roba neta junts.",
+     "alt": [
+      "Pleguem junts la roba neta."
+     ]
     },
     {
      "f": "Al menjador hi ha un sofà.",
@@ -358,7 +471,8 @@
     {
      "f": "Els diumenges dinem tots junts a casa dels padrins.",
      "alt": [
-      "Dinem tots junts a casa dels padrins els diumenges."
+      "Dinem tots junts a casa dels padrins els diumenges.",
+      "Dinem tots junts els diumenges a casa dels padrins."
      ]
     },
     {
@@ -371,7 +485,10 @@
      ]
     },
     {
-     "f": "La mare i jo anem en bicicleta al parc."
+     "f": "La mare i jo anem en bicicleta al parc.",
+     "alt": [
+      "La mare i jo anem al parc en bicicleta."
+     ]
     },
     {
      "f": "La meva tieta viu en un pis molt alt."
@@ -379,7 +496,8 @@
     {
      "f": "Quan plou ens quedem a casa jugant.",
      "alt": [
-      "Ens quedem a casa jugant quan plou."
+      "Ens quedem a casa jugant quan plou.",
+      "Quan plou ens quedem jugant a casa."
      ]
     },
     {
@@ -392,7 +510,10 @@
      ]
     },
     {
-     "f": "El gat s'amaga sempre sota el llit."
+     "f": "El gat s'amaga sempre sota el llit.",
+     "alt": [
+      "El gat sempre s'amaga sota el llit."
+     ]
     },
     {
      "f": "Ajudo el pare a posar la rentadora."
@@ -417,7 +538,10 @@
   "menjar": {
    "facil": [
     {
-     "f": "M'agrada la sopa."
+     "f": "M'agrada la sopa.",
+     "alt": [
+      "La sopa m'agrada."
+     ]
     },
     {
      "f": "Menjo una poma."
@@ -461,7 +585,10 @@
      "f": "El pare fa truita de patates."
     },
     {
-     "f": "Les maduixes són vermelles i dolces."
+     "f": "Les maduixes són vermelles i dolces.",
+     "alt": [
+      "Les maduixes són dolces i vermelles."
+     ]
     },
     {
      "f": "Bevem suc de taronja natural."
@@ -479,13 +606,16 @@
      "f": "El padrí fa croquetes boníssimes."
     },
     {
-     "f": "Els croissants del Carme són boníssims."
+     "f": "Els cruasans del Carme són boníssims."
     },
     {
      "f": "Hem de rentar la fruita."
     },
     {
-     "f": "El plàtan és groc i tou."
+     "f": "El plàtan és groc i tou.",
+     "alt": [
+      "El plàtan és tou i groc."
+     ]
     }
    ],
    "dificil": [
@@ -504,23 +634,36 @@
     {
      "f": "Al menjador de l'escola avui hi ha arròs.",
      "alt": [
-      "Avui al menjador de l'escola hi ha arròs."
+      "Avui al menjador de l'escola hi ha arròs.",
+      "Avui hi ha arròs al menjador de l'escola."
      ]
     },
     {
      "f": "La meva amiga no pot menjar fruits secs."
     },
     {
-     "f": "Fem una amanida amb enciam i tomàquet."
+     "f": "Fem una amanida amb enciam i tomàquet.",
+     "alt": [
+      "Fem una amanida amb tomàquet i enciam."
+     ]
     },
     {
-     "f": "La fornera fa el pa molt de matí."
+     "f": "La fornera fa el pa molt de matí.",
+     "alt": [
+      "Molt de matí la fornera fa el pa."
+     ]
     },
     {
-     "f": "Hem fet galetes de xocolata amb la padrina."
+     "f": "Hem fet galetes de xocolata amb la padrina.",
+     "alt": [
+      "Amb la padrina hem fet galetes de xocolata."
+     ]
     },
     {
-     "f": "Cal beure aigua quan fa molta calor."
+     "f": "Cal beure aigua quan fa molta calor.",
+     "alt": [
+      "Quan fa molta calor cal beure aigua."
+     ]
     },
     {
      "f": "Les cireres creixen als arbres a l'estiu.",
@@ -529,12 +672,15 @@
      ]
     },
     {
-     "f": "A la pizza hi posem formatge i olives."
+     "f": "A la pizza hi posem formatge i olives.",
+     "alt": [
+      "A la pizza hi posem olives i formatge."
+     ]
     },
     {
-     "f": "Els diumenges esmorzem croissants del Cisne amb la mare.",
+     "f": "Els diumenges esmorzem cruasans del Cisne amb la mare.",
      "alt": [
-      "Esmorzem croissants del Cisne amb la mare els diumenges."
+      "Esmorzem cruasans del Cisne amb la mare els diumenges."
      ]
     }
    ]
@@ -542,16 +688,25 @@
   "natura": {
    "facil": [
     {
-     "f": "Avui plou molt."
+     "f": "Avui plou molt.",
+     "alt": [
+      "Plou molt avui."
+     ]
     },
     {
-     "f": "El sol brilla."
+     "f": "El sol brilla.",
+     "alt": [
+      "Brilla el sol."
+     ]
     },
     {
      "f": "Fa molt fred."
     },
     {
-     "f": "Neva a la muntanya."
+     "f": "Neva a la muntanya.",
+     "alt": [
+      "A la muntanya neva."
+     ]
     },
     {
      "f": "Les flors són boniques."
@@ -560,10 +715,16 @@
      "f": "L'arbre és alt."
     },
     {
-     "f": "Bufa el vent."
+     "f": "Bufa el vent.",
+     "alt": [
+      "El vent bufa."
+     ]
     },
     {
-     "f": "La lluna surt."
+     "f": "La lluna surt.",
+     "alt": [
+      "Surt la lluna."
+     ]
     },
     {
      "f": "El riu baixa ple."
@@ -576,7 +737,8 @@
     {
      "f": "A la tardor cauen les fulles.",
      "alt": [
-      "Les fulles cauen a la tardor."
+      "Les fulles cauen a la tardor.",
+      "A la tardor les fulles cauen."
      ]
     },
     {
@@ -589,13 +751,19 @@
      ]
     },
     {
-     "f": "La neu és blanca i freda."
+     "f": "La neu és blanca i freda.",
+     "alt": [
+      "La neu és freda i blanca."
+     ]
     },
     {
      "f": "El vent mou les branques."
     },
     {
-     "f": "Les abelles volen entre les flors."
+     "f": "Les abelles volen entre les flors.",
+     "alt": [
+      "Entre les flors volen les abelles."
+     ]
     },
     {
      "f": "Al bosc hi ha molts bolets.",
@@ -613,7 +781,10 @@
      ]
     },
     {
-     "f": "El sol s'amaga darrere la muntanya."
+     "f": "El sol s'amaga darrere la muntanya.",
+     "alt": [
+      "Darrere la muntanya s'amaga el sol."
+     ]
     }
    ],
    "dificil": [
@@ -627,21 +798,31 @@
      ]
     },
     {
-     "f": "Les estrelles brillen molt quan no hi ha núvols."
+     "f": "Les estrelles brillen molt quan no hi ha núvols.",
+     "alt": [
+      "Quan no hi ha núvols les estrelles brillen molt."
+     ]
     },
     {
-     "f": "El riu baixa ple d'aigua després de la tempesta."
+     "f": "El riu baixa ple d'aigua després de la tempesta.",
+     "alt": [
+      "Després de la tempesta el riu baixa ple d'aigua."
+     ]
     },
     {
      "f": "Amb la mare hem trobat pinyes i bolets.",
      "alt": [
-      "Hem trobat pinyes i bolets amb la mare."
+      "Hem trobat pinyes i bolets amb la mare.",
+      "Amb la mare hem trobat bolets i pinyes.",
+      "Hem trobat bolets i pinyes amb la mare."
      ]
     },
     {
      "f": "A la muntanya hem trobat pinyes i bolets.",
      "alt": [
-      "Hem trobat pinyes i bolets a la muntanya."
+      "Hem trobat pinyes i bolets a la muntanya.",
+      "A la muntanya hem trobat bolets i pinyes.",
+      "Hem trobat bolets i pinyes a la muntanya."
      ]
     },
     {
@@ -657,7 +838,11 @@
      ]
     },
     {
-     "f": "Les orenetes tornen quan arriba la primavera."
+     "f": "Les orenetes tornen quan arriba la primavera.",
+     "alt": [
+      "Quan arriba la primavera les orenetes tornen.",
+      "Quan arriba la primavera tornen les orenetes."
+     ]
     },
     {
      "f": "Quan fa vent les fulles ballen pel carrer.",

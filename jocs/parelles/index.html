@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFBF3">
+  <title>Parelles de càlcul · Juguem?</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="icon" href="../../icons/icon-192.png">
+  <script>try{var t=JSON.parse(localStorage.getItem("appjocs.preferencies")||"{}").aparenca;if(t==="fosc"||t==="clar")document.documentElement.dataset.tema=t}catch(e){}</script>
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    /* Colors per rol (css/styles.css): verd = parella feta · rosa = no fan parella · groc = pista · blau = selecció i jugador blau
+       · taronja (préssec fort) = jugador taronja · préssec = dors de les fitxes de resultat (Fàcil) */
+    [hidden] { display: none !important; }
+    h2.titol { font-size: 1.15rem; margin: 16px 0 8px; }
+
+    /* ---------- Pantalla d'opcions ---------- */
+    .inici { max-width: 860px; margin: 0 auto; }
+    .opcions { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+    .opcions button {
+      font: inherit; cursor: pointer; color: var(--text); touch-action: manipulation;
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: 14px; box-shadow: var(--ombra);
+      min-height: 56px; padding: 6px 8px; font-weight: 700; font-size: 1.1rem; line-height: 1.2;
+    }
+    .opcions button small { display: block; font-weight: 500; font-size: .82rem; color: var(--text-suau); margin-top: 2px; }
+    .opcions button[aria-pressed="true"] { background: var(--c-info); border-color: var(--c-info-vora); color: var(--tinta); }
+    .opcions button[aria-pressed="true"] small { color: var(--tinta); }
+    @media (hover: hover) { .opcions button:hover { border-color: var(--c-info-vora); } }
+    #op-nivell { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .explica { color: var(--text-suau); text-align: center; margin: 14px 0 0; }
+    .comencar { text-align: center; margin: 22px 0 8px; }
+    .comencar .btn { font-size: 1.3rem; padding: 14px 40px; }
+
+    /* ---------- Joc ---------- */
+    .cap-joc { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 4px 0 12px; }
+    .dades { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .dada { background: var(--superficie); border: 1px solid var(--vora); border-radius: 999px; padding: 4px 12px; font-size: .95rem; white-space: nowrap; }
+    .dada b { font-variant-numeric: tabular-nums; }
+    /* Dos jugadors: el torn es veu ressaltat amb el color del jugador */
+    .dada.j0.torn { background: var(--c-info); border: 2px solid var(--c-info-vora); color: var(--tinta); }
+    .dada.j1.torn { background: var(--c-accio); border: 2px solid var(--c-accio-vora); color: var(--tinta); }
+
+    .tauler { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; gap: 12px; }
+    .zona { display: flex; align-items: center; justify-content: center; min-height: 0; min-width: 0; padding: 10px; }
+    .graella { display: grid; gap: var(--gap, 10px); justify-content: center; align-content: center; }
+
+    /* Fitxa: es gira (dors ↔ cara) */
+    .fitxa { position: relative; padding: 0; border: 0; background: none; cursor: pointer; perspective: 800px; touch-action: manipulation;
+      width: var(--fw, 110px); height: var(--fh, 84px); font: 900 var(--fs, 1.6rem) "Avenir Next", "Avenir", "Helvetica Neue", Arial, system-ui, sans-serif; font-variant-numeric: tabular-nums; }
+    .fitxa .interior { position: absolute; inset: 0; transition: transform .35s ease; transform-style: preserve-3d; }
+    .fitxa.girada .interior, .graella.ensenya .fitxa .interior { transform: rotateY(180deg); }
+    .fitxa .cara, .fitxa .dors { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; border-radius: 14px;
+      backface-visibility: hidden; -webkit-backface-visibility: hidden; border: 3px solid var(--vora); box-shadow: var(--ombra); white-space: nowrap; }
+    .fitxa .dors { background: var(--superficie); color: var(--text-suau); font-size: .9em; }
+    .fitxa .cara { transform: rotateY(180deg); background: var(--superficie); color: var(--text); }
+    /* Fàcil: el dors diu de quina mena és la fitxa */
+    .graella.dos-dors .fitxa.op .dors { background: color-mix(in srgb, var(--c-info) 55%, var(--superficie)); border-color: var(--c-info-vora); color: var(--tinta); }
+    .graella.dos-dors .fitxa.res .dors { background: color-mix(in srgb, var(--c-accio) 70%, var(--superficie)); border-color: var(--c-accio-vora); color: var(--tinta); }
+    .fitxa.girada:not(.feta) .cara { border-color: var(--c-info-vora); }
+    .fitxa.mal .cara { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); color: var(--tinta); }
+    .fitxa.feta { cursor: default; }
+    .fitxa.feta .cara { background: var(--c-ok); border-color: var(--c-ok-vora); color: var(--tinta); }
+    .fitxa.feta.de-j0 .cara { border: 5px solid var(--c-info-vora); }
+    .fitxa.feta.de-j1 .cara { border: 5px solid var(--c-accio-vora); }
+    .fitxa:focus-visible { outline: none; }
+    .fitxa:focus-visible .dors, .fitxa:focus-visible .cara { outline: 4px solid var(--c-info-vora); outline-offset: 2px; }
+    @media (hover: hover) { .fitxa:not(.girada):not(.feta):hover .dors { border-color: var(--c-info-vora); } }
+    @media (prefers-reduced-motion: reduce) { .fitxa .interior { transition: none; } }
+
+    .missatge { min-height: 3.2rem; padding: 8px 12px; border-radius: var(--radi); text-align: center; background: var(--superficie);
+      border: 2px solid var(--vora); font-weight: 700; font-size: 1.1rem; display: flex; flex-direction: column; justify-content: center; gap: 2px; }
+    .missatge small { font-weight: 500; font-size: .98rem; }
+    .missatge small:empty { display: none; }
+    .missatge.es-pista { background: var(--c-pista); border-color: var(--c-pista-vora); color: var(--tinta); }
+    .missatge.es-error { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); color: var(--tinta); }
+    .missatge.es-guanyat { background: var(--c-ok); border-color: var(--c-ok-vora); color: var(--tinta); }
+    .missatge.es-info { background: color-mix(in srgb, var(--c-info) 45%, var(--superficie)); border-color: var(--c-info-vora); }
+    /* El missatge sempre té dues línies d'alçada: així la graella no canvia de mida quan canvia el text */
+    main.joc.ple .franja #missatge { min-height: 3.6em; }
+    .botons-peu { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+    .btn-pista { background: var(--c-pista); border-color: var(--c-pista-vora); color: var(--tinta); }
+    .peu { display: flex; flex-direction: column; gap: 10px; }
+
+    /* Tauleta i portàtil: la pantalla d'opcions creix (4 grups) */
+    @media (min-width: 601px) and (min-height: 501px) {
+      main.joc.ple > .inici > .grup { max-height: 140px; }
+    }
+    /* Mòbil (vertical i apaïsat): més compacte */
+    @media (orientation: portrait) and (max-width: 600px), (orientation: landscape) and (max-height: 500px) {
+      .barra-joc { padding: 6px 0; }
+      .barra-joc h1 { font-size: 1.1rem; }
+      .cap-joc { margin: 0 0 6px; gap: 6px; }
+      .dada { font-size: .8rem; padding: 2px 8px; }
+      .cap-joc .btn { padding: 5px 10px; font-size: .85rem; white-space: nowrap; }
+      .tauler { gap: 8px; }
+      .zona { padding: 4px; }
+      .fitxa .cara, .fitxa .dors { border-width: 2px; border-radius: 10px; }
+      .missatge { min-height: 0; padding: 5px 8px; font-size: .95rem; }
+      .missatge small { font-size: .85rem; }
+      .botons-peu .btn { padding: 6px 14px; font-size: .95rem; }
+      .opcions button { min-height: 44px; font-size: .95rem; padding: 4px; }
+      .opcions button small { font-size: .72rem; }
+      .explica { font-size: .9rem; }
+    }
+    /* Mòbil apaïsat: la graella a l'esquerra i el missatge a la dreta */
+    @media (orientation: landscape) and (max-height: 500px) {
+      .tauler { grid-template-columns: minmax(0, 1fr) minmax(170px, 230px); grid-template-rows: minmax(0, 1fr); column-gap: 12px; }
+      .tauler .peu { align-self: center; }
+      main .inici .opcions { grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); grid-auto-flow: column; }
+      main .inici { display: grid; grid-template-columns: 1fr 1fr; column-gap: 16px; }
+      main .inici > .explica { display: none; }
+      main .inici > .comencar { grid-column: 1 / -1; margin: 8px 0 4px; }
+      main .inici h2.titol { margin: 4px 0 4px; font-size: .95rem; }
+      .opcions button { min-height: 38px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="barra-joc">
+    <a href="../../">← Inici</a>
+    <h1>🧠 Parelles de càlcul</h1>
+  </nav>
+
+  <main class="joc ple">
+    <!-- ================= INICI ================= -->
+    <section class="inici" id="pantalla-inici">
+      <div class="grup">
+        <h2 class="titol">1. Nivell</h2>
+        <div class="opcions" id="op-nivell">
+          <button type="button" data-v="facil" aria-pressed="true">Fàcil<small>Sumes fins a 10</small></button>
+          <button type="button" data-v="mitja" aria-pressed="false">Mitjà<small>Sumes i restes fins a 20</small></button>
+          <button type="button" data-v="dificil" aria-pressed="false">Difícil<small>Fins a 100 i taules del 2, 5 i 10</small></button>
+        </div>
+      </div>
+      <div class="grup">
+        <h2 class="titol">2. Quantes parelles?</h2>
+        <div class="opcions" id="op-parelles">
+          <button type="button" data-v="6" aria-pressed="true">6<small>12 fitxes</small></button>
+          <button type="button" data-v="8" aria-pressed="false">8<small>16 fitxes</small></button>
+          <button type="button" data-v="10" aria-pressed="false">10<small>20 fitxes</small></button>
+        </div>
+      </div>
+      <div class="grup">
+        <h2 class="titol">3. Jugadors</h2>
+        <div class="opcions" id="op-jugadors">
+          <button type="button" data-v="1" aria-pressed="true">👤 1 jugador</button>
+          <button type="button" data-v="2" aria-pressed="false">🔵 🟠 2 jugadors<small>per torns</small></button>
+        </div>
+      </div>
+      <div class="grup">
+        <h2 class="titol">4. Mirar-les abans?</h2>
+        <div class="opcions" id="op-mirar">
+          <button type="button" data-v="no" aria-pressed="true">No</button>
+          <button type="button" data-v="si" aria-pressed="false">👀 Sí<small>3 segons destapades</small></button>
+        </div>
+      </div>
+      <p class="explica">Gira dues fitxes: si una és l'operació i l'altra el resultat, fan parella!</p>
+      <div class="comencar"><button class="btn" id="btn-comencar" type="button">Comença! 🧠</button></div>
+    </section>
+
+    <!-- ================= JOC ================= -->
+    <section id="pantalla-joc" hidden>
+      <div class="cap-joc">
+        <div class="dades" id="dades"></div>
+        <button class="btn" id="btn-nova" type="button">↺ Nova partida</button>
+      </div>
+      <div class="tauler" id="tauler">
+        <div class="zona safata-pregunta" id="zona"><div class="graella" id="graella"></div></div>
+        <div class="peu franja">
+          <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
+          <div class="botons-peu">
+            <button class="btn btn-pista" id="btn-pista" type="button">💡 <span class="txt-llarg">Ensenya-les un moment</span><span class="txt-curt">Pista</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../js/pantalla.js"></script>
+  <script src="../../js/preferencies.js"></script>
+  <script src="../../js/celebracio.js"></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    const CLAU_OPCIONS = 'appjocs.parelles.opcions';
+    const ESPERA_MAL = 1500, ESPERA_PISTA = 2000, ESPERA_MIRAR = 3000;
+    const config = { nivell: 'facil', parelles: '6', jugadors: '1', mirar: 'no' };
+    let fitxes = [], girades = [], fetes = 0, intents = 0, torn = 0, punts = [0, 0], bloquejat = false, ambPista = false;
+    let tapaT = null, crono = null, inici = 0, temps = 0;
+
+    const atzar = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+    const triar = a => a[Math.floor(Math.random() * a.length)];
+    const barrejar = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+    const dosJugadors = () => config.jugadors === '2';
+    const N = () => Number(config.parelles);
+    const NOMS = ['🔵 Blau', '🟠 Taronja'];
+
+    // ---------------- Opcions ----------------
+    try { Object.assign(config, JSON.parse(localStorage.getItem(CLAU_OPCIONS) || '{}')); } catch {}
+    function grupOpcions(id, clau) {
+      const bs = $(id).querySelectorAll('button');
+      if (![...bs].some(b => b.dataset.v === config[clau])) config[clau] = bs[0].dataset.v;
+      const marcar = () => bs.forEach(b => b.setAttribute('aria-pressed', b.dataset.v === config[clau]));
+      bs.forEach(b => b.addEventListener('click', () => {
+        config[clau] = b.dataset.v; marcar();
+        try { localStorage.setItem(CLAU_OPCIONS, JSON.stringify(config)); } catch {}
+      }));
+      marcar();
+    }
+    grupOpcions('op-nivell', 'nivell'); grupOpcions('op-parelles', 'parelles'); grupOpcions('op-jugadors', 'jugadors'); grupOpcions('op-mirar', 'mirar');
+
+    // ---------------- Operacions ----------------
+    // Cada resultat surt un sol cop a la partida (cap parella no és dubtosa). Res de +0, −0, ×0 ni ×1; les restes no donen 0.
+    function suma(maxRes) { const r = atzar(2, maxRes), a = atzar(1, r - 1); return { text: `${a} + ${r - a}`, v: r }; }
+    function resta(maxMin) { const a = atzar(3, maxMin), b = atzar(1, a - 1); return { text: `${a} − ${b}`, v: a - b }; }
+    function taula() { const t = triar([2, 5, 10]), f = atzar(2, 10); return Math.random() < .5 ? { text: `${t} × ${f}`, v: t * f } : { text: `${f} × ${t}`, v: t * f }; }
+    function grossa() {
+      // Fins a 100: desenes senceres, portant-ne o no
+      const tipus = atzar(0, 3);
+      if (tipus === 0) { const a = atzar(1, 8) * 10, b = atzar(1, (100 - a) / 10) * 10; return { text: `${a} + ${b}`, v: a + b }; }
+      if (tipus === 1) { const a = atzar(3, 10) * 10, b = atzar(1, a / 10 - 1) * 10; return { text: `${a} − ${b}`, v: a - b }; }
+      if (tipus === 2) { const a = atzar(11, 89), b = atzar(2, Math.min(60, 99 - a)); return { text: `${a} + ${b}`, v: a + b }; }
+      const a = atzar(21, 99), b = atzar(2, a - 10); return { text: `${a} − ${b}`, v: a - b };
+    }
+    function crearOperacions(n) {
+      const ops = [], usats = new Set();
+      // Fàcil: sumes fins a 10 (amb 10 parelles no hi ha prou resultats diferents fins a 10: s'arriba fins a 12)
+      const maxFacil = n > 8 ? 12 : 10;
+      const fer = i => {
+        if (config.nivell === 'facil') return suma(maxFacil);
+        if (config.nivell === 'mitja') return i % 2 ? resta(20) : suma(20);
+        return i % 3 === 0 ? taula() : grossa();
+      };
+      for (let i = 0, intent = 0; ops.length < n && intent < 5000; intent++) {
+        const o = fer(i);
+        if (usats.has(o.v)) continue;
+        usats.add(o.v); ops.push(o); i++;
+      }
+      return ops;
+    }
+
+    // ---------------- Començar ----------------
+    $('btn-comencar').addEventListener('click', comencar);
+    $('btn-nova').addEventListener('click', () => { aturar(); Celebracio.tancar(); $('pantalla-joc').hidden = true; $('pantalla-inici').hidden = false; });
+    $('btn-pista').addEventListener('click', pista);
+
+    function aturar() { clearTimeout(tapaT); tapaT = null; clearInterval(crono); crono = null; }
+
+    function comencar() {
+      aturar();
+      fitxes = []; girades = []; fetes = 0; intents = 0; torn = 0; punts = [0, 0]; bloquejat = false; ambPista = false; temps = 0; inici = 0;
+      crearOperacions(N()).forEach((o, k) => {
+        fitxes.push({ tipus: 'op', text: o.text, v: o.v, k });
+        fitxes.push({ tipus: 'res', text: String(o.v), v: o.v, k });
+      });
+      fitxes = barrejar(fitxes);
+      const g = $('graella'); g.innerHTML = '';
+      g.classList.toggle('dos-dors', config.nivell === 'facil');
+      g.classList.remove('ensenya');
+      fitxes.forEach((f, i) => {
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'fitxa ' + f.tipus;
+        const dors = config.nivell === 'facil' ? (f.tipus === 'op' ? '+ −' : '=') : '?';
+        b.innerHTML = `<span class="interior"><span class="dors" aria-hidden="true">${dors}</span><span class="cara" aria-hidden="true">${f.text}</span></span>`;
+        b.setAttribute('aria-label', `Fitxa ${i + 1}, tapada`);
+        b.addEventListener('click', () => girar(i));
+        f.el = b; g.appendChild(b);
+      });
+      $('btn-pista').hidden = dosJugadors();
+      $('btn-pista').disabled = false;
+      $('pantalla-inici').hidden = true; $('pantalla-joc').hidden = false;
+      window.scrollTo({ top: 0 });
+      pintarDades();
+      if (config.mirar === 'si') {
+        bloquejat = true; g.classList.add('ensenya');
+        mostrar('👀 Mira-les bé!', 'D\'aquí a un moment es taparan.', 'info');
+        tapaT = setTimeout(() => { g.classList.remove('ensenya'); bloquejat = false; missatgeTorn(); }, ESPERA_MIRAR);
+      } else missatgeTorn();
+      ajustar();
+    }
+    function missatgeTorn() {
+      if (dosJugadors()) mostrar(`Torn del ${NOMS[torn].toLowerCase()}`, 'Gira dues fitxes: una operació i el seu resultat.');
+      else mostrar('Gira dues fitxes', 'Busca una operació i el seu resultat.');
+    }
+
+    // ---------------- Girar ----------------
+    function girar(i) {
+      const f = fitxes[i];
+      if (bloquejat || f.feta || girades.includes(f)) return;
+      // Si n'hi ha dues de girades que no feien parella, es tapen ara mateix
+      if (girades.length === 2) tapar();
+      if (!inici && Preferencies.temps() && !dosJugadors()) { inici = performance.now(); crono = setInterval(pintarDades, 1000); }
+      f.el.classList.add('girada'); f.el.setAttribute('aria-label', `Fitxa ${i + 1}: ${f.text.replace('−', 'menys').replace('×', 'per')}`);
+      girades.push(f);
+      if (girades.length < 2) return;
+      intents++;
+      const [a, b] = girades;
+      if (a.tipus !== b.tipus && a.v === b.v) parella(a, b);
+      else noParella(a, b);
+      pintarDades();
+    }
+    function parella(a, b) {
+      girades = []; fetes++;
+      [a, b].forEach(f => { f.feta = true; f.el.classList.add('feta'); if (dosJugadors()) f.el.classList.add('de-j' + torn); f.el.setAttribute('aria-disabled', 'true'); });
+      if (dosJugadors()) punts[torn]++;
+      const op = a.tipus === 'op' ? a : b;
+      Celebracio.petita(op.el);
+      if (fetes === N()) return final();
+      mostrar(Preferencies.felicitacio(`✓ ${op.text} = ${op.v}`), dosJugadors() ? `${NOMS[torn]}, tornes a tirar!` : 'Molt bé! Busca\'n una altra.', 'guanyat');
+    }
+    const ANIMS = ['Recorda on són i torna-hi! 💪', 'Fixa\'t on són i prova\'n una altra.', 'Ara ja saps on són dues fitxes més!'];
+    function noParella(a, b) {
+      [a, b].forEach(f => f.el.classList.add('mal'));
+      if (a.tipus === b.tipus) mostrar('No fan parella', a.tipus === 'op' ? 'Són dues operacions: busca una operació i un número.' : 'Són dos números: busca una operació i un número.', 'error');
+      else mostrar(triar(['No fan parella', 'Gairebé!']), triar(ANIMS), 'error');
+      tapaT = setTimeout(tapar, ESPERA_MAL);
+    }
+    // Tapa les dues fitxes que no feien parella; amb 2 jugadors, passa el torn
+    function tapar() {
+      clearTimeout(tapaT); tapaT = null;
+      if (girades.length < 2) return;
+      girades.forEach(f => { f.el.classList.remove('girada', 'mal'); f.el.setAttribute('aria-label', `Fitxa ${fitxes.indexOf(f) + 1}, tapada`); });
+      girades = [];
+      if (dosJugadors()) { torn = 1 - torn; pintarDades(); missatgeTorn(); }
+    }
+
+    // ---------------- Pista: les ensenya totes un moment (una per partida) ----------------
+    function pista() {
+      if (bloquejat || ambPista || dosJugadors()) return;
+      if (girades.length === 2) tapar();
+      ambPista = true; bloquejat = true; $('btn-pista').disabled = true;
+      $('graella').classList.add('ensenya');
+      mostrar('💡 Mira-les bé!', 'Les tapo d\'aquí a un moment.', 'pista');
+      setTimeout(() => { $('graella').classList.remove('ensenya'); bloquejat = false; missatgeTorn(); }, ESPERA_PISTA);
+    }
+
+    // ---------------- Final ----------------
+    function final() {
+      aturar(); bloquejat = true;
+      const n = N();
+      if (dosJugadors()) {
+        const [b, g] = punts;
+        const titol = b === g ? 'Empat!' : `Guanya el ${(b > g ? NOMS[0] : NOMS[1]).toLowerCase()}!`;
+        const subtitol = `🔵 ${b} · 🟠 ${g} parelles`;
+        mostrar('🎉 ' + titol, subtitol, 'guanyat');
+        Celebracio.gran({ titol, subtitol, emoji: b === g ? '🤝' : '🏆', estrelles: 0 });
+        return;
+      }
+      const ambTemps = Preferencies.temps(), ambErrors = Preferencies.errors();
+      let titol = 'Totes les parelles!';
+      let subtitol = ambErrors ? `Has fet les ${n} parelles en ${intents} intents` : `Has fet les ${n} parelles!`;
+      let estrelles = intents <= n + 2 ? 3 : intents <= 2 * n ? 2 : 1;
+      if (ambPista) estrelles = Math.min(estrelles, 2);
+      if (ambTemps && inici) subtitol += ` · ⏱️ ${format(temps)}`;
+      if (ambErrors) {
+        const clau = `appjocs.parelles.record.${config.nivell}.${n}`;
+        let record = null; try { const v = localStorage.getItem(clau); record = v === null ? null : Number(v); } catch {}
+        const nou = record === null || intents < record;
+        if (nou) { try { localStorage.setItem(clau, String(intents)); } catch {} }
+        subtitol += nou ? (record !== null ? ' · 🏅 Nou rècord!' : '') : ` · Rècord: ${record} intents`;
+      }
+      mostrar('🎉 ' + titol, subtitol, 'guanyat');
+      Celebracio.gran({ titol, subtitol, emoji: '🧠', estrelles: ambErrors ? estrelles : 0 });
+    }
+
+    // ---------------- Dades, missatge i mida ----------------
+    const format = ms => { const s = Math.floor(ms / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
+    function pintarDades() {
+      if (inici && crono) temps = performance.now() - inici;
+      let html = `<span class="dada">Parelles <b>${fetes}</b>/${N()}</span>`;
+      if (dosJugadors()) html += NOMS.map((nom, j) => `<span class="dada j${j}${j === torn && fetes < N() ? ' torn' : ''}">${nom}: <b>${punts[j]}</b></span>`).join('');
+      else {
+        if (Preferencies.errors()) html += `<span class="dada">Intents: <b>${intents}</b></span>`;
+        if (Preferencies.temps()) html += `<span class="dada">⏱️ <b>${format(temps)}</b></span>`;
+      }
+      $('dades').innerHTML = html;
+    }
+    function mostrar(t, extra = '', estat = '') {
+      const m = $('missatge');
+      $('msg-text').textContent = t; $('msg-extra').textContent = extra;
+      m.classList.remove('es-pista', 'es-error', 'es-guanyat', 'es-info');
+      if (estat) m.classList.add('es-' + estat);
+    }
+
+    // La graella es reparteix en la forma (columnes × files) que dona les fitxes més grans a l'espai que hi ha
+    const FORMES = { 12: [[4, 3], [3, 4], [6, 2]], 16: [[4, 4], [8, 2]], 20: [[5, 4], [4, 5], [10, 2]] };
+    function ajustar() {
+      if ($('pantalla-joc').hidden || !fitxes.length) return;
+      const zona = $('zona'), g = $('graella');
+      g.style.setProperty('--fw', '10px'); g.style.setProperty('--fh', '10px');
+      const cs = getComputedStyle(zona);
+      const W = zona.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      const pads = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom) + parseFloat(cs.borderTopWidth) * 2;
+      // Tauleta, portàtil i mòbil vertical: la zona ja omple l'alçada (criteri «ple»); mòbil apaïsat: el que queda fins a baix
+      const omple = zona.clientHeight > 150;
+      const H = Math.max(100, (omple ? zona.clientHeight : innerHeight - zona.getBoundingClientRect().top - 12) - pads - 4);
+      const gap = Math.max(6, Math.min(16, Math.round(Math.min(W, H) / 45)));
+      // Per a cada forma: la fitxa més gran possible, entre més ampla que alta (1,6) i més alta que ampla (0,7).
+      // Es tria la forma on la lletra pot ser més grossa.
+      // La lletra depèn de l'operació més llarga de la partida («2 + 3» és més curta que «52 − 17»)
+      const llarg = Math.max(...fitxes.map(f => f.text.length));
+      const lletra = (fw, fh) => Math.min(fh * .45, fw / (llarg * .6 + .9));
+      let millor = null;
+      for (const [c, r] of FORMES[fitxes.length]) {
+        let fw = Math.min((W - gap * (c - 1)) / c, 240), fh = Math.min((H - gap * (r - 1)) / r, 190);
+        if (fw / fh > 1.6) fw = fh * 1.6;
+        if (fw / fh < .7) fh = fw / .7;
+        const fs = lletra(fw, fh);
+        if (!millor || fs > millor.fs + .5 || (Math.abs(fs - millor.fs) <= .5 && fw * fh > millor.fw * millor.fh)) millor = { c, r, fw, fh, fs };
+      }
+      g.style.gridTemplateColumns = `repeat(${millor.c}, auto)`;
+      g.style.setProperty('--gap', gap + 'px');
+      const posar = f => {
+        const fw = millor.fw * f, fh = millor.fh * f;
+        g.style.setProperty('--fw', Math.floor(fw) + 'px');
+        g.style.setProperty('--fh', Math.floor(fh) + 'px');
+        g.style.setProperty('--fs', Math.floor(lletra(fw, fh)) + 'px');
+      };
+      posar(1);
+      // Si encara cal desplaçar la pàgina, s'encongeixen les fitxes el que sobra (repartit entre les files)
+      let f = 1;
+      for (let k = 0; k < 4; k++) {
+        const sobra = document.documentElement.scrollHeight - innerHeight;
+        if (sobra <= 0) break;
+        f = Math.max(.3, f - (sobra / millor.r + 2) / millor.fh);
+        posar(f);
+      }
+    }
+    addEventListener('resize', ajustar);
+    addEventListener('orientationchange', () => setTimeout(ajustar, 200));
+
+    Pantalla.avisOrientacio('parelles', { dins: document.getElementById('pantalla-inici') });
+  </script>
+</body>
+</html>

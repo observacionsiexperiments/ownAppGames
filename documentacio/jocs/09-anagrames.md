@@ -46,6 +46,8 @@ Les lletres d'una paraula surten desordenades i cal posar-les en ordre a les cas
 | `pista`            | Frase que surt amb el botó 📝 Pista                           |
 | `font`             | (opcional) D'on surt un personatge (llibre, sèrie…)           |
 
+El tema **Festes i cultura** (40 paraules) té festes i tradicions, personatges que coneixen els infants de 1r i 2n (Miró, Gaudí, Rodoreda, el Tatano) i llegendes (el drac de Sant Jordi, el follet, el Marraco de Lleida). Els noms de persona van amb majúscula. Vegeu les normes de contingut al [README](../README.md).
+
 ### Com fer-lo créixer
 
 - **Una paraula nova:** afegeix-la a `paraules` del tema. El nivell surt sol de la llargada.

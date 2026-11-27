@@ -109,7 +109,7 @@ Cada paraula té una ruta d'imatge fixa. Si poses un fitxer amb aquest nom, el j
 - `pernil.webp` — pernil 🍖
 - `sushi.webp` — sushi 🍣
 - `entrepa.webp` — entrepà 🥪
-- `cruassant.webp` — cruassant 🥐
+- `cruasan.webp` — cruasan 🥐
 - `xocolata.webp` — xocolata 🍫
 - `magdalena.webp` — magdalena 🧁
 - `botifarra.webp` — botifarra 🌭
@@ -119,7 +119,7 @@ Cada paraula té una ruta d'imatge fixa. Si poses un fitxer amb aquest nom, el j
 - `calamars.webp` — calamars 🦑
 - `pollastre.webp` — pollastre 🍗
 - `caramel.webp` — caramel 🍬
-- `piruleta.webp` — piruleta 🍭
+- `piruli.webp` — pirulí 🍭
 - `crispetes.webp` — crispetes 🍿
 - `mantega.webp` — mantega 🧈
 - `macarrons.webp` — macarrons 🍝
@@ -193,7 +193,7 @@ Cada paraula té una ruta d'imatge fixa. Si poses un fitxer amb aquest nom, el j
 - `tempesta.webp` — tempesta ⛈️
 - `estrella.webp` — estrella ⭐
 - `palmera.webp` — palmera 🌴
-- `girassol.webp` — girassol 🌻
+- `onada.webp` — onada 🌊
 - `planeta.webp` — planeta 🪐
 - `calamarsa.webp` — calamarsa 🌨️
 - `primavera.webp` — primavera 🌷
@@ -326,6 +326,7 @@ Cada paraula té una ruta d'imatge fixa. Si poses un fitxer amb aquest nom, el j
 - `suma.webp` — suma ➕
 - `boli.webp` — boli 🖊️
 - `amic.webp` — amic 🧑‍🤝‍🧑
+- `amiga.webp` — amiga 👭
 - `llibre.webp` — llibre 📕
 - `resta.webp` — resta ➖
 - `examen.webp` — examen 📝
@@ -335,7 +336,9 @@ Cada paraula té una ruta d'imatge fixa. Si poses un fitxer amb aquest nom, el j
 - `ceres.webp` — ceres 🖍️
 - `paper.webp` — paper 📄
 - `mestra.webp` — mestra 👩‍🏫
+- `mestre.webp` — mestre 👨‍🏫
 - `alumne.webp` — alumne 🧒
+- `alumna.webp` — alumna 👧
 - `pilota.webp` — pilota ⚽
 - `numero.webp` — número 🔢
 - `musica.webp` — música 🎵
@@ -354,14 +357,17 @@ Cada paraula té una ruta d'imatge fixa. Si poses un fitxer amb aquest nom, el j
 - `retolador.webp` — retolador 🖍️
 - `company.webp` — company 🤝
 - `directora.webp` — directora 👩‍💼
+- `director.webp` — director 👨‍💼
 
 ## 📚 Contes i llibres — `recursos/contes/`
 
 - `fada.webp` — fada 🧚
 - `drac.webp` — drac 🐉
 - `rei.webp` — rei 🤴
+- `reina.webp` — reina 👸🏽
 - `ogre.webp` — ogre 👹
 - `mag.webp` — mag 🧙
+- `maga.webp` — maga 🔮
 - `elf.webp` — elf 🧝
 - `geni.webp` — geni 🧞
 - `trol.webp` — trol 🧌
@@ -372,6 +378,7 @@ Cada paraula té una ruta d'imatge fixa. Si poses un fitxer amb aquest nom, el j
 - `tresor.webp` — tresor 💰
 - `pirata.webp` — pirata 🏴‍☠️
 - `bruixa.webp` — bruixa 🧙‍♀️
+- `bruixot.webp` — bruixot 🧙‍♂️
 - `sirena.webp` — sirena 🧜‍♀️
 - `vampir.webp` — vampir 🧛
 - `espasa.webp` — espasa ⚔️
@@ -390,6 +397,7 @@ Cada paraula té una ruta d'imatge fixa. Si poses un fitxer amb aquest nom, el j
 - `unicorn.webp` — unicorn 🦄
 - `monstre.webp` — monstre 👾
 - `cavaller.webp` — cavaller 🛡️
+- `cavallera.webp` — cavallera 🏇
 - `portada.webp` — portada 📘
 - `capitol.webp` — capítol 📑
 - `biblioteca.webp` — biblioteca 📚
@@ -397,6 +405,7 @@ Cada paraula té una ruta d'imatge fixa. Si poses un fitxer amb aquest nom, el j
 - `llegenda.webp` — llegenda 🐲
 - `encanteri.webp` — encanteri 🪄
 - `escriptora.webp` — escriptora ✍️
+- `escriptor.webp` — escriptor 🖋️
 
 ## 🎭 Festes i cultura — `recursos/festes/`
 
@@ -407,15 +416,15 @@ Cada paraula té una ruta d'imatge fixa. Si poses un fitxer amb aquest nom, el j
 - `coca.webp` — coca 🍰
 - `fira.webp` — fira 🎡
 - `circ.webp` — circ 🎪
-- `miro.webp` — miró 🖼️
-- `dali.webp` — dalí 🕰️
+- `miro.webp` — Miró 🖼️
 - `nadal.webp` — nadal 🎄
 - `torro.webp` — torró 🍬
 - `dansa.webp` — dansa 🩰
 - `diada.webp` — diada 📅
 - `gralla.webp` — gralla 🎷
-- `gaudi.webp` — gaudí 🦎
+- `gaudi.webp` — Gaudí 🦎
 - `gegant.webp` — gegant 🎎
+- `geganta.webp` — geganta 👒
 - `teatre.webp` — teatre 🎭
 - `museu.webp` — museu 🏛️
 - `cinema.webp` — cinema 🎬
@@ -430,25 +439,29 @@ Cada paraula té una ruta d'imatge fixa. Si poses un fitxer amb aquest nom, el j
 - `capgros.webp` — capgròs 🗿
 - `correfoc.webp` — correfoc 🔥
 - `casteller.webp` — casteller 🤸
+- `castellera.webp` — castellera 🤸‍♀️
 - `enxaneta.webp` — enxaneta 🧒
 - `revetlla.webp` — revetlla 🎆
 - `concert.webp` — concert 🎤
 - `orquestra.webp` — orquestra 🎻
 - `pallasso.webp` — pallasso 🤡
+- `pallassa.webp` — pallassa 🎈
 - `cavalcada.webp` — cavalcada 🐫
+- `drac.webp` — drac 🐉
+- `follet.webp` — follet 🧝
+- `marraco.webp` — Marraco 🐲
+- `tatano.webp` — Tatano 📖
+- `rodoreda.webp` — Rodoreda ✍️
 
 ## 🦸 Personatges — `recursos/personatges/`
 
 - `teo.webp` — Teo 👦
-- `alba.webp` — Alba 🌅
 - `anna.webp` — Anna 👧
 - `goku.webp` — Goku 🐉
 - `pitus.webp` — Pitus 🦁
-- `didac.webp` — Dídac 👦
 - `tirant.webp` — Tirant 🛡️
 - `teresa.webp` — Teresa 👧
 - `helena.webp` — Helena 👧
-- `merli.webp` — Merlí 🧑‍🏫
 - `nobita.webp` — Nobita 👓
 - `oliver.webp` — Oliver ⚽
 - `benji.webp` — Benji 🧤

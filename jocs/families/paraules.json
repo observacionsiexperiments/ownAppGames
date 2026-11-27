@@ -1155,6 +1155,32 @@
       },
       {
        "p": "perruquera"
+      },
+      {
+       "p": "bomber",
+       "e": "👨‍🚒"
+      },
+      {
+       "p": "metgessa",
+       "e": "👩‍⚕️"
+      },
+      {
+       "p": "mestre",
+       "e": "👨‍🏫"
+      },
+      {
+       "p": "cuinera",
+       "e": "👩‍🍳"
+      },
+      {
+       "p": "pagès",
+       "e": "👨‍🌾"
+      },
+      {
+       "p": "fustera"
+      },
+      {
+       "p": "perruquer"
       }
      ]
     },
@@ -1174,7 +1200,7 @@
        "e": "✂️"
       },
       {
-       "p": "manguera"
+       "p": "mànega"
       },
       {
        "p": "cassola"
@@ -2071,7 +2097,7 @@
        "p": "Lleida"
       },
       {
-       "p": "els Camps Elísis"
+       "p": "els Camps Elisis"
       },
       {
        "p": "el riu Segre"

@@ -109,6 +109,7 @@ Tot això ho fa `js/pantalla.js` sol, quan la pàgina és dins de `jocs/<id>/`. 
 - Si s'equivoca i el joc ensenya una explicació, no passa sol: apareix un botó «Següent ▶» al missatge i l'infant decideix quan continua. Així té temps de llegir l'explicació.
 - Retorna un identificador que `clearTimeout` entén: si el joc el cancel·la (per exemple, amb Nova partida), el botó desapareix.
 - Famílies, Busca l'intrús i Pensa i resol ja tenien el seu propi «Següent ▶» i no el fan servir.
+- **L'error no es queda enganxat (v0.49.4):** després d'una errada el missatge surt en rosa; en quant l'infant torna a tocar el joc (treu o posa una fitxa, escriu, tria una altra targeta), el missatge torna al color normal. Ho fa `js/pantalla.js` per a tots els jocs (escolta `pointerdown` i `keydown` en fase de captura i treu `es-error` dels elements de `main`); si torna a fallar, el joc el torna a posar en rosa. Mentre s'espera «Següent ▶» no es toca.
 
 ### Mode fosc: botons desactivats
 

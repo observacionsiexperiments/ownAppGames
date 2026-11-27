@@ -228,11 +228,11 @@
    "pista": "Arbre alt de la platja amb fulles llargues a dalt."
   },
   {
-   "id": "girassol",
-   "paraula": "girassol",
-   "emoji": "🌻",
-   "imatge": "recursos/natura/girassol.webp",
-   "pista": "Flor gran i groga amb moltes pipes al mig."
+   "id": "onada",
+   "paraula": "onada",
+   "emoji": "🌊",
+   "imatge": "recursos/natura/onada.webp",
+   "pista": "Aigua del mar que s'aixeca i arriba a la platja fent escuma."
   },
   {
    "id": "planeta",

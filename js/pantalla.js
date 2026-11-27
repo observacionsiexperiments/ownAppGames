@@ -185,5 +185,17 @@
   // Nova partida, Inici o Comença: el botó «Següent» pendent desapareix
   document.addEventListener('click', e => { if (e.target.closest('#btn-nova, #btn-nou, #btn-comencar')) setTimeout(() => { if (espera && !espera.boto.isConnected) espera = null; }, 0); }, true);
 
+  // ─── L'error no es queda enganxat (v0.49.4) ───
+  // Després d'una errada el missatge surt en rosa. En quant l'infant torna a tocar el joc (treu o posa una fitxa,
+  // escriu, tria una altra targeta…), el missatge torna al color normal: si ho torna a fer malament, el joc el
+  // tornarà a posar en rosa (aquest avís va abans, en fase de captura). Mentre s'espera «Següent ▶» no es toca.
+  function calmarErrors(e) {
+    if (espera) return;
+    if (e.target.closest && e.target.closest('#celebracio-capa, .fj-fons, dialog')) return;
+    document.querySelectorAll('main .es-error').forEach(m => { if (!m.contains(e.target)) m.classList.remove('es-error'); });
+  }
+  document.addEventListener('pointerdown', calmarErrors, true);
+  document.addEventListener('keydown', e => { if (!['Tab', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) calmarErrors(e); }, true);
+
   global.Pantalla = { dalt, sota, avisOrientacio, despres };
 })(window);

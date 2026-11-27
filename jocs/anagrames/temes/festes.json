@@ -54,17 +54,17 @@
   },
   {
    "id": "miro",
-   "paraula": "miró",
+   "paraula": "Miró",
    "emoji": "🖼️",
    "imatge": "recursos/festes/miro.webp",
    "pista": "Pintor català de colors vius, estrelles i llunes."
   },
   {
-   "id": "dali",
-   "paraula": "dalí",
-   "emoji": "🕰️",
-   "imatge": "recursos/festes/dali.webp",
-   "pista": "Pintor català de bigoti llarguíssim que va pintar rellotges tous."
+   "id": "drac",
+   "paraula": "drac",
+   "emoji": "🐉",
+   "imatge": "recursos/festes/drac.webp",
+   "pista": "El de la llegenda de Sant Jordi: on va caure, va brotar una rosa vermella."
   },
   {
    "id": "nadal",
@@ -95,32 +95,11 @@
    "pista": "La Nacional de Catalunya és l'11 de setembre."
   },
   {
-   "id": "gralla",
-   "paraula": "gralla",
-   "emoji": "🎷",
-   "imatge": "recursos/festes/gralla.webp",
-   "pista": "Instrument de vent que sona quan pugen els castells."
-  },
-  {
    "id": "gaudi",
-   "paraula": "gaudí",
+   "paraula": "Gaudí",
    "emoji": "🦎",
    "imatge": "recursos/festes/gaudi.webp",
    "pista": "Arquitecte de la Sagrada Família i el Park Güell."
-  },
-  {
-   "id": "gegant",
-   "paraula": "gegant",
-   "emoji": "🎎",
-   "imatge": "recursos/festes/gegant.webp",
-   "pista": "Figura enorme que balla a les festes amb una persona a dins."
-  },
-  {
-   "id": "teatre",
-   "paraula": "teatre",
-   "emoji": "🎭",
-   "imatge": "recursos/festes/teatre.webp",
-   "pista": "Els actors hi fan una obra dalt de l'escenari."
   },
   {
    "id": "museu",
@@ -130,25 +109,11 @@
    "pista": "Lloc on s'exposen quadres i obres d'art."
   },
   {
-   "id": "cinema",
-   "paraula": "cinema",
-   "emoji": "🎬",
-   "imatge": "recursos/festes/cinema.webp",
-   "pista": "Sala fosca on es miren pel·lícules."
-  },
-  {
    "id": "cobla",
    "paraula": "cobla",
    "emoji": "🎺",
    "imatge": "recursos/festes/cobla.webp",
    "pista": "Grup de músics que toca sardanes."
-  },
-  {
-   "id": "petard",
-   "paraula": "petard",
-   "emoji": "🧨",
-   "imatge": "recursos/festes/petard.webp",
-   "pista": "Fa un gran esclat la nit de Sant Joan."
   },
   {
    "id": "patge",
@@ -158,11 +123,88 @@
    "pista": "Ajudant dels Reis d'Orient que recull les cartes."
   },
   {
+   "id": "gralla",
+   "paraula": "gralla",
+   "emoji": "🎷",
+   "imatge": "recursos/festes/gralla.webp",
+   "pista": "Instrument de vent que sona quan pugen els castells."
+  },
+  {
+   "id": "gegant",
+   "paraula": "gegant",
+   "emoji": "🎎",
+   "imatge": "recursos/festes/gegant.webp",
+   "pista": "Figura enorme que balla a les festes amb la geganta."
+  },
+  {
+   "id": "teatre",
+   "paraula": "teatre",
+   "emoji": "🎭",
+   "imatge": "recursos/festes/teatre.webp",
+   "pista": "Els actors hi fan una obra dalt de l'escenari."
+  },
+  {
+   "id": "cinema",
+   "paraula": "cinema",
+   "emoji": "🎬",
+   "imatge": "recursos/festes/cinema.webp",
+   "pista": "Sala fosca on es miren pel·lícules."
+  },
+  {
+   "id": "petard",
+   "paraula": "petard",
+   "emoji": "🧨",
+   "imatge": "recursos/festes/petard.webp",
+   "pista": "Fa un gran esclat la nit de Sant Joan."
+  },
+  {
+   "id": "follet",
+   "paraula": "follet",
+   "emoji": "🧝",
+   "imatge": "recursos/festes/follet.webp",
+   "pista": "Esperit entremaliat de les rondalles que amaga les coses de casa."
+  },
+  {
+   "id": "tatano",
+   "paraula": "Tatano",
+   "emoji": "📖",
+   "imatge": "recursos/festes/tatano.webp",
+   "pista": "Revista en català per als més petits, germana del Cavall Fort."
+  },
+  {
    "id": "sardana",
    "paraula": "sardana",
    "emoji": "🎶",
    "imatge": "recursos/festes/sardana.webp",
    "pista": "Dansa catalana en rotllana, agafats de les mans."
+  },
+  {
+   "id": "capgros",
+   "paraula": "capgròs",
+   "emoji": "🗿",
+   "imatge": "recursos/festes/capgros.webp",
+   "pista": "Figura amb un cap enorme que balla amb els gegants."
+  },
+  {
+   "id": "concert",
+   "paraula": "concert",
+   "emoji": "🎤",
+   "imatge": "recursos/festes/concert.webp",
+   "pista": "Actuació de música en directe."
+  },
+  {
+   "id": "marraco",
+   "paraula": "Marraco",
+   "emoji": "🐲",
+   "imatge": "recursos/festes/marraco.webp",
+   "pista": "Drac de la festa major de Lleida que obre la boca i «s'empassa» la canalla."
+  },
+  {
+   "id": "geganta",
+   "paraula": "geganta",
+   "emoji": "👒",
+   "imatge": "recursos/festes/geganta.webp",
+   "pista": "Figura enorme que balla a les festes amb el gegant."
   },
   {
    "id": "pessebre",
@@ -179,39 +221,11 @@
    "pista": "Festa on tothom es disfressa."
   },
   {
-   "id": "castanyada",
-   "paraula": "castanyada",
-   "emoji": "🌰",
-   "imatge": "recursos/festes/castanyada.webp",
-   "pista": "Festa de la tardor amb castanyes i panellets."
-  },
-  {
-   "id": "panellets",
-   "paraula": "panellets",
-   "emoji": "🍪",
-   "imatge": "recursos/festes/panellets.webp",
-   "pista": "Dolços de massapà amb pinyons de la tardor."
-  },
-  {
-   "id": "capgros",
-   "paraula": "capgròs",
-   "emoji": "🗿",
-   "imatge": "recursos/festes/capgros.webp",
-   "pista": "Figura amb un cap enorme que balla amb els gegants."
-  },
-  {
    "id": "correfoc",
    "paraula": "correfoc",
    "emoji": "🔥",
    "imatge": "recursos/festes/correfoc.webp",
    "pista": "Diables i bèsties que tiren espurnes pel carrer."
-  },
-  {
-   "id": "casteller",
-   "paraula": "casteller",
-   "emoji": "🤸",
-   "imatge": "recursos/festes/casteller.webp",
-   "pista": "Persona que fa torres humanes."
   },
   {
    "id": "enxaneta",
@@ -228,11 +242,39 @@
    "pista": "La nit de Sant Joan, amb fogueres i petards."
   },
   {
-   "id": "concert",
-   "paraula": "concert",
-   "emoji": "🎤",
-   "imatge": "recursos/festes/concert.webp",
-   "pista": "Actuació de música en directe."
+   "id": "pallasso",
+   "paraula": "pallasso",
+   "emoji": "🤡",
+   "imatge": "recursos/festes/pallasso.webp",
+   "pista": "Té el nas vermell i fa riure al circ, com la pallassa."
+  },
+  {
+   "id": "rodoreda",
+   "paraula": "Rodoreda",
+   "emoji": "✍️",
+   "imatge": "recursos/festes/rodoreda.webp",
+   "pista": "Mercè ___, escriptora de Barcelona: hi ha moltes escoles i biblioteques amb el seu nom."
+  },
+  {
+   "id": "pallassa",
+   "paraula": "pallassa",
+   "emoji": "🎈",
+   "imatge": "recursos/festes/pallassa.webp",
+   "pista": "Porta el nas vermell i fa riure al circ, com el pallasso."
+  },
+  {
+   "id": "panellets",
+   "paraula": "panellets",
+   "emoji": "🍪",
+   "imatge": "recursos/festes/panellets.webp",
+   "pista": "Dolços de massapà amb pinyons de la tardor."
+  },
+  {
+   "id": "casteller",
+   "paraula": "casteller",
+   "emoji": "🤸‍♂️",
+   "imatge": "recursos/festes/casteller.webp",
+   "pista": "Home o noi que fa torres humanes."
   },
   {
    "id": "orquestra",
@@ -242,18 +284,25 @@
    "pista": "Molts músics que toquen junts amb un director."
   },
   {
-   "id": "pallasso",
-   "paraula": "pallasso",
-   "emoji": "🤡",
-   "imatge": "recursos/festes/pallasso.webp",
-   "pista": "Té el nas vermell i fa riure al circ."
-  },
-  {
    "id": "cavalcada",
    "paraula": "cavalcada",
    "emoji": "🐫",
    "imatge": "recursos/festes/cavalcada.webp",
    "pista": "Desfilada dels Reis d'Orient el 5 de gener."
+  },
+  {
+   "id": "castanyada",
+   "paraula": "castanyada",
+   "emoji": "🌰",
+   "imatge": "recursos/festes/castanyada.webp",
+   "pista": "Festa de la tardor amb castanyes i panellets."
+  },
+  {
+   "id": "castellera",
+   "paraula": "castellera",
+   "emoji": "🤸‍♀️",
+   "imatge": "recursos/festes/castellera.webp",
+   "pista": "Dona o noia que fa torres humanes."
   }
  ]
 }

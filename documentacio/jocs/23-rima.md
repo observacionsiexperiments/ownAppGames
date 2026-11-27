@@ -21,16 +21,9 @@ Una sola pregunta, la dificultat (es recorda a `appjocs.rima.nivell`):
 - Segon error, o «💡 Vull una pista»: la part que rima es marca en groc a la paraula de dalt. Tercer error: es mostra la bona i surt «Següent ▶».
 - No es repeteix el grup de rima fins després de 8 rondes. 10 paraules per partida. Rècord per nivell: `appjocs.rima.record.<nivell>`.
 
-### Difícil: escriptura lliure
+### Difícil: escriptura lliure (v0.48.1)
 
-La targeta «✏️ N'escric una» s'obre en una caixa de text. Com es decideix:
-
-1. Si és la mateixa paraula de dalt: «Aquesta ja és la de dalt» (sense error).
-2. Si és a la llista del grup (paraules amb dibuix o `escrites`), sense mirar accents: encert, «⭐ Paraula teva!». Les paraules teves surten a la celebració i sumen una estrella.
-3. Si rima però no és a la llista, o si l'app no la coneix: sense error, «Aquesta no la tinc a la meva llista».
-4. Si l'app la coneix (`conegudes`) i no rima: error, com una targeta equivocada.
-
-Quan rima: la paraula ha d'acabar amb la terminació del grup (sense mirar accents ni dièresi). Si abans de la terminació hi ha una vocal amb accent, la força és allà i no rima («pèsol» no rima amb «sol»). Als grups acabats en vocal forta (-ó, -à) cal l'accent, tret dels monosíl·labs («pa», «ja»).
+La targeta «✏️ N'escric una» s'obre en una caixa de text. **L'app no corregeix la paraula**: en coneix massa poques i deia «no la tinc» a paraules bones. La paraula s'apunta (📝, sense error ni encert) i la ronda s'acaba: s'ensenya una de les targetes que rimen («Una altra que rima: …») i surt «Següent ▶». Al comptador, la ronda surt amb un punt blau discontinu. Al final, la celebració mostra «📝 Per mirar amb un adult: gat → plat, …». No compta per als punts ni per a les estrelles: el resultat final és «N de M a la primera», on M són les rondes en què s'ha triat targeta. Només s'avisa si s'escriu la mateixa paraula de dalt.
 
 ## Contingut: `rimes.json`
 
@@ -39,14 +32,12 @@ Quan rima: la paraula ha d'acabar amb la terminació del grup (sense mirar accen
   "grups": [
     { "rima": "at", "dibuix": [{ "p": "gat", "e": "🐱" }, …], "escrites": ["prat", "forat", …] }, …
   ],
-  "conegudes": ["abella", "avió", …]
 }
 ```
 
 - `rima`: la terminació des de la vocal forta, sense accent (`o` per a -ó, `a` per a -à).
 - `dibuix`: paraules amb emoji; són les que surten al Fàcil i al Mitjà.
-- `escrites`: paraules que surten al Difícil i que s'accepten a l'escriptura lliure.
-- `conegudes`: totes les paraules dels grups i les de `jocs/intrus/paraules.json`. Serveix per saber si una paraula escrita que no rima és una paraula coneguda (error) o desconeguda (sense error). Es genera de nou quan es canvien els grups.
+- `escrites`: paraules sense dibuix, que només surten al Difícil.
 - Normes del contingut: sense pilota, futbol ni ordinador.
 
 ### Com fer-lo créixer

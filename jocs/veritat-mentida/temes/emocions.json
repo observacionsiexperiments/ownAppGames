@@ -154,9 +154,9 @@
         "mentida": "Té llàgrimes."
       },
       "dificil": {
-        "veritat": "Aquesta cara diu \"m'encanta!\".",
-        "mentida": "Aquesta cara diu \"quin fàstic!\".",
-        "correccio": "Aquesta cara diu \"___!\".",
+        "veritat": "Aquesta cara diu «m'encanta!».",
+        "mentida": "Aquesta cara diu «quin fàstic!».",
+        "correccio": "Aquesta cara diu «___!».",
         "opcions": [
           "m'encanta",
           "quin fàstic",

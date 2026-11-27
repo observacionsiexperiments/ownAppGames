@@ -16,7 +16,7 @@
     "num": 2,
     "nom": "L'arbre dels números",
     "icona": "🌳",
-    "descripcio": "Parteix un número en dues parts, i cada part en dues més, fins arribar als uns.",
+    "descripcio": "Parteix un número en dues parts, i cada part en dues més, fins a arribar als uns.",
     "objectiu": "Descompondre el número en un arbre de sumes fins que totes les fulles siguin 1.",
     "categories": [
       "xifres"
@@ -112,7 +112,7 @@
     "num": 10,
     "nom": "Quin número falta?",
     "icona": "🧮",
-    "descripcio": "Gira i apareix una suma, resta, multiplicació o divisió amb un número amagat.",
+    "descripcio": "Surt una suma, resta, multiplicació o divisió amb un número amagat.",
     "objectiu": "Trobar el número que falta a l'operació: el resultat o un dels números.",
     "categories": [
       "xifres"
@@ -272,6 +272,18 @@
     "objectiu": "Escoltar com acaben les paraules i trobar-ne que rimin.",
     "categories": [
       "lletres"
+    ],
+    "estat": "actiu"
+  },
+  {
+    "id": "parelles",
+    "num": 24,
+    "nom": "Parelles de càlcul",
+    "icona": "🧠",
+    "descripcio": "Un memory de càlcul: gira dues fitxes i troba cada operació amb el seu resultat. Sol o en parella.",
+    "objectiu": "Calcular sumes, restes i taules i recordar on són les fitxes.",
+    "categories": [
+      "xifres"
     ],
     "estat": "actiu"
   },
