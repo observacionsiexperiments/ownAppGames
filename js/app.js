@@ -1,5 +1,5 @@
 // Llançadora: llegeix jocs/jocs.json i pinta una targeta per joc.
-const VERSIO_APP = '0.53.6';
+const VERSIO_APP = '0.54.3';
 
 // Categories dels jocs (camp "categories" de jocs.json)
 const CATEGORIES = { xifres: '🔢 Xifres', lletres: '🔤 Lletres' };
@@ -36,6 +36,10 @@ function pintarJocs() {
       : normal([j.nom, j.descripcio, j.objectiu, ...(j.categories || []).map(c => CATEGORIES[c])].join(' ')).includes(text))));
 
   llista.innerHTML = '';
+  clearInterval(rellotgeT);
+  // Ou de Pasqua: si es busca «hora», surt un rellotge (amb agulles i en números) en lloc dels jocs
+  if (['hora', 'quina hora es', 'quina hora es?', 'hora?', 'rellotge'].includes(text)) return pintarRellotge(llista);
+  if (text === 'gat') gatPasseja();
   if (!visibles.length) {
     const li = document.createElement('li');
     li.className = 'buit';
@@ -46,6 +50,61 @@ function pintarJocs() {
   }
   for (const joc of visibles) llista.appendChild(crearTargeta(joc));
 }
+
+// ---------------- Ous de Pasqua: el rellotge i el gat ----------------
+let rellotgeT = null;
+function pintarRellotge(llista) {
+  const li = document.createElement('li');
+  li.className = 'rellotge-ou';
+  const marques = Array.from({ length: 12 }, (_, i) => {
+    const a = i * Math.PI / 6, n = i || 12;
+    return `<line x1="${50 + 40 * Math.sin(a)}" y1="${50 - 40 * Math.cos(a)}" x2="${50 + 44 * Math.sin(a)}" y2="${50 - 44 * Math.cos(a)}"/>`
+      + `<text x="${50 + 33 * Math.sin(a)}" y="${50 - 33 * Math.cos(a) + 3.5}">${n}</text>`;
+  }).join('');
+  li.innerHTML = `<svg viewBox="0 0 100 100" class="rl-cara" aria-hidden="true"><circle cx="50" cy="50" r="47"/>${marques}
+    <line class="rl-hora" x1="50" y1="50" x2="50" y2="28"/><line class="rl-minut" x1="50" y1="50" x2="50" y2="16"/><line class="rl-segon" x1="50" y1="54" x2="50" y2="14"/><circle class="rl-centre" cx="50" cy="50" r="2.5"/></svg>
+    <p class="rl-text" aria-live="off"></p>`;
+  llista.appendChild(li);
+  const posar = () => {
+    const d = new Date(), h = d.getHours(), m = d.getMinutes(), sg = d.getSeconds();
+    li.querySelector('.rl-hora').setAttribute('transform', `rotate(${(h % 12) * 30 + m / 2} 50 50)`);
+    li.querySelector('.rl-minut').setAttribute('transform', `rotate(${m * 6 + sg / 10} 50 50)`);
+    li.querySelector('.rl-segon').setAttribute('transform', `rotate(${sg * 6} 50 50)`);
+    li.querySelector('.rl-text').innerHTML = `🕒 ${h === 1 ? 'És la' : 'Són les'} <b>${h}:${String(m).padStart(2, '0')}</b>`;
+  };
+  posar();
+  rellotgeT = setInterval(() => { if (li.isConnected) posar(); else clearInterval(rellotgeT); }, 1000);
+}
+// Escriure «gat» (al buscador o amb el teclat, a qualsevol lloc de la pantalla d'inici): un gat negre petit surt a dalt a l'esquerra,
+// avança saltant, diu «miau!» i torna enrere
+let lletresGat = '';
+const GAT_SVG = `<svg viewBox="0 0 64 48" width="44" height="33" aria-hidden="true">
+  <path d="M10 30 C2 28 2 14 9 12" fill="none" stroke="#1f1b2d" stroke-width="4" stroke-linecap="round"/>
+  <ellipse cx="27" cy="30" rx="17" ry="10" fill="#1f1b2d"/>
+  <rect x="14" y="34" width="5" height="12" rx="2.5" fill="#1f1b2d"/><rect x="22" y="35" width="5" height="11" rx="2.5" fill="#1f1b2d"/>
+  <rect x="32" y="35" width="5" height="11" rx="2.5" fill="#1f1b2d"/><rect x="39" y="34" width="5" height="12" rx="2.5" fill="#1f1b2d"/>
+  <circle cx="47" cy="19" r="11" fill="#1f1b2d"/>
+  <path d="M38 13 L39 1 L46 9 Z M48 9 L56 1 L57 13 Z" fill="#1f1b2d"/>
+  <ellipse cx="45" cy="18" rx="2.3" ry="3" fill="#FDFFB6"/><ellipse cx="53" cy="18" rx="2.3" ry="3" fill="#FDFFB6"/>
+  <circle cx="45.6" cy="18.6" r="1.1" fill="#1f1b2d"/><circle cx="53.6" cy="18.6" r="1.1" fill="#1f1b2d"/>
+  <path d="M49 22.5 l-1.4 1.6 h2.8 z" fill="#FFADAD"/>
+</svg>`;
+function gatPasseja() {
+  if (document.querySelector('.gat-passeja')) return;
+  const g = document.createElement('div');
+  g.className = 'gat-passeja';
+  g.setAttribute('aria-hidden', 'true');
+  // Gat dibuixat (mira a la dreta): l'emoji 🐈‍⬛ mira a un costat diferent segons el sistema i podia anar d'esquenes
+  g.innerHTML = '<span class="gp-miau">miau!</span><span class="gp-cos"><span class="gp-gat">' + GAT_SVG + '</span></span>';
+  document.body.appendChild(g);
+  g.addEventListener('animationend', e => { if (e.target === g) g.remove(); });
+  setTimeout(() => g.remove(), 12000);
+}
+document.addEventListener('keydown', e => {
+  if (e.target.closest && e.target.closest('input, textarea') || e.key.length !== 1) return;
+  lletresGat = (lletresGat + e.key.toLowerCase()).slice(-3);
+  if (lletresGat === 'gat') { lletresGat = ''; gatPasseja(); }
+});
 
 // «Hi vas jugar fa poc»: els 3 darrers jocs començats. Només sense cerca ni filtre, perquè no molesti quan es busca
 function pintarRecents() {

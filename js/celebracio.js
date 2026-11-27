@@ -88,9 +88,24 @@
     const P = global.Preferencies;
     if (P) titol = P.ambNom(titol);
     const ambEstrelles = !P || P.errors();
+    // Ou de Pasqua: 3 partides seguides amb 3 estrelles (de qualsevol joc) → «Superestrella!» amb corona.
+    // Les partides sense estrelles (2 jugadors, o sense comptar errors) no compten ni trenquen la ratxa.
+    let superestrella = false;
+    if (ambEstrelles && estrelles > 0) {
+      let ratxa = 0;
+      try { ratxa = Number(localStorage.getItem('appjocs.ratxa') || 0); } catch {}
+      ratxa = estrelles === 3 ? ratxa + 1 : 0;
+      try { localStorage.setItem('appjocs.ratxa', String(ratxa)); } catch {}
+      if (ratxa > 0 && ratxa % 3 === 0) {
+        superestrella = true;
+        titol = P ? P.ambNom('Superestrella!') : 'Superestrella!';
+        emoji = '👑';
+        subtitol = `${ratxa} partides seguides amb 3 estrelles!` + (subtitol ? ` · ${subtitol}` : '');
+      }
+    }
     tancarGran();
     const fons = document.createElement('div');
-    fons.className = 'cel-fons';
+    fons.className = 'cel-fons' + (superestrella ? ' cel-super' : '');
     fons.setAttribute('role', 'dialog');
     fons.setAttribute('aria-modal', 'true');
     fons.setAttribute('aria-label', titol);

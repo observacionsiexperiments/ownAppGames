@@ -785,3 +785,68 @@ html.ou-pasqua-ara .targeta .num { animation: ou-pasqua .6s ease-out; }
   display: inline-block; min-width: 4em; height: 2rem; line-height: 2rem; }
 #versio.versio-sorpresa { font-size: 1.6rem; animation: ou-pasqua .5s ease-out; }
 @media (prefers-reduced-motion: reduce) { #versio.versio-sorpresa { animation: none; } }
+
+/* ---------- Ous de Pasqua (v0.54.0) ---------- */
+/* Superestrella: 3 partides seguides amb 3 estrelles */
+.cel-fons.cel-super .cel-targeta { border: 4px solid var(--c-pista-vora); box-shadow: 0 0 0 8px color-mix(in srgb, var(--c-pista) 70%, transparent), var(--ombra); }
+.cel-fons.cel-super .cel-titol { color: var(--text); }
+/* Rellotge: buscar «hora» */
+.graella .rellotge-ou { grid-column: 1 / -1; list-style: none; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 18px; }
+.rl-cara { width: min(220px, 55vw); height: auto; }
+.rl-cara circle:first-child { fill: var(--superficie); stroke: var(--c-info-vora); stroke-width: 3; }
+.rl-cara line { stroke: var(--text-suau); stroke-width: 1.5; stroke-linecap: round; }
+.rl-cara text { font: 800 8px "Avenir Next", "Avenir", "Helvetica Neue", Arial, sans-serif; fill: var(--text); text-anchor: middle; }
+.rl-cara .rl-hora { stroke: var(--text); stroke-width: 4; }
+.rl-cara .rl-minut { stroke: var(--text); stroke-width: 2.6; }
+.rl-cara .rl-segon { stroke: var(--c-esborrar-vora); stroke-width: 1.2; }
+.rl-cara .rl-centre { fill: var(--text); }
+.rl-text { margin: 0; font-size: 1.5rem; }
+.rl-text b { font-variant-numeric: tabular-nums; font-size: 1.3em; }
+/* El gat que passeja: escriure «gat». Petit, a dalt a l'esquerra: entra saltant, diu «miau!» i torna enrere */
+.gat-passeja { position: fixed; top: 26px; left: 0; z-index: 50; pointer-events: none; display: flex; flex-direction: column; align-items: center;
+  animation: gp-camina 8s linear forwards; }
+.gat-passeja .gp-cos { display: block; animation: gp-gira 8s linear forwards; }
+.gat-passeja .gp-gat { line-height: 0; display: block; transform-origin: 50% 100%; animation: gp-salta 8s linear forwards; }
+.gat-passeja .gp-miau { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); white-space: nowrap; font-weight: 800; font-size: .75rem;
+  background: var(--superficie); border: 2px solid var(--vora); border-radius: 10px; padding: 0 6px; opacity: 0; animation: gp-miau 8s linear forwards; }
+@keyframes gp-camina { 0% { transform: translateX(-50px); } 40% { transform: translateX(min(15vw, 260px)); } 60% { transform: translateX(min(15vw, 260px)); } 100% { transform: translateX(-50px); } }
+@keyframes gp-gira { 0%, 49% { transform: scaleX(1); } 50%, 100% { transform: scaleX(-1); } }   /* el dibuix mira a la dreta: a la parada es gira per tornar de cara */
+/* Mode fosc: el gat negre porta un contorn clar perquè es vegi */
+html[data-tema="fosc"] .gat-passeja .gp-gat svg { filter: drop-shadow(0 0 1.2px #EEEAF8) drop-shadow(0 0 1.2px #EEEAF8); }
+@media (prefers-color-scheme: dark) { html:not([data-tema="clar"]) .gat-passeja .gp-gat svg { filter: drop-shadow(0 0 1.2px #EEEAF8) drop-shadow(0 0 1.2px #EEEAF8); } }
+@keyframes gp-miau { 0%, 42% { opacity: 0; } 45%, 56% { opacity: 1; } 59%, 100% { opacity: 0; } }
+@keyframes gp-salta {
+  0.00% { transform: translateY(0) scale(1.08, .9); animation-timing-function: ease-out; }
+  1.20% { transform: translateY(0) scale(1); animation-timing-function: ease-out; }
+  5.00% { transform: translateY(-20px) rotate(-8deg); animation-timing-function: ease-in; }
+  10.00% { transform: translateY(0) scale(1.08, .9); animation-timing-function: ease-out; }
+  11.20% { transform: translateY(0) scale(1); animation-timing-function: ease-out; }
+  15.00% { transform: translateY(-20px) rotate(-8deg); animation-timing-function: ease-in; }
+  20.00% { transform: translateY(0) scale(1.08, .9); animation-timing-function: ease-out; }
+  21.20% { transform: translateY(0) scale(1); animation-timing-function: ease-out; }
+  25.00% { transform: translateY(-20px) rotate(-8deg); animation-timing-function: ease-in; }
+  30.00% { transform: translateY(0) scale(1.08, .9); animation-timing-function: ease-out; }
+  31.20% { transform: translateY(0) scale(1); animation-timing-function: ease-out; }
+  35.00% { transform: translateY(-20px) rotate(-8deg); animation-timing-function: ease-in; }
+  40% { transform: translateY(0) scale(1.08, .9); }
+  42%, 58% { transform: translateY(0) scale(1); }
+  60.00% { transform: translateY(0) scale(1.08, .9); animation-timing-function: ease-out; }
+  61.20% { transform: translateY(0) scale(1); animation-timing-function: ease-out; }
+  65.00% { transform: translateY(-20px) rotate(-8deg); animation-timing-function: ease-in; }
+  70.00% { transform: translateY(0) scale(1.08, .9); animation-timing-function: ease-out; }
+  71.20% { transform: translateY(0) scale(1); animation-timing-function: ease-out; }
+  75.00% { transform: translateY(-20px) rotate(-8deg); animation-timing-function: ease-in; }
+  80.00% { transform: translateY(0) scale(1.08, .9); animation-timing-function: ease-out; }
+  81.20% { transform: translateY(0) scale(1); animation-timing-function: ease-out; }
+  85.00% { transform: translateY(-20px) rotate(-8deg); animation-timing-function: ease-in; }
+  90.00% { transform: translateY(0) scale(1.08, .9); animation-timing-function: ease-out; }
+  91.20% { transform: translateY(0) scale(1); animation-timing-function: ease-out; }
+  95.00% { transform: translateY(-20px) rotate(-8deg); animation-timing-function: ease-in; }
+  100% { transform: translateY(0) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gat-passeja { animation: gp-quiet 4s linear forwards; left: 12px; }
+  .gat-passeja .gp-gat, .gat-passeja .gp-cos { animation: none; }
+  .gat-passeja .gp-miau { animation: none; opacity: 1; }
+  @keyframes gp-quiet { 0%, 90% { opacity: 1; } 100% { opacity: 0; } }
+}
