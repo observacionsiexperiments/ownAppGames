@@ -157,6 +157,46 @@
       main.joc.ple .inici > .grup { flex: none; max-height: none; }
       #op-nivell button { min-height: clamp(90px, 20vh, 200px); font-size: clamp(1.2rem, 3.4vh, 1.9rem); }
     }
+    /* A mida: 4 botons de nivell i tres grups més, tot més compacte */
+    #op-nivell { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .op-mida { grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); grid-auto-flow: column; }
+    .op-mida button { min-height: 48px; font-size: 1.05rem; }
+    .op-mida button:disabled { opacity: .4; cursor: not-allowed; border-style: dashed; }
+    @media (orientation: portrait) and (min-width: 601px) { .inici:not(.amb-mida) #op-nivell { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .titol .nota { font-weight: 500; font-size: .85rem; color: var(--text-suau); }
+    .inici.amb-mida .explica { display: none; }
+    .inici.amb-mida #op-nivell button { min-height: 64px !important; font-size: 1.05rem !important; }
+    .inici.amb-mida #op-nivell button b { font-size: 1.25em; }
+    @media (min-width: 601px) and (min-height: 501px) { main.joc.ple > #pantalla-inici.amb-mida { justify-content: flex-start; } }
+    @media (orientation: portrait) and (max-width: 600px) {
+      #op-nivell { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .inici.amb-mida #op-nivell { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .inici.amb-mida #op-nivell button { min-height: 52px !important; font-size: .85rem !important; padding: 4px 2px; }
+      .inici.amb-mida #op-nivell button small { display: none; }
+      #op-salts { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .op-mida button { min-height: 42px; font-size: .9rem; padding: 4px 2px; }
+      .titol .nota { display: none; }
+    }
+    @media (orientation: landscape) and (max-height: 500px) {
+      .inici.amb-mida { display: grid; grid-template-columns: 1fr 1fr; column-gap: 14px;
+        grid-template-areas: "niv niv" "max resp" "salts salts" "com com"; }
+      .inici.amb-mida > .grup:first-child { grid-area: niv; }
+      .inici.amb-mida > #grup-max { grid-area: max; }
+      .inici.amb-mida > #grup-resposta { grid-area: resp; }
+      .inici.amb-mida > #grup-salts { grid-area: salts; }
+      .inici.amb-mida > .comencar { grid-area: com; }
+      .inici.amb-mida > .explica { display: none; }
+      .inici.amb-mida #op-nivell button { min-height: 44px !important; font-size: .9rem !important; padding: 2px; }
+      .inici.amb-mida #op-nivell button small { display: none; }
+      .inici.amb-mida h2.titol { margin: 4px 0; font-size: .95rem; }
+      .op-mida button { min-height: 36px; font-size: .85rem; padding: 2px; }
+      .op-mida button small { display: none; }
+      .titol .nota { display: none; }
+      .inici.amb-mida .comencar { margin: 8px 0 2px; }
+      .inici.amb-mida .opcions { gap: 6px; }
+      .inici.amb-mida #op-nivell button { min-height: 38px !important; }
+      .inici.amb-mida .comencar .btn { padding: 8px 28px; font-size: 1.1rem; }
+    }
   </style>
 </head>
 <body>
@@ -174,6 +214,30 @@
           <button type="button" data-v="facil" aria-pressed="true" aria-label="Fàcil: del 0 al 20, d'1 en 1"><b>0 – 20</b><small>🌱 Fàcil · d'1 en 1</small></button>
           <button type="button" data-v="mitja" aria-pressed="false" aria-label="Mitjà: del 0 al 100, de 2, 5 o 10 en 10"><b>0 – 100</b><small>Mitjà · de 2, 5 o 10</small></button>
           <button type="button" data-v="dificil" aria-pressed="false" aria-label="Difícil: del 0 al 1000, de 10 o 100 en 100, escrivint el número"><b>0 – 1000</b><small>Difícil · l'escrius tu</small></button>
+          <button type="button" data-v="mida" aria-pressed="false" aria-label="A mida: tries fins a on, els salts i com respons"><b>⚙️ A mida</b><small>tu tries</small></button>
+        </div>
+      </div>
+      <!-- A mida: fins a on, de quant en quant i com es respon -->
+      <div class="grup mida" id="grup-max" hidden>
+        <h2 class="titol">Del 0 fins al…</h2>
+        <div class="opcions op-mida" id="op-max">
+          <button type="button" data-v="20">20</button><button type="button" data-v="50">50</button>
+          <button type="button" data-v="100">100</button><button type="button" data-v="1000">1000</button>
+        </div>
+      </div>
+      <div class="grup mida" id="grup-salts" hidden>
+        <h2 class="titol">De quant en quant? <span class="nota">(pots triar-ne uns quants)</span></h2>
+        <div class="opcions op-mida" id="op-salts">
+          <button type="button" data-v="1">d'1 en 1</button><button type="button" data-v="2">de 2 en 2</button>
+          <button type="button" data-v="5">de 5 en 5</button><button type="button" data-v="10">de 10 en 10</button>
+          <button type="button" data-v="100">de 100 en 100</button>
+        </div>
+      </div>
+      <div class="grup mida" id="grup-resposta" hidden>
+        <h2 class="titol">Com respons?</h2>
+        <div class="opcions op-mida" id="op-resposta">
+          <button type="button" data-v="triar">👆 Triant<small>entre 3 targetes</small></button>
+          <button type="button" data-v="escriure">✏️ Escrivint<small>el número</small></button>
         </div>
       </div>
       <p class="explica">Una fletxa assenyala una marca de la recta. Quin número hi va?</p>
@@ -216,20 +280,61 @@
     // Salts possibles i fins on arriba cada nivell
     const NIVELLS = { facil: { salts: [1], max: 20 }, mitja: { salts: [2, 5, 10], max: 100 }, dificil: { salts: [10, 100], max: 1000 } };
     const config = { nivell: 'facil' };
+    // A mida: fins a on, salts (cal que 10 salts hi càpiguen: salt × 10 ≤ fins a) i com es respon
+    const CLAU_MIDA = 'appjocs.recta-numerica.mida';
+    const mida = { max: 100, salts: [2, 5, 10], resposta: 'triar' };
+    try { Object.assign(mida, JSON.parse(localStorage.getItem(CLAU_MIDA) || '{}')); } catch {}
+    const saltsValids = () => mida.salts.filter(sa => sa * (MARQUES - 1) <= mida.max);
+    const nivellActual = () => config.nivell === 'mida' ? { salts: saltsValids(), max: mida.max } : NIVELLS[config.nivell];
     let R = null, resultats = [], idx = -1, errors = 0, ambAjuda = false, esperant = false, seguentT = null, usades = new Set();
 
     const triar = a => a[Math.floor(Math.random() * a.length)];
     const barrejar = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
-    const escriure = () => config.nivell === 'dificil';
+    const escriure = () => config.nivell === 'dificil' || (config.nivell === 'mida' && mida.resposta === 'escriure');
 
     // ---------------- Inici ----------------
-    try { const v = localStorage.getItem(CLAU_NIVELL); if (v in NIVELLS) config.nivell = v; } catch {}
+    try { const v = localStorage.getItem(CLAU_NIVELL); if (v in NIVELLS || v === 'mida') config.nivell = v; } catch {}
     const botonsNivell = $('op-nivell').querySelectorAll('button');
-    const marcarNivell = () => botonsNivell.forEach(b => b.setAttribute('aria-pressed', b.dataset.v === config.nivell));
+    const marcarNivell = () => {
+      botonsNivell.forEach(b => b.setAttribute('aria-pressed', b.dataset.v === config.nivell));
+      const ambMida = config.nivell === 'mida';
+      document.querySelectorAll('.grup.mida').forEach(g => g.hidden = !ambMida);
+      $('pantalla-inici').classList.toggle('amb-mida', ambMida);
+      if (ambMida) pintarMida();
+    };
     botonsNivell.forEach(b => b.addEventListener('click', () => {
       config.nivell = b.dataset.v; marcarNivell();
       try { localStorage.setItem(CLAU_NIVELL, config.nivell); } catch {}
     }));
+    function desarMida() { try { localStorage.setItem(CLAU_MIDA, JSON.stringify(mida)); } catch {} }
+    function pintarMida() {
+      $('op-max').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', Number(b.dataset.v) === mida.max));
+      $('op-salts').querySelectorAll('button').forEach(b => {
+        const sa = Number(b.dataset.v), cap = sa * (MARQUES - 1) <= mida.max;
+        b.disabled = !cap;
+        b.title = cap ? '' : `Fins al ${mida.max} no hi caben 10 salts de ${sa}`;
+        b.setAttribute('aria-pressed', cap && mida.salts.includes(sa));
+      });
+      $('op-resposta').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === mida.resposta));
+    }
+    $('op-max').addEventListener('click', e => {
+      const b = e.target.closest('button'); if (!b) return;
+      mida.max = Number(b.dataset.v);
+      // Si cap dels salts triats hi cap, es tria el més gran que hi càpiga
+      if (!saltsValids().length) mida.salts = [[100, 10, 5, 2, 1].find(sa => sa * (MARQUES - 1) <= mida.max)];
+      desarMida(); pintarMida();
+    });
+    $('op-salts').addEventListener('click', e => {
+      const b = e.target.closest('button'); if (!b || b.disabled) return;
+      const sa = Number(b.dataset.v);
+      if (mida.salts.includes(sa)) { if (saltsValids().length > 1) mida.salts = mida.salts.filter(x => x !== sa); }
+      else mida.salts = [...mida.salts, sa].sort((a, c) => a - c);
+      desarMida(); pintarMida();
+    });
+    $('op-resposta').addEventListener('click', e => {
+      const b = e.target.closest('button'); if (!b) return;
+      mida.resposta = b.dataset.v; desarMida(); pintarMida();
+    });
     marcarNivell();
 
     $('btn-comencar').addEventListener('click', comencar);
@@ -254,7 +359,7 @@
     // 11 marques; es veuen escrits el primer, l'últim i un del mig. La fletxa assenyala una marca sense número:
     // al Fàcil, sempre al costat d'un número escrit; al Mitjà, com a molt a 2 marques; al Difícil, a qualsevol lloc.
     function crearRecta() {
-      const N = NIVELLS[config.nivell];
+      const N = nivellActual();
       for (let intent = 0; intent < 200; intent++) {
         const salt = triar(N.salts);
         const maxInici = N.max - salt * (MARQUES - 1);
@@ -264,8 +369,10 @@
         const escrits = new Set([0, MARQUES - 1, mig]);
         const dist = i => Math.min(...[...escrits].map(j => Math.abs(i - j)));
         const lliures = valors.map((_, i) => i).filter(i => !escrits.has(i));
-        const maxDist = config.nivell === 'facil' ? 1 : config.nivell === 'mitja' ? 2 : 9;
-        const cands = lliures.filter(i => dist(i) <= maxDist && (config.nivell !== 'dificil' || dist(i) >= 2 || Math.random() < .3));
+        // A mida: com el Mitjà si es tria (a prop d'un número escrit) i com el Difícil si s'escriu
+        const lluny = config.nivell === 'dificil' || (config.nivell === 'mida' && escriure());
+        const maxDist = config.nivell === 'facil' ? 1 : lluny ? 9 : 2;
+        const cands = lliures.filter(i => dist(i) <= maxDist && (!lluny || dist(i) >= 2 || Math.random() < .3));
         if (!cands.length) continue;
         const t = triar(cands);
         const clau = `${salt}:${valors[t]}`;
@@ -279,7 +386,7 @@
     // Les trampes: un salt més, un salt menys i comptar d'1 en 1 des del número escrit
     // (mai un número que ja es veu escrit a la recta: seria massa fàcil descartar-lo)
     function crearOpcions(valors, t, salt, esq, escrits) {
-      const v = valors[t], max = NIVELLS[config.nivell].max;
+      const v = valors[t], max = nivellActual().max;
       const vist = new Set([...escrits].map(i => valors[i]));
       const valid = x => x >= 0 && x <= max && x !== v && !vist.has(x);
       const trampes = [v + salt, v - salt];
@@ -390,7 +497,9 @@
       let subtitol = `${nets} de ${RONDES} a la primera`;
       const estrelles = nets >= 9 ? 3 : mal <= 2 ? 2 : 1;
       if (Preferencies.errors()) {
-        const clau = `appjocs.recta-numerica.record.${config.nivell}`;
+        const clau = config.nivell === 'mida'
+          ? `appjocs.recta-numerica.record.mida.${mida.max}.${saltsValids().join('-')}.${mida.resposta}`
+          : `appjocs.recta-numerica.record.${config.nivell}`;
         let record = null; try { const v = localStorage.getItem(clau); record = v === null ? null : Number(v); } catch {}
         const nou = record === null || nets > record;
         if (nou) { try { localStorage.setItem(clau, String(nets)); } catch {} }

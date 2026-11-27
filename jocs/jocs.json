@@ -288,6 +288,18 @@
     "estat": "actiu"
   },
   {
+    "id": "block-numbers",
+    "num": 25,
+    "nom": "Block Numbers",
+    "icona": "🧱",
+    "descripcio": "Centenes, desenes i unitats: separa el número, compta blocs o llegeix-lo en lletres, i mira'l dibuixat amb blocs.",
+    "objectiu": "Entendre què val cada xifra d'un número.",
+    "categories": [
+      "xifres"
+    ],
+    "estat": "actiu"
+  },
+  {
     "id": "_plantilla",
     "nom": "Joc de prova",
     "icona": "🧪",

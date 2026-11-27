@@ -1,6 +1,6 @@
 # Documentació de «Juguem?» (abans AppJocs)
 
-«Juguem?» (abans AppJocs) és un recull de 24 minijocs en català per a primària (HTML, CSS i JavaScript, sense compilar), publicat a GitHub Pages. Aquesta carpeta explica com funciona cada joc i, quan en té, com són els seus fitxers de contingut (JSON) i com fer-los créixer.
+«Juguem?» (abans AppJocs) és un recull de 25 minijocs en català per a primària (HTML, CSS i JavaScript, sense compilar), publicat a GitHub Pages. Aquesta carpeta explica com funciona cada joc i, quan en té, com són els seus fitxers de contingut (JSON) i com fer-los créixer.
 
 Aquesta carpeta no es publica amb l'app: només és al repositori.
 
@@ -36,6 +36,7 @@ Aquesta carpeta no es publica amb l'app: només és al repositori.
 | 22   | [🧱 Frases desordenades](jocs/22-frases.md)         | Lletres | `frases.json`                           |
 | 23   | [🎵 Rima que rima](jocs/23-rima.md)                 | Lletres | `rimes.json`                            |
 | 24   | [🧠 Parelles de càlcul](jocs/24-parelles.md)        | Xifres  | (sense JSON: es generen)                |
+| 25   | [🧱 Block Numbers](jocs/25-block-numbers.md)         | Xifres  | (sense JSON: es generen)                |
 
 ## Normes de contingut (per a tots els jocs)
 

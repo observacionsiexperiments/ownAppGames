@@ -1,0 +1,876 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFBF3">
+  <title>Block Numbers · Juguem?</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="icon" href="../../icons/icon-192.png">
+  <script>try{var t=JSON.parse(localStorage.getItem("appjocs.preferencies")||"{}").aparenca;if(t==="fosc"||t==="clar")document.documentElement.dataset.tema=t}catch(e){}</script>
+  <link rel="stylesheet" href="../../css/styles.css">
+  <style>
+    /* Colors per rol (css/styles.css): verd = encert · rosa = error · groc = pista · blau = selecció.
+       EXCEPCIÓ (com les monedes de Pensa i resol): cada columna té el seu color, a la caixa i als blocs:
+       centenes = préssec · desenes = blau · unitats = groc. */
+    [hidden] { display: none !important; }
+    :root { --col-c: var(--c-accio); --col-c-vora: var(--c-accio-vora); --col-d: var(--c-info); --col-d-vora: var(--c-info-vora); --col-u: var(--c-pista); --col-u-vora: var(--c-pista-vora); }
+    h2.titol { font-size: 1.15rem; margin: 16px 0 8px; }
+    h2.titol .nota { font-weight: 500; font-size: .85rem; color: var(--text-suau); }
+
+    /* ---------- Pantalla d'opcions ---------- */
+    .inici { max-width: 860px; margin: 0 auto; }
+    .opcions { display: grid; gap: 10px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .opcions button {
+      font: inherit; cursor: pointer; color: var(--text); touch-action: manipulation;
+      background: var(--superficie); border: 2px solid var(--vora); border-radius: 14px; box-shadow: var(--ombra);
+      min-height: 60px; padding: 6px 8px; font-weight: 700; font-size: 1.1rem; line-height: 1.2;
+    }
+    .opcions button small { display: block; font-weight: 500; font-size: .82rem; color: var(--text-suau); margin-top: 2px; }
+    .opcions button[aria-pressed="true"] { background: var(--c-info); border-color: var(--c-info-vora); color: var(--tinta); }
+    .opcions button[aria-pressed="true"] small { color: var(--tinta); }
+    @media (hover: hover) { .opcions button:hover { border-color: var(--c-info-vora); } }
+    #op-tipus { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    @media (orientation: portrait) and (max-width: 600px) { #op-tipus { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .explica { color: var(--text-suau); text-align: center; margin: 14px 0 0; }
+    .comencar { text-align: center; margin: 22px 0 8px; }
+    .comencar .btn { font-size: 1.3rem; padding: 14px 40px; }
+
+    /* ---------- Joc ---------- */
+    .cap-joc { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 4px 0 10px; }
+    .dades { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .dada { background: var(--superficie); border: 1px solid var(--vora); border-radius: 999px; padding: 4px 12px; font-size: .95rem; white-space: nowrap; }
+    .dada b { font-variant-numeric: tabular-nums; }
+    .progres { display: flex; gap: 5px; }
+    .progres i { width: 12px; height: 12px; border-radius: 50%; background: var(--superficie); border: 2px solid var(--vora); }
+    .progres i.ara { border-color: var(--c-info-vora); background: var(--c-info); }
+    .progres i.be { background: var(--c-ok); border-color: var(--c-ok-vora); }
+    .progres i.ajuda { background: var(--c-pista); border-color: var(--c-pista-vora); }
+    .progres i.mal { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); }
+
+    /* El tauler omple l'alçada que queda (el JS li posa l'alçada) */
+    /* Dues fases. PREGUNTA: el número (o els blocs, a «Comptar»), les caixes i el teclat, centrats.
+       RESULTAT: els blocs grans, la descomposició (347 = 300 + 40 + 7) i «Següent ▶». */
+    .tauler { display: grid; gap: 12px 18px; min-height: 0; grid-template-columns: minmax(0, 1fr); }
+    .tauler.fase-pregunta { grid-template-rows: 1fr auto auto auto 1fr auto; grid-template-areas: "." "preg" "caixes" "teclat" "." "peu"; }
+    .tauler.fase-pregunta .zona-blocs, .tauler.fase-pregunta .desc { display: none; }
+    .tauler.fase-pregunta.amb-blocs { grid-template-rows: minmax(0, 1fr) auto auto auto; grid-template-areas: "blocs" "caixes" "teclat" "peu"; }
+    .tauler.fase-pregunta.amb-blocs .zona-blocs { display: flex; align-self: stretch; }
+    .tauler.fase-pregunta.amb-blocs .preg { display: none; }
+    .tauler.fase-pregunta.construir { grid-template-rows: auto minmax(0, 1fr) auto auto; grid-template-areas: "preg" "blocs" "constructor" "peu"; }
+    .tauler.fase-pregunta.construir .preg { display: flex; }
+    .tauler.fase-pregunta.construir .zona-blocs { display: flex; align-self: stretch; }
+    .tauler.fase-pregunta.construir .caixes, .tauler.fase-pregunta.construir .teclat { display: none; }
+    .tauler.fase-resultat .constructor { display: none; }
+    .tauler.fase-resultat { grid-template-rows: minmax(0, 1fr) auto auto; grid-template-areas: "blocs" "desc" "peu"; }
+    .tauler.fase-resultat .preg, .tauler.fase-resultat .caixes, .tauler.fase-resultat .teclat { display: none; }
+    .tauler.fase-resultat .btn-pista { display: none; }
+    /* Fase de pregunta: tot més gran, que ompli l'espai (el JS hi posa --esc segons l'alçada que hi ha) */
+    .tauler.fase-pregunta .numero { font-size: calc(clamp(2.6rem, min(9vw, 11vh), 5.5rem) * var(--esc, 1)); }
+    .tauler.fase-pregunta .numero.lletres { font-size: calc(clamp(1.4rem, min(4.6vw, 6vh), 2.6rem) * var(--esc, 1)); }
+    .tauler.fase-pregunta .caixa .xifra { width: min(22vw, calc(clamp(64px, 11vh, 96px) * var(--esc, 1))); height: calc(clamp(64px, 11vh, 96px) * var(--esc, 1)); font-size: calc(clamp(2rem, 6vh, 3.2rem) * var(--esc, 1)); }
+    .tauler.fase-pregunta .caixa.col-n .xifra { width: calc(clamp(150px, 22vw, 230px) * var(--esc, 1)); }
+    .tauler.fase-pregunta .caixa .nom { font-size: calc(.95rem * min(var(--esc, 1), 1.3)); }
+    .tauler.fase-pregunta .teclat { max-width: min(100%, calc(520px * var(--esc, 1))); }
+    .tauler.fase-pregunta .caixa .xifra { max-height: max(52px, 24vw); }
+    .tauler.fase-pregunta .caixa.col-n .xifra { max-height: max(52px, 20vw); }
+    .tauler.fase-pregunta .tecla { min-height: min(calc(52px * var(--esc, 1)), max(40px, 13vw)); font-size: calc(1.5rem * min(var(--esc, 1), 1.4)); }
+    /* Quant val? Sota cada xifra, el nom de la columna; la xifra preguntada, encerclada */
+    .numero .xc { display: inline-flex; flex-direction: column; align-items: center; }
+    .numero .xc small { font-size: .2em; font-weight: 800; letter-spacing: 0; padding: .1em .5em; border-radius: 999px; color: var(--tinta); margin-top: .1em; }
+    .numero .xc small.c { background: var(--col-c); } .numero .xc small.d { background: var(--col-d); } .numero .xc small.u { background: var(--col-u); }
+    .triar-valor { grid-area: caixes; display: flex; justify-content: center; gap: clamp(10px, 2.5vw, 24px); flex-wrap: wrap; }
+    .triar-valor button { font: 900 calc(clamp(1.8rem, 6vh, 3rem) * min(var(--esc, 1), 1.4)) "Avenir Next", "Avenir", "Helvetica Neue", Arial, sans-serif; font-variant-numeric: tabular-nums;
+      min-width: calc(clamp(90px, 14vw, 150px) * min(var(--esc, 1), 1.3)); padding: .35em .5em; cursor: pointer; touch-action: manipulation; border-radius: 16px; }
+    .triar-valor button.mal { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); color: var(--tinta); }
+    .triar-valor button.be { background: var(--c-ok); border-color: var(--c-ok-vora); color: var(--tinta); }
+    .tauler.fase-resultat .triar-valor { display: none; }
+    .tauler.valor .teclat { display: none; }
+    .tauler.valor .preg { gap: .35em; }
+    .tauler.valor .preg .que { font-size: calc(1.25rem * min(var(--esc, 1), 1.3)); font-weight: 800; color: var(--text); }
+    .numero .xc { margin: 0 .08em; }
+    .numero .xc > span { padding: 0 .06em; }
+    .tauler.valor .numero .marcada { outline-width: 3px; }
+    @media (max-width: 600px) { .triar-valor { flex-wrap: nowrap; gap: 8px; } .triar-valor button { min-width: 0; flex: 1 1 0; max-width: 31vw; } }
+    .numero .marcada { display: inline-block; outline: 4px solid var(--text); outline-offset: 2px; border-radius: 10px; padding: 0 .06em; margin: 0 .04em; }
+    /* Construir: tres columnes (+ i −) del color de cada bloc */
+    .constructor { grid-area: constructor; display: grid; grid-template-columns: repeat(var(--ncol, 3), minmax(0, 1fr)) auto; gap: 8px; max-width: 560px; width: 100%; justify-self: center; align-items: stretch; }
+    .constructor .ctl { display: grid; grid-template-rows: 1fr auto; gap: 6px; }
+    .constructor .ctl button { font: 900 1.3rem "Avenir Next", "Avenir", "Helvetica Neue", Arial, sans-serif; cursor: pointer; touch-action: manipulation; border-radius: 12px; border: 2px solid; color: var(--tinta); box-shadow: var(--ombra); font-variant-numeric: tabular-nums; }
+    .constructor .ctl .mes { min-height: 56px; }
+    .constructor .ctl .menys { min-height: 36px; font-size: 1rem; background: var(--superficie); color: var(--text); }
+    .constructor .col-c button { border-color: var(--col-c-vora); } .constructor .col-c .mes { background: var(--col-c); }
+    .constructor .col-d button { border-color: var(--col-d-vora); } .constructor .col-d .mes { background: var(--col-d); }
+    .constructor .col-u button { border-color: var(--col-u-vora); } .constructor .col-u .mes { background: var(--col-u); }
+    .constructor button:disabled { opacity: .4; cursor: default; }
+    .constructor .fet-ctl { min-width: 64px; font-size: 1.6rem; }
+    .tauler.fase-pregunta .constructor { max-width: min(100%, calc(560px * var(--esc, 1))); }
+    .tauler.fase-pregunta .constructor .ctl .mes { min-height: calc(56px * var(--esc, 1)); font-size: calc(1.3rem * min(var(--esc, 1), 1.4)); }
+    .desc { grid-area: desc; text-align: center; font-weight: 900; font-variant-numeric: tabular-nums; font-size: clamp(1.6rem, min(5vw, 7vh), 3.2rem); line-height: 1.3; padding-top: 4px; }
+    .desc .lletres { display: block; font-size: .5em; font-weight: 700; color: var(--text-suau); line-height: 1.2; margin-bottom: .35em; }
+    .desc span.c, .desc span.d, .desc span.u { display: inline-block; line-height: 1.15; padding: .02em .15em; border-radius: 10px; color: var(--tinta); }
+    .desc span.destacat { outline: 4px solid var(--text); outline-offset: 3px; }
+    .desc span.c { background: var(--col-c); } .desc span.d { background: var(--col-d); } .desc span.u { background: var(--col-u); }
+    .preg { grid-area: preg; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-width: 0; }
+    .preg .que { color: var(--text-suau); font-size: 1rem; }
+    .numero { font-weight: 900; font-variant-numeric: tabular-nums; line-height: 1.05; font-size: clamp(2.6rem, min(9vw, 11vh), 5.5rem); letter-spacing: .04em; }
+    .numero.lletres { font-size: clamp(1.4rem, min(4.6vw, 6vh), 2.6rem); letter-spacing: 0; line-height: 1.2; }
+    .numero span.c, .numero span.d, .numero span.u { display: inline-block; line-height: 1.05; padding: 0 .04em; }
+    .numero span.c { background: var(--col-c); border-radius: 8px; color: var(--tinta); }
+    .numero span.d { background: var(--col-d); border-radius: 8px; color: var(--tinta); }
+    .numero span.u { background: var(--col-u); border-radius: 8px; color: var(--tinta); }
+    .numero .valor { display: block; font-size: .5em; font-weight: 700; color: var(--text-suau); }
+    .numero .part { display: inline-block; border-radius: 8px; }
+    .numero .part.marca { padding: 0 .1em; }
+    .numero .part.marca { background: var(--c-pista); color: var(--tinta); }
+
+    .zona-blocs { grid-area: blocs; display: flex; align-items: center; justify-content: center; min-height: 0; min-width: 0; padding: 8px; position: relative; }
+    .zona-blocs svg { position: absolute; inset: 8px; width: calc(100% - 16px); height: calc(100% - 16px); display: block; }
+    .zona-blocs .buit { color: var(--text-suau); text-align: center; font-size: 1rem; }
+    .b-c { fill: var(--col-c); stroke: var(--col-c-vora); }
+    .b-d { fill: var(--col-d); stroke: var(--col-d-vora); }
+    .b-u { fill: var(--col-u); stroke: var(--col-u-vora); }
+    .b-linia { stroke: var(--col-c-vora); opacity: .55; }
+    .b-linia.d { stroke: var(--col-d-vora); }
+    .b-grup { transition: opacity .5s ease; }
+    .b-grup.surt { animation: surt .45s ease both; }
+    .b-grup.marca rect { stroke: var(--c-ok-vora); stroke-width: 3; }
+    @keyframes surt { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .b-buit { fill: none; stroke: var(--text-suau); stroke-width: 2; stroke-dasharray: 6 5; }
+    .b-zero { font: 900 26px "Avenir Next", "Avenir", "Helvetica Neue", Arial, sans-serif; fill: var(--text-suau); text-anchor: middle; }
+    .b-grup.atenuat > * { opacity: .3; }   /* als fills: l’animació d’entrada ja controla l’opacitat del grup */
+    .b-grup.destacat .b-titol { font-size: 17px; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+    .b-grup.destacat .b-buit { stroke: var(--text); stroke-width: 3; }
+    .b-titol { font: 800 14px "Avenir Next", "Avenir", "Helvetica Neue", Arial, sans-serif; fill: var(--text); text-anchor: middle; }
+    @media (prefers-reduced-motion: reduce) { .b-grup.surt { animation: none; } }
+
+    /* Caixes C · D · U (o una sola caixa per al número sencer) */
+    .caixes { grid-area: caixes; display: flex; justify-content: center; gap: clamp(8px, 2vw, 18px); }
+    .caixa { font: inherit; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 0; border: 0; background: none; color: var(--text); touch-action: manipulation; }
+    .caixa .nom { font-weight: 800; font-size: .95rem; padding: 2px 10px; border-radius: 999px; color: var(--tinta); }
+    .caixa .xifra { width: clamp(64px, 9vw, 96px); height: clamp(64px, 11vh, 96px); display: grid; place-items: center; border-radius: 14px; border: 3px solid var(--vora);
+      background: var(--superficie); font-weight: 900; font-size: clamp(2rem, 6vh, 3.2rem); font-variant-numeric: tabular-nums; box-shadow: var(--ombra); }
+    .caixa.col-c .nom { background: var(--col-c); } .caixa.col-c .xifra { border-color: var(--col-c-vora); }
+    .caixa.col-d .nom { background: var(--col-d); } .caixa.col-d .xifra { border-color: var(--col-d-vora); }
+    .caixa.col-u .nom { background: var(--col-u); } .caixa.col-u .xifra { border-color: var(--col-u-vora); }
+    .caixa.col-n .nom { background: color-mix(in srgb, var(--c-info) 45%, var(--superficie)); }
+    .caixa.col-n .xifra { width: clamp(150px, 22vw, 230px); border-style: dashed; border-color: var(--c-info-vora); }
+    .caixa.activa .xifra { outline: 4px solid var(--text); outline-offset: 2px; }
+    .caixa.mal .xifra { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); color: var(--tinta); }
+    .caixa.be .xifra { background: var(--c-ok); border-color: var(--c-ok-vora); color: var(--tinta); }
+    .caixes.suma .caixa .nom { text-align: center; line-height: 1.15; white-space: nowrap; border-radius: 12px; padding: 2px 10px; font-size: calc(.9rem * min(var(--esc, 1), 1.15)); }
+    .caixes.suma .caixa { justify-content: flex-end; }
+    @media (max-width: 600px), (max-height: 500px) { .caixes.suma .caixa .nom { font-size: .7rem; padding: 1px 6px; } }
+    .caixes.suma .xifra { display: flex; justify-content: center; align-items: flex-end; gap: .12em; padding-bottom: .12em; }
+    .caixes.suma .slot { width: .62em; min-height: 1.1em; display: inline-flex; justify-content: center; align-items: flex-end; border-bottom: .08em solid var(--text-suau); line-height: 1; }
+    .caixes.suma .slot.ple { border-bottom-color: transparent; }
+    .caixes.suma .xifra:empty::after { content: none; }
+    .caixes.suma { align-items: flex-end; gap: clamp(4px, 1.2vw, 12px); }
+    .caixes.suma .mes-suma { font-weight: 900; font-size: calc(clamp(1.6rem, 5vh, 2.6rem) * min(var(--esc, 1), 1.4)); padding-bottom: .3em; color: var(--text-suau); }
+    .tauler.fase-pregunta .caixes.suma .caixa.col-c .xifra { width: min(30vw, calc(clamp(96px, 13vw, 150px) * var(--esc, 1))); }
+    .tauler.fase-pregunta .caixes.suma .caixa.col-d .xifra { width: min(22vw, calc(clamp(80px, 10vw, 120px) * var(--esc, 1))); }
+    .caixa .xifra:empty::after { content: '_'; color: var(--text-suau); font-weight: 500; }
+
+    /* Teclat de números de pantalla */
+    .teclat { grid-area: teclat; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; max-width: 520px; width: 100%; justify-self: center; }
+    .tecla { font: 800 1.5rem "Avenir Next", "Avenir", "Helvetica Neue", Arial, sans-serif; cursor: pointer; touch-action: manipulation; min-height: 52px;
+      border-radius: 12px; border: 2px solid var(--vora); background: var(--superficie); color: var(--text); box-shadow: var(--ombra); font-variant-numeric: tabular-nums; }
+    .tecla.esborra { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); color: var(--tinta); }
+    .tecla.ok { background: var(--c-ok); border-color: var(--c-ok-vora); color: var(--tinta); font-weight: 900; }
+    .tecla:disabled { opacity: .45; cursor: default; }
+    @media (hover: hover) { .tecla:not(:disabled):hover { border-color: var(--c-info-vora); } }
+
+    .peu { grid-area: peu; display: flex; gap: 10px; align-items: stretch; }
+    .missatge { flex: 1; min-height: 3.4em; padding: 6px 12px; border-radius: var(--radi); text-align: center; background: var(--superficie);
+      border: 2px solid var(--vora); font-weight: 700; font-size: 1.05rem; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2px; }
+    main.joc.ple .franja #missatge { min-height: 3.4em; }
+    .missatge small { font-weight: 500; font-size: .95rem; }
+    .missatge small:empty { display: none; }
+    .missatge.es-pista { background: var(--c-pista); border-color: var(--c-pista-vora); color: var(--tinta); }
+    .missatge.es-error { background: var(--c-esborrar); border-color: var(--c-esborrar-vora); color: var(--tinta); }
+    .missatge.es-guanyat { background: var(--c-ok); border-color: var(--c-ok-vora); color: var(--tinta); }
+    .missatge .btn-seguent-auto { margin-top: 4px; }
+    .btn-pista { background: var(--c-pista); border-color: var(--c-pista-vora); color: var(--tinta); align-self: center; white-space: nowrap; }
+
+    /* Tauleta i portàtil en horitzontal: a l'esquerra el número, les caixes i el teclat; a la dreta els blocs */
+    @media (orientation: landscape) and (min-width: 601px) and (min-height: 501px) {
+      /* Comptar blocs: els blocs a l'esquerra i la caixa i el teclat a la dreta */
+      .tauler.fase-pregunta.amb-blocs { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); grid-template-rows: 1fr auto auto 1fr auto;
+        grid-template-areas: "blocs ." "blocs caixes" "blocs teclat" "blocs ." "peu peu"; }
+      .tauler.fase-pregunta.construir { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); grid-template-rows: 1fr auto auto 1fr auto;
+        grid-template-areas: "blocs ." "blocs preg" "blocs constructor" "blocs ." "peu peu"; }
+      main.joc.ple > .inici > .grup { max-height: 150px; }
+    }
+    /* Mòbil (vertical i apaïsat): més compacte */
+    @media (orientation: portrait) and (max-width: 600px), (orientation: landscape) and (max-height: 500px) {
+      .barra-joc { padding: 6px 0; }
+      .barra-joc h1 { font-size: 1.1rem; }
+      .cap-joc { margin: 0 0 6px; gap: 6px; }
+      .dada { font-size: .8rem; padding: 2px 8px; }
+      .progres i { width: 9px; height: 9px; }
+      .cap-joc .btn { padding: 5px 10px; font-size: .85rem; white-space: nowrap; }
+      .tauler { gap: 6px 10px; }
+      .preg .que { font-size: .85rem; }
+      .caixa .nom { font-size: .78rem; padding: 1px 7px; }
+      .caixa .xifra { width: 56px; height: 52px; font-size: 1.8rem; border-radius: 10px; }
+      .caixa.col-n .xifra { width: 130px; }
+      .tecla { min-height: 40px; font-size: 1.2rem; border-radius: 10px; }
+      .teclat { gap: 5px; }
+      .missatge { min-height: 0; padding: 4px 8px; font-size: .9rem; }
+      main.joc.ple .franja #missatge { min-height: 3em; }
+      .missatge small { font-size: .8rem; }
+      .peu .btn { padding: 6px 10px; font-size: .9rem; }
+      .opcions button { min-height: 46px; font-size: .95rem; padding: 4px; }
+      .opcions button small { font-size: .72rem; }
+      .explica { font-size: .9rem; }
+      h2.titol .nota { display: none; }
+    }
+    @media (orientation: portrait) and (max-width: 600px) { .numero { font-size: clamp(2.2rem, 12vw, 3.4rem); } .numero.lletres { font-size: clamp(1.2rem, 5.6vw, 1.6rem); } }
+    /* Mòbil apaïsat: a l'esquerra número i caixes, al mig els blocs, a baix a la dreta el teclat i el missatge */
+    @media (orientation: landscape) and (max-height: 500px) {
+      .tauler.fase-pregunta { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: 1fr auto auto 1fr;
+        grid-template-areas: ". ." "preg teclat" "caixes peu" ". ."; align-items: center; }
+      .tauler.fase-pregunta.amb-blocs { grid-template-rows: 1fr auto auto auto 1fr; grid-template-areas: "blocs ." "blocs caixes" "blocs teclat" "blocs peu" "blocs ."; }
+      .tauler.fase-pregunta.construir { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: 1fr auto auto auto 1fr;
+        grid-template-areas: "blocs ." "blocs preg" "blocs constructor" "blocs peu" "blocs ."; align-items: stretch; }
+      .tauler.construir .constructor .ctl .mes { min-height: 38px; font-size: 1rem; }
+      .tauler.construir .constructor .ctl .menys { min-height: 28px; font-size: .85rem; }
+      .tauler.construir .constructor .fet-ctl { min-width: 48px; }
+      .tauler.amb-blocs .caixa .nom { display: none; }
+      .tauler.amb-blocs .caixa .xifra { height: 42px; }
+      .tauler.amb-blocs { row-gap: 5px; }
+      .tauler.fase-resultat { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto;
+        grid-template-areas: "blocs desc" "blocs peu"; }
+      .tauler.fase-resultat .desc { align-self: end; font-size: clamp(1.2rem, 7vh, 1.8rem); }
+      .caixes { align-items: center; }
+      .missatge small { font-size: .75rem; }
+      .numero { font-size: clamp(1.8rem, 11vh, 2.8rem); } .numero.lletres { font-size: clamp(1rem, 5.5vh, 1.4rem); }
+      .peu { gap: 6px; }
+      .peu .btn-pista { padding: 6px 8px; }
+      .peu .btn-pista .txt-llarg { display: none; } .peu .btn-pista .txt-curt { display: inline; }
+      .preg .que { font-size: .8rem; }
+      .caixa .xifra { height: 46px; }
+      .teclat { align-self: end; }
+      .tecla { min-height: 34px; font-size: 1rem; }
+      main .inici { display: grid; grid-template-columns: 1fr 1fr; column-gap: 16px; }
+      main .inici > .explica { display: none; }
+      main .inici > .comencar { grid-column: 1 / -1; margin: 8px 0 4px; }
+      main .inici h2.titol { margin: 4px 0; font-size: .95rem; }
+      .opcions button { min-height: 40px; }
+      .opcions button small { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="barra-joc">
+    <a href="../../">← Inici</a>
+    <h1>🧱 Block Numbers</h1>
+  </nav>
+
+  <main class="joc ple">
+    <!-- ================= INICI ================= -->
+    <section class="inici" id="pantalla-inici">
+      <div class="grup">
+        <h2 class="titol">1. Nivell</h2>
+        <div class="opcions" id="op-nivell">
+          <button type="button" data-v="facil" aria-pressed="true">🌱 Fàcil<small>Del 10 al 99</small></button>
+          <button type="button" data-v="mitja" aria-pressed="false">Mitjà<small>Del 100 al 999</small></button>
+          <button type="button" data-v="dificil" aria-pressed="false">Difícil<small>Del 100 al 999, amb zeros</small></button>
+        </div>
+      </div>
+      <div class="grup">
+        <h2 class="titol">2. Què vols practicar? <span class="nota">(pots triar-ne uns quants)</span></h2>
+        <div class="opcions" id="op-tipus">
+          <button type="button" data-v="separar">✂️ Separar<small>el número en C · D · U</small></button>
+          <button type="button" data-v="comptar">🧱 Comptar blocs<small>i escriure el número</small></button>
+          <button type="button" data-v="llegir">🔤 Llegir<small>el número en lletres</small></button>
+          <button type="button" data-v="construir">🏗️ Construir<small>el número amb blocs</small></button>
+        </div>
+      </div>
+      <p class="explica">Centenes, desenes i unitats: quan ho resols, el número es dibuixa amb blocs.</p>
+      <div class="comencar"><button class="btn" id="btn-comencar" type="button">Comença! 🧱</button></div>
+    </section>
+
+    <!-- ================= JOC ================= -->
+    <section id="pantalla-joc" hidden>
+      <div class="cap-joc">
+        <div class="dades" id="dades"></div>
+        <button class="btn" id="btn-nova" type="button">↺ Nova partida</button>
+      </div>
+      <div class="tauler" id="tauler">
+        <div class="preg"><span class="que" id="que"></span><div class="numero" id="numero"></div></div>
+        <div class="zona-blocs safata-pregunta" id="blocs"></div>
+        <div class="desc" id="desc" aria-live="polite"></div>
+        <div class="caixes" id="caixes"></div>
+        <!-- Quant val? Tres targetes: 4 · 40 · 400 -->
+        <div class="triar-valor" id="triar-valor" hidden></div>
+        <!-- Construir: botons per posar i treure blocs (al Fàcil, sense centenes) -->
+        <div class="constructor" id="constructor" hidden>
+          <div class="ctl col-c" data-col="c"><button type="button" class="mes" data-col="c" data-d="1">+ 100</button><button type="button" class="menys" data-col="c" data-d="-1" aria-label="Treu una placa de 100">− 100</button></div>
+          <div class="ctl col-d" data-col="d"><button type="button" class="mes" data-col="d" data-d="1">+ 10</button><button type="button" class="menys" data-col="d" data-d="-1" aria-label="Treu una barra de 10">− 10</button></div>
+          <div class="ctl col-u" data-col="u"><button type="button" class="mes" data-col="u" data-d="1">+ 1</button><button type="button" class="menys" data-col="u" data-d="-1" aria-label="Treu un quadret">− 1</button></div>
+          <button type="button" class="tecla ok fet-ctl" id="btn-construit" aria-label="Comprova" title="Comprova">✓</button>
+        </div>
+        <div class="teclat" id="teclat" aria-label="Teclat de números">
+          <button type="button" class="tecla" data-t="1">1</button><button type="button" class="tecla" data-t="2">2</button>
+          <button type="button" class="tecla" data-t="3">3</button><button type="button" class="tecla" data-t="4">4</button>
+          <button type="button" class="tecla" data-t="5">5</button><button type="button" class="tecla esborra" data-t="esborra" aria-label="Esborra">⌫</button>
+          <button type="button" class="tecla" data-t="6">6</button><button type="button" class="tecla" data-t="7">7</button>
+          <button type="button" class="tecla" data-t="8">8</button><button type="button" class="tecla" data-t="9">9</button>
+          <button type="button" class="tecla" data-t="0">0</button><button type="button" class="tecla ok" data-t="ok" aria-label="Comprova" title="Comprova">✓</button>
+        </div>
+        <div class="peu franja">
+          <div class="missatge" id="missatge" aria-live="polite"><span id="msg-text"></span><small id="msg-extra"></small></div>
+          <button class="btn btn-pista" id="btn-pista" type="button">💡 <span class="txt-llarg">Vull una pista</span><span class="txt-curt">Pista</span></button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../js/pantalla.js"></script>
+  <script src="../../js/preferencies.js"></script>
+  <script src="../../js/celebracio.js"></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    const CLAU_OPCIONS = 'appjocs.block-numbers.opcions';
+    const RONDES = 10;
+    const TIPUS = ['separar', 'comptar', 'llegir', 'construir'];
+    const config = { nivell: 'facil', tipus: TIPUS.slice() };
+    let construit = { c: 0, d: 0, u: 0 };
+    let rondes = [], idx = -1, R = null, resultats = [], errors = 0, ambAjuda = false, esperant = false, seguentT = null;
+    let caixes = [], activa = 0;
+
+    const atzar = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+    const triar = a => a[Math.floor(Math.random() * a.length)];
+    const barrejar = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+
+    // ---------------- Opcions ----------------
+    try { Object.assign(config, JSON.parse(localStorage.getItem(CLAU_OPCIONS) || '{}')); } catch {}
+    if (!Array.isArray(config.tipus) || !config.tipus.length) config.tipus = TIPUS.slice();
+    const desar = () => { try { localStorage.setItem(CLAU_OPCIONS, JSON.stringify(config)); } catch {} };
+    function pintarOpcions() {
+      $('op-nivell').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === config.nivell));
+      $('op-tipus').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', config.tipus.includes(b.dataset.v)));
+    }
+    $('op-nivell').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; config.nivell = b.dataset.v; desar(); pintarOpcions(); });
+    $('op-tipus').addEventListener('click', e => {
+      const b = e.target.closest('button'); if (!b) return;
+      const t = b.dataset.v;
+      if (config.tipus.includes(t)) { if (config.tipus.length > 1) config.tipus = config.tipus.filter(x => x !== t); }   // sempre en queda un
+      else config.tipus = TIPUS.filter(x => x === t || config.tipus.includes(x));
+      desar(); pintarOpcions();
+    });
+    pintarOpcions();
+
+    // ---------------- Números en lletres (escriptura normativa) ----------------
+    const UNITATS = ['zero', 'u', 'dos', 'tres', 'quatre', 'cinc', 'sis', 'set', 'vuit', 'nou'];
+    const DEUS = ['deu', 'onze', 'dotze', 'tretze', 'catorze', 'quinze', 'setze', 'disset', 'divuit', 'dinou'];
+    const DESENES = ['', '', 'vint', 'trenta', 'quaranta', 'cinquanta', 'seixanta', 'setanta', 'vuitanta', 'noranta'];
+    // Torna les parts del nom amb el que val cadascuna: [['tres-cents', 300], ['quaranta', 40], ['set', 7]]
+    function parts(n) {
+      const p = [], c = Math.floor(n / 100), r = n % 100;
+      if (c) p.push([c === 1 ? 'cent' : `${UNITATS[c]}-cents`, c * 100]);
+      if (r) {
+        if (r < 10) p.push([UNITATS[r], r]);
+        else if (r < 20) p.push([DEUS[r - 10], r]);
+        else {
+          const d = Math.floor(r / 10), u = r % 10;
+          if (!u) p.push([DESENES[d], d * 10]);
+          else p.push([DESENES[d] + (d === 2 ? '-i-' : '-'), d * 10, true], [UNITATS[u], u]);   // true = va enganxat a la següent
+        }
+      }
+      return p;
+    }
+    const enLletres = n => parts(n).map(([t, , enganxat]) => t + (enganxat ? '' : ' ')).join('').trim();
+
+    // ---------------- Rondes ----------------
+    const ambCentenes = () => config.nivell !== 'facil';
+    function nouNumero() {
+      if (config.nivell === 'facil') return atzar(10, 99);
+      if (config.nivell === 'mitja') return atzar(100, 999);
+      // Difícil: la meitat dels números amb algun zero (305, 470, 800)
+      if (Math.random() < .5) {
+        const c = atzar(1, 9), d = atzar(0, 9), u = atzar(0, 9), quin = atzar(0, 2);
+        return c * 100 + (quin === 0 || quin === 2 ? 0 : d * 10) + (quin === 1 || quin === 2 ? 0 : u);
+      }
+      return atzar(100, 999);
+    }
+    function crearRondes() {
+      // Tipus repartits a parts iguals, sense més de dues seguides del mateix
+      const tipus = config.tipus;
+      let llista = Array.from({ length: RONDES }, (_, i) => tipus[i % tipus.length]);
+      for (let k = 0; k < 50; k++) { llista = barrejar(llista); if (tipus.length === 1 || !llista.some((t, i) => i > 1 && t === llista[i - 1] && t === llista[i - 2])) break; }
+      const usats = new Set();
+      let separars = 0;
+      return llista.map(t => {
+        let n; do { n = nouNumero(); } while (usats.has(n) && usats.size < 80); usats.add(n);
+        const r = { tipus: t, n, c: Math.floor(n / 100), d: Math.floor(n / 10) % 10, u: n % 10 };
+        // Els blocs sempre surten com el número: mai més de 9 plaques, 9 barres ni 9 quadrets
+        r.bc = r.c; r.bd = r.d; r.bu = r.u;
+        // «Separar»: una de cada dues rondes pregunta què val una xifra («Quant val el 4 de 347?»), perquè no n'hi hagi prou de copiar
+        // Al Fàcil, les caixes C · D · U (escalfament) alternades amb «Quant val?».
+        // Al Mitjà i al Difícil, «Quant val?» alternat amb la descomposició escrita: 347 = 300 + 40 + 7 (copiar xifres no hi serveix).
+        if (t === 'separar') {
+          const k = separars++;
+          const ferValor = config.nivell === 'facil' ? k % 2 === 1 : k % 2 === 0;
+          if (ferValor) {
+            const cols = (ambCentenes() ? ['c', 'd', 'u'] : ['d', 'u']).filter(c => !(c === 'u' && ambCentenes() && Math.random() < .6));
+            r.valor = triar(cols);
+          } else if (config.nivell !== 'facil') r.exp = true;
+        }
+        return r;
+      });
+    }
+
+    // ---------------- Començar ----------------
+    $('btn-comencar').addEventListener('click', comencar);
+    $('btn-nova').addEventListener('click', () => { clearTimeout(seguentT); Celebracio.tancar(); $('pantalla-joc').hidden = true; $('pantalla-inici').hidden = false; });
+    $('btn-pista').addEventListener('click', () => { if (esperant && !R.pista) { ambAjuda = true; donarPista(); } });
+    function comencar() {
+      rondes = crearRondes(); idx = -1; resultats = [];
+      $('pantalla-inici').hidden = true; $('pantalla-joc').hidden = false;
+      window.scrollTo({ top: 0 });
+      seguent();
+    }
+    function seguent() {
+      clearTimeout(seguentT);
+      document.querySelectorAll('.btn-seguent-auto').forEach(b => b.remove());
+      idx++;
+      if (idx >= RONDES) return final();
+      R = rondes[idx];
+      R.pas = R.tipus === 'construir' ? 'construir' : R.valor ? 'valor' : R.exp ? 'exp' : (R.tipus === 'separar' ? 'cdu' : 'numero');
+      R.pista = false;
+      construit = { c: 0, d: 0, u: 0 };
+      errors = 0; ambAjuda = false; esperant = true;
+      $('btn-pista').disabled = false;
+      fase('pregunta');
+      pintarPregunta();
+      if (R.tipus === 'comptar') pintarBlocs(R.bc, R.bd, R.bu, false);
+      else $('blocs').innerHTML = '';
+      muntarCaixes();
+      if (R.pas === 'construir') { pintarConstruit(); mostrar('Construeix el número amb blocs', 'Toca + per posar-ne i − per treure\'n. Després, ✓.'); }
+      else if (R.pas === 'exp') mostrar('Escriu què val cada xifra', `${R.n} = ☐ + ☐ + ☐`);
+      else if (R.pas === 'valor') mostrar(`Quantes ${NOMS_COL[R.valor]} té el ${R.n}?`, 'Toca la xifra.');
+      else if (R.tipus === 'separar') mostrar('Separa el número', ambCentenes() ? 'Quantes centenes, desenes i unitats té?' : 'Quantes desenes i unitats té?');
+      else if (R.tipus === 'comptar') mostrar('Quin número fan aquests blocs?', 'Cada placa val 100, cada barra 10 i cada quadret 1.');
+      else mostrar('Escriu el número amb xifres', 'Llegeix-lo a poc a poc.');
+      pintarDades();
+      ajustar();
+      requestAnimationFrame(ajustar);   // un cop col·locat tot (la capçalera pot canviar d'alçada), es torna a ajustar
+    }
+
+    // ---------------- Pregunta (número o lletres) ----------------
+    function pintarPregunta(colors = false) {
+      const nu = $('numero');
+      nu.classList.remove('lletres');
+      if (R.tipus === 'comptar' && R.pas === 'numero') { $('que').textContent = 'Compta els blocs'; nu.innerHTML = '?'; return; }
+      if (R.tipus === 'llegir' && R.pas === 'numero') {
+        $('que').textContent = 'Quin número és?';
+        nu.classList.add('lletres');
+        nu.innerHTML = parts(R.n).map(([t, v, eng], i) => `<span class="part${R.pista ? ' marca' : ''}">${t}${R.pista ? `<span class="valor">${v}</span>` : ''}</span>${eng ? '' : ' '}`).join('').trim();
+        return;
+      }
+      $('que').textContent = R.tipus === 'llegir' ? enLletres(R.n) : (R.tipus === 'comptar' ? 'Aquests blocs fan' : 'Separa el número');
+      if (R.pas === 'valor') $('que').textContent = `Quantes ${NOMS_COL[R.valor]} té?`;
+      if (R.pas === 'exp') $('que').textContent = 'Escriu-lo com una suma';
+      if (R.pas === 'construir') $('que').textContent = 'Construeix el número';
+      const xs = String(R.n).split(''), cols = xs.length === 3 ? ['c', 'd', 'u'] : ['d', 'u'];
+      if (R.pas === 'valor') {
+        nu.innerHTML = colors || R.pista ? xs.map((x, i) => `<span class="xc"><span class="${cols[i]}">${x}</span><small class="${cols[i]}">${NOMS_COL[cols[i]]}</small></span>`).join('') : String(R.n);
+        return;
+      }
+      nu.innerHTML = xs.map((x, i) => {
+        const cl = [colors ? cols[i] : '', R.valor === cols[i] && R.pas === 'valor' ? 'marcada' : ''].filter(Boolean).join(' ');
+        return cl ? `<span class="${cl}">${x}</span>` : x;
+      }).join('');
+    }
+
+    // ---------------- Caixes i teclat ----------------
+    function muntarCaixes() {
+      const cont = $('caixes'); cont.innerHTML = '';
+      const ctl = R.pas === 'construir', val = R.pas === 'valor';
+      $('constructor').hidden = !ctl; $('caixes').hidden = ctl || val; $('teclat').hidden = ctl || val; $('triar-valor').hidden = !val;
+      if (ctl) { caixes = []; return; }
+      if (val) {
+        caixes = [];
+        const ops = [...new Set(String(R.n).split('').map(Number))];
+        while (ops.length < 3) { const r = atzar(0, 9); if (!ops.includes(r)) ops.push(r); }
+        $('triar-valor').innerHTML = barrejar(ops).map(v => `<button type="button" class="opcio-resposta" data-v="${v}">${v}</button>`).join('');
+        return;
+      }
+      cont.classList.toggle('suma', R.pas === 'exp');
+      const defs = R.pas === 'exp'
+        // A la suma, l'etiqueta és «Valor de les centenes» (amb «Centenes» semblava que calia escriure «600 centenes»)
+        ? [{ col: 'c', nom: 'Valor de les<br>centenes', max: 3 }, { col: 'd', nom: 'Valor de les<br>desenes', max: 2 }, { col: 'u', nom: 'Valor de les<br>unitats', max: 1 }]
+        : R.pas === 'numero' || R.pas === 'valor'
+        ? [{ col: 'n', nom: R.pas === 'valor' ? 'Val' : 'Número', max: 3 }]
+        : (ambCentenes() ? [{ col: 'c', nom: 'Centenes', max: 1 }] : []).concat([{ col: 'd', nom: 'Desenes', max: 1 }, { col: 'u', nom: 'Unitats', max: 1 }]);
+      caixes = defs.map((d, i) => {
+        const b = document.createElement('button'); b.type = 'button'; b.className = `caixa col-${d.col}`;
+        b.innerHTML = `<span class="nom">${d.nom}</span><span class="xifra"></span>`;
+        b.addEventListener('click', () => { if (esperant) activar(i); });
+        if (i > 0 && R.pas === 'exp') { const m = document.createElement('span'); m.className = 'mes-suma'; m.textContent = '+'; cont.appendChild(m); }
+        cont.appendChild(b);
+        return { ...d, el: b, valor: '' };
+      });
+      caixes.forEach(pintarCaixa);
+      activar(0);
+      teclat(true);
+    }
+    function activar(i) { activa = i; caixes.forEach((c, k) => c.el.classList.toggle('activa', k === i && esperant)); }
+    // A la suma, cada caixa té un guió per xifra (centenes _ _ _, desenes _ _, unitats _): així es veu que s'hi escriu 700, no 7
+    function pintarCaixa(c) {
+      const x = c.el.querySelector('.xifra');
+      if (R && R.pas === 'exp' && c.valor !== '0') {
+        x.innerHTML = Array.from({ length: c.max }, (_, k) => c.valor[k] !== undefined ? `<span class="slot ple">${c.valor[k]}</span>` : '<span class="slot"></span>').join('');
+      } else x.textContent = c.valor;
+      c.el.setAttribute('aria-label', `${c.nom.replace('<br>', ' ')}: ${c.valor || 'buida'}`);
+    }
+    function teclat(on) { $('teclat').querySelectorAll('.tecla').forEach(t => t.disabled = !on); }
+    function tecla(t) {
+      if (!esperant || !caixes.length) return;
+      const c = caixes[activa];
+      if (t === 'ok') return comprovar();
+      if (t === 'esborra') {
+        if (c.valor) c.valor = c.valor.slice(0, -1);
+        else if (activa > 0) { activar(activa - 1); caixes[activa].valor = caixes[activa].valor.slice(0, -1); pintarCaixa(caixes[activa]); return; }
+      } else {
+        c.el.classList.remove('mal');
+        if (c.max === 1) { c.valor = t; pintarCaixa(c); if (activa < caixes.length - 1) activar(activa + 1); return; }
+        if (c.valor.length < c.max) c.valor = (c.valor === '0' ? '' : c.valor) + t;
+        // Suma: en omplir la caixa (o escriure un 0) passa a la següent
+        if (R.pas === 'exp' && (c.valor.length >= c.max || c.valor === '0') && activa < caixes.length - 1) { pintarCaixa(c); activar(activa + 1); return; }
+      }
+      pintarCaixa(c);
+    }
+    $('teclat').addEventListener('click', e => { const b = e.target.closest('.tecla'); if (b && !b.disabled) tecla(b.dataset.t); });
+    // Teclat de l'ordinador: les xifres escriuen a la caixa activa (no trien res)
+    document.addEventListener('keydown', e => {
+      if ($('pantalla-joc').hidden || !esperant || e.target.closest('input, textarea')) return;
+      if (R && R.pas === 'construir') { if (e.key === 'Enter' && !e.target.closest('button')) { e.preventDefault(); comprovar(); } return; }
+      if (/^[0-9]$/.test(e.key)) { e.preventDefault(); tecla(e.key); }
+      else if (e.key === 'Backspace') { e.preventDefault(); tecla('esborra'); }
+      else if (e.key === 'Enter' && !e.target.closest('button')) { e.preventDefault(); tecla('ok'); }
+      else if (e.key === 'ArrowLeft' && activa > 0) activar(activa - 1);
+      else if (e.key === 'ArrowRight' && activa < caixes.length - 1) activar(activa + 1);
+    });
+
+    // ---------------- Construir ----------------
+    // Els blocs es dibuixen mentre es construeix, sense títols (no es diu quants n'hi ha: s'han de mirar)
+    function pintarConstruit() {
+      const t = $('constructor');
+      t.style.setProperty('--ncol', ambCentenes() ? 3 : 2);
+      t.querySelector('.col-c').hidden = !ambCentenes();
+      t.querySelectorAll('button[data-col]').forEach(b => {
+        const c = b.dataset.col, d = Number(b.dataset.d);
+        b.disabled = !esperant || (d > 0 ? construit[c] >= 9 : construit[c] <= 0);   // mai més de 9 de cada
+      });
+      $('btn-construit').disabled = !esperant;
+      if (construit.c + construit.d + construit.u === 0) $('blocs').innerHTML = '<p class="buit">Toca + per posar blocs</p>';
+      else pintarBlocs(construit.c, construit.d, construit.u, false);
+    }
+    $('triar-valor').addEventListener('click', e => {
+      const b = e.target.closest('button'); if (!b || b.disabled || !esperant) return;
+      if (Number(b.dataset.v) === valorBo()) { b.classList.add('be'); return encert(); }
+      b.classList.add('mal'); b.disabled = true;
+      R.triat = Number(b.dataset.v);
+      error();
+    });
+    $('constructor').addEventListener('click', e => {
+      const b = e.target.closest('button'); if (!b || b.disabled || !esperant) return;
+      if (b.id === 'btn-construit') return comprovar();
+      construit[b.dataset.col] += Number(b.dataset.d);
+      pintarConstruit();
+    });
+
+    // ---------------- Comprovar ----------------
+    const valorBo = () => ({ c: R.c, d: R.d, u: R.u })[R.valor];   // «Quantes desenes té?»: la xifra de la columna
+    const SING = { c: 'centena', d: 'desena', u: 'unitat' }, VAL = { c: 100, d: 10, u: 1 };
+    const quantes = (x, col) => `${x} ${x === 1 ? SING[col] : NOMS_COL[col]}`;
+    function comprovar() {
+      if (!esperant) return;
+      if (R.pas === 'construir') {
+        if (construit.c + construit.d + construit.u === 0) return mostrar('Encara no has posat cap bloc', 'Toca + per posar-ne.', 'pista');   // no compta com a error
+        if (construit.c === R.c && construit.d === R.d && construit.u === R.u) return encert();
+        return error();
+      }
+      if (caixes.some(c => c.valor === '')) {
+        const buida = caixes.findIndex(c => c.valor === '');
+        activar(buida);
+        return mostrar(caixes.length > 1 ? 'Falta alguna caixa' : 'Escriu el número', caixes.length > 1 ? 'Si no n\'hi ha cap, escriu un 0.' : '', 'pista');
+      }
+      if (R.pas === 'numero') {
+        const v = Number(caixes[0].valor);
+        if (v === R.n) {
+          caixes[0].el.classList.add('be');
+          return encert();   // a «Llegir», escriure bé el número ja és la resposta: passa al resultat
+        }
+        caixes[0].el.classList.add('mal');
+        return error();
+      }
+      // Pas C · D · U (o la suma: 300 + 40 + 7)
+      const bons = R.pas === 'exp' ? [R.c * 100, R.d * 10, R.u] : ambCentenes() ? [R.c, R.d, R.u] : [R.d, R.u];
+      let malament = 0;
+      caixes.forEach((c, i) => { const ok = Number(c.valor) === bons[i]; c.el.classList.toggle('mal', !ok); c.el.classList.toggle('be', ok); if (!ok) malament++; });
+      if (!malament) return encert();
+      const prim = caixes.findIndex((c, i) => Number(c.valor) !== bons[i]);
+      activar(prim);
+      error();
+    }
+    function encert() {
+      esperant = false; activar(-1); teclat(false); $('btn-pista').disabled = true;
+      resultats[idx] = errors === 0 && !ambAjuda ? 'be' : 'ajuda';
+      const eraValor = R.pas === 'valor';
+      R.pas = 'fet'; pintarPregunta(true);
+      const desc = [R.c * 100, R.d * 10, R.u].filter((v, i) => v || (i === 2 && !R.c && !R.d)).join(' + ');
+      const titol = R.tipus === 'llegir' ? `✓ ${R.n} = ${desc}` : `✓ ${R.n} = ${desc}`;
+      mostrarResultat(R.c, R.d, R.u);
+      if (eraValor) { const x = valorBo(); mostrar(Preferencies.felicitacio(`✓ ${R.n} té ${quantes(x, R.valor)}`), R.valor === 'u' ? 'Mira els blocs.' : `${quantes(x, R.valor)} = ${x * VAL[R.valor]}`, 'guanyat'); }
+      else mostrar(Preferencies.felicitacio('✓ Molt bé!'), 'Mira els blocs: cada xifra val segons on és.', 'guanyat');
+      seguentT = Pantalla.despres(seguent, 0, true);
+      Celebracio.petita($('desc'));
+      pintarDades();
+    }
+    function error() {
+      errors++;
+      if (errors >= 3 || (R.pas === 'valor' && errors >= 2)) {   // es mostra la resposta i els blocs; continua amb «Següent ▶»
+        esperant = false; teclat(false); activar(-1); $('btn-pista').disabled = true;
+        resultats[idx] = 'mal';
+        const eraValor = R.pas === 'valor';
+        if (R.pas === 'construir') { construit = { c: R.c, d: R.d, u: R.u }; }
+        else if (R.pas === 'valor') { const b = $('triar-valor').querySelector(`[data-v="${valorBo()}"]`); if (b) b.classList.add('be'); }
+        else if (R.pas === 'numero') { caixes[0].valor = String(R.n); pintarCaixa(caixes[0]); caixes[0].el.classList.remove('mal'); caixes[0].el.classList.add('be'); }
+        else { const bons = R.pas === 'exp' ? [R.c * 100, R.d * 10, R.u] : ambCentenes() ? [R.c, R.d, R.u] : [R.d, R.u]; caixes.forEach((c, i) => { c.valor = String(bons[i]); pintarCaixa(c); c.el.classList.remove('mal'); c.el.classList.add('be'); }); }
+        R.pas = 'fet'; pintarPregunta(true); mostrarResultat(R.c, R.d, R.u);
+        const desc = [R.c * 100, R.d * 10, R.u].filter(v => v).join(' + ') || '0';
+        if (eraValor) mostrar(`${R.n} té ${quantes(valorBo(), R.valor)}`, `És la xifra de les ${NOMS_COL[R.valor]}: mira els blocs.`, 'error');
+        else mostrar(`Era el ${R.n}`, 'Mira els blocs: cada xifra val segons on és.', 'error');
+        seguentT = Pantalla.despres(seguent, 0, true);
+        pintarDades();
+        return;
+      }
+      const dx = diagnosi();
+      if (errors === 2) { ambAjuda = true; donarPista(); if (dx) mostrar('💡 ' + dx[0], dx[1], 'pista'); return; }
+      if (dx) return mostrar(dx[0], dx[1], 'error');
+      mostrar('Mira-ho bé', caixes.length > 1 ? 'Les caixes en rosa no són bones.' : 'Torna-ho a provar.', 'error');
+    }
+    // Els dos errors típics: canviar l'ordre de les xifres (43 per 34) i oblidar el zero (35 per 305)
+    const NOMS_COL = { c: 'centenes', d: 'desenes', u: 'unitats' };
+    function diagnosi() {
+      const bo = String(R.n);
+      if (R.pas === 'valor') {
+        const e = R.triat, xs = String(R.n).split('').map(Number), cols = xs.length === 3 ? ['c', 'd', 'u'] : ['d', 'u'];
+        const i = xs.indexOf(e);
+        if (i < 0) return [`El ${e} no és al número`, `Busca la xifra de les ${NOMS_COL[R.valor]} al ${R.n}.`];
+        return [`El ${e} són les ${NOMS_COL[cols[i]]}`, `Busca la xifra de les ${NOMS_COL[R.valor]}.`];
+      }
+      if (R.pas === 'construir') {
+        const b = { c: R.c, d: R.d, u: R.u }, nom = { c: ['plaques de 100', 'placa de 100'], d: ['barres de 10', 'barra de 10'], u: ['quadrets', 'quadret'] };
+        const col = ['c', 'd', 'u'].find(c => construit[c] !== b[c]);
+        const dif = b[col] - construit[col], n = Math.abs(dif), nm = nom[col][n === 1 ? 1 : 0];
+        return dif > 0 ? [`Falten ${nm}`, `Mira la xifra de les ${NOMS_COL[col]}.`] : [`Sobren ${nm}`, `Mira la xifra de les ${NOMS_COL[col]}.`];
+      }
+      const colsDe = n => n.length === 3 ? ['c', 'd', 'u'] : ['d', 'u'];
+      if (R.pas === 'numero') {
+        const e = caixes[0].valor;
+        if (bo.includes('0') && e === bo.replace(/0/g, '')) {
+          const z = colsDe(bo).filter((c, i) => bo[i] === '0');
+          return ['Compte amb el zero!', z.length === 1
+            ? `No hi ha cap ${{ c: 'centena', d: 'desena', u: 'unitat' }[z[0]]}: cal escriure un 0 al seu lloc.`
+            : `No hi ha ${z.map(c => NOMS_COL[c]).join(' ni ')}: cal escriure un 0 a cada lloc.`];
+        }
+        if (e.length === bo.length && e !== bo && [...e].sort().join('') === [...bo].sort().join(''))
+          return ["Tens les xifres bones, però en un altre ordre", bo.length === 3 ? 'Primer les centenes, després les desenes i al final les unitats.' : 'Primer les desenes i després les unitats.'];
+        return null;
+      }
+      if (R.pas === 'exp') {
+        const a = caixes.map(c => Number(c.valor)), xs = [R.c, R.d, R.u], bons = [R.c * 100, R.d * 10, R.u];
+        if (a.every((v, i) => v === xs[i]) && (R.c || R.d)) return ['Has escrit les xifres soles', 'Escriu què val cada una, no només la xifra.'];
+        const i = a.findIndex((v, k) => v !== bons[k]);
+        if (a[i] === xs[i]) return [`El ${xs[i]} de les ${NOMS_COL[['c', 'd', 'u'][i]]} no val ${xs[i]}`, 'Pensa quant val a la seva columna.'];
+        if (a.reduce((x, y) => x + y, 0) === R.n) return ['La suma fa el número, però…', 'Cada caixa ha de tenir el que val la xifra de la seva columna.'];
+        return null;
+      }
+      const cols = ambCentenes() ? ['c', 'd', 'u'] : ['d', 'u'];
+      const bons = ambCentenes() ? [R.c, R.d, R.u] : [R.d, R.u];
+      const a = caixes.map(c => Number(c.valor));
+      const mal = cols.map((c, i) => a[i] !== bons[i] ? i : -1).filter(i => i >= 0);
+      const zeros = cols.filter((c, i) => bons[i] === 0);
+      if (zeros.length && a.filter(x => x).join() === bons.filter(x => x).join() && mal.length) {
+        const z = zeros.map(c => NOMS_COL[c]);
+        return ['Compte amb el zero!', z.length === 1 ? `${R.n} no té ${z[0]}: a la caixa de les ${z[0]} hi va un 0.` : `${R.n} no té ${z.join(' ni ')}: a les seves caixes hi va un 0.`];
+      }
+      if (mal.length === 2 && a[mal[0]] === bons[mal[1]] && a[mal[1]] === bons[mal[0]])
+        return [`Has canviat les ${NOMS_COL[cols[mal[0]]]} i les ${NOMS_COL[cols[mal[1]]]}`, 'Fixa\'t en quin lloc és cada xifra del número.'];
+      return null;
+    }
+    function donarPista() {
+      R.pista = true; $('btn-pista').disabled = true;
+      if (R.pas === 'valor') {
+        pintarPregunta(true);
+        mostrar('💡 Sota cada xifra hi ha la seva columna', `Busca la de les ${NOMS_COL[R.valor]}.`, 'pista');
+      } else if (R.pas === 'construir') {
+        pintarPregunta(true);
+        mostrar('💡 Cada xifra et diu quants blocs', 'Préssec = plaques de 100 · blau = barres de 10 · groc = quadrets.', 'pista');
+      } else if (R.pas === 'exp') {
+        pintarPregunta(true);
+        mostrar('💡 Cada xifra val segons la seva columna', 'Centenes (préssec) ×100 · desenes (blau) ×10 · unitats (groc) ×1.', 'pista');
+      } else if (R.pas === 'cdu') {
+        pintarPregunta(true);
+        mostrar('💡 Fixa\'t en els colors', 'Cada xifra del número va a la caixa del seu color.', 'pista');
+      } else if (R.tipus === 'comptar') {
+        mostrar('💡 Compta primer les plaques', 'Cada placa val 100; després les barres (10) i els quadrets (1).', 'pista');
+      } else {
+        pintarPregunta();
+        mostrar('💡 Cada part del nom té el seu valor', 'Ajunta\'ls: ' + parts(R.n).map(p => p[1]).join(' + '), 'pista');
+      }
+      pintarDades();
+      ajustar();   // la pista pot fer més alt el número (valors a sota del nom): es torna a calcular la mida
+    }
+
+    // ---------------- Blocs (SVG) ----------------
+    // Placa = 10×10 quadrets · barra = 10 quadrets (vertical) · unitat = 1 quadret (en columnes de 10)
+    // Fase de la ronda: 'pregunta' o 'resultat' (amb el resultat, els blocs grans i la descomposició)
+    function fase(f) {
+      const t = $('tauler');
+      t.classList.toggle('fase-pregunta', f === 'pregunta');
+      t.classList.toggle('fase-resultat', f === 'resultat');
+      t.classList.toggle('amb-blocs', f === 'pregunta' && R.tipus === 'comptar');
+      t.classList.toggle('construir', f === 'pregunta' && R.tipus === 'construir');
+      t.classList.toggle('valor', f === 'pregunta' && R.pas === 'valor');
+    }
+    function mostrarResultat(c, d, u) {
+      fase('resultat');
+      // Al Difícil el zero també s'escriu (305 = 300 + 0 + 5); als altres nivells, només les parts que valen alguna cosa
+      const cols = ambCentenes() ? [[R.c * 100, 'c'], [R.d * 10, 'd'], [R.u, 'u']] : [[R.d * 10, 'd'], [R.u, 'u']];
+      const parts3 = config.nivell === 'dificil' ? cols : cols.filter(([v, cl]) => v || (R.valor && !R.exp && cl === R.valor));
+      $('desc').innerHTML = (R.tipus === 'llegir' ? `<span class="lletres">${enLletres(R.n)}</span>` : '')
+        + `${R.n} = ` + (parts3.length ? parts3.map(([v, cl]) => `<span class="${cl}${R.valor && !R.exp && cl === R.valor ? ' destacat' : ''}">${v}</span>`).join(' + ') : '0');
+      ajustar();
+      pintarBlocs(c, d, u, true, true);
+    }
+    // resultat = true: amb els títols («3 × 100») i les columnes buides («0 × 10», ratllada) perquè el zero es vegi.
+    // A la pregunta de «Comptar blocs» no hi ha títols: l'infant ha de comptar.
+    function pintarBlocs(c, d, u, anim, resultat = false) {
+      const Q = 10, G = 4, MARGE = 18;           // quadret, espai entre peces; MARGE: perquè els títols no es tallin
+      const SEP = resultat ? 34 : 22;            // espai entre columnes (al resultat, més aire entre els títols)
+      const BUIT = Q * 4;                        // amplada d'una columna buida
+      const zona = $('blocs'), W = Math.max(100, zona.clientWidth - 16), H = Math.max(60, zona.clientHeight - 16);
+      // Columnes que té el número (al Fàcil, només desenes i unitats)
+      const teC = resultat && ambCentenes(), teD = resultat, teU = resultat;
+      const buitC = teC && !c, buitD = teD && !d, buitU = teU && !u;
+      // Amplada del títol («9 × 1»): cada columna és almenys tan ampla com el seu títol, amb els blocs centrats a sota
+      const ampleTitol = t => resultat ? t.length * 9.2 + 6 : 0;
+      const tC = c || buitC ? ampleTitol(`${c} × 100`) : 0, tD = d || buitD ? ampleTitol(`${d} × 10`) : 0, tU = u || buitU ? ampleTitol(`${u} × 1`) : 0;
+      // Les plaques es poden posar en 1, 2 o 3 files; es tria el que fa els blocs més grans a l'espai que hi ha
+      let millor = null;
+      for (const filesP of [1, 2, 3]) {
+        const colsP = Math.ceil(c / filesP) || 0, filesPr = c ? Math.ceil(c / colsP) : 0;
+        const amplP = colsP ? colsP * (Q * 10 + G) - G : (buitC ? BUIT : 0), altP = filesPr ? filesPr * (Q * 10 + G) - G : 0;
+        const filesB = d > 10 ? 2 : 1, colsB = Math.ceil(d / filesB);
+        const amplB = colsB ? colsB * (Q + G * 1.5) - G * 1.5 : (buitD ? BUIT : 0), altB = d ? filesB * (Q * 10 + G) - G : 0;
+        const colsU = Math.ceil(u / 10), amplU = colsU ? colsU * (Q + G) - G : (buitU ? BUIT : 0), altU = u ? Math.min(u, 10) * (Q + 2) - 2 : 0;
+        const slotP = amplP ? Math.max(amplP, tC) : 0, slotB = amplB ? Math.max(amplB, tD) : 0, slotU = amplU ? Math.max(amplU, tU) : 0;
+        const peces = [slotP, slotB, slotU].filter(x => x > 0).length;
+        const ampl = slotP + slotB + slotU + SEP * Math.max(0, peces - 1) + 2 * MARGE;
+        const alt = Math.max(altP, altB, altU, (buitC || buitD || buitU) ? Q * 10 : Q) + 22 + 10;
+        const esc = Math.min(W / ampl, H / alt);
+        if (!millor || esc > millor.esc) millor = { esc, filesP, colsP, ampl, alt, amplP, amplB, amplU, slotP, slotB, slotU, filesB, colsB, colsU };
+        if (c <= 1) break;
+      }
+      const m = millor, s = [];
+      const altBuit = Math.max(Q * 10, m.alt - 32);
+      s.push(`<svg viewBox="${-MARGE} -22 ${m.ampl} ${m.alt}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${c} centenes, ${d} desenes i ${u} unitats">`);
+      let x = 0, ordre = 0;
+      const destaca = resultat && R && R.valor && !R.exp ? R.valor : null;
+      const grup = (cls, cont, titol, slot) => { s.push(`<g class="b-grup ${anim ? 'surt' : ''} grup-${cls}${destaca ? (cls === destaca ? ' destacat' : ' atenuat') : ''}" style="animation-delay:${ordre++ * .35}s">${resultat && titol ? `<text class="b-titol" x="${x + slot / 2}" y="-6">${titol}</text>` : ''}${cont}</g>`); };
+      const buida = (cls, valor, slot) => { const bx = x + (slot - BUIT) / 2; grup(cls, `<rect class="b-buit" x="${bx}" y="0" width="${BUIT}" height="${altBuit}" rx="6"/><text class="b-zero" x="${bx + BUIT / 2}" y="${altBuit / 2 + 9}">0</text>`, `0 × ${valor}`, slot); x += slot + SEP; };
+      if (c) {
+        let cont = ''; const x0 = x + (m.slotP - m.amplP) / 2;
+        for (let i = 0; i < c; i++) {
+          const px = x0 + (i % m.colsP) * (Q * 10 + G), py = Math.floor(i / m.colsP) * (Q * 10 + G);
+          cont += `<rect class="b-c" x="${px}" y="${py}" width="${Q * 10}" height="${Q * 10}" rx="2" stroke-width="2"/>`;
+          for (let k = 1; k < 10; k++) cont += `<line class="b-linia" x1="${px + k * Q}" y1="${py}" x2="${px + k * Q}" y2="${py + Q * 10}"/><line class="b-linia" x1="${px}" y1="${py + k * Q}" x2="${px + Q * 10}" y2="${py + k * Q}"/>`;
+        }
+        grup('c', cont, `${c} × 100`, m.slotP); x += m.slotP + SEP;
+      } else if (buitC) buida('c', 100, m.slotP);
+      if (d) {
+        let cont = ''; const x0 = x + (m.slotB - m.amplB) / 2;
+        for (let i = 0; i < d; i++) {
+          const px = x0 + (i % m.colsB) * (Q + G * 1.5), py = Math.floor(i / m.colsB) * (Q * 10 + G);
+          cont += `<rect class="b-d" x="${px}" y="${py}" width="${Q}" height="${Q * 10}" rx="2" stroke-width="2"/>`;
+          for (let k = 1; k < 10; k++) cont += `<line class="b-linia d" x1="${px}" y1="${py + k * Q}" x2="${px + Q}" y2="${py + k * Q}"/>`;
+        }
+        grup('d', cont, `${d} × 10`, m.slotB); x += m.slotB + SEP;
+      } else if (buitD) buida('d', 10, m.slotB);
+      if (u) {
+        let cont = ''; const x0 = x + (m.slotU - m.amplU) / 2;
+        for (let i = 0; i < u; i++) cont += `<rect class="b-u" x="${x0 + Math.floor(i / 10) * (Q + G)}" y="${(i % 10) * (Q + 2)}" width="${Q}" height="${Q}" rx="2" stroke-width="2"/>`;
+        grup('u', cont, `${u} × 1`, m.slotU);
+      } else if (buitU) buida('u', 1, m.slotU);
+      s.push('</svg>');
+      zona.innerHTML = s.join('');
+    }
+
+    // ---------------- Dades, missatge, final ----------------
+    function pintarDades() {
+      let html = `<span class="dada">Ronda <b>${Math.min(idx + 1, RONDES)}</b>/${RONDES}</span>`;
+      if (Preferencies.errors()) html += `<span class="progres" aria-hidden="true">${Array.from({ length: RONDES }, (_, i) => `<i class="${resultats[i] || (i === idx ? 'ara' : '')}"></i>`).join('')}</span>`;
+      $('dades').innerHTML = html;
+    }
+    function mostrar(t, extra = '', estat = '') {
+      const m = $('missatge');
+      $('msg-text').textContent = t; $('msg-extra').textContent = extra;
+      m.classList.remove('es-pista', 'es-error', 'es-guanyat');
+      if (estat) m.classList.add('es-' + estat);
+    }
+    function final() {
+      esperant = false;
+      const nets = resultats.filter(r => r === 'be').length, mal = resultats.filter(r => r === 'mal').length;
+      const titol = nets === RONDES ? 'Tot a la primera!' : 'Partida acabada!';
+      let subtitol = `${nets} de ${RONDES} a la primera`;
+      const estrelles = nets >= 9 ? 3 : mal <= 2 ? 2 : 1;
+      if (Preferencies.errors()) {
+        const clau = `appjocs.block-numbers.record.${config.nivell}`;
+        let rec = null; try { const v = localStorage.getItem(clau); rec = v === null ? null : Number(v); } catch {}
+        if (rec === null || nets > rec) { try { localStorage.setItem(clau, String(nets)); } catch {} if (rec !== null) subtitol += ' · 🏅 Nou rècord!'; }
+        else subtitol += ` · Rècord: ${rec}`;
+      }
+      mostrar('🎉 ' + titol, subtitol, 'guanyat');
+      Celebracio.gran({ titol, subtitol, emoji: '🧱', estrelles: Preferencies.errors() ? estrelles : 0 });
+    }
+
+    // El tauler fa l'alçada que queda fins a baix de la pantalla; els blocs es tornen a dibuixar a la mida nova
+    function ajustar() {
+      if ($('pantalla-joc').hidden) return;
+      const t = $('tauler');
+      t.style.height = Math.max(200, innerHeight - t.getBoundingClientRect().top - window.scrollY * 0 - 12) + 'px';
+      for (let k = 0; k < 3 && document.documentElement.scrollHeight > innerHeight; k++)
+        t.style.height = (t.getBoundingClientRect().height - (document.documentElement.scrollHeight - innerHeight) - 1) + 'px';
+      if (!R) return;
+      if (t.classList.contains('fase-pregunta')) {
+        t.style.setProperty('--esc', 1);
+        const sobra = t.clientHeight - t.scrollHeight;
+        const vis = q => { const el = t.querySelector(q); return el && el.offsetParent ? el.offsetHeight : 0; };
+        const alt = vis('.preg') + vis('.caixes') + vis('.teclat') + vis('.constructor') + vis('.triar-valor');
+        // Espai lliure dins del tauler: creix fins a un 70 % més, sense sortir de l'amplada.
+        // Comptar blocs en vertical: els blocs fan servir l'espai que sobra, així que no creix.
+        const vertical = innerHeight > innerWidth;
+        const lliure = (t.classList.contains('amb-blocs') || t.classList.contains('construir')) && vertical ? 0 : t.clientHeight - alt - vis('.peu') - 40;
+        let esc = Math.max(1, Math.min(1.7, 1 + lliure / Math.max(alt, 1)));
+        t.style.setProperty('--esc', esc.toFixed(2));
+        for (let k = 0; k < 10 && (document.documentElement.scrollHeight > innerHeight || t.scrollWidth > t.clientWidth + 1); k++) { esc = Math.max(1, esc - .1); t.style.setProperty('--esc', esc.toFixed(2)); }
+      }
+      if (esperant && R.pas === 'construir') { pintarConstruit(); return; }
+      if ($('blocs').querySelector('svg')) {
+        const agrupat = !esperant;
+        pintarBlocs(agrupat ? R.c : R.bc, agrupat ? R.d : R.bd, agrupat ? R.u : R.bu, false, agrupat);
+      }
+    }
+    let esperaAj;
+    addEventListener('resize', () => { clearTimeout(esperaAj); esperaAj = setTimeout(ajustar, 80); });
+
+    Pantalla.avisOrientacio('block-numbers', { dins: document.getElementById('pantalla-inici') });
+  </script>
+</body>
+</html>

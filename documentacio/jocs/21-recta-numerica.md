@@ -6,13 +6,23 @@ Surt un tros de recta amb 11 marques. Alguns números ja hi són escrits i una f
 
 ## Pantalla d'inici
 
-Una sola pregunta, «Fins a quin número?» (es recorda a `appjocs.recta-numerica.nivell`):
+La pregunta «Fins a quin número?» (es recorda a `appjocs.recta-numerica.nivell`):
 
 | Nivell | Números | Salts entre marques | Com es respon |
 | --- | --- | --- | --- |
 | 🌱 Fàcil | 0 – 20 | d'1 en 1 | 3 targetes |
 | Mitjà | 0 – 100 | de 2, de 5 o de 10 en 10 | 3 targetes |
 | Difícil | 0 – 1000 | de 10 o de 100 en 100 | S'escriu amb `EntradaNumero` (teclat o dibuix); al mòbil, amb `FinestraEntrada` |
+
+### ⚙️ A mida (v0.51.0)
+
+El quart botó obre tres grups més (es recorden a `appjocs.recta-numerica.mida`):
+
+- **Del 0 fins al…** 20 · 50 · 100 · 1000.
+- **De quant en quant?** d'1, 2, 5, 10 o 100 (se'n poden triar uns quants; cada recta en fa servir un a l'atzar). Cal que hi càpiguen 10 salts (salt × 10 ≤ fins a on): els que no hi caben surten apagats, i si en canviar el «fins al» no en queda cap de triat, es tria el més gran que hi càpiga. Sempre en queda almenys un.
+- **Com respons?** 👆 Triant (3 targetes; la fletxa, com al Mitjà, com a molt a 2 marques d'un número escrit) · ✏️ Escrivint (com al Difícil, a qualsevol marca).
+
+Rècord a `appjocs.recta-numerica.record.mida.<fins>.<salts>.<triar|escriure>`.
 
 ## Com es fa cada recta
 
