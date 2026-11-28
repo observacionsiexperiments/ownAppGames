@@ -1,4 +1,4 @@
-# 19. 🕵️ Busca l'intrús
+# 19. 🕵️‍♀️ Busca l'intrús
 
 [← Índex](../README.md) · Carpeta `jocs/intrus/` · Lletres
 

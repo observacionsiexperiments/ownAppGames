@@ -1,5 +1,5 @@
 {
- "_nota": "Abecedari de dibuixos (2-4 per lletra; el nom ha de començar per la lletra) i paraules amagades. El nivell surt sol de la llargada: Fàcil 3-4 lletres, Mitjà 5-6, Difícil 7 o més. Totes les lletres de les paraules han de tenir dibuix (À → A, Ç → C).",
+ "_nota": "Abecedari de dibuixos (2-5 per lletra; el nom ha de començar per la lletra) i paraules amagades. El nivell surt sol de la llargada: Fàcil 3-4 lletres, Mitjà 5-6, Difícil 7 o més. Totes les lletres de les paraules han de tenir dibuix (À → A, Ç → C).",
  "abecedari": {
   "A": [
    [
@@ -71,6 +71,10 @@
    [
     "🎲",
     "dau"
+   ],
+   [
+    "👩",
+    "dona"
    ]
   ],
   "E": [
@@ -237,12 +241,16 @@
     "nas"
    ],
    [
-    "🧒",
+    "👦",
     "nen"
    ],
    [
     "❄️",
     "neu"
+   ],
+   [
+    "👧",
+    "nena"
    ]
   ],
   "O": [

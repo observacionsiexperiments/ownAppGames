@@ -129,9 +129,6 @@
       .progres { display: none; }
       .tauler { grid-template-rows: auto minmax(0, 1fr) auto auto; --op: clamp(1.3rem, min(7vw, 4vh), 2rem); }
       .op { padding: clamp(.4em, 2vh, .9em) .2em; }
-      main.joc.ple > #pantalla-inici { justify-content: center; }
-      main.joc.ple .inici > .grup { flex: none; max-height: none; }
-      #op-nivell button { min-height: clamp(90px, 16vh, 150px); }
     }
     /* Mòbil apaïsat: la recta a l'esquerra i el missatge i les respostes a la dreta */
     @media (orientation: landscape) and (max-height: 500px) {
@@ -210,7 +207,7 @@
     <section class="inici" id="pantalla-inici">
       <div class="grup">
         <h2 class="titol">Fins a quin número?</h2>
-        <div class="opcions" id="op-nivell">
+        <div class="opcions llista" id="op-nivell">
           <button type="button" data-v="facil" aria-pressed="true" aria-label="Fàcil: del 0 al 20, d'1 en 1"><b>0 – 20</b><small>🌱 Fàcil · d'1 en 1</small></button>
           <button type="button" data-v="mitja" aria-pressed="false" aria-label="Mitjà: del 0 al 100, de 2, 5 o 10 en 10"><b>0 – 100</b><small>Mitjà · de 2, 5 o 10</small></button>
           <button type="button" data-v="dificil" aria-pressed="false" aria-label="Difícil: del 0 al 1000, de 10 o 100 en 100, escrivint el número"><b>0 – 1000</b><small>Difícil · l'escrius tu</small></button>

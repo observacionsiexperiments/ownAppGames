@@ -183,11 +183,6 @@
       main.joc.ple .inici > .grup { flex: none; max-height: none; }
       #op-nivell button { min-height: clamp(90px, 20vh, 200px); font-size: clamp(1.2rem, 3.4vh, 1.9rem); }
     }
-    @media (orientation: portrait) and (max-width: 600px) {
-      main.joc.ple > #pantalla-inici { justify-content: center; }
-      main.joc.ple .inici > .grup { flex: none; max-height: none; }
-      #op-nivell button { min-height: clamp(90px, 16vh, 150px); }
-    }
   </style>
 </head>
 <body>
@@ -200,7 +195,7 @@
     <section class="inici" id="pantalla-inici">
       <div class="grup">
         <h2 class="titol">Fins a quin número?</h2>
-        <div class="opcions" id="op-nivell">
+        <div class="opcions llista" id="op-nivell">
           <button type="button" data-v="20" aria-pressed="false" aria-label="De l'1 al 20, fàcil"><b>1 – 20</b><small>🌱 Fàcil</small></button>
           <button type="button" data-v="50" aria-pressed="false" aria-label="De l'1 al 50, mitjà"><b>1 – 50</b><small>Mitjà</small></button>
           <button type="button" data-v="100" aria-pressed="true" aria-label="De l'1 al 100, difícil"><b>1 – 100</b><small>Difícil</small></button>

@@ -29,7 +29,7 @@ Un sol fitxer, `dades.json`:
 
 | Camp        | Per a què serveix                                                                                                             |
 | ----------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `abecedari` | Per a cada lletra, de 2 a 4 dibuixos `[emoji, nom]`. El nom ha de començar per aquella lletra. A cada paraula se'n sorteja un |
+| `abecedari` | Per a cada lletra, de 2 a 5 dibuixos `[emoji, nom]` (v0.55.3: N i D en tenen 5 per la paritat: nen 👦 / nena 👧, home 👨 / dona 👩). El nom ha de començar per aquella lletra. A cada paraula se'n sorteja un |
 | `paraules`  | Les paraules amagades i l'emoji que surt amb la pista 🖼️                                                                      |
 
 ### Com fer-lo créixer

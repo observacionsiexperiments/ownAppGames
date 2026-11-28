@@ -10,8 +10,8 @@
   <script>try{var t=JSON.parse(localStorage.getItem("appjocs.preferencies")||"{}").aparenca;if(t==="fosc"||t==="clar")document.documentElement.dataset.tema=t}catch(e){}</script>
   <link rel="stylesheet" href="../../css/styles.css">
   <style>
-    /* Colors per rol (css/styles.css): verd = parella feta · rosa = no fan parella · groc = pista · blau = selecció i jugador blau
-       · taronja (préssec fort) = jugador taronja · préssec = dors de les fitxes de resultat (Fàcil) */
+    /* Colors per rol (css/styles.css): verd = parella feta · rosa = no fan parella · groc = pista · blau = selecció i qui juga amb el blau
+       · taronja (préssec fort) = qui juga amb el taronja · préssec = dors de les fitxes de resultat (Fàcil) */
     [hidden] { display: none !important; }
     h2.titol { font-size: 1.15rem; margin: 16px 0 8px; }
 
@@ -37,7 +37,7 @@
     .dades { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
     .dada { background: var(--superficie); border: 1px solid var(--vora); border-radius: 999px; padding: 4px 12px; font-size: .95rem; white-space: nowrap; }
     .dada b { font-variant-numeric: tabular-nums; }
-    /* Dos jugadors: el torn es veu ressaltat amb el color del jugador */
+    /* Dos jugadors o jugadores: el torn es veu ressaltat amb el seu color */
     .dada.j0.torn { background: var(--c-info); border: 2px solid var(--c-info-vora); color: var(--tinta); }
     .dada.j1.torn { background: var(--c-accio); border: 2px solid var(--c-accio-vora); color: var(--tinta); }
 
@@ -142,10 +142,10 @@
         </div>
       </div>
       <div class="grup">
-        <h2 class="titol">3. Jugadors</h2>
+        <h2 class="titol">3. Quants jugadors o jugadores?</h2>
         <div class="opcions" id="op-jugadors">
-          <button type="button" data-v="1" aria-pressed="true">👤 1 jugador</button>
-          <button type="button" data-v="2" aria-pressed="false">🔵 🟠 2 jugadors<small>per torns</small></button>
+          <button type="button" data-v="1" aria-pressed="true" aria-label="1 jugador o jugadora">🧒 1</button>
+          <button type="button" data-v="2" aria-pressed="false" aria-label="2 jugadors o jugadores, per torns">🔵 🟠 2<small>per torns</small></button>
         </div>
       </div>
       <div class="grup">
@@ -278,7 +278,7 @@
       ajustar();
     }
     function missatgeTorn() {
-      if (dosJugadors()) mostrar(`Torn del ${NOMS[torn].toLowerCase()}`, 'Gira dues fitxes: una operació i el seu resultat.');
+      if (dosJugadors()) mostrar(`Torn: ${NOMS[torn]}`, 'Gira dues fitxes: una operació i el seu resultat.');
       else mostrar('Gira dues fitxes', 'Busca una operació i el seu resultat.');
     }
 
@@ -314,7 +314,7 @@
       else mostrar(triar(['No fan parella', 'Gairebé!']), triar(ANIMS), 'error');
       tapaT = setTimeout(tapar, ESPERA_MAL);
     }
-    // Tapa les dues fitxes que no feien parella; amb 2 jugadors, passa el torn
+    // Tapa les dues fitxes que no feien parella; amb 2 jugadors o jugadores, passa el torn
     function tapar() {
       clearTimeout(tapaT); tapaT = null;
       if (girades.length < 2) return;
@@ -339,7 +339,7 @@
       const n = N();
       if (dosJugadors()) {
         const [b, g] = punts;
-        const titol = b === g ? 'Empat!' : `Guanya el ${(b > g ? NOMS[0] : NOMS[1]).toLowerCase()}!`;
+        const titol = b === g ? 'Empat!' : `Guanya ${b > g ? NOMS[0] : NOMS[1]}!`;
         const subtitol = `🔵 ${b} · 🟠 ${g} parelles`;
         mostrar('🎉 ' + titol, subtitol, 'guanyat');
         Celebracio.gran({ titol, subtitol, emoji: b === g ? '🤝' : '🏆', estrelles: 0 });

@@ -31,7 +31,7 @@
     .opcions button[aria-pressed="true"] small { color: var(--tinta); }
     @media (hover: hover) { .opcions button:hover { border-color: var(--c-info-vora); } }
     #op-tipus { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    @media (orientation: portrait) and (max-width: 600px) { #op-tipus { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (orientation: portrait) and (max-width: 600px), (orientation: landscape) and (max-height: 500px) { #op-tipus { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     .explica { color: var(--text-suau); text-align: center; margin: 14px 0 0; }
     .comencar { text-align: center; margin: 22px 0 8px; }
     .comencar .btn { font-size: 1.3rem; padding: 14px 40px; }

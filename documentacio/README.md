@@ -30,7 +30,7 @@ Aquesta carpeta no es publica amb l'app: només és al repositori.
 | 16   | [🔁 Sinònims i antònims](jocs/16-sinonims.md)       | Lletres | `paraules.json`                         |
 | 17   | [🐭 Petit o gros?](jocs/17-petit-gros.md)           | Lletres | `paraules.json`                         |
 | 18   | [🧩 Paraules compostes](jocs/18-compostes.md)       | Lletres | `paraules.json` + `imatges/`            |
-| 19   | [🕵️ Busca l'intrús](jocs/19-intrus.md)              | Lletres | `paraules.json` (+ dades d'altres jocs) |
+| 19   | [🕵️‍♀️ Busca l'intrús](jocs/19-intrus.md)              | Lletres | `paraules.json` (+ dades d'altres jocs) |
 | 20   | [🗂️ Paraules en família](jocs/20-families.md)       | Lletres | `paraules.json`                         |
 | 21   | [📏 La recta numèrica](jocs/21-recta-numerica.md)   | Xifres  | No                                      |
 | 22   | [🧱 Frases desordenades](jocs/22-frases.md)         | Lletres | `frases.json`                           |
@@ -45,6 +45,6 @@ Aquesta carpeta no es publica amb l'app: només és al repositori.
 - **Persones reals i personatges:** els jocs són per a infants de 1r i 2n de primària: només persones i personatges que coneguin (Miró, Gaudí, Rodoreda, el Tatano…), i sense un passat polític complicat (Dalí no). Res de sèries de televisió (Merlí) ni de llibres per a grans (Mecanoscrit del segon origen). Llegendes conegudes sí (el drac de Sant Jordi, el Marraco de Lleida).
 - **Parlar de casa:** «padrí», «padrina» i «padrins» (no «avi», «iaia»). Són benvingudes les referències de Sant Feliu de Llobregat i de la ludoteca.
 - **Paritat en les paraules de persona:** si surt una paraula de persona en masculí, també ha de sortir en femení, i a l'inrevés (alumne i alumna, mestre i mestra, rei i reina, casteller i castellera, metge i metgessa…).
-- **Llenguatge inclusiu:** «infants», «nens i nenes», «canalla», «amics i amigues», no «nens» com a genèric.
+- **Llenguatge inclusiu:** «infants», «nens i nenes», «canalla», «amics i amigues», «jugadors i jugadores», «sol o sola», no «nens» ni «jugadors» com a genèric (v0.55.3: sempre les dues formes, o una paraula neutra: «qui juga», «la colla»). **Emojis i icones de persona:** també nens i nenes; si la paraula és masculina o femenina, l'emoji hi concorda i surt la parella (mestre 👨‍🏫 / mestra 👩‍🏫); la icona del joc 19 és 🕵️‍♀️.
 - **Ortografia normativa** (DIEC, Optimot), amb la reforma del 2016. Revisió de tots els JSON el 27/11/2026 (v0.48.3). Formes triades: «cruasan» (no «cruassant» ni «croissant»), «pirulí» (no «piruleta»), «gira-sol» i «para-sol» amb guionet (on el joc no admet guionets, s'ha canviat la paraula), «mànega» (no «manguera»), «canyeta» per beure (no «palla»), «hèlixs» (plural d'«hèlix»), «Camps Elisis», «capgròs» (però la peça és «gros») i les cometes «» en lloc de "".
 - **Després de canviar qualsevol fitxer**, cal pujar la versió a `sw.js` (`VERSIO`) i a `js/app.js` (`VERSIO_APP`). Si no, les tauletes i els mòbils amb l'app instal·lada continuaran veient la versió antiga.

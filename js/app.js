@@ -1,5 +1,5 @@
 // Llançadora: llegeix jocs/jocs.json i pinta una targeta per joc.
-const VERSIO_APP = '0.54.3';
+const VERSIO_APP = '0.55.4';
 
 // Categories dels jocs (camp "categories" de jocs.json)
 const CATEGORIES = { xifres: '🔢 Xifres', lletres: '🔤 Lletres' };
@@ -49,7 +49,17 @@ function pintarJocs() {
     return;
   }
   for (const joc of visibles) llista.appendChild(crearTargeta(joc));
+  ajustarNomsTargetes();
 }
+// Una paraula massa llarga per a la targeta (p. ex. «DESORDENADES» a 360 px): la lletra d'aquell nom s'encongeix (v0.55.2)
+function ajustarNomsTargetes() {
+  document.querySelectorAll('#llista-jocs .targeta h2').forEach(h => {
+    h.style.fontSize = '';
+    const base = parseFloat(getComputedStyle(h).fontSize);
+    for (let f = .95; f >= .7 && h.scrollWidth > h.clientWidth + 1; f -= .05) h.style.fontSize = (base * f).toFixed(1) + 'px';
+  });
+}
+addEventListener('resize', () => requestAnimationFrame(ajustarNomsTargetes));
 
 // ---------------- Ous de Pasqua: el rellotge i el gat ----------------
 let rellotgeT = null;

@@ -75,7 +75,8 @@ body {
   min-height: 100dvh;
   background: var(--fons);
   color: var(--text);
-  padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
+  /* Marges de seguretat (v0.55.0): illa o notch de la càmera i barra de baix. En horitzontal la càmera queda al costat */
+  padding: env(safe-area-inset-top) max(16px, env(safe-area-inset-right)) env(safe-area-inset-bottom) max(16px, env(safe-area-inset-left));
   display: flex;
   flex-direction: column;
 }
@@ -187,7 +188,8 @@ main #btn-nova, main #btn-nou { background: var(--superficie); border-color: var
 html[data-tema="fosc"] :is(.btn, .boto, .botons-peu button, .ajudes button):disabled { background: transparent; border-style: dashed; color: var(--text-suau); opacity: .8; box-shadow: none; }
 @media (prefers-color-scheme: dark) { html:not([data-tema="clar"]) :is(.btn, .boto, .botons-peu button, .ajudes button):disabled { background: transparent; border-style: dashed; color: var(--text-suau); opacity: .8; box-shadow: none; } }
 /* Finestres pròpies (js/pantalla.js): sortir de la partida i «Com es juga» */
-.fj-fons { position: fixed; inset: 0; z-index: 200; background: rgba(30, 26, 46, .55); display: grid; place-items: center; padding: 16px; }
+.fj-fons { position: fixed; inset: 0; z-index: 200; background: rgba(30, 26, 46, .55); display: grid; place-items: center;
+  padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); }
 .fj-fons[hidden] { display: none; }
 .fj-finestra { width: 100%; max-width: 420px; background: var(--fons); color: var(--text); border: 3px solid var(--c-info-vora);
   border-radius: 24px; padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
@@ -299,7 +301,8 @@ html[data-tema="fosc"] :is(.btn, .boto, .botons-peu button, .ajudes button):disa
 
 /* Pantalla de premi */
 .cel-fons {
-  position: fixed; inset: 0; z-index: 70; display: grid; place-items: center; padding: 16px;
+  position: fixed; inset: 0; z-index: 70; display: grid; place-items: center;
+  padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
   background: color-mix(in srgb, var(--fons) 80%, transparent); backdrop-filter: blur(2px);
   animation: cel-apareix .25s ease-out;
 }
@@ -420,7 +423,8 @@ main.inici-app { display: flex; flex-direction: column; max-width: 1300px; paddi
 .btn-opcions:hover { background: var(--c-info); color: var(--tinta); }
 .opcions-fons {
   position: fixed; inset: 0; z-index: 50; background: rgba(59, 51, 85, .35);
-  display: grid; place-items: center; padding: 16px; overflow-y: auto;
+  display: grid; place-items: center; overflow-y: auto;
+  padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
 }
 .opcions-fons[hidden] { display: none; }
 .opcions-finestra {
@@ -543,14 +547,28 @@ html.sense-centrar main.joc.ple * { flex-grow: 0 !important; }
 }
 /* Pantalla d'opcions al mòbil vertical: els grups es reparteixen l'alçada i els botons creixen (amb un límit).
    En flex els marges no es fusionen: per això els títols hi van amb marges petits i fixos. */
+/* v0.55.0: cada grup fa la seva alçada natural (abans tenia un màxim i, amb la lletra del sistema més gran, el contingut
+   sortia del grup i se solapava amb el següent). L'espai que sobra el reparteix js/pantalla.js (ajustarOpcions): els
+   botons creixen fins a --op-max i, si encara en sobra, els grups se separen. «Comença!» queda a baix, a l'abast del polze. */
 @media (orientation: portrait) and (max-width: 600px) {
-  main.joc.ple > .inici:not([hidden]) { flex: 1 1 auto; display: flex; flex-direction: column; }
-  main.joc.ple .inici > .grup { flex: 1 1 0; display: flex; flex-direction: column; min-height: min-content; max-height: 130px; }
-  main.joc.ple .inici > .grup + .grup { margin-top: 6px; }
-  main.joc.ple .inici > .grup > h2.titol { margin: 4px 0 4px; }
-  main.joc.ple .inici > .grup > :not(h2) { flex: 1 1 auto; }
+  main.joc.ple > .inici:not([hidden]) { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: flex-start !important; --op-max: 124px; }
+  main.joc.ple .inici .modes-joc button { justify-content: center; }   /* si creixen, el text queda centrat */
+  main.joc.ple .inici > .grup { flex: none; display: block; min-height: 0; max-height: none; }
+  main.joc.ple .inici > .grup + .grup { margin-top: calc(10px + var(--op-sep, 0px)); }
+  main.joc.ple .inici > .grup > h2.titol { margin: 4px 0 6px; }
   main.joc.ple .inici .opcions button { font-size: clamp(.95rem, 2.6vh, 1.25rem); }
-  main.joc.ple .inici .comencar { margin: 10px 0 4px; }
+  main.joc.ple .inici > .explica { margin-top: calc(10px + var(--op-sep, 0px)); }
+  main.joc.ple .inici .comencar { margin: auto 0 4px; padding-top: 12px; }
+  /* Grups de dues opcions (MAJÚSCULA / minúscula, Sense veu / Amb veu…): dues columnes, no tres amb un forat */
+  main.joc.ple .inici .grup > .opcions:has(> button:nth-child(2):last-child) { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  /* Una sola pregunta (Endevina, Recta, Rima): una llista de files grans que omplen la pantalla */
+  main.joc.ple .inici:not(.amb-mida) .opcions.llista { grid-template-columns: minmax(0, 1fr) !important; gap: 12px; }
+  main.joc.ple .inici:not(.amb-mida) .opcions.llista button {
+    display: flex; align-items: center; justify-content: space-between; gap: 14px; text-align: left;
+    min-height: 76px; padding: 8px 18px; font-size: clamp(1.15rem, 3vh, 1.45rem); }
+  main.joc.ple .inici:not(.amb-mida) .opcions.llista button b { font-size: 1.35em; white-space: nowrap; }
+  main.joc.ple .inici:not(.amb-mida) .opcions.llista button small { display: block !important; font-size: .7em; text-align: right; max-width: 55%; }
+  main.joc.ple > .inici:not(.amb-mida):has(.opcions.llista) { --op-max: 160px; }
 }
 /* Tauleta en vertical: hi ha molta alçada, els grups d'opcions poden créixer més */
 @media (orientation: portrait) and (min-width: 601px) and (min-height: 501px) {
@@ -568,6 +586,14 @@ main .safata-pregunta { background: var(--fons); border: 2px dashed var(--vora);
   background: color-mix(in srgb, var(--c-accio) 55%, white); border-color: var(--c-accio-vora); color: var(--tinta); }
 @media (hover: hover) { .opcio-resposta:not(.be):not(.mal):not(.dita):not(:disabled):hover { border-color: var(--c-info-vora); } }
 
+/* Mòbils molt petits (v0.55.2, js/pantalla.js): si la pantalla d'opcions no hi cap, fora l'explicació i després els textos petits */
+main .inici[data-compacte] > .explica { display: none; }
+main .inici[data-compacte="2"] .grup button small, main .inici[data-compacte="2"] .grup button span:not(:first-child):not(.mini) { display: none; }
+
+/* Grups de temps (v0.55.1): el títol diu «(segons)» i els botons només el número → tots en una fila */
+main .inici .opcions.segons { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+.titol .unitat { font-weight: 500; color: var(--text-suau); }
+
 /* ─── Avís d'orientació (js/pantalla.js): informació → blau ─── */
 .avis-orientacio {
   display: flex; align-items: center; gap: 10px; margin: 8px auto; max-width: 720px; width: 100%;
@@ -580,6 +606,13 @@ main .safata-pregunta { background: var(--fons); border: 2px dashed var(--vora);
   font: inherit; font-weight: 700; cursor: pointer; background: var(--superficie); color: var(--text);
   border: 2px solid var(--vora); border-radius: 999px; padding: 4px 14px; touch-action: manipulation;
 }
+/* Al mòbil, píndola a la barra del joc (v0.55.1) */
+.barra-joc .avis-orientacio.ao-barra { flex: none; width: auto; max-width: none; margin: 0 0 0 auto; padding: 0 2px 0 10px; border-width: 2px; height: 28px;
+  gap: 6px; border-radius: 999px; font-size: .8rem; line-height: 1.1; white-space: nowrap; }
+.barra-joc .ao-barra .ao-icona { font-size: .95rem; }
+.barra-joc .ao-barra .ao-tancar { padding: 0 10px; height: 22px; font-size: .78rem; }
+.barra-joc .ao-barra[hidden] { display: none; }
+.ao-barra:not([hidden]) + .ajuda-joc { margin-left: 0; }
 
 /* ─── Pantalles d'opcions dels jocs en mòbil: compactes, però amb marges i separacions ───
    (selectors amb "main .inici" perquè guanyin als estils propis de cada joc) */
@@ -619,6 +652,18 @@ main .safata-pregunta { background: var(--fons); border: 2px dashed var(--vora);
   main .inici .comencar { margin: 6px 0 4px; }
   main .inici .formes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   main .inici .grup:has(.formes) { grid-column: 1 / -1; }
+  main .inici .grup:has(> .opcions.llista) { grid-column: 1 / -1; }   /* una sola pregunta: tota l'amplada */
+  /* v0.55.1: dos grups l'un al costat de l'altre fan la mateixa alçada (els botons s'estiren); js/pantalla.js els fa
+     créixer fins a --op-max si sobra alçada */
+  main .inici { align-items: stretch; --op-max: 116px; }
+  main .inici #nivells { grid-template-columns: repeat(4, minmax(0, 1fr)); }   /* La piràmide: 3 · 4 · 5 · 6 pisos en una fila */
+  main .inici > .grup { display: flex; flex-direction: column; }
+  main .inici > .grup > :not(h2) { flex: 1 1 auto; align-content: stretch; }
+  main .inici:has(.opcions.llista) { --op-max: 170px; }
+  /* L'avís de girar la pantalla, en una línia prima */
+  body .avis-orientacio { font-size: .85rem; gap: 8px; }
+  body .avis-orientacio .ao-icona { font-size: 1.05rem; }
+  body .avis-orientacio .ao-tancar { padding: 2px 12px; }
   main .inici h2.titol { margin-bottom: 6px; }
   main .inici .numeros { gap: 6px; }
   main .inici .modes-joc span { font-size: .78rem; line-height: 1.25; }
@@ -738,7 +783,15 @@ html.fe-oberta, html.fe-oberta body { overflow: hidden; }   /* la pàgina del da
 
 /* ─── Pantalla d'inici (v0.45.0): «Hi vas jugar fa poc», «⚙️ Opcions» amb text i Manual al peu ─── */
 .recents { width: 100%; max-width: 1060px; margin: 14px auto 0; }
-.recents h2 { margin: 0 0 8px; font-size: 1rem; font-weight: 800; color: var(--text-suau); }
+/* v0.55.1: els recents van dins un plafó blau suau (informació), separats de la llista de jocs, que porta títol propi */
+.recents:not([hidden]) { padding: 10px 14px 14px; border-radius: var(--radi); border: 2px solid var(--c-info-vora);
+  background: color-mix(in srgb, var(--c-info) 22%, var(--superficie)); }
+.recents h2 { margin: 0 0 8px; font-size: 1rem; font-weight: 800; color: var(--text); }
+.titol-jocs { display: none; }
+.recents:not([hidden]) + .titol-jocs {
+  display: flex; align-items: center; gap: 12px; width: 100%; max-width: 1060px; margin: 22px auto 0;
+  font-size: 1rem; font-weight: 800; color: var(--text); }
+.recents:not([hidden]) + .titol-jocs::after { content: ""; flex: 1; height: 2px; border-radius: 2px; background: var(--vora); }
 .recents ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 .recents li { min-width: 0; display: flex; }
 .recent { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; min-height: 58px; padding: 8px 14px;
@@ -748,7 +801,7 @@ html.fe-oberta, html.fe-oberta body { overflow: hidden; }   /* la pàgina del da
 .recent .icona { flex: none; font-size: 1.6rem; line-height: 1; }
 .recent .nom { flex: 1; min-width: 0; overflow: hidden; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .recent .num { flex: none; font-size: .9rem; color: var(--text-suau); font-variant-numeric: tabular-nums; }
-.recents:not([hidden]) + .graella { margin-top: 18px; }
+.titol-jocs + .graella { margin-top: 12px; }
 @media (max-width: 600px), (orientation: landscape) and (max-height: 500px) {
   .recents { margin-top: 10px; }
   .recents h2 { font-size: .9rem; margin-bottom: 6px; }
@@ -756,7 +809,22 @@ html.fe-oberta, html.fe-oberta body { overflow: hidden; }   /* la pàgina del da
   .recent { flex-direction: column; justify-content: center; gap: 2px; min-height: 0; padding: 6px 6px; font-size: .8rem; text-align: center; border-radius: 14px; }
   .recent .nom { line-height: 1.15; }
   .recent .num { display: none; }
-  .recents:not([hidden]) + .graella { margin-top: 12px; }
+  .recents:not([hidden]) { padding: 8px 10px 10px; }
+  .recents:not([hidden]) + .titol-jocs { margin-top: 16px; font-size: .9rem; }
+  .titol-jocs + .graella { margin-top: 8px; }
+}
+/* Mòbil apaïsat (v0.55.1): targetes compactes, 4 o 5 per fila (abans 2 de molt grans) */
+@media (orientation: landscape) and (max-height: 500px) {
+  .graella { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .targeta { padding: 10px; gap: 6px; }
+  .targeta .num { font-size: 2rem; }
+  .targeta .icona { width: 42px; height: 42px; border-radius: 12px; font-size: 1.45rem; }
+  .targeta h2 { font-size: .92rem; min-height: 3.45em; }
+  .targeta .descripcio, .peu-targeta .categories { display: none; }
+  .peu-targeta { justify-content: center; padding-top: 0; }
+  .jugar { margin: 0; font-size: .85rem; padding: .25em .8em; }
+  .capcalera h1 { font-size: 1.35rem; }
+  .capcalera h1::after { width: 110px; height: 5px; margin-top: 5px; }
 }
 @media (orientation: landscape) and (max-height: 500px) { .recent { flex-direction: row; gap: 6px; padding: 6px 10px; } .recent .nom { -webkit-line-clamp: 1; } }
 .btn-opcions .txt { display: none; }
@@ -802,8 +870,14 @@ html.ou-pasqua-ara .targeta .num { animation: ou-pasqua .6s ease-out; }
 .rl-cara .rl-centre { fill: var(--text); }
 .rl-text { margin: 0; font-size: 1.5rem; }
 .rl-text b { font-variant-numeric: tabular-nums; font-size: 1.3em; }
+/* Mòbil apaïsat (v0.55.2): el rellotge al costat del text i limitat per l'alçada (abans no hi cabia) */
+@media (orientation: landscape) and (max-height: 500px) {
+  .graella .rellotge-ou { flex-direction: row; justify-content: center; gap: 24px; padding: 6px; }
+  .rl-cara { width: clamp(110px, calc(100dvh - 190px), 180px); }
+  .rl-text { font-size: 1.25rem; }
+}
 /* El gat que passeja: escriure «gat». Petit, a dalt a l'esquerra: entra saltant, diu «miau!» i torna enrere */
-.gat-passeja { position: fixed; top: 26px; left: 0; z-index: 50; pointer-events: none; display: flex; flex-direction: column; align-items: center;
+.gat-passeja { position: fixed; top: calc(26px + env(safe-area-inset-top)); left: env(safe-area-inset-left); z-index: 50; pointer-events: none; display: flex; flex-direction: column; align-items: center;
   animation: gp-camina 8s linear forwards; }
 .gat-passeja .gp-cos { display: block; animation: gp-gira 8s linear forwards; }
 .gat-passeja .gp-gat { line-height: 0; display: block; transform-origin: 50% 100%; animation: gp-salta 8s linear forwards; }

@@ -200,7 +200,7 @@
 <body>
   <nav class="barra-joc">
     <a href="../../">← Inici</a>
-    <h1>🕵️ Busca l'intrús</h1>
+    <h1>🕵️‍♀️ Busca l'intrús</h1>
   </nav>
 
   <main class="joc ple">
@@ -215,12 +215,12 @@
         </div>
       </div>
       <div class="grup" id="grup-temps">
-        <h2 class="titol">2. Temps per fitxa</h2>
-        <div class="opcions" id="op-temps">
+        <h2 class="titol">2. Temps per fitxa <span class="unitat">(segons)</span></h2>
+        <div class="opcions segons" id="op-temps">
           <button type="button" data-v="0" aria-pressed="false">Sense temps</button>
-          <button type="button" data-v="10" aria-pressed="false">10 s</button>
-          <button type="button" data-v="15" aria-pressed="true">15 s</button>
-          <button type="button" data-v="20" aria-pressed="false">20 s</button>
+          <button type="button" data-v="10" aria-pressed="false" aria-label="10 segons">10</button>
+          <button type="button" data-v="15" aria-pressed="true" aria-label="15 segons">15</button>
+          <button type="button" data-v="20" aria-pressed="false" aria-label="20 segons">20</button>
         </div>
       </div>
       <div class="grup">
@@ -230,7 +230,7 @@
           <button type="button" data-v="min" aria-pressed="false">minúscula</button>
         </div>
       </div>
-      <div class="comencar"><button class="btn" id="btn-comencar" type="button">Comença! 🕵️</button></div>
+      <div class="comencar"><button class="btn" id="btn-comencar" type="button">Comença! 🕵️‍♀️</button></div>
     </section>
 
     <!-- ================= JOC ================= -->
@@ -690,7 +690,7 @@
         subtitol += nou ? (record !== null ? ' · 🏅 Nou rècord!' : '') : ` · Rècord: ${record}`;
       } else { titol = 'Partida acabada!'; subtitol = `Has fet ${RONDES} fitxes.`; }
       mostrar('🎉 ' + titol, subtitol, 'guanyat');
-      Celebracio.gran({ titol, subtitol, emoji: nets === RONDES ? '🏆' : '🕵️', estrelles });
+      Celebracio.gran({ titol, subtitol, emoji: nets === RONDES ? '🏆' : '🕵️‍♀️', estrelles });
     }
 
     // ---------------- Dades i missatges ----------------

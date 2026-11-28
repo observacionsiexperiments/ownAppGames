@@ -59,7 +59,16 @@
     avis.innerHTML = `<span class="ao-icona" aria-hidden="true">📱↻</span>
       <span class="ao-text">Aquest joc es veu millor en <b>${millor}</b>. Gira la ${esMobil() ? 'pantalla' : 'tauleta'} 🙂</span>
       <button type="button" class="ao-tancar">Entesos</button>`;
-    if (op.abans) op.abans.before(avis); else (op.dins || document.querySelector('main')).prepend(avis);
+    // Al mòbil (v0.55.1) l'avís va a la barra de dalt, curt, com una píndola: no treu alçada a la pantalla d'opcions
+    const barra = esMobil() && document.querySelector('nav.barra-joc');
+    if (barra) {
+      avis.classList.add('ao-barra');
+      avis.title = `Aquest joc es veu millor en ${millor}`;
+      avis.querySelector('.ao-text').innerHTML = `Millor en <b>${millor}</b>`;
+      avis.querySelector('.ao-tancar').textContent = 'D\'acord';
+      const ajuda = barra.querySelector('.ajuda-joc');
+      if (ajuda) ajuda.before(avis); else barra.appendChild(avis);
+    } else if (op.abans) op.abans.before(avis); else (op.dins || document.querySelector('main')).prepend(avis);
 
     const pintar = () => {
       const ara = MQ_HORITZONTAL.matches ? 'horitzontal' : 'vertical';
@@ -196,6 +205,78 @@
   }
   document.addEventListener('pointerdown', calmarErrors, true);
   document.addEventListener('keydown', e => { if (!['Tab', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) calmarErrors(e); }, true);
+
+  // ─── Pantalla d'opcions (v0.55.0) ───
+  // 1. Cap text de botó no queda tallat: si una paraula no hi cap («MAJÚSCULA», «Contrarellotge»…), la lletra
+  //    d'aquell botó s'encongeix una mica (fins al 60 %), com els títols dels jocs.
+  // 2. Al mòbil (vertical i apaïsat, v0.55.1) s'aprofita l'alçada: l'espai que sobra fa créixer els botons (fins a --op-max cada fila) i,
+  //    si encara en sobra, separa els grups. «Comença!» queda a baix (css: margin-top auto).
+  const MQ_MOBIL_V = matchMedia('(orientation: portrait) and (max-width: 600px)');
+  const MQ_MOBIL_H = matchMedia('(orientation: landscape) and (max-height: 500px)');
+  function ajustarOpcions() {
+    document.querySelectorAll('[data-op-ajust]').forEach(b => { b.style.minHeight = ''; b.style.fontSize = ''; b.removeAttribute('data-op-ajust'); });
+    document.querySelectorAll('.inici').forEach(i => { i.style.removeProperty('--op-sep'); i.removeAttribute('data-compacte'); });
+    const ini = document.querySelector('main.joc.ple > .inici:not([hidden])');
+    if (!ini || !ini.offsetParent) return;
+    const botons = [...ini.querySelectorAll('.grup:not([hidden]) button')].filter(b => b.offsetParent);
+    // 1. Text que no hi cap
+    for (const b of botons) {
+      if (b.scrollWidth <= b.clientWidth + 1) continue;
+      const base = parseFloat(getComputedStyle(b).fontSize);
+      b.setAttribute('data-op-ajust', '');
+      for (let f = .94; f >= .6 && b.scrollWidth > b.clientWidth + 1; f -= .06) b.style.fontSize = (base * f).toFixed(1) + 'px';
+    }
+    if (!MQ_MOBIL_V.matches && !MQ_MOBIL_H.matches) return;
+    // Espai lliure: alçada de la finestra menys l'alçada natural del contingut (sense estirar main ni body)
+    const main = ini.closest('main');
+    const lliure = () => {
+      main.style.flex = 'none'; document.body.style.minHeight = '0'; ini.style.flex = 'none';
+      const h = document.body.offsetHeight;
+      main.style.flex = ''; document.body.style.minHeight = ''; ini.style.flex = '';
+      return innerHeight - h;
+    };
+    let espai = lliure();
+    // Mòbils molt petits (v0.55.2): si no hi cap, primer s'amaga l'explicació i després els textos petits dels botons
+    // (atribut data-compacte, no classe: l'observador no el mira i no torna a començar)
+    if (espai < 0) { ini.setAttribute('data-compacte', '1'); espai = lliure(); }
+    if (espai < 0) { ini.setAttribute('data-compacte', '2'); espai = lliure(); }
+    if (espai <= 4) return;
+    // Files de botons: els d'una mateixa graella a la mateixa alçada
+    const files = new Map();
+    for (const b of botons) {
+      const k = b.parentElement;
+      if (!files.has(k)) files.set(k, new Map());
+      const top = Math.round(b.offsetTop), m = files.get(k);
+      if (!m.has(top)) m.set(top, []);
+      m.get(top).push(b);
+    }
+    const max = parseFloat(getComputedStyle(ini).getPropertyValue('--op-max')) || 104;
+    const llista = [];
+    files.forEach(m => m.forEach(bs => { const h = Math.max(...bs.map(b => b.offsetHeight)); llista.push({ bs, h, marge: Math.max(0, max - h) }); }));
+    if (!llista.length) return;
+    const aplicar = e => llista.forEach(f => f.bs.forEach(b => { b.setAttribute('data-op-ajust', ''); b.style.minHeight = (f.h + Math.min(e, f.marge)) + 'px'; }));
+    // Cerca del creixement més gran que encara hi cap (mesurant de debò: en horitzontal hi ha dues columnes)
+    let lo = 0, hi = Math.max(...llista.map(f => f.marge));
+    for (let i = 0; i < 12 && hi - lo > 1; i++) { const mig = (lo + hi) / 2; aplicar(mig); if (lliure() >= 6) lo = mig; else hi = mig; }
+    aplicar(Math.floor(lo));
+    // Al mòbil vertical, el que encara sobra separa els grups (amb un límit); la resta queda sobre «Comença!»
+    if (!MQ_MOBIL_V.matches) return;
+    const grups = ini.querySelectorAll(':scope > .grup:not([hidden]), :scope > .explica').length;
+    espai = lliure();
+    if (espai > 8 && grups > 1) ini.style.setProperty('--op-sep', Math.min(36, Math.floor((espai - 8) / grups)) + 'px');
+  }
+  let opPendent = 0;
+  function ajustarOpcionsAviat() { cancelAnimationFrame(opPendent); opPendent = requestAnimationFrame(ajustarOpcions); }
+  function iniciarOpcions() {
+    if (!document.querySelector('.inici')) return;
+    ajustarOpcionsAviat();
+    addEventListener('resize', ajustarOpcionsAviat);
+    addEventListener('load', ajustarOpcionsAviat);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(ajustarOpcionsAviat);
+    // Quan torna la pantalla d'opcions, quan canvien els grups (Recta «A mida») o quan arriben els temes (Anagrames)
+    new MutationObserver(ajustarOpcionsAviat).observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ['hidden', 'class'] });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciarOpcions); else iniciarOpcions();
 
   global.Pantalla = { dalt, sota, avisOrientacio, despres };
 })(window);
